@@ -1,13 +1,12 @@
 <template>
-  <HelloWorld />
+<div>This is the default page. Probably to be converted to Dashboard.vue</div>
 </template>
 
 <script>
-  import HelloWorld from '../components/HelloWorld'
-
+  
   export default {
     components: {
-      HelloWorld
+      
     }
   }
 </script>
