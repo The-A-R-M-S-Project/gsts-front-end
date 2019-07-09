@@ -2,7 +2,7 @@
     <v-form>
       <v-container>
            <v-text-field
-                label="email"
+                label="College Email"
                 prepend-inner-icon="person"
                 type="email"
            >

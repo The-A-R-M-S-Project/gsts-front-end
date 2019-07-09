@@ -35,8 +35,10 @@
           </v-card-text>
         </v-flex>
         <v-flex sm5>
-          <div class="overlayed">
-            <p>Register Here</p>
+          <div class="overlayed text-xs-center">
+            <h1>Graduate Student Tracking System</h1>
+            <h3>Are you a student? Register Here!</h3>
+            <v-btn round dark>Sign up</v-btn>
           </div>
         </v-flex>        
       </v-layout>
@@ -59,6 +61,8 @@
   background-size: cover;
   background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)),url("https://images.unsplash.com/photo-1519682337058-a94d519337bc?ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80");
   position: relative;
+  font-family: 'Comfortaa', cursive;
+  color: white;
 }
 </style>
 
