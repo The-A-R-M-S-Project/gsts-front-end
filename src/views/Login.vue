@@ -35,7 +35,9 @@
           </v-card-text>
         </v-flex>
         <v-flex sm5>
-          <v-card-text>Sign up info goes here</v-card-text>
+          <div class="overlayed">
+            <p>Register Here</p>
+          </div>
         </v-flex>        
       </v-layout>
     </v-card>
@@ -50,3 +52,13 @@
     }
   }
 </script>
+<style>
+.overlayed {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4git )),url("https://images.unsplash.com/photo-1519682337058-a94d519337bc?ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80");
+  position: relative;
+}
+</style>
+
