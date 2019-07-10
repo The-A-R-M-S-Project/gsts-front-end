@@ -18,7 +18,7 @@
             </v-flex>
             <v-flex sm7>
                 <v-container>
-                    <h1>Sign Up</h1>
+                    <h1>Register</h1>
                     <v-form v-model="valid">
                         <v-container class="container">
                         <v-layout>
@@ -85,7 +85,7 @@
                         ></v-text-field>
                         </v-container>
                         <div class="text-xs-center">
-                            <v-btn light large round>sign up</v-btn>
+                            <v-btn light large round>Register</v-btn>
                         </div>
                     </v-form>
                 </v-container>
