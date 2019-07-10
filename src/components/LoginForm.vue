@@ -19,7 +19,7 @@
             >
             </v-text-field>
             <div class="text-xs-center">
-                <v-btn round  class="text-sm-center">Login</v-btn>
+                <v-btn round large class="text-sm-center">Login</v-btn>
             </div>
       </v-container>
     </v-form>

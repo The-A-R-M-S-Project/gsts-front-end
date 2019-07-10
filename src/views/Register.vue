@@ -11,7 +11,7 @@
                       <p>To keep track of your report please
                           login with your personal information
                       </p>
-                      <v-btn dark round to="/">login</v-btn>
+                      <v-btn dark round large to="/">login</v-btn>
                   </v-flex>
                 </v-layout>   
               </v-container>
@@ -85,7 +85,7 @@
                         ></v-text-field>
                         </v-container>
                         <div class="text-xs-center">
-                            <v-btn light>sign up</v-btn>
+                            <v-btn light large round>sign up</v-btn>
                         </div>
                     </v-form>
                 </v-container>

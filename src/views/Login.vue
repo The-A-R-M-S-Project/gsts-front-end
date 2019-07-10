@@ -39,7 +39,7 @@
                   <v-flex>
                       <h1>Graduate Student Tracking System</h1>
                       <p>Are you a student? Register Here!</p>
-                      <v-btn round dark to="/register">Register</v-btn>
+                      <v-btn round large dark to="/register">Register</v-btn>
                   </v-flex>
                 </v-layout>   
               </v-container>
