@@ -1,8 +1,8 @@
 <template>
   <v-container text-xs-center fluid fill-height>
     <v-layout align-center justify-center>
-        <v-card>
-          <v-layout row wrap>
+        <v-card min-width="90%">
+          <v-layout row wrap height>
             <v-flex sm7 pa-3>
               <v-card-text>
                 <h1 class="text-xs-center">Login</h1>

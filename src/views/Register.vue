@@ -1,7 +1,7 @@
 <template>
   <v-container text-xs-center fluid fill-height>
     <v-layout align-center justify-center>
-        <v-card>
+        <v-card min-width="90%">
           <v-layout row wrap>
             <v-flex sm5>
               <v-container fill-height pa-0 overlayed>
