@@ -5,9 +5,7 @@
           <v-layout row wrap>
             <v-flex sm7 pa-3>
               <v-card-text>
-                <!-- heading -->
                 <h1 class="text-xs-center">Login</h1>
-                <!-- login form -->
                 <v-container>
                     <v-tabs
                       v-model="tabs"
@@ -41,7 +39,7 @@
                   <v-flex>
                       <h1>Graduate Student Tracking System</h1>
                       <p>Are you a student? Register Here!</p>
-                      <v-btn round dark>Register</v-btn>
+                      <v-btn round dark to="/register">Register</v-btn>
                   </v-flex>
                 </v-layout>   
               </v-container>
