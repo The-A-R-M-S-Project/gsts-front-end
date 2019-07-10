@@ -71,6 +71,7 @@
   background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)),url("https://images.unsplash.com/photo-1519682337058-a94d519337bc?ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80");
   position: relative;
   color: white;
+  background-position: center;
 }
 .overlayed p {
   font-size: 18px;
