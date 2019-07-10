@@ -5,31 +5,31 @@
           <v-layout row wrap height>
             <v-flex sm7 pa-3>
               <v-card-text>
-                <h1 class="text-xs-center">Login</h1>
                 <v-container>
-                    <v-tabs
-                      v-model="tabs"
-                      fixed-tabs
-                      flat
+                  <h2 class="headline text-md-left">Login</h2>
+                  <v-tabs
+                    v-model="tabs"
+                    fixed-tabs
+                    flat
+                  >
+                    <v-tabs-slider></v-tabs-slider>
+                    <v-tab href="#mobile-tabs-5-1" class="primary--text">
+                      <p>Admin</p>
+                    </v-tab>
+          
+                    <v-tab href="#mobile-tabs-5-2" class="primary--text">
+                      <p>Student</p>
+                    </v-tab>
+                  </v-tabs>
+                  <v-tabs-items v-model="tabs" class="white elevation-0">
+                    <v-tab-item
+                      v-for="i in 2"
+                      :key="i"
+                      :value="'mobile-tabs-5-' + i"
                     >
-                      <v-tabs-slider></v-tabs-slider>
-                      <v-tab href="#mobile-tabs-5-1" class="primary--text">
-                        <p>Admin</p>
-                      </v-tab>
-            
-                      <v-tab href="#mobile-tabs-5-2" class="primary--text">
-                        <p>Student</p>
-                      </v-tab>
-                    </v-tabs>
-                    <v-tabs-items v-model="tabs" class="white elevation-0">
-                      <v-tab-item
-                        v-for="i in 2"
-                        :key="i"
-                        :value="'mobile-tabs-5-' + i"
-                      >
-                          <LoginForm/>
-                      </v-tab-item>
-                    </v-tabs-items>
+                        <LoginForm/>
+                    </v-tab-item>
+                  </v-tabs-items>
                 </v-container>
               </v-card-text>
             </v-flex>
@@ -37,9 +37,10 @@
               <v-container fill-height pa-0 overlayed>
                 <v-layout align-center>
                   <v-flex>
-                      <h1>Graduate Student Tracking System</h1>
-                      <p>Are you a student? Register Here!</p>
-                      <v-btn round large dark to="/register">Register</v-btn>
+                      <h1 class="display-3 font-weight-light">Graduate Student Tracking System</h1>
+                      <p>A system for tracking master's students reports</p>
+                      <p class="subheading">Are you a student? Register Here!</p>
+                      <v-btn round large dark to="/register" >Register</v-btn>
                   </v-flex>
                 </v-layout>   
               </v-container>

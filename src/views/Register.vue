@@ -98,9 +98,6 @@
     </v-layout>
   </v-container>
 </template>
-<style lang="scss">
-
-</style>
 
 <script>
   export default {
@@ -115,4 +112,10 @@
     }
   }
 </script>
+<style lang="scss">
+    input:focus{
+    outline: 2px solid orange; 
+    }
+</style>
+
 
