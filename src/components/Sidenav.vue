@@ -2,6 +2,7 @@
     <v-navigation-drawer 
         permanent
         absolute
+        width="200px"
     >
         <v-toolbar flat>
         <v-list>
