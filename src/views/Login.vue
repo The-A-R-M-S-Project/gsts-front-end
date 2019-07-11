@@ -1,7 +1,7 @@
 <template>
   <v-container text-xs-center fluid fill-height class="login">
     <v-layout align-center justify-center>
-        <v-card min-width="90%">
+        <v-card min-width="90%" class="elevation-24">
           <v-layout row wrap height>
             <v-flex sm7 pa-3>
               <v-card-text>
@@ -41,7 +41,8 @@
                       <p>A system for tracking master's students reports</p>
                       <p class="subheading">Are you a student? Register Here!</p>
                       <v-btn round depressed block to="/register" class="grey login__register-btn">
-                        Register
+                        <v-icon>person_add</v-icon>
+                        <span>&nbsp;Register</span>
                       </v-btn>
                   </v-flex>
                 </v-layout>   

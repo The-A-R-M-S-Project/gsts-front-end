@@ -19,7 +19,7 @@
             >
             </v-text-field>
             <div class="text-xs-center">
-                <v-btn round large depressed ripple class="yellow accent-1">Login</v-btn>
+                <v-btn round depressed ripple class="yellow accent-1">Login</v-btn>
             </div>
       </v-container>
     </v-form>

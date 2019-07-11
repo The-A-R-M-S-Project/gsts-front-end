@@ -1,17 +1,17 @@
 <template>
-  <v-container text-xs-center fluid fill-height>
+  <v-container text-xs-center fluid fill-height class="register">
     <v-layout align-center justify-center>
-        <v-card min-width="90%">
+        <v-card min-width="90%" class="elevation-24">
           <v-layout row wrap>
             <v-flex sm5>
               <v-container fill-height pa-0 overlayed>
                 <v-layout align-center>
-                  <v-flex>
+                  <v-flex px-4 py-2>
                       <h1 class="display-3 font-weight-light">Welcome</h1>
                       <p>To keep track of your report please
                           login with your personal information
                       </p>
-                      <v-btn dark round large to="/">login</v-btn>
+                      <v-btn round depressed block to="/"  class="register__login-btn grey">login</v-btn>
                   </v-flex>
                 </v-layout>   
               </v-container>
@@ -113,9 +113,14 @@
   }
 </script>
 <style lang="scss">
-    input:focus{
-    outline: 2px solid orange; 
-    }
+   .register {
+       &__login-btn {
+            opacity: .65;
+            // width: 80%;
+            margin: auto;
+            font-weight: bold;
+       }
+   }
 </style>
 
 
