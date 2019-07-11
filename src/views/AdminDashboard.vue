@@ -1,7 +1,9 @@
 <template>
     <div>
-        <Navigation/>
+      <Navigation/>
+      <v-card flat min-height="600px">
         <Sidenav/>
+      </v-card>
     </div>
 </template>
 
@@ -18,5 +20,6 @@ export default {
 </script>
 
 <style lang="scss">
+
 
 </style>
