@@ -18,8 +18,8 @@
                 type="password"
             >
             </v-text-field>
-            <div class="text-xs-center">
-                <v-btn round depressed ripple class="yellow accent-1">Login</v-btn>
+            <div class="text-md-left">
+                <v-btn round large depressed ripple class="yellow accent-1">Login</v-btn>
             </div>
       </v-container>
     </v-form>

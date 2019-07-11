@@ -11,7 +11,7 @@
                       <p>To keep track of your report please
                           login with your personal information
                       </p>
-                      <v-btn round depressed block to="/"  class="register__login-btn grey">login</v-btn>
+                      <v-btn round large depressed block to="/"  class="register__login-btn grey">login</v-btn>
                   </v-flex>
                 </v-layout>   
               </v-container>
@@ -116,7 +116,7 @@
    .register {
        &__login-btn {
             opacity: .65;
-            // width: 80%;
+            width: 80%;
             margin: auto;
             font-weight: bold;
        }
