@@ -1,5 +1,5 @@
 <template>
-  <v-container text-xs-center fluid fill-height>
+  <v-container text-xs-center fluid fill-height class="login">
     <v-layout align-center justify-center>
         <v-card min-width="90%">
           <v-layout row wrap height>
@@ -36,11 +36,13 @@
             <v-flex sm5>
               <v-container fill-height pa-0 overlayed>
                 <v-layout align-center>
-                  <v-flex>
-                      <h1 class="display-3 font-weight-light">Graduate Student Tracking System</h1>
+                  <v-flex px-4 py-3>
+                      <h1 class="display-2 font-weight-light">Graduate Student Tracking System</h1>
                       <p>A system for tracking master's students reports</p>
                       <p class="subheading">Are you a student? Register Here!</p>
-                      <v-btn round large dark to="/register" >Register</v-btn>
+                      <v-btn round depressed block to="/register" class="grey login__register-btn">
+                        Register
+                      </v-btn>
                   </v-flex>
                 </v-layout>   
               </v-container>
@@ -64,12 +66,12 @@
     }
   }
 </script>
-<style>
+<style lang="scss">
 .overlayed {
   width: 100%;
   height: 100%;
   background-size: cover;
-  background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)),url("~@/assets/img/thought-catalog.jpg");
+  background-image: linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.6)),url("~@/assets/img/login-2.jpg");
   position: relative;
   color: white;
   background-position: center;
@@ -81,6 +83,14 @@
 .overlayed h1{
   font-size: 25px;
   font-weight: lighter;
+}
+.login {
+  &__register-btn {
+    opacity: .65;
+    // width: 80%;
+    margin: auto;
+    font-weight: bold;
+  }
 }
 </style>
 
