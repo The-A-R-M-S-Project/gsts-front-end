@@ -13,11 +13,11 @@
                     flat
                   >
                     <v-tabs-slider></v-tabs-slider>
-                    <v-tab href="#mobile-tabs-5-1" class="primary--text">
+                    <v-tab href="#mobile-tabs-5-1">
                       <p>Admin</p>
                     </v-tab>
           
-                    <v-tab href="#mobile-tabs-5-2" class="primary--text">
+                    <v-tab href="#mobile-tabs-5-2">
                       <p>Student</p>
                     </v-tab>
                   </v-tabs>
