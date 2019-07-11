@@ -8,7 +8,7 @@
                 <v-layout align-center>
                   <v-flex px-4 py-2>
                       <h1 class="display-3 font-weight-light">Welcome</h1>
-                      <p>To keep track of your report please
+                      <p class="mt-5 mb-4">To keep track of your report please
                           login with your personal information
                       </p>
                       <v-btn round large depressed block to="/"  class="register__login-btn grey">login</v-btn>
