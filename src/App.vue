@@ -17,3 +17,10 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+  #app {
+      font-family: 'Comfortaa', cursive;
+  }
+</style>
+
+
