@@ -11,7 +11,7 @@
               <v-card class="transparent" flat>
                 <v-layout row wrap>
                   <v-flex sm5 pb-3 pr-2> 
-                    <v-card min-height="40vh">
+                    <v-card min-height="52vh">
                       <v-card-text align-center>
                         <VivaStatus/>
                       </v-card-text>
@@ -20,7 +20,7 @@
                   <v-flex sm7 pb-3 pl-2 min-height="">   
                     <v-card>
                       <v-card-text>
-                        report status
+                         <ReportStatus/>
                       </v-card-text>
                     </v-card>
                   </v-flex>
@@ -52,12 +52,14 @@
 import Navigation from "@/components/Navbar.vue"
 import Sidenav from "@/components/Sidenav.vue"
 import VivaStatus from "@/components/VivaStatus.vue"
+import ReportStatus from "@/components/ReportStatus.vue"
 export default {
     name: 'dashboard',
     components: {
         Navigation,
         Sidenav,
-        VivaStatus
+        VivaStatus,
+        ReportStatus
     },
 }
 </script>
