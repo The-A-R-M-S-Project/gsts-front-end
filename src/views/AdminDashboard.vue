@@ -10,14 +10,14 @@
             <v-flex sm10>
               <v-card class="transparent" flat>
                 <v-layout row wrap>
-                  <v-flex sm5 pb-3 pr-2> 
+                  <v-flex sm12 md5 pb-3 pr-2> 
                     <v-card min-height="52vh">
                       <v-card-text align-center>
                         <VivaStatus/>
                       </v-card-text>
                     </v-card>
                   </v-flex>
-                  <v-flex sm7 pb-3 pl-2 min-height="">   
+                  <v-flex sm12 md7 pb-3 pl-2 min-height="">   
                     <v-card>
                       <v-card-text>
                          <ReportStatus/>
