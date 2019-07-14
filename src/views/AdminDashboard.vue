@@ -26,9 +26,8 @@
                   </v-flex>
                   <v-flex sm12 pb-3>
                     <v-card>
-                      <v-card-text>
-                        perfomance
-                      </v-card-text>
+                      <v-card-title>Perfomance</v-card-title>
+                      <PerfomanceChart/>
                     </v-card>
                   </v-flex>
                   <v-flex sm12 pb-3>
@@ -53,13 +52,15 @@ import Navigation from "@/components/Navbar.vue"
 import Sidenav from "@/components/Sidenav.vue"
 import VivaStatus from "@/components/VivaStatus.vue"
 import ReportStatus from "@/components/ReportStatus.vue"
+import PerfomanceChart from "@/components/PerfomanceChart.vue"
 export default {
     name: 'dashboard',
     components: {
         Navigation,
         Sidenav,
         VivaStatus,
-        ReportStatus
+        ReportStatus,
+        PerfomanceChart
     },
 }
 </script>
