@@ -52,7 +52,7 @@ import Navigation from "@/components/Navbar.vue"
 import Sidenav from "@/components/Sidenav.vue"
 import VivaStatus from "@/components/VivaStatus.vue"
 import ReportStatus from "@/components/ReportStatus.vue"
-import PerfomanceChart from "@/components/PerfomanceChart.vue"
+import PerfomanceChart from "@/components/Perfomance.vue"
 export default {
     name: 'dashboard',
     components: {
