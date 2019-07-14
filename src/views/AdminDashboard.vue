@@ -10,14 +10,14 @@
             <v-flex sm10>
               <v-card class="transparent" flat>
                 <v-layout row wrap>
-                  <v-flex sm5 pb-3 pr-2> 
+                  <v-flex sm12 md5 pb-3 pr-2> 
                     <v-card min-height="52vh">
                       <v-card-text align-center>
                         <VivaStatus/>
                       </v-card-text>
                     </v-card>
                   </v-flex>
-                  <v-flex sm7 pb-3 pl-2 min-height="">   
+                  <v-flex sm12 md7 pb-3 pl-2 min-height="">   
                     <v-card>
                       <v-card-text>
                          <ReportStatus/>
@@ -26,9 +26,8 @@
                   </v-flex>
                   <v-flex sm12 pb-3>
                     <v-card>
-                      <v-card-text>
-                        perfomance
-                      </v-card-text>
+                      <v-card-title>Perfomance</v-card-title>
+                      <PerfomanceChart/>
                     </v-card>
                   </v-flex>
                   <v-flex sm12 pb-3>
@@ -52,13 +51,15 @@ import Navigation from "@/components/Navbar.vue"
 import Sidenav from "@/components/Sidenav.vue"
 import VivaStatus from "@/components/VivaStatus.vue"
 import ReportStatus from "@/components/ReportStatus.vue"
+import PerfomanceChart from "@/components/PerfomanceChart.vue"
 export default {
     name: 'dashboard',
     components: {
         Navigation,
         Sidenav,
         VivaStatus,
-        ReportStatus
+        ReportStatus,
+        PerfomanceChart
     },
 }
 </script>
