@@ -26,14 +26,13 @@
                   </v-flex>
                   <v-flex sm12 pb-3>
                     <v-card>
-                      <v-card-title>Perfomance</v-card-title>
                       <PerfomanceChart/>
                     </v-card>
                   </v-flex>
                   <v-flex sm12 pb-3>
                     <v-card>
                       <v-card-text>
-                        calendar
+                        <Calendar/>
                       </v-card-text>
                     </v-card>
                   </v-flex>
@@ -52,6 +51,7 @@ import Sidenav from "@/components/Sidenav.vue"
 import VivaStatus from "@/components/VivaStatus.vue"
 import ReportStatus from "@/components/ReportStatus.vue"
 import PerfomanceChart from "@/components/Perfomance.vue"
+import Calendar from "@/components/Calendar.vue"
 export default {
     name: 'dashboard',
     components: {
@@ -59,7 +59,8 @@ export default {
         Sidenav,
         VivaStatus,
         ReportStatus,
-        PerfomanceChart
+        PerfomanceChart,
+        Calendar
     },
 }
 </script>
