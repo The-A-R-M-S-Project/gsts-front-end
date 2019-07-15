@@ -18,6 +18,7 @@ export default {
     },
     methods: {
         createChart(chartId, chartData) {
+            Chart.defaults.global.defaultFontFamily = 'Comfortaa'
             const ctx = document.getElementById(chartId);
             const myChart = new Chart(ctx, {
                 type: chartData.type,
