@@ -7,40 +7,13 @@
 </template>
 <script>
 import Chart from 'chart.js'
+import { engineering } from '@/services/perfomanceDataService.js'
 export default {
     data() {
         return{
-            chartData: {
-                type: 'pie',
-                data: {
-                    datasets: [{
-                        label: 'Perfomance',
-                        data: [10, 20,20,12,4,2],
-                        backgroundColor: [
-                            '#FF00FF',
-                            '#00FF00',
-                            '#00FFFF',
-                            '#FFA500',
-                            '#FF0000',
-                            '#800000'
-                        ],
-                    }],
-                    labels: ['A','B','C','D','E','F'],
-                },    
-                options: {
-                    title: {
-                        display: true,
-                        text: 'Department Name',
-                        fontSize: 18,
-                        defaultFontFamily: "'Comfortaa', cursive"
-                    },
-                    responsive: true,
-                    legend: {
-                        display: false
-                    },
-
-                }
-            },
+            chartData1: engineering.ece,
+            chartData2: engineering.mec,
+            chartData3: engineering.civ
         }
     },
     methods: {
@@ -53,9 +26,9 @@ export default {
         });
     }},
     mounted() {
-        this.createChart('pieChart', this.chartData)
-        this.createChart('pieChart2',this.chartData)
-        this.createChart('pieChart3',this.chartData)
+        this.createChart('pieChart', this.chartData1)
+        this.createChart('pieChart2',this.chartData3)
+        this.createChart('pieChart3',this.chartData2)
     }
 }
 </script>
