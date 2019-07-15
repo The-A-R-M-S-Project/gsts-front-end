@@ -29,14 +29,15 @@ let barChartData = {
       backgroundColor: "lightgreen",
       borderColor: "green",
       borderWidth: 1,
-      data: [10,7,4,]
+      data: [10,7,4]
     },
     ]};
 
 let chartOptions = {
   responsive: true,
+  defaultFontFamily: 'Comfortaa',
   legend: {
-    position: "top"
+    position: "bottom",
   },
   scales: {
     yAxes: [{
@@ -59,6 +60,7 @@ export default {
     },
     methods: {
         createChart(chartId, chartData) {
+            Chart.defaults.global.defaultFontFamily = 'Comfortaa'
             const ctx = document.getElementById(chartId);
             const myChart = new Chart(ctx, {
                 type: chartData.type,
