@@ -20,12 +20,15 @@ let engineering = {
                 title: {
                     display: true,
                     text: 'Electrical and Computer',
-                    fontSize: 15,
-                    defaultFontFamily: "'Comfortaa', cursive"
+                    fontSize: 12,
                 },
                 responsive: true,
                 legend: {
-                    display: false
+                    display: true,
+                    position: 'bottom',
+                    labels: {
+                        boxWidth: 12,
+                    }
                 },
 
             }
@@ -51,12 +54,15 @@ let engineering = {
                 title: {
                     display: true,
                     text: 'Mechanical',
-                    fontSize: 15,
-                    defaultFontFamily: "'Comfortaa', cursive"
+                    fontSize: 12,
                 },
                 responsive: true,
                 legend: {
-                    display: false
+                    display: true,
+                    position: 'bottom',
+                    labels: {
+                        boxWidth: 12,
+                    },
                 },
 
             }
@@ -82,12 +88,15 @@ let engineering = {
                 title: {
                     display: true,
                     text: 'Civil and Environmental',
-                    fontSize: 15,
-                    defaultFontFamily: "'Comfortaa', cursive"
+                    fontSize: 12,
                 },
                 responsive: true,
                 legend: {
-                    display: false
+                    display: true,
+                    position: 'bottom',
+                    labels: {
+                        boxWidth: 12,
+                    }
                 },
 
             }
