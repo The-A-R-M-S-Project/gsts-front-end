@@ -38,10 +38,6 @@ let chartOptions = {
   legend: {
     position: "top"
   },
-  title: {
-    display: true,
-    text: "Report Status"
-  },
   scales: {
     yAxes: [{
       ticks: {

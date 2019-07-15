@@ -13,27 +13,26 @@
                   <v-flex sm12 md5 pb-3 pr-2> 
                     <v-card min-height="52vh">
                       <v-card-text align-center>
+                      <v-card-text pa-1><h3 class="text-xs-center">VIVA STATUS</h3></v-card-text>
                         <VivaStatus/>
                       </v-card-text>
                     </v-card>
                   </v-flex>
                   <v-flex sm12 md7 pb-3 pl-2 min-height="">   
                     <v-card>
-                      <v-card-text>
-                         <ReportStatus/>
-                      </v-card-text>
+                      <v-card-text pa-1><h3 class="text-xs-center">REPORT STATUS</h3></v-card-text>
+                       <ReportStatus/>
                     </v-card>
                   </v-flex>
                   <v-flex sm12 pb-3>
                     <v-card>
-                      <PerfomanceChart/>
+                      <v-card-text pa-1><h3 class="text-xs-center">PERFOMANCE</h3></v-card-text>
+                        <PerfomanceChart/>
                     </v-card>
                   </v-flex>
                   <v-flex sm12 pb-3>
                     <v-card>
-                      <v-card-text>
                         <Calendar/>
-                      </v-card-text>
                     </v-card>
                   </v-flex>
                 </v-layout>
