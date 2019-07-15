@@ -24,12 +24,6 @@ export default {
                     ],
                 },    
                 options: {
-                    title: {
-                        display: true,
-                        text: 'Viva Status',
-                        fontSize: 20,
-                        defaultFontFamily: "'Comfortaa', cursive"
-                    },
                     responsive: true,
                     legend: {
                         position: 'bottom',
