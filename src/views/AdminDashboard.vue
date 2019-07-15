@@ -11,12 +11,14 @@
               <v-card class="transparent" flat>
                 <v-layout row wrap>
                   <v-flex sm12 md5 pb-3 pr-2> 
-                    <v-card min-height="52vh">
-                      <v-card-text align-center>
-                      <v-card-text pa-1><h3 class="text-xs-center">VIVA STATUS</h3></v-card-text>
-                        <VivaStatus/>
-                      </v-card-text>
-                    </v-card>
+                      <v-card>
+                        <v-card-text pt-1>
+                          <h3 class="text-xs-center">VIVA STATUS</h3>
+                          <div class="text-xs-center mt-5 mb-5">
+                            <VivaStatus/>
+                          </div>
+                        </v-card-text>
+                      </v-card>
                   </v-flex>
                   <v-flex sm12 md7 pb-3 pl-2 min-height="">   
                     <v-card>
