@@ -28,7 +28,6 @@ export default {
 		let eventsOnADay = events.filter(event => {
 			return event.date == calendarDate;
 		});
-		console.log("The events on this day are: ", eventsOnADay);
 		return eventsOnADay;
 	},
 	eventDates
