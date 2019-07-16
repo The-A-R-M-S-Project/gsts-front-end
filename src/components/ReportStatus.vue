@@ -41,6 +41,12 @@ let chartOptions = {
           beginAtZero: true
         }
       }
+    ],
+    xAxes: [
+      {
+        barPercentage: 0.7,
+        categoryPercentage: 0.3
+      }
     ]
   }
 };
@@ -55,6 +61,9 @@ export default {
       }
     };
   },
+  mounted() {
+    this.createChart("barChart", this.chartData);
+  },
   methods: {
     createChart(chartId, chartData) {
       Chart.defaults.global.defaultFontFamily = "Comfortaa";
@@ -65,9 +74,6 @@ export default {
         options: chartData.options
       });
     }
-  },
-  mounted() {
-    this.createChart("barChart", this.chartData);
   }
 };
 </script>
