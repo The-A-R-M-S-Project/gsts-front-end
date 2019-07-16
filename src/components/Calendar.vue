@@ -12,11 +12,18 @@
         <v-card height="100%">
           <v-container fluid pa-0>
             <v-toolbar color="blue darken-2" dark height="89" flat>
-              <v-toolbar-title>Date Events: ({{ selectedDate }})</v-toolbar-title>
+              <v-toolbar-title>Date Events: ({{ date }})</v-toolbar-title>
             </v-toolbar>
-            <!-- <ul class="ma-3">
-              <li v-for="note in notes" :key="note">{{ note }}</li>
-            </ul> -->
+            <v-list v-for="(event, index) in events" :key="index">
+              <v-list-tile v-on:click="">
+                <v-list-tile-avatar>
+                  <v-icon>calendar_today</v-icon>
+                </v-list-tile-avatar>
+                <h4>{{ event.title }}</h4>                
+              </v-list-tile>
+              <v-divider></v-divider>
+            </v-list>
+            
           </v-container>
         </v-card>
     </v-flex>
@@ -27,6 +34,7 @@
               <v-toolbar-title>Event Details</v-toolbar-title>
             </v-toolbar>
             <div class="subheading">Event title</div>
+              <!-- {{ events.title}} -->
             <!-- <ul class="ma-3">
               <li v-for="note in notes" :key="note">{{ note }}</li>
             </ul> -->
@@ -45,10 +53,15 @@ export default {
     selectedDate: '',
     eventDatesArr: null,
   }),
-
+  computed: {
+    events: function(){
+      return CalendarEvents.getEventsByDate(this.date)
+    }
+  },
   updated() {
-    this.events = CalendarEvents.getEventsByDate(this.date);
+    // this.events = CalendarEvents.getEventsByDate(this.date);
     this.selectedDate = this.date
+    console.log(this.date)
   },
 
   methods: {
