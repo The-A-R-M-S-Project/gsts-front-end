@@ -1,75 +1,101 @@
 <template>
-    <canvas id="barChart"></canvas>    
+  <canvas id="barChart"></canvas>
 </template>
 <script>
-import Chart from 'chart.js'
+import Chart from "chart.js";
 let barChartData = {
-  labels: [
-    "Electrical and Computer",
-    "Civil and Environmental",
-    "Mechanical",
-  ],
+  labels: ["Electrical and Computer", "Civil and Environmental", "Mechanical"],
   datasets: [
     {
       label: "submitted",
-      backgroundColor: "pink",
-      borderColor: "red",
-      borderWidth: 1,
+      backgroundColor: "#AA00FF",
+      borderWidth: 0,
       data: [3, 5, 6]
     },
     {
       label: "With examiner",
-      backgroundColor: "lightblue",
-      borderColor: "blue",
-      borderWidth: 1,
+      backgroundColor: "#8C9EFF",
+      borderWidth: 0,
       data: [4, 7, 3]
     },
     {
       label: "Cleared",
-      backgroundColor: "lightgreen",
-      borderColor: "green",
-      borderWidth: 1,
-      data: [10,7,4]
-    },
-    ]};
+      backgroundColor: "#64FFDA",
+      borderWidth: 0,
+      data: [10, 7, 4]
+    }
+  ]
+};
 
 let chartOptions = {
   responsive: true,
-  defaultFontFamily: 'Comfortaa',
+  defaultFontFamily: "Comfortaa",
   legend: {
     position: "bottom",
+    align: "start",
+    labels: {
+      usePointStyle: true,
+      padding: 20
+    }
+  },
+  layout: {
+    padding: {
+      left: 15,
+      right: 20,
+      top: 5,
+      bottom: 5
+    }
   },
   scales: {
-    yAxes: [{
-      ticks: {
-        beginAtZero: true
-      }
-    }]
-  }
-}
-export default {
-    name: 'VivaStatus',
-    data() {
-        return{
-            chartData: {
-                type: 'bar',
-                data: barChartData,    
-                options: chartOptions,
-            }
+    yAxes: [
+      {
+        ticks: {
+          beginAtZero: true
+        },
+        gridLines: {
+          drawBorder: false,
+          lineWidth: 0.5,
+          tickMarkLength: 5
         }
-    },
-    methods: {
-        createChart(chartId, chartData) {
-            Chart.defaults.global.defaultFontFamily = 'Comfortaa'
-            const ctx = document.getElementById(chartId);
-            const myChart = new Chart(ctx, {
-                type: chartData.type,
-                data: chartData.data,
-                options: chartData.options,
-        });
-    }},
-    mounted() {
-        this.createChart('barChart', this.chartData)
+      }
+    ],
+    xAxes: [
+      {
+        barPercentage: 0.7,
+        categoryPercentage: 0.3,
+        gridLines: {
+          display: false,
+          drawBorder: false,
+          tickMarkLength: 15
+        }
+      }
+    ]
+  }
+};
+export default {
+  name: "VivaStatus",
+  data() {
+    return {
+      chartData: {
+        type: "bar",
+        data: barChartData,
+        options: chartOptions
+      }
+    };
+  },
+  mounted() {
+    this.createChart("barChart", this.chartData);
+  },
+  methods: {
+    createChart(chartId, chartData) {
+      Chart.defaults.global.defaultFontFamily = "Comfortaa";
+      const ctx = document.getElementById(chartId);
+      const myChart = new Chart(ctx, {
+        type: chartData.type,
+        data: chartData.data,
+        options: chartData.options
+      });
     }
-}
+  }
+};
 </script>
