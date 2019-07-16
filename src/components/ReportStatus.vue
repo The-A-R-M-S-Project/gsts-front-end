@@ -34,7 +34,8 @@ let chartOptions = {
   legend: {
     position: "bottom",
     labels: {
-      usePointStyle: true
+      usePointStyle: true,
+      padding: 20
     }
   },
   scales: {
@@ -45,7 +46,8 @@ let chartOptions = {
         },
         gridLines: {
           drawBorder: false,
-          lineWidth: 0.5
+          lineWidth: 0.5,
+          tickMarkLength: 5
         }
       }
     ],
@@ -55,7 +57,8 @@ let chartOptions = {
         categoryPercentage: 0.3,
         gridLines: {
           display: false,
-          drawBorder: false
+          drawBorder: false,
+          tickMarkLength: 15
         }
       }
     ]
