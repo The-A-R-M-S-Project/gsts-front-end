@@ -15,12 +15,14 @@
               <v-toolbar-title>Date Events: ({{ date }})</v-toolbar-title>
             </v-toolbar>
             <v-list v-for="(event, index) in events" :key="index">
-              <v-list-tile v-on:click="">
+
+              <v-list-tile v-on:click="clickedEvent(event)">
                 <v-list-tile-avatar>
                   <v-icon>calendar_today</v-icon>
                 </v-list-tile-avatar>
                 <h4>{{ event.title }}</h4>                
               </v-list-tile>
+
               <v-divider></v-divider>
             </v-list>
             
@@ -33,12 +35,17 @@
             <v-toolbar color="blue darken-2" dark height="89" flat>
               <v-toolbar-title>Event Details</v-toolbar-title>
             </v-toolbar>
-            <div class="subheading">Event title</div>
-              <!-- {{ events.title}} -->
-            <!-- <ul class="ma-3">
-              <li v-for="note in notes" :key="note">{{ note }}</li>
-            </ul> -->
+            <v-card-title primary-title>
+              <div height="100%">
+                <h4>{{ eventBody.title}}</h4>
+                <p> {{ eventBody.content }} </p>
+                <p> {{ eventBody.date }} </p>
+              </div>
+            </v-card-title>
           </v-container>
+          <v-card-actions>
+            <v-btn @click="clearEvent()"> clear </v-btn>
+          </v-card-actions>
         </v-card>
     </v-flex>
   </v-layout>
@@ -52,23 +59,32 @@ export default {
     date: new Date().toISOString().substr(0, 10),
     selectedDate: '',
     eventDatesArr: null,
+    eventDetails: {},
   }),
+
+  methods: {
+    clickedEvent: function(event) {
+      this.eventDetails = event
+    },
+    clearEvent: function(){
+      this.eventDetails = {}
+    }
+  },
+
   computed: {
     events: function(){
       return CalendarEvents.getEventsByDate(this.date)
+    },
+    eventBody: function(){
+      return this.eventDetails
     }
   },
-  updated() {
-    // this.events = CalendarEvents.getEventsByDate(this.date);
-    this.selectedDate = this.date
-    console.log(this.date)
-  },
-
-  methods: {
-  },
-
+ 
   mounted() {
     this.eventDatesArr = CalendarEvents.eventDates
-  }
+  },
+   updated() {
+    this.selectedDate = this.date
+  },
 };
 </script>
