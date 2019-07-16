@@ -14,7 +14,12 @@ let events = [
 		title: "Event Three",
 		content: "Event One's content",
 		date: "2019-07-18"
-	}
+	},
+	{
+		title: "Event four",
+		content: "Event One's content",
+		date: "2019-07-16"
+	},
 ];
 let eventDates = events.map(event => event.date)
 
