@@ -25,11 +25,14 @@
 </template>
 
 <script>
+import CalendarEvents from "@/services/calendar-events-service.js";
+
 export default {
   data: () => ({
     date: new Date().toISOString().substr(0, 10),
     pickerDate: null,
     notes: [],
+    events: [],
     allNotes: [
       "President met with prime minister",
       "New power plant opened",
@@ -39,7 +42,8 @@ export default {
     ]
   }),
   updated() {
-    console.log("The date is ", this.date);
+    this.events = CalendarEvents.getEventsByDate(this.date);
+    // console.log("The date is ", this.date);
   },
   watch: {
     pickerDate(val) {
