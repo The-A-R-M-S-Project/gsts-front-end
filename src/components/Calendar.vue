@@ -1,5 +1,5 @@
 <template>
-  <v-layout row wrap>
+  <v-layout row wrap pa-3>
     <v-flex xs12 sm12 md4>
       <v-date-picker
         ref="picker"
@@ -15,6 +15,17 @@
         <v-container>
           <div class="title">Date Events: ({{ pickerDate || 'change month...' }})</div>
           <div class="subheading">Select date to see other events</div>
+          <ul class="ma-3">
+            <li v-for="note in notes" :key="note">{{ note }}</li>
+          </ul>
+        </v-container>
+      </v-card>
+    </v-flex>
+    <v-flex xs12 sm12 md4 pl-3>
+      <v-card>
+        <v-container>
+          <div class="title">Event Details</div>
+          <div class="subheading">Event title</div>
           <ul class="ma-3">
             <li v-for="note in notes" :key="note">{{ note }}</li>
           </ul>

@@ -10,17 +10,17 @@
             <v-flex sm10>
               <v-card class="transparent" flat>
                 <v-layout row wrap>
-                  <v-flex sm12 md5 pb-3 pr-2> 
+                  <v-flex sm12 md4 pb-3 pr-2> 
                       <v-card>
-                        <v-card-text pt-1>
+                        <v-card-text pa-1>
                           <h3 class="text-xs-center">VIVA STATUS</h3>
-                          <div class="text-xs-center mt-5 mb-5">
+                          <div class="text-xs-center mt-4 mb-3">
                             <VivaStatus/>
                           </div>
                         </v-card-text>
                       </v-card>
                   </v-flex>
-                  <v-flex sm12 md7 pb-3 pl-2 min-height="">   
+                  <v-flex sm12 md8 pb-3 pl-2>   
                     <v-card>
                       <v-card-text pa-1><h3 class="text-xs-center">REPORT STATUS</h3></v-card-text>
                        <ReportStatus/>
@@ -28,13 +28,16 @@
                   </v-flex>
                   <v-flex sm12 pb-3>
                     <v-card>
-                      <v-card-text pa-1><h3 class="text-xs-center">PERFOMANCE</h3></v-card-text>
+                      <v-card-text pa-1>
+                        <h3 class="text-xs-center">PERFOMANCE</h3>
                         <PerfomanceChart/>
+                      </v-card-text>
                     </v-card>
                   </v-flex>
                   <v-flex sm12 pb-3>
                     <v-card>
-                        <Calendar/>
+                      <v-card-text pa-1><h3 class="text-xs-center">EVENTS CALENDAR</h3></v-card-text>
+                      <Calendar/>
                     </v-card>
                   </v-flex>
                 </v-layout>

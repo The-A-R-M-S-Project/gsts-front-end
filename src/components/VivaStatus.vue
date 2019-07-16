@@ -1,5 +1,5 @@
 <template>
-    <canvas id="donutChart"></canvas>    
+    <canvas id="donutChart" width="80%" height="80%"></canvas>    
 </template>
 <script>
 import Chart from 'chart.js'
@@ -28,7 +28,13 @@ export default {
                     legend: {
                         position: 'bottom',
                     },
-                    cutoutPercentage: 80
+                    cutoutPercentage: 80,
+                    layout: {
+                        padding: {
+                            left: 12,
+                            right: 30
+                        }
+                    }
 
                 }
             },
