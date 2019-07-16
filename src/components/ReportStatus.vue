@@ -32,20 +32,31 @@ let chartOptions = {
   responsive: true,
   defaultFontFamily: "Comfortaa",
   legend: {
-    position: "bottom"
+    position: "bottom",
+    labels: {
+      usePointStyle: true
+    }
   },
   scales: {
     yAxes: [
       {
         ticks: {
           beginAtZero: true
+        },
+        gridLines: {
+          drawBorder: false,
+          lineWidth: 0.5
         }
       }
     ],
     xAxes: [
       {
         barPercentage: 0.7,
-        categoryPercentage: 0.3
+        categoryPercentage: 0.3,
+        gridLines: {
+          display: false,
+          drawBorder: false
+        }
       }
     ]
   }
