@@ -1,5 +1,7 @@
 <template>
-  <canvas id="donutChart" width="80%" height="80%"></canvas>
+  <div>
+    <canvas id="donutChart" width="80%" height="80%"></canvas>
+  </div>
 </template>
 <script>
 import Chart from "chart.js";
@@ -14,7 +16,7 @@ export default {
             {
               label: "Viva Status",
               data: [10, 20],
-              backgroundColor: ["rgba(169,90,210,1)", "rgba(232,218,239,1)"]
+              backgroundColor: ["#AA00FF", "#CFD8DC"]
             }
           ],
           labels: ["done", "pending"]
@@ -24,7 +26,7 @@ export default {
           legend: {
             position: "bottom"
           },
-          cutoutPercentage: 80,
+          cutoutPercentage: 93,
           layout: {
             padding: {
               left: 12,
