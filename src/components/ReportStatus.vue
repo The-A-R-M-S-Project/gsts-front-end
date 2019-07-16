@@ -8,20 +8,20 @@ let barChartData = {
   datasets: [
     {
       label: "submitted",
-      backgroundColor: "pink",
+      backgroundColor: "#9C27B0",
       borderWidth: 0,
       data: [3, 5, 6]
     },
     {
       label: "With examiner",
-      backgroundColor: "lightblue",
+      backgroundColor: "#2196F3",
       borderWidth: 0,
       data: [4, 7, 3]
     },
     {
       label: "Cleared",
       backgroundColor: "lightgreen",
-      borderColor: "green",
+      borderColor: "#00BCD4",
       borderWidth: 0,
       data: [10, 7, 4]
     }
@@ -33,9 +33,18 @@ let chartOptions = {
   defaultFontFamily: "Comfortaa",
   legend: {
     position: "bottom",
+    align: "start",
     labels: {
       usePointStyle: true,
       padding: 20
+    }
+  },
+  layout: {
+    padding: {
+      left: 15,
+      right: 20,
+      top: 5,
+      bottom: 5
     }
   },
   scales: {
