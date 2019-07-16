@@ -11,20 +11,24 @@
       ></v-date-picker>
     </v-flex>
     <v-flex xs12 sm12 md4 pl-3>
-      <v-card>
-        <v-container>
-          <div class="title">Date Events: ({{ pickerDate || 'change month...' }})</div>
-          <div class="subheading">Select date to see other events</div>
+      <v-card height="100%">
+        <v-container fluid pa-0>
+          <v-toolbar color="blue darken-2" dark height="89" flat>
+            <v-toolbar-title>Date Events: ({{ selectedDate }})</v-toolbar-title>
+          </v-toolbar>
           <ul class="ma-3">
             <li v-for="note in notes" :key="note">{{ note }}</li>
           </ul>
         </v-container>
       </v-card>
     </v-flex>
-    <v-flex xs12 sm12 md4 pl-3>
-      <v-card>
-        <v-container>
-          <div class="title">Event Details</div>
+    <v-flex xs12 sm12 md4 pl-1>
+      <v-card height="100%">
+        <v-container fluid pa-0>
+          <v-toolbar color="blue darken-2" dark height="89" flat>
+            <v-toolbar-title>Event Details</v-toolbar-title>
+            <v-spacer></v-spacer>
+          </v-toolbar>
           <div class="subheading">Event title</div>
           <ul class="ma-3">
             <li v-for="note in notes" :key="note">{{ note }}</li>
@@ -41,6 +45,7 @@ import CalendarEvents from "@/services/calendar-events-service.js";
 export default {
   data: () => ({
     date: new Date().toISOString().substr(0, 10),
+    selectedDate: '',
     pickerDate: null,
     notes: [],
     events: [],
@@ -54,6 +59,7 @@ export default {
   }),
   updated() {
     this.events = CalendarEvents.getEventsByDate(this.date);
+    this.selectedDate = this.date
     // console.log("The date is ", this.date);
   },
   watch: {
