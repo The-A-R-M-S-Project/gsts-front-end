@@ -8,45 +8,43 @@
       <v-flex xs10 sm10 pl-1>
         <v-layout row wrap>
           <v-flex sm12 md4 pb-3 pr-2>
+            <h2>Viva Status</h2>
             <v-card>
               <v-card-text pa-1>
-                <h3 class="text-xs-center">VIVA STATUS</h3>
-                <div class="text-xs-center mt-4 mb-3">
+                <div class="text-xs-center mt-2 mb-2">
                   <VivaStatus />
                 </div>
               </v-card-text>
             </v-card>
           </v-flex>
           <v-flex sm12 md8 pb-3 pl-2>
+            <h2>Report Status</h2>
             <v-card>
-              <v-card-text pa-1>
-                <h3 class="text-xs-center">REPORT STATUS</h3>
+              <v-card-text pa-1 pt-1>
+                <ReportStatus />
               </v-card-text>
-              <ReportStatus />
             </v-card>
           </v-flex>
         </v-layout>
         <v-layout row wrap>
-          <v-layout row wrap>
-            <v-flex xs12 sm12 pb-3>
-              <v-card>
-                <v-card-text pa-1>
-                  <h3 class="text-xs-center">PERFOMANCE</h3>
-                  <PerfomanceChart />
-                </v-card-text>
-              </v-card>
-            </v-flex>
-          </v-layout>
-          <v-layout row wrap>
-            <v-flex xs12 sm12 pb-3>
-              <v-card>
-                <v-card-text pa-1>
-                  <h3 class="text-xs-center">EVENTS CALENDAR</h3>
-                </v-card-text>
-                <Calendar />
-              </v-card>
-            </v-flex>
-          </v-layout>
+          <v-flex xs12 sm12 pb-3>
+            <h2>Perfomance Charts</h2>
+            <v-card>
+              <v-card-text pa-1>
+                <PerfomanceChart />
+              </v-card-text>
+            </v-card>
+          </v-flex>
+        </v-layout>
+        <v-layout row wrap>
+          <v-flex xs12 sm12 pb-3>
+            <h2>Events Calendar</h2>
+            <v-card>
+              <v-card-text pa-1>
+              </v-card-text>
+              <Calendar />
+            </v-card>
+          </v-flex>
         </v-layout>
       </v-flex>
     </v-layout>
