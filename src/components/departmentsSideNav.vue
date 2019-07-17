@@ -10,7 +10,7 @@
 
       <v-list-group prepend-icon="" active-class :value="false" v-for="(department, i) in departments" :key="i" v-on:click="clickedDepartment(department.name)">
           <template v-slot:activator>
-            <v-list-tile v-on:click="clickedDepartment(department.name)">
+            <v-list-tile >
               <v-list-tile-title>{{ department.name }}</v-list-tile-title>
             </v-list-tile>
           </template>
