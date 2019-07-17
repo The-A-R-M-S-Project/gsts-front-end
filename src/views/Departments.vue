@@ -19,6 +19,7 @@
 <style>
 
 </style>
+
 <script>
 import StudentsTable from "@/components/StudentsTable.vue"
 import SideNav from "@/components/departmentsSideNav.vue"
