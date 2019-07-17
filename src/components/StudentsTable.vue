@@ -36,6 +36,34 @@
 <script>
 import StudentData from "@/services/student-data-service.js"
 export default {
-    
-}
+  data() {
+    return {
+      search: "",
+      headers: [
+        {
+          text: "STUDENT NAME",
+          align: "left",
+          sortable: false,
+          value: "name"
+        },
+        {
+          text: "REGISTRATION NUMBER",
+          value: "regNo"
+        },
+        { text: "REPORT STATUS", value: "reportStatus" },
+        { text: "VIVA STATUS", value: "vivaStatus" },
+        { text: "VIVA DATE", value: "vivaDate" }
+      ],
+      students: [
+        {
+          name: "Student1",
+          regNo: "18/U/567",
+          reportStatus: "With examiner",
+          vivaStatus: "done",
+          vivaDate: "14-07-2019"
+        }
+      ]
+    };
+  }
+};
 </script>
