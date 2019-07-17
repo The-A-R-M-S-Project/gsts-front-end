@@ -1,6 +1,7 @@
 <template>
     <div>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <!-- <Navigation/> -->
         <v-layout row wrap>
             <v-flex md3 pt-4>
@@ -38,10 +39,22 @@ import SideNav from "@/components/departmentsSideNav.vue"
         
 =======
         departments view
+=======
+        <!-- <Navigation/> -->
+        <v-layout row wrap>
+            <v-flex md2>
+                <!-- <Sidenav/> -->
+            </v-flex>
+            <v-flex md10>
+                <StudentsTable/>
+            </v-flex>
+        </v-layout>
+>>>>>>> [Wycliff] creates Students' Table component
     </div>
 </template>
 
 <script>
+import StudentsTable from "@/components/StudentsTable.vue"
     export default {
 
 >>>>>>> [Rodrick] creates departments view

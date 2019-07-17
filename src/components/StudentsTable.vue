@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <div class="">
     <v-card> 
       <div class="text-xs-center">
@@ -61,4 +62,15 @@ export default {
         };
     }
 };
+=======
+    <div>
+        Table goes here
+    </div>
+</template>
+
+<script>
+export default {
+    
+}
+>>>>>>> [Wycliff] creates Students' Table component
 </script>
