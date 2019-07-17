@@ -23,6 +23,11 @@ export default new Router({
       component: Register
     },
     {
+      path: "/dashboard",
+      name: "dasboard",
+      component: Dashboard
+    },
+    {
       path: "/departments",
       name: "departments",
       component: Departments
