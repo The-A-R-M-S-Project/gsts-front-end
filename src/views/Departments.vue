@@ -1,5 +1,6 @@
 <template>
     <div>
+<<<<<<< HEAD
         <!-- <Navigation/> -->
         <v-layout row wrap>
             <v-flex md3 pt-4>
@@ -35,5 +36,14 @@ import SideNav from "@/components/departmentsSideNav.vue"
             }
         }
         
+=======
+        departments view
+    </div>
+</template>
+
+<script>
+    export default {
+
+>>>>>>> [Rodrick] creates departments view
     }
 </script>
