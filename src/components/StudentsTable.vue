@@ -1,64 +1,11 @@
 <template>
-  <div class="">
-    <v-card> 
-      <div class="text-xs-center">
-        <h2>{{ program }}</h2>
-      </div>
-      <v-card-title>
-        <v-layout>
-          <v-flex xs12 sm6 md8>
-          </v-flex>
-          <v-flex xs12 sm6 md4>
-            <v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details></v-text-field>
-          </v-flex>
-        </v-layout>
-      </v-card-title>
-      <v-data-table :headers="headers" :items="students" :search="search">
-        <template v-slot:items="props">
-          <td>{{ props.item.name }}</td>
-          <td class="text-xs-left">{{ props.item.regNo }}</td>
-          <td class="text-xs-left">{{ props.item.reportStatus }}</td>
-          <td class="text-xs-left">{{ props.item.vivaStatus }}</td>
-          <td class="text-xs-left">{{ props.item.vivaDate }}</td>
-        </template>
-        <template v-slot:no-results>
-          <v-alert
-            :value="true"
-            color="error"
-            icon="warning"
-          >Your search for "{{ search }}" found no results.</v-alert>
-        </template>
-      </v-data-table>
-    </v-card>
-  </div>
+    <div>
+        Table goes here
+    </div>
 </template>
 
 <script>
-import StudentData from "@/student-data-service.js"
 export default {
-    props: {
-          program: String
-      },
-    data() {
-        return {
-        search: "",
-        headers: [
-            {
-            text: "STUDENT NAME",
-            align: "left",
-            sortable: false,
-            value: "name"
-            },
-            {
-            text: "REGISTRATION NUMBER",
-            value: "regNo"
-            },
-            { text: "REPORT STATUS", value: "reportStatus" },
-            { text: "VIVA STATUS", value: "vivaStatus" },
-            { text: "VIVA DATE", value: "vivaDate" }
-        ],
-        students: StudentData
-        };
-    }
-};
+    
+}
 </script>
