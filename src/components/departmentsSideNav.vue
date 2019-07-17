@@ -10,12 +10,12 @@
 
       <v-list-group prepend-icon="" active-class :value="false" v-for="(department, i) in departments" :key="i">
           <template v-slot:activator>
-            <v-list-tile>
+            <v-list-tile v-on:click="clickedDepartment(department.name)">
               <v-list-tile-title>{{ department.name }}</v-list-tile-title>
             </v-list-tile>
           </template>
 
-          <v-list-tile v-for="(program, i) in department.programs" :key="i" @click="">
+          <v-list-tile v-for="(program, i) in department.programs" :key="i">
             <v-icon small light>star</v-icon>
             <v-list-tile-action style="font-size: 12px;" v-on:click="clickedLink(program.name)">{{ program.name }}</v-list-tile-action>
           </v-list-tile>
@@ -36,6 +36,9 @@ export default {
   methods: {
       clickedLink: function(programName){
           this.$emit('clickedLink', programName)
+      },
+      clickedDepartment: function(departmentName){
+        this.$emit('clickedDepartment', departmentName)
       }
   }
 }
