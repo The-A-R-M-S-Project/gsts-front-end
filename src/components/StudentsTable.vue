@@ -2,7 +2,7 @@
   <div class="">
     <v-card>
       <v-card-title>
-        DEPARTMENT NAME
+        {{ program }}
         <v-spacer></v-spacer>
         <v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details></v-text-field>
       </v-card-title>
@@ -29,26 +29,29 @@
 <script>
 import StudentData from "@/student-data-service.js"
 export default {
-  data() {
-    return {
-      search: "",
-      headers: [
-        {
-          text: "STUDENT NAME",
-          align: "left",
-          sortable: false,
-          value: "name"
-        },
-        {
-          text: "REGISTRATION NUMBER",
-          value: "regNo"
-        },
-        { text: "REPORT STATUS", value: "reportStatus" },
-        { text: "VIVA STATUS", value: "vivaStatus" },
-        { text: "VIVA DATE", value: "vivaDate" }
-      ],
-      students: StudentData
-    };
-  }
+    props: {
+          program: String
+      },
+    data() {
+        return {
+        search: "",
+        headers: [
+            {
+            text: "STUDENT NAME",
+            align: "left",
+            sortable: false,
+            value: "name"
+            },
+            {
+            text: "REGISTRATION NUMBER",
+            value: "regNo"
+            },
+            { text: "REPORT STATUS", value: "reportStatus" },
+            { text: "VIVA STATUS", value: "vivaStatus" },
+            { text: "VIVA DATE", value: "vivaDate" }
+        ],
+        students: StudentData
+        };
+    }
 };
 </script>
