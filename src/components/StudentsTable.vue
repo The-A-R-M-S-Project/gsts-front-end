@@ -1,12 +1,12 @@
 <template>
-  <div class="">
+  <div class="pa-5">
     <v-card> 
-      <div class="text-xs-left">
-        <h2>{{ program }}</h2>
-      </div>
       <v-card-title>
         <v-layout>
           <v-flex xs12 sm6 md8>
+            <div class="text-xs-left">
+              <h2>{{ program }}</h2>
+            </div>
           </v-flex>
           <v-flex xs12 sm6 md4>
             <v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details></v-text-field>
