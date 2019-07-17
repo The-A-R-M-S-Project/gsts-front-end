@@ -36,29 +36,6 @@
 <script>
 import StudentData from "@/services/student-data-service.js"
 export default {
-    props: {
-          program: String
-      },
-    data() {
-        return {
-        search: "",
-        headers: [
-            {
-            text: "STUDENT NAME",
-            align: "left",
-            sortable: false,
-            value: "name"
-            },
-            {
-            text: "REGISTRATION NUMBER",
-            value: "regNo"
-            },
-            { text: "REPORT STATUS", value: "reportStatus" },
-            { text: "VIVA STATUS", value: "vivaStatus" },
-            { text: "VIVA DATE", value: "vivaDate" }
-        ],
-        students: StudentData
-        };
-    }
-};
+    
+}
 </script>
