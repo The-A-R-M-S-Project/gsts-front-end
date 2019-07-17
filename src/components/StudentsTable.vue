@@ -1,10 +1,17 @@
 <template>
   <div class="">
-    <v-card>
+    <v-card> 
+      <div class="text-xs-center">
+        <h2>{{ program }}</h2>
+      </div>
       <v-card-title>
-        {{ program }}
-        <v-spacer></v-spacer>
-        <v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details></v-text-field>
+        <v-layout>
+          <v-flex xs12 sm6 md8>
+          </v-flex>
+          <v-flex xs12 sm6 md4>
+            <v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details></v-text-field>
+          </v-flex>
+        </v-layout>
       </v-card-title>
       <v-data-table :headers="headers" :items="students" :search="search">
         <template v-slot:items="props">
