@@ -3,6 +3,7 @@ import Router from "vue-router";
 import Login from "./views/Login.vue";
 import Register from "./views/Register.vue";
 import Dashboard from "./views/AdminDashboard.vue";
+import Departments from "./views/Departments.vue"
 
 
 Vue.use(Router);
@@ -24,5 +25,10 @@ export default new Router({
       name: "dasboard",
       component: Dashboard
     },
+    {
+      path: "/departments",
+      name: "departments",
+      component: Departments
+    }
   ]
 });
