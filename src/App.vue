@@ -1,26 +1,26 @@
 <template>
   <v-app>
     <v-content>
-      <router-view/>
+      <router-view />
     </v-content>
   </v-app>
 </template>
 <script>
-
 export default {
-  name: 'App',
+  name: "App",
 
-  data () {
-    return {
-
-    }
+  data() {
+    return {};
   }
-}
+};
 </script>
 <style lang="scss">
-  #app {
-      font-family: 'Comfortaa', cursive;
-  }
+#app {
+  font-family: "Comfortaa", cursive;
+}
+.custom-font-family {
+  font-family: "Comfortaa", cursive !important;
+}
 </style>
 
 
