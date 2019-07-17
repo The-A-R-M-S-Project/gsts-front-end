@@ -7,7 +7,7 @@
             <v-flex md3 pt-5>
                 <SideNav @clickedLink="setProgram" @clickedDepartment="setDepartment"></SideNav>
             </v-flex>
-            <v-flex md9 pt-5 style="height: 90vh;" class="scroll-y">
+            <v-flex md9 pt-5 style="height: 95vh;" class="scroll-y">
                 <v-container>
                     <h1 class="text-xs-center">{{ department+' Engineering'}}</h1>
                     <StudentsTable :program="program"></StudentsTable>
