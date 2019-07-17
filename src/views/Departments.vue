@@ -17,7 +17,11 @@
     </div>
 </template>
 <style>
-
+.navbar{
+    position: fixed; 
+    z-index: 1; 
+    width: 100%;
+}
 </style>
 <script>
 import StudentsTable from "@/components/StudentsTable.vue"
