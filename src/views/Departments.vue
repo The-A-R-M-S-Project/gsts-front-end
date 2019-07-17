@@ -2,11 +2,13 @@
     <div>
         <!-- <Navigation/> -->
         <v-layout row wrap>
-            <v-flex md2>
-                <!-- <Sidenav/> -->
+            <v-flex md2 pt-4>
+                <SideNav/>
             </v-flex>
-            <v-flex md10 pa-2>
-                <StudentsTable/>
+            <v-flex md10>
+                <v-container>
+                    <StudentsTable/>
+                </v-container>
             </v-flex>
         </v-layout>
     </div>
@@ -14,9 +16,11 @@
 
 <script>
 import StudentsTable from "@/components/StudentsTable.vue"
+import SideNav from "@/components/departmentsSideNav.vue"
     export default {
         components: {
-            StudentsTable
+            StudentsTable,
+            SideNav
         },
         
     }
