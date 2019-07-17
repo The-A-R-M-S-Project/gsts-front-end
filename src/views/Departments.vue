@@ -43,5 +43,7 @@ import Navigation from "@/components/Navbar.vue"
             setDepartment(departmentName){
                 this.department = departmentName
             }
-        }}
+        }
+        
+    }
 </script>
