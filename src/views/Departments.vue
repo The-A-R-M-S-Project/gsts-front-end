@@ -16,7 +16,6 @@
         </v-layout>
     </div>
 </template>
-<style>
 
 </style>
 
