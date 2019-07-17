@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer stateless value="true" style="height: 95vh;">
+  <v-navigation-drawer stateless value="true" style="height: 89vh;">
     <v-list>
       <v-list-tile>
         <v-list-tile-action>
@@ -8,9 +8,9 @@
         <v-list-tile-title>Departments</v-list-tile-title>
       </v-list-tile>
 
-      <v-list-group prepend-icon="" active-class :value="false" v-for="(department, i) in departments" :key="i">
+      <v-list-group prepend-icon="" active-class :value="false" v-for="(department, i) in departments" :key="i" v-on:click="clickedDepartment(department.name)">
           <template v-slot:activator>
-            <v-list-tile v-on:click="clickedDepartment(department.name)">
+            <v-list-tile >
               <v-list-tile-title>{{ department.name }}</v-list-tile-title>
             </v-list-tile>
           </template>
