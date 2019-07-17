@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer stateless value="true">
+  <v-navigation-drawer stateless value="true" style="height: 95vh;">
     <v-list>
       <v-list-tile>
         <v-list-tile-action>
