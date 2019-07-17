@@ -17,7 +17,7 @@
 
           <v-list-tile v-for="(program, i) in department.programs" :key="i">
             <v-icon small light>star</v-icon>
-            <v-list-tile-action style="font-size: 12px;" v-on:click="clickedLink(program.name)">{{ program.name }}</v-list-tile-action>
+            <v-list-tile-action style="font-size: 12px;">{{ program.name }}</v-list-tile-action>
           </v-list-tile>
 
         </v-list-group>
