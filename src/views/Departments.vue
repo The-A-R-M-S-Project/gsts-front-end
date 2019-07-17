@@ -3,10 +3,11 @@
         <!-- <Navigation/> -->
         <v-layout row wrap>
             <v-flex md3 pt-4>
-                <SideNav @clickedLink="setProgram"></SideNav>
+                <SideNav @clickedLink="setProgram" @clickedDepartment="setDepartment"></SideNav>
             </v-flex>
             <v-flex md9 style="height: 95vh;" class="scroll-y">
                 <v-container>
+                    <h1 class="text-xs-center">{{ department+' Engineering'}}</h1>
                     <StudentsTable :program="program"></StudentsTable>
                 </v-container>
             </v-flex>
@@ -26,12 +27,16 @@ import SideNav from "@/components/departmentsSideNav.vue"
         },
         data(){
             return{
-                program: null
+                program: null,
+                department: 'Electrical and Computer'
             }
         },
         methods: {
             setProgram(programName){
                 this.program = programName
+            },
+            setDepartment(departmentName){
+                this.department = departmentName
             }
         }
         
