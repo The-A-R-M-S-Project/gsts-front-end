@@ -1,9 +1,6 @@
 <template>
   <div class="pa-5">
     <v-card> 
-      <div class="text-xs-left">
-        <h2>{{ program }}</h2>
-      </div>
       <v-card-title>
         <v-layout>
           <v-flex xs12 sm6 md8>
