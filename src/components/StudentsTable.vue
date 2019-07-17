@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="">
     <v-card>
       <v-card-title>
         DEPARTMENT NAME
