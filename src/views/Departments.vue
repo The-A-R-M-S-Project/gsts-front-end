@@ -19,6 +19,7 @@
 <style>
 
 </style>
+
 <script>
 import StudentsTable from "@/components/StudentsTable.vue"
 import SideNav from "@/components/departmentsSideNav.vue"
@@ -42,7 +43,5 @@ import Navigation from "@/components/Navbar.vue"
             setDepartment(departmentName){
                 this.department = departmentName
             }
-        }
-        
-    }
+        }}
 </script>
