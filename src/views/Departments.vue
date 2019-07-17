@@ -2,10 +2,10 @@
     <div>
         <!-- <Navigation/> -->
         <v-layout row wrap>
-            <v-flex md2 pt-4>
+            <v-flex md3 pt-4>
                 <SideNav/>
             </v-flex>
-            <v-flex md10>
+            <v-flex md9 style="height: 95vh;" class="scroll-y">
                 <v-container>
                     <StudentsTable/>
                 </v-container>
@@ -13,7 +13,9 @@
         </v-layout>
     </div>
 </template>
+<style>
 
+</style>
 <script>
 import StudentsTable from "@/components/StudentsTable.vue"
 import SideNav from "@/components/departmentsSideNav.vue"
