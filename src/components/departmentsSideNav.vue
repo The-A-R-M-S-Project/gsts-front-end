@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import Departments from "@/departments-service.js"
+import Departments from "@/services/departments-service.js"
 export default {
   data() {
       return{

@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import StudentData from "@/student-data-service.js"
+import StudentData from "@/services/student-data-service.js"
 export default {
     props: {
           program: String
