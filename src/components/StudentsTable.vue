@@ -1,7 +1,7 @@
 <template>
   <div class="">
     <v-card> 
-      <div class="text-xs-center">
+      <div class="text-xs-left">
         <h2>{{ program }}</h2>
       </div>
       <v-card-title>
