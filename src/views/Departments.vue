@@ -3,11 +3,11 @@
         <!-- <Navigation/> -->
         <v-layout row wrap>
             <v-flex md3 pt-4>
-                <SideNav/>
+                <SideNav @clickedLink="setProgram"></SideNav>
             </v-flex>
             <v-flex md9 style="height: 95vh;" class="scroll-y">
                 <v-container>
-                    <StudentsTable/>
+                    <StudentsTable :program="program"></StudentsTable>
                 </v-container>
             </v-flex>
         </v-layout>
@@ -24,6 +24,16 @@ import SideNav from "@/components/departmentsSideNav.vue"
             StudentsTable,
             SideNav
         },
+        data(){
+            return{
+                program: null
+            }
+        },
+        methods: {
+            setProgram(programName){
+                this.program = programName
+            }
+        }
         
     }
 </script>
