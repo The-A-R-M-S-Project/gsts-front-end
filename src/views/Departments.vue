@@ -5,7 +5,7 @@
             <v-flex md2>
                 <!-- <Sidenav/> -->
             </v-flex>
-            <v-flex md10>
+            <v-flex md10 pa-2>
                 <StudentsTable/>
             </v-flex>
         </v-layout>
@@ -15,6 +15,9 @@
 <script>
 import StudentsTable from "@/components/StudentsTable.vue"
     export default {
-
+        components: {
+            StudentsTable
+        },
+        
     }
 </script>
