@@ -97,25 +97,17 @@ export default {
     return {
       e6: 1,
       examiner: true,
-      reportMark: true,
       date: "",
       cleared: false
     };
-  },
-  methods: {
-    examinerCleared() {
       this.examiner ? (this.e6 = 4) : (this.e6 = 3);
     },
     setDate() {
-      return (
+      this.date =
         "on " +
         new Date().toLocaleDateString() +
         " " +
-        new Date().toLocaleTimeString()
-      );
-    },
-    vivaDone() {
-      this.cleared = true;
+        new Date().toLocaleTimeString();
     }
   }
 };
