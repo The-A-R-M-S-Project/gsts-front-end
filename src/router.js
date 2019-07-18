@@ -4,7 +4,7 @@ import Login from "./views/Login.vue";
 import Register from "./views/Register.vue";
 import Dashboard from "./views/AdminDashboard.vue";
 import Departments from "./views/Departments.vue";
-import StudentDetails from "./views/AdminStudentView.vue";
+import StudentDetails from "./views/StudentDashboard.vue";
 
 
 
