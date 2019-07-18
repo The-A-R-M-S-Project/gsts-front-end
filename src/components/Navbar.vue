@@ -3,7 +3,7 @@
     <v-toolbar fixed color="white">
       <v-toolbar-title>G.S.T.S</v-toolbar-title>
       <div>
-        <v-btn flat small round style="background-color: yellow">Dashboard</v-btn>
+        <v-btn flat small round style="background-color: yellow" class="font-weight-bold">Dashboard</v-btn>
         <v-btn flat small>Departments</v-btn>
         <v-btn flat small>Examiners</v-btn>
       </div>
