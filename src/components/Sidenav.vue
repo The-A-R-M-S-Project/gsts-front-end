@@ -8,7 +8,7 @@
               <img src="~@/assets/img/joyce-mccown-whitebooks.jpg" />
             </v-list-tile-avatar>
             <v-list-tile-content elevation="10">
-              <v-list-tile-title class="title">Admin</v-list-tile-title>
+              <v-list-tile-title class="font-weight-bold">Admin</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
         </v-list>
@@ -43,7 +43,8 @@ export default {
 </script>
 <style lang="scss">
 .side-nav-link:hover {
-  background-color: yellow;
+  background-color: lightgrey;
+  font-weight: 900;
 }
 // .side-nav-link:active {
 //   background-color: red;
