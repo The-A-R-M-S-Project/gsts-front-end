@@ -3,7 +3,7 @@
         <div class="navbar">
             <Navigation/>
         </div>
-        <v-layout row wrap pt-4>
+        <v-layout row pt-4>
             <v-flex md3 pt-5>
                 <SideNav @clickedLink="setProgram" @clickedDepartment="setDepartment"></SideNav>
             </v-flex>
