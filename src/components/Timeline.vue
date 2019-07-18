@@ -68,9 +68,23 @@
         </v-stepper-content>
       </v-stepper>
     </div>
-    <div v-if="cleared">
-        student was cleared
-    </div>
+    <v-container
+      v-if="cleared"
+      style="display: flex;"
+      class="full-height full-width"
+      text-xs-center
+    >
+      <v-layout row wrap>
+        <v-flex xs12 justify-center>
+          <v-avatar size="400" color="white">
+            <v-icon size="250px" color="success">done</v-icon>
+          </v-avatar>
+        </v-flex>
+        <v-flex xs12 justify-center pa-2>
+          <h1>Student is cleared</h1>
+        </v-flex>
+      </v-layout>
+    </v-container>
   </div>
 </template>
 <script>
@@ -97,8 +111,8 @@ export default {
       );
     },
     vivaDone() {
-        this.cleared = true
-    },
+      this.cleared = true;
+    }
   }
 };
 </script>
