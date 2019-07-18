@@ -7,21 +7,20 @@ import AdminDashboard from "./views/AdminDashboard.vue";
 Vue.use(Router);
 
 export default new Router({
-	routes: [
-		{
-			path: "/",
-			name: "login",
-			component: Login
-		},
-		{
-			path: "/register",
-			name: "register",
-			component: Register
-		},
-		{
-			path: "/admin-dashboard",
-			name: "admin-dasboard",
-			component: AdminDashboard
-		}
-	]
+  routes: [{
+      path: "/",
+      name: "login",
+      component: Login
+    },
+    {
+      path: "/register",
+      name: "register",
+      component: Register
+    },
+    {
+      path: "/admin-dashboard",
+      name: "admin-dasboard",
+      component: AdminDashboard
+    }
+  ]
 });
