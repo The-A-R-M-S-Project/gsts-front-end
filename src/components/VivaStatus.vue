@@ -16,7 +16,8 @@ export default {
             {
               label: "Viva Status",
               data: [10, 20],
-              backgroundColor: ["#AA00FF", "#CFD8DC"]
+              backgroundColor: ["#ffffff", "#263238"],
+              borderWidth: [0, 0, 0, 0]
             }
           ],
           labels: ["done", "pending"]
@@ -24,7 +25,11 @@ export default {
         options: {
           responsive: true,
           legend: {
-            position: "bottom"
+            position: "bottom",
+            labels: {
+              fontColor: "white",
+              fontSize: 15
+            }
           },
           cutoutPercentage: 93,
           layout: {
