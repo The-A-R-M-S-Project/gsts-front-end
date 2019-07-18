@@ -6,8 +6,6 @@ import AdminDashboard from "./views/AdminDashboard.vue";
 import Departments from "./views/Departments.vue";
 import StudentDetails from "./views/AdminStudentView.vue";
 
-
-
 Vue.use(Router);
 
 export default new Router({
