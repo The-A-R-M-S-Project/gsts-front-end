@@ -21,6 +21,11 @@ export default {
 .custom-font-family {
   font-family: "Comfortaa", cursive !important;
 }
+.navbar{
+    position: fixed; 
+    z-index: 1; 
+    width: 100%;
+}
 </style>
 
 
