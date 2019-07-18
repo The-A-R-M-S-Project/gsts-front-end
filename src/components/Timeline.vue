@@ -1,113 +1,84 @@
 <template>
-  <v-container style="max-width: 600px;">
-    <v-timeline dense clipped>
-      <v-timeline-item fill-dot class="white--text mb-5" color="orange" large>
-        <template v-slot:icon>
-          <span>JL</span>
-        </template>
-        <v-text-field
-          v-model="input"
-          hide-details
-          flat
-          label="Leave a comment..."
-          solo
-          @keydown.enter="comment"
-        >
-          <template v-slot:append>
-            <v-btn class="mx-0" depressed @click="comment">Post</v-btn>
-          </template>
-        </v-text-field>
-      </v-timeline-item>
+  <v-stepper v-model="e6" vertical>
+    <v-stepper-step :complete="e6 > 1" step="1">
+      Report handed In
+      <small>Report handed to Deputy Principal by Student {{' '+date}}</small>
+    </v-stepper-step>
 
-      <v-slide-x-transition group>
-        <v-timeline-item v-for="event in timeline" :key="event.id" class="mb-3" color="pink" small>
-          <v-layout justify-space-between>
-            <v-flex xs7 v-text="event.text"></v-flex>
-            <v-flex xs5 text-xs-right v-text="event.time"></v-flex>
-          </v-layout>
-        </v-timeline-item>
-      </v-slide-x-transition>
+    <v-stepper-content step="1">
+      <v-btn color="primary" @click="e6 = 2, setDate()">Report Submitted</v-btn>
+      <v-btn flat>Cancel</v-btn>
+    </v-stepper-content>
 
-      <v-timeline-item class="mb-4" hide-dot>
-        <span>TODAY</span>
-      </v-timeline-item>
+    <v-stepper-step :complete="e6 > 2" step="2">
+      Report sent to examiner
+      <small>Report forwarded to examiner by Deputy Principal</small>
+    </v-stepper-step>
 
-      <v-timeline-item class="mb-3" color="grey" icon-color="grey lighten-2" small>
-        <v-layout justify-space-between>
-          <v-flex xs7>This order was archived.</v-flex>
-          <v-flex xs5 text-xs-right>15:26 EDT</v-flex>
-        </v-layout>
-      </v-timeline-item>
+    <v-stepper-content step="2">
+      <v-card color="grey lighten-1" class="mb-5" height="200px"></v-card>
+      <v-btn color="primary" @click="e6 = 3, setDate()">Continue</v-btn>
+      <v-btn flat @click="e6 = 1">Cancel</v-btn>
+    </v-stepper-content>
 
-      <v-timeline-item class="mb-3" small>
-        <v-layout justify-space-between>
-          <v-flex xs7>
-            <v-chip class="white--text ml-0" color="purple" label small>APP</v-chip>Digital Downloads fulfilled 1 item.
-          </v-flex>
-          <v-flex xs5 text-xs-right>15:25 EDT</v-flex>
-        </v-layout>
-      </v-timeline-item>
+    <v-stepper-step :complete="e6 > 3" step="3">
+      Report received by examiner
+      <small></small>
+    </v-stepper-step>
 
-      <v-timeline-item class="mb-3" color="grey" small>
-        <v-layout justify-space-between>
-          <v-flex xs7>Order confirmation email was sent to John Leider (john@vuetifyjs.com).</v-flex>
-          <v-flex xs5 text-xs-right>15:25 EDT</v-flex>
-        </v-layout>
-      </v-timeline-item>
+    <v-stepper-content step="3">
+      <v-card color="grey lighten-1" class="mb-5" height="200px"></v-card>
+      <v-btn color="primary" @click="examinerCleared()">Continue</v-btn>
+      <v-btn flat @click="e6 = 2">Cancel</v-btn>-->
+    </v-stepper-content>
 
-      <v-timeline-item class="mb-3" hide-dot>
-        <v-btn class="mx-0" color="white">Resend Email</v-btn>
-      </v-timeline-item>
+    <v-stepper-step :complete="e6 > 4" step="4">
+      Report received by examiner
+      <small></small>
+    </v-stepper-step>
 
-      <v-timeline-item class="mb-3" color="grey" small>
-        <v-layout justify-space-between>
-          <v-flex xs7>A $15.00 USD payment was processed on PayPal Express Checkout</v-flex>
-          <v-flex xs5 text-xs-right>15:25 EDT</v-flex>
-        </v-layout>
-      </v-timeline-item>
+    <v-stepper-content step="4">
+      <v-card color="grey lighten-1" class="mb-5" height="200px"></v-card>
+      <v-btn color="primary" @click="examinerReturnedMark()">Continue</v-btn>
+      <v-btn flat @click="e6 = 3">Cancel</v-btn>-->
+    </v-stepper-content>
 
-      <v-timeline-item color="grey" small>
-        <v-layout justify-space-between>
-          <v-flex xs7>John Leider placed this order on Online Store (checkout #1937432132572).</v-flex>
-          <v-flex xs5 text-xs-right>15:25 EDT</v-flex>
-        </v-layout>
-      </v-timeline-item>
-    </v-timeline>
-  </v-container>
+    <v-stepper-step :complete="e6 > 5" step="5">Viva date set</v-stepper-step>
+
+    <v-stepper-content step="5">
+      <v-card color="grey lighten-1" class="mb-5" height="200px"></v-card>
+      <v-btn color="primary" @click="e6 = 6">set date</v-btn>
+      <v-btn flat @click="e6 = 4">Cancel</v-btn>
+    </v-stepper-content>
+
+    <v-stepper-step step="6">Viva pending</v-stepper-step>
+
+    <v-stepper-content step="5">
+      <v-card color="grey lighten-1" class="mb-5" height="200px"></v-card>
+      <v-btn color="primary" @click>Done</v-btn>
+      <v-btn flat @click="e6 = 5">Cancel</v-btn>
+    </v-stepper-content>
+  </v-stepper>
 </template>
 <script>
 export default {
-  name: "studentview",
-  data: () => ({
-    events: [],
-    input: null,
-    nonce: 0
-  }),
-
-  computed: {
-    timeline() {
-      return this.events.slice().reverse();
-    }
+  data() {
+    return {
+      e6: 1,
+      examiner: true,
+      date: ""
+    };
   },
-
   methods: {
-    comment() {
-      const time = new Date().toTimeString();
-      this.events.push({
-        id: this.nonce++,
-        text: this.input,
-        time: time.replace(
-          /:\d{2}\sGMT-\d{4}\s\((.*)\)/,
-          (match, contents, offset) => {
-            return ` ${contents
-              .split(" ")
-              .map(v => v.charAt(0))
-              .join("")}`;
-          }
-        )
-      });
-
-      this.input = null;
+    examinerCleared() {
+      this.examiner ? (this.e6 = 4) : (this.e6 = 3);
+    },
+    setDate() {
+      this.date =
+        "on " +
+        new Date().toLocaleDateString() +
+        " " +
+        new Date().toLocaleTimeString();
     }
   }
 };
