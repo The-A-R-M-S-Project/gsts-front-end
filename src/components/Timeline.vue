@@ -112,8 +112,8 @@ export default {
       );
     },
     vivaDone() {
-        this.cleared = true
-    },
+      this.cleared = true;
+    }
   }
 };
 </script>
