@@ -1,17 +1,17 @@
 <template>
-  <div>
+  <div class="admin-dashboard">
     <Navigation />
-    <div class="pa-3">
-      <v-card flat min-height="95vh" class="transparent">
-        <v-layout row wrap>
-          <v-flex sm2>
-            <Sidenav />
-          </v-flex>
-          <v-flex sm10>
+    <v-container fluid pt-5 class="grey lighten-2">
+      <v-layout mt-5>
+        <v-flex md2>
+          <Sidenav height="100%" class="side-navigation" />
+        </v-flex>
+        <v-flex md10>
+          <v-layout row wrap>
             <v-card class="transparent" flat>
               <v-layout row wrap>
                 <v-flex sm12 md4 pb-3 pr-2>
-                  <v-card>
+                  <v-card flat>
                     <v-card-text pa-1>
                       <h2 class="text-xs-center custom-font-family headline">Viva Status</h2>
                       <div class="text-xs-center mt-4 mb-3">
@@ -20,8 +20,8 @@
                     </v-card-text>
                   </v-card>
                 </v-flex>
-                <v-flex sm12 md8 pb-3 pl-2>
-                  <v-card>
+                <v-flex xs12 md8 pb-3 pl-2>
+                  <v-card flat>
                     <v-card-text pa-1>
                       <h2 class="text-xs-center custom-font-family headline">Report Status</h2>
                     </v-card-text>
@@ -29,7 +29,7 @@
                   </v-card>
                 </v-flex>
                 <v-flex sm12 pb-3>
-                  <v-card>
+                  <v-card flat>
                     <v-card-text pa-1>
                       <h2 class="text-xs-center custom-font-family headline">Performance</h2>
                       <PerfomanceChart />
@@ -37,7 +37,7 @@
                   </v-card>
                 </v-flex>
                 <v-flex sm12 pb-3>
-                  <v-card>
+                  <v-card flat>
                     <v-card-text pa-1>
                       <h2 class="text-xs-center custom-font-family headline">Events Calendar</h2>
                     </v-card-text>
@@ -46,10 +46,10 @@
                 </v-flex>
               </v-layout>
             </v-card>
-          </v-flex>
-        </v-layout>
-      </v-card>
-    </div>
+          </v-layout>
+        </v-flex>
+      </v-layout>
+    </v-container>
   </div>
 </template>
 
@@ -61,7 +61,7 @@ import ReportStatus from "@/components/ReportStatus.vue";
 import PerfomanceChart from "@/components/Perfomance.vue";
 import Calendar from "@/components/Calendar.vue";
 export default {
-  name: "dashboard",
+  name: "admin-dashboard-layout",
   components: {
     Navigation,
     Sidenav,
@@ -74,4 +74,8 @@ export default {
 </script>
 
 <style lang="scss">
+.side-navigation {
+  position: sticky;
+  top: 30px;
+}
 </style>
