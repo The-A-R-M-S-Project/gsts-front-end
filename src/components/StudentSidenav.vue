@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import Departments from "@/services/departments-service.js"
 export default {
   methods: {
     clickedReportStatus: function() {
