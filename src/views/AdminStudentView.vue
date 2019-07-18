@@ -1,0 +1,31 @@
+<template>
+  <div>
+    <div class="navbar">
+        <Navigation/>
+    </div>
+    <div class="pt-5">
+      <v-layout row pt-4>
+        <v-flex md3>
+          <Sidenav/>
+        </v-flex>
+        <v-flex md9 style="height: 95vh;" class="scroll-y">
+          <Timeline/>
+        </v-flex>
+      </v-layout>
+    </div>
+    
+  </div>
+</template>
+<script>
+import Navigation from "@/components/Navbar.vue"
+import Timeline from "@/components/Timeline.vue"
+import Sidenav from "@/components/StudentSidenav.vue"
+export default {
+  name: "studentview",
+  components: {
+    Timeline,
+    Navigation,
+    Sidenav,
+  },
+};
+</script>
