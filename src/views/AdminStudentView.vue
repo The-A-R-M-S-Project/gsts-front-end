@@ -8,7 +8,7 @@
         <v-flex md3>
           <Sidenav/>
         </v-flex>
-        <v-flex md9 style="height: 95vh;" class="scroll-y">
+        <v-flex md9 style="height: 88vh;" class="scroll-y">
           <Timeline/>
         </v-flex>
       </v-layout>
