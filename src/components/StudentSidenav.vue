@@ -1,31 +1,46 @@
 <template>
   <v-navigation-drawer stateless value="true" style="height: 89vh;">
-    <v-toolbar flat style="display: flex;" class="transparent justify-center pl-0" height="220">
-        <v-avatar color="blue grey lighten-2" size="200">
-            <v-icon dark size="150px">person</v-icon>
-        </v-avatar>
-    </v-toolbar>
-
-    <v-list class="pt-0" dense>
-      <v-divider></v-divider>
-
-      <v-list-tile @click="">
-        <v-list-tile-content>
-          <v-list-tile-title>Report Status</v-list-tile-title>
-        </v-list-tile-content>
+    <v-list>
+      <v-list-tile>
+        <v-list-tile-action>
+          <v-icon>home</v-icon>
+        </v-list-tile-action>
+        <v-list-tile-title>Departments</v-list-tile-title>
       </v-list-tile>
-      <v-list-tile @click="">
-        <v-list-tile-content>
-          <v-list-tile-title>Academic Profile</v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
+
+      <v-list-group prepend-icon="" active-class :value="false" v-for="(department, i) in departments" :key="i" v-on:click="clickedDepartment(department.name)">
+          <template v-slot:activator>
+            <v-list-tile >
+              <v-list-tile-title>{{ department.name }}</v-list-tile-title>
+            </v-list-tile>
+          </template>
+
+          <v-list-tile v-for="(program, i) in department.programs" :key="i">
+            <v-icon small light>star</v-icon>
+            <v-list-tile-action style="font-size: 12px;" v-on:click="clickedLink(program.name)">{{ program.name }}</v-list-tile-action>
+          </v-list-tile>
+
+        </v-list-group>
     </v-list>
   </v-navigation-drawer>
 </template>
 
 <script>
+import Departments from "@/services/departments-service.js"
 export default {
-  methods: {}
-};
+  data() {
+      return{
+        departments: Departments.ECEdepartments
+      }
+  },
+  methods: {
+      clickedLink: function(programName){
+          this.$emit('clickedLink', programName)
+      },
+      clickedDepartment: function(departmentName){
+        this.$emit('clickedDepartment', departmentName)
+      }
+  }
+}
 </script>
 
