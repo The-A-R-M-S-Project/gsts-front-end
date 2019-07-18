@@ -69,7 +69,7 @@
       </v-stepper>
     </div>
     <div v-if="cleared">
-
+        student was cleared
     </div>
   </div>
 </template>
