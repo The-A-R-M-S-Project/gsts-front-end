@@ -11,7 +11,8 @@ import StudentDetails from "./views/AdminStudentView.vue";
 Vue.use(Router);
 
 export default new Router({
-  routes: [{
+  routes: [
+    {
       path: "/",
       name: "login",
       component: Login
