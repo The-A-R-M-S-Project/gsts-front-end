@@ -111,5 +111,4 @@ export default {
       this.cleared = true;
     }
   }
-};
 </script>
