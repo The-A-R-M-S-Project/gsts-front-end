@@ -9,7 +9,7 @@
     <v-list class="pt-0" dense>
       <v-divider></v-divider>
 
-      <v-list-tile @click="">
+      <v-list-tile @click="clickedReportStatus()">
         <v-list-tile-content>
           <v-list-tile-title>Report Status</v-list-tile-title>
         </v-list-tile-content>
@@ -25,7 +25,12 @@
 
 <script>
 export default {
-  methods: {}
+  methods: {
+    clickedReportStatus: function() {
+      let route = 'timeline'
+      this.$emit('routeChange', route)
+    },
+  }
 };
 </script>
 
