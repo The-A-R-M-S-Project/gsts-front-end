@@ -5,7 +5,9 @@
             <v-icon dark size="150px">person</v-icon>
         </v-avatar>
     </v-toolbar>
-
+    <div class="text-xs-center">
+      student name
+    </div>
     <v-list class="pt-0" dense>
       <v-divider></v-divider>
 
