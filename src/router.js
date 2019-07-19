@@ -7,6 +7,8 @@ import Departments from "./views/Departments.vue";
 import StudentDetails from "./views/AdminStudentView.vue";
 import Examiners from "./views/Examiners.vue";
 
+
+
 Vue.use(Router);
 
 export default new Router({
