@@ -10,7 +10,7 @@
       </v-card-title>
       <v-data-table :headers="headers" :items="examiners" :search="search">
         <template v-slot:items="props">
-          <td>{{ props.item.name }}</td>
+          <router-link to="/examinerprofile"><td>{{ props.item.name }}</td></router-link>
           <td class="text-xs-left">{{ props.item.department }}</td>
           <td class="text-xs-left">{{ props.item.category }}</td>
           <td class="text-xs-left">{{ props.item.offNo }}</td>
