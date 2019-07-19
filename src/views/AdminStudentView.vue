@@ -12,7 +12,7 @@
           <Timeline/>
         </v-flex>
         <v-flex v-else md9 style="height: 88vh;" class="scroll-y">
-          student profile goes here
+          <StudentProfile/>
         </v-flex>
       </v-layout>
     </div>
@@ -23,12 +23,14 @@
 import Navigation from "@/components/Navbar.vue"
 import Timeline from "@/components/Timeline.vue"
 import Sidenav from "@/components/StudentSidenav.vue"
+import StudentProfile from "@/components/StudentProfile.vue"
 export default {
   name: "studentview",
   components: {
     Timeline,
     Navigation,
     Sidenav,
+    StudentProfile
   },
   data() {
     return {
