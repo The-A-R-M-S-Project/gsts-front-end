@@ -4,13 +4,10 @@
             <Navigation/>
         </div>
         <v-layout row pt-4>
-            <v-flex md3 pt-5>
-                <SideNav @clickedLink="setProgram" @clickedDepartment="setDepartment"></SideNav>
-            </v-flex>
-            <v-flex md9 pt-5 style="height: 95vh;" class="scroll-y">
-                <v-container>
-                    <h1 class="text-xs-center">{{ department+' Engineering'}}</h1>
-                    <StudentsTable :program="program"></StudentsTable>
+            <v-flex pt-5 style="height: 95vh;" class="scroll-y">
+                <v-container fluid>
+                    <h1 class="text-xs-center">Table Of Examiners</h1>
+                    <ExaminersTable :program="program"></ExaminersTable>
                 </v-container>
             </v-flex>
         </v-layout>
@@ -20,27 +17,12 @@
 
 </style>
 <script>
-import SideNav from "@/components/departmentsSideNav.vue"
 import Navigation from "@/components/Navbar.vue"
+import ExaminersTable from "@/components/ExaminersTable.vue"
     export default {
         components: {
-            SideNav,
-            Navigation
+            Navigation,
+            ExaminersTable
         },
-        data(){
-            return{
-                program: null,
-                department: 'Electrical and Computer'
-            }
-        },
-        methods: {
-            setProgram(programName){
-                this.program = programName
-            },
-            setDepartment(departmentName){
-                this.department = departmentName
-            }
-        }
-        
     }
 </script>
