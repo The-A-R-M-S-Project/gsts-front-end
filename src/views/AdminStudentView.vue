@@ -6,10 +6,13 @@
     <div class="pt-5">
       <v-layout row pt-4>
         <v-flex md3>
-          <Sidenav/>
+          <Sidenav @routeChange="setTimelineRoute"/>
         </v-flex>
-        <v-flex md9 style="height: 88vh;" class="scroll-y">
+        <v-flex v-if="route===`timeline`" md9 style="height: 88vh;" class="scroll-y">
           <Timeline/>
+        </v-flex>
+        <v-flex v-else md9 style="height: 88vh;" class="scroll-y">
+          student profile goes here
         </v-flex>
       </v-layout>
     </div>
@@ -27,5 +30,15 @@ export default {
     Navigation,
     Sidenav,
   },
+  data() {
+    return {
+      route: ""
+    }
+  },
+  methods: {
+    setTimelineRoute(route) {
+      this.route = route
+    }
+  }
 };
 </script>
