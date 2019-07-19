@@ -6,7 +6,7 @@
     <div class="pt-5">
       <v-layout row pt-4>
         <v-flex md3>
-          <Sidenav @routeChange="setTimelineRoute"/>
+          <Sidenav @routeChange="setTimelineRoute" @clickedProfile="setTimelineRoute"/>
         </v-flex>
         <v-flex v-if="route===`timeline`" md9 style="height: 88vh;" class="scroll-y">
           <Timeline/>
