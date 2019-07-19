@@ -59,9 +59,10 @@
           Viva pending
           <small></small>
         </v-stepper-step>
-
         <v-stepper-content step="6">
-          <v-card color="grey lighten-1" class="mb-5" height="200px"></v-card>
+          <v-card class="mb-5">
+            <v-text-field prepend-icon="grade" label="Enter Score" value="score" mask="##"></v-text-field>
+          </v-card>
           <v-btn color="primary" @click="vivaDone()">Done</v-btn>
           <v-btn flat @click="e6 = 5">Cancel</v-btn>
         </v-stepper-content>
