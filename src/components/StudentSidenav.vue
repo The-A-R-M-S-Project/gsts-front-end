@@ -14,9 +14,9 @@
           <v-list-tile-title>Report Status</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
-      <v-list-tile @click="">
+      <v-list-tile @click="clickedProfile()">
         <v-list-tile-content>
-          <v-list-tile-title>Academic Profile</v-list-tile-title>
+          <v-list-tile-title>Profile</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
     </v-list>
@@ -30,6 +30,10 @@ export default {
       let route = 'timeline'
       this.$emit('routeChange', route)
     },
+    clickedProfile: function() {
+      let route = 'profile'
+      this.$emit('clickedProfile', route)
+    }
   }
 };
 </script>
