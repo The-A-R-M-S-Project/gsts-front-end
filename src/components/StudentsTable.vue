@@ -15,7 +15,7 @@
       </v-card-title>
       <v-data-table :headers="headers" :items="students" :search="search">
         <template v-slot:items="props">
-          <td>{{ props.item.name }}</td>
+          <router-link to="/student_view"><td>{{ props.item.name }}</td></router-link>
           <td class="text-xs-left">{{ props.item.regNo }}</td>
           <td class="text-xs-left">{{ props.item.reportStatus }}</td>
           <td class="text-xs-left">{{ props.item.vivaStatus }}</td>
