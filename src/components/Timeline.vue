@@ -48,8 +48,8 @@
         </v-stepper-step>
 
         <v-stepper-content step="5">
-          <v-card color="grey lighten-1" class="mb-5" height="200px">
-
+          <v-card flat class="mb-5">
+            <DatePicker :landscape="true"/>
           </v-card>
           <v-btn color="primary" @click="e6 = 6">set date</v-btn>
           <v-btn flat @click="e6 = 4">Cancel</v-btn>
@@ -87,7 +87,11 @@
   </div>
 </template>
 <script>
+import DatePicker from "@/components/DatePicker.vue"
 export default {
+  components: {
+    DatePicker
+  },
   data() {
     return {
       e6: 1,
