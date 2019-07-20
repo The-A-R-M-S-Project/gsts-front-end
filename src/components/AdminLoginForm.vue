@@ -16,13 +16,14 @@
         prepend-inner-icon="lock"
         type="password"
       ></v-text-field>
-      <div class>
+      <div class="px-5">
         <v-btn
           round
           large
+          block
           depressed
           ripple
-          class="yellow accent-1"
+          class="yellow font-weight-bold"
           type="submit"
           v-on:click="submitForm"
         >Login</v-btn>
@@ -32,7 +33,7 @@
 </template>
 <script>
 export default {
-  name: "LoginForm",
+  name: "admin-login-form",
   data: () => ({
     email: undefined,
     form: false,
@@ -47,9 +48,22 @@ export default {
     }
   }),
   methods: {
-    submitForm() {
-      console.log("Submitted");
-      // document.getElementsByClassName("login-form");
+    submitForm(event) {
+      event.preventDefault();
+      this.$http
+        .post(
+          "https://arms-graduate-student-tracker.herokuapp.com/api/lecturer/login",
+          {
+            email: this.email,
+            password: this.password
+          }
+        )
+        .then(response => {
+          console.log({ response });
+        })
+        .catch(err => {
+          console.log("The error is", err);
+        });
     }
   }
 };

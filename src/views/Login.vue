@@ -6,20 +6,22 @@
           <v-flex sm7 pa-3>
             <v-card-text>
               <v-container class>
-                <h2 class="headline pl-md-5">Login</h2>
+                <h2 class="headline pl-md-5 mb-5 custom-font-family">Login</h2>
                 <v-tabs v-model="tabs" fixed-tabs flat>
-                  <v-tabs-slider></v-tabs-slider>
-                  <v-tab href="#mobile-tabs-5-1">
+                  <v-tabs-slider color="purple"></v-tabs-slider>
+                  <v-tab href="#admin" class="text-capitalize title custom-font-family">
                     <p>Admin</p>
                   </v-tab>
-
-                  <v-tab href="#mobile-tabs-5-2">
+                  <v-tab href="#student" class="text-capitalize title custom-font-family">
                     <p>Student</p>
                   </v-tab>
                 </v-tabs>
                 <v-tabs-items v-model="tabs" class="white elevation-0">
-                  <v-tab-item v-for="i in 2" :key="i" :value="'mobile-tabs-5-' + i">
-                    <LoginForm />
+                  <v-tab-item :value="'admin'">
+                    <AdminLoginForm />
+                  </v-tab-item>
+                  <v-tab-item :value="'student'">
+                    <StudentLoginForm />
                   </v-tab-item>
                 </v-tabs-items>
               </v-container>
@@ -54,10 +56,12 @@
 </template>
 
 <script>
-import LoginForm from "@/components/LoginForm";
+import AdminLoginForm from "@/components/AdminLoginForm";
+import StudentLoginForm from "@/components/StudentLoginForm";
 export default {
   components: {
-    LoginForm
+    AdminLoginForm,
+    StudentLoginForm
   },
   data() {
     return {
