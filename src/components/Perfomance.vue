@@ -1,5 +1,5 @@
 <template>
-  <v-layout wrap>
+  <v-layout column wrap>
     <v-flex sm12 md4>
       <canvas id="electricalAndComputer"></canvas>
     </v-flex>

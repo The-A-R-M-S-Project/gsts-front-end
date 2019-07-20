@@ -1,16 +1,34 @@
 <template>
-  <v-layout row wrap pa-3>
-    <v-flex xs12 sm12 md4>
-      <v-date-picker
-        class="green"
-        v-model="date"
-        full-width
-        :events="eventDatesArr"
-        event-color="purple"
-        color="blue"
-      ></v-date-picker>
+  <v-layout column wrap pa-3>
+    <v-flex xs12>
+      <v-card class="mt-3 mx-auto">
+        <v-sheet
+          class="v-sheet--offset mx-auto"
+          color="cyan"
+          elevation="20"
+          max-width="calc(100% - 32px)"
+          dark
+        >
+          <v-date-picker
+            v-model="date"
+            full-width
+            :events="eventDatesArr"
+            event-color="teal"
+            color="purple"
+            landscape
+          ></v-date-picker>
+        </v-sheet>
+
+        <v-card-text class="pt-0">
+          <div class="title font-weight-light mb-2">User Registrations</div>
+          <div class="subheading font-weight-light grey--text">Last Campaign Performance</div>
+          <v-divider class="my-2"></v-divider>
+          <v-icon class="mr-2" small>mdi-clock</v-icon>
+          <span class="caption grey--text font-weight-light">last registration 26 minutes ago</span>
+        </v-card-text>
+      </v-card>
     </v-flex>
-    <v-flex xs12 sm12 md4 pl-3>
+    <!-- <v-flex xs12 pl-3>
       <v-card height="100%">
         <v-container fluid pa-0>
           <v-toolbar color="blue darken-2" dark height="89" flat>
@@ -29,7 +47,7 @@
         </v-container>
       </v-card>
     </v-flex>
-    <v-flex xs12 sm12 md4 pl-1>
+    <v-flex xs12 pl-1>
       <v-card height="100%">
         <v-container fluid pa-0>
           <v-toolbar color="blue darken-2" dark height="89" flat>
@@ -47,7 +65,7 @@
           <v-btn @click="clearEvent()">clear</v-btn>
         </v-card-actions>
       </v-card>
-    </v-flex>
+    </v-flex>-->
   </v-layout>
 </template>
 
@@ -88,3 +106,9 @@ export default {
   }
 };
 </script>
+<style>
+.v-sheet--offset {
+  top: -30px;
+  position: relative;
+}
+</style>

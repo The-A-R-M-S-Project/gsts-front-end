@@ -7,12 +7,11 @@ let engineering = {
 					label: "Perfomance",
 					data: [10, 20, 20, 12, 4, 2],
 					backgroundColor: [
-						"#FF00FF",
-						"#00FF00",
-						"#00FFFF",
-						"#FFA500",
-						"#FF0000",
-						"#800000"
+						"#2196F3",
+						"#2196F3",
+						"#2196F3",
+						"#2196F3",
+						"#2196F3"
 					]
 				}
 			],
@@ -31,6 +30,22 @@ let engineering = {
 				labels: {
 					boxWidth: 12
 				}
+			},
+			scales: {
+				yAxes: [
+					{
+						gridLines: {
+							display: false
+						}
+					}
+				],
+				xAxes: [
+					{
+						gridLines: {
+							drawBorder: false
+						}
+					}
+				]
 			}
 		}
 	},
@@ -42,12 +57,12 @@ let engineering = {
 					label: "Perfomance",
 					data: [8, 28, 41, 22, 1, 1],
 					backgroundColor: [
-						"#FF00FF",
-						"#00FF00",
-						"#00FFFF",
-						"#FFA500",
-						"#FF0000",
-						"#800000"
+						"#009688",
+						"#009688",
+						"#009688",
+						"#009688",
+						"#009688",
+						"#009688"
 					]
 				}
 			],
@@ -77,12 +92,12 @@ let engineering = {
 					label: "Perfomance",
 					data: [15, 40, 20, 10, 2, 1],
 					backgroundColor: [
-						"#FF00FF",
-						"#00FF00",
-						"#00FFFF",
-						"#FFA500",
-						"#FF0000",
-						"#800000"
+						"#9C27B0",
+						"#9C27B0",
+						"#9C27B0",
+						"#9C27B0",
+						"#9C27B0",
+						"#9C27B0"
 					]
 				}
 			],

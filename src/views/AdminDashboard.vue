@@ -8,44 +8,44 @@
         </v-flex>
         <v-flex md10>
           <v-layout row wrap>
-            <v-card class="transparent" flat>
-              <v-layout row wrap>
-                <v-flex sm12 md4 pb-3 pr-2>
-                  <v-card class="viva-status" flat color="teal">
-                    <v-card-text pa-1>
-                      <h2 class="text-xs-center custom-font-family headline white--text">Viva Status</h2>
-                      <div class="text-xs-center mt-4 mb-3">
-                        <VivaStatus />
-                      </div>
-                    </v-card-text>
-                  </v-card>
-                </v-flex>
-                <v-flex xs12 md8 pb-3 pl-2>
-                  <v-card flat elevation="24">
-                    <v-card-text pa-1>
-                      <h2 class="text-xs-center custom-font-family headline">Report Status</h2>
-                    </v-card-text>
-                    <ReportStatus />
-                  </v-card>
-                </v-flex>
-                <v-flex sm12 pb-3>
-                  <v-card flat>
-                    <v-card-text pa-1>
-                      <h2 class="text-xs-center custom-font-family headline">Performance</h2>
-                      <PerfomanceChart />
-                    </v-card-text>
-                  </v-card>
-                </v-flex>
-                <v-flex sm12 pb-3>
-                  <v-card flat>
-                    <v-card-text pa-1>
-                      <h2 class="text-xs-center custom-font-family headline">Upcomping deadlines</h2>
-                    </v-card-text>
-                    <Calendar />
-                  </v-card>
-                </v-flex>
-              </v-layout>
-            </v-card>
+            <v-layout row wrap>
+              <v-flex sm12 md4 pb-3 pr-2>
+                <v-card class="viva-status" flat color="teal">
+                  <v-card-text pa-1>
+                    <h2 class="text-xs-center custom-font-family headline white--text">Viva Status</h2>
+                    <div class="text-xs-center mt-4 mb-3">
+                      <VivaStatus />
+                    </div>
+                  </v-card-text>
+                </v-card>
+              </v-flex>
+              <v-flex xs12 md8 pb-3 pl-2>
+                <v-card flat elevation="24">
+                  <v-card-text pa-1>
+                    <h2 class="text-xs-center custom-font-family headline">Report Status</h2>
+                  </v-card-text>
+                  <ReportStatus />
+                </v-card>
+              </v-flex>
+            </v-layout>
+            <v-layout>
+              <v-flex sm12 md6 pb-3 pr-2>
+                <v-card elevation="20">
+                  <v-card-text pa-1>
+                    <h2 class="text-xs-center custom-font-family headline">Performance</h2>
+                    <PerfomanceChart />
+                  </v-card-text>
+                </v-card>
+              </v-flex>
+              <v-flex sm12 md6 pb-3 pl-2>
+                <v-card flat>
+                  <v-card-text pa-1>
+                    <h2 class="text-xs-center custom-font-family headline">Upcomping deadlines</h2>
+                  </v-card-text>
+                  <Calendar />
+                </v-card>
+              </v-flex>
+            </v-layout>
           </v-layout>
         </v-flex>
       </v-layout>
