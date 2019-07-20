@@ -32,6 +32,7 @@
                         required
                         prepend-inner-icon="person"
                         height="28"
+                        color="purple"
                       ></v-text-field>
                     </v-flex>
 
@@ -44,6 +45,7 @@
                         required
                         prepend-inner-icon="person"
                         height="28"
+                        color="purple"
                       ></v-text-field>
                     </v-flex>
                   </v-layout>
@@ -53,6 +55,7 @@
                     required
                     prepend-inner-icon="person"
                     height="28"
+                    color="purple"
                   ></v-text-field>
                   <v-text-field
                     v-model="email"
@@ -60,6 +63,7 @@
                     required
                     prepend-inner-icon="person"
                     height="28"
+                    color="purple"
                   ></v-text-field>
                   <v-text-field
                     v-model="email"
@@ -67,6 +71,7 @@
                     required
                     prepend-inner-icon="person"
                     height="28"
+                    color="purple"
                   ></v-text-field>
                   <v-text-field
                     v-model="password"
@@ -75,6 +80,7 @@
                     type="password"
                     prepend-inner-icon="lock"
                     height="28"
+                    color="purple"
                   ></v-text-field>
                   <v-text-field
                     v-model="password"
@@ -83,6 +89,7 @@
                     type="password"
                     prepend-inner-icon="lock"
                     height="28"
+                    color="purple"
                   ></v-text-field>
                   <div class="mx-5">
                     <v-btn light large round block depressed ripple class="yellow font-weight-bold">
@@ -108,7 +115,9 @@ export default {
       firstname: "",
       lastname: "",
       password: "",
-      email: ""
+      email: "",
+      nameRules: [],
+      valid: ""
     };
   }
 };

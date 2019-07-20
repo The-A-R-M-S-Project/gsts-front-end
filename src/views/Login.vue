@@ -18,7 +18,7 @@
                 </v-tabs>
                 <v-tabs-items v-model="tabs" class="white elevation-0">
                   <v-tab-item :value="'admin'">
-                    <AdminLoginForm />
+                    <AdminLoginForm v-on:is-admin="logIn()" />
                   </v-tab-item>
                   <v-tab-item :value="'student'">
                     <StudentLoginForm />
@@ -67,6 +67,11 @@ export default {
     return {
       tabs: null
     };
+  },
+  methods: {
+    logIn() {
+      this.$router.push("/dummy-view-admin");
+    }
   }
 };
 </script>

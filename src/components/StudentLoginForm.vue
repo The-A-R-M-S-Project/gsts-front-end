@@ -7,6 +7,7 @@
         label="College Email"
         prepend-inner-icon="person"
         type="email"
+        color="purple"
       ></v-text-field>
       <v-text-field
         v-model="password"
@@ -15,6 +16,7 @@
         label="password"
         prepend-inner-icon="lock"
         type="password"
+        color="purple"
       ></v-text-field>
       <div class="px-5">
         <v-btn
@@ -46,7 +48,10 @@ export default {
         (v || "").length >= len || `Invalid character length, required ${len}`,
       required: v => !!v || "This field is required"
     }
-  })
+  }),
+  methods: {
+    submitForm() {}
+  }
 };
 </script>
 
