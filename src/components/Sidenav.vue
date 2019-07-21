@@ -11,7 +11,7 @@
         <v-list>
           <v-list-tile avatar flat>
             <v-list-tile-avatar>
-              <img src="~@/assets/img/joyce-mccown-whitebooks.jpg" />
+              <img src="~@/assets/img/login-1.jpg" />
             </v-list-tile-avatar>
             <v-list-tile-content elevation="10">
               <v-list-tile-title class="font-weight-bold">Admin</v-list-tile-title>
