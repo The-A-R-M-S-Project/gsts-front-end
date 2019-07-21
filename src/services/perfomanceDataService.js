@@ -82,6 +82,22 @@ let engineering = {
 				labels: {
 					boxWidth: 12
 				}
+			},
+			scales: {
+				yAxes: [
+					{
+						gridLines: {
+							display: false
+						}
+					}
+				],
+				xAxes: [
+					{
+						gridLines: {
+							drawBorder: false
+						}
+					}
+				]
 			}
 		}
 	},
@@ -117,6 +133,22 @@ let engineering = {
 				labels: {
 					boxWidth: 12
 				}
+			},
+			scales: {
+				yAxes: [
+					{
+						gridLines: {
+							display: false
+						}
+					}
+				],
+				xAxes: [
+					{
+						gridLines: {
+							drawBorder: false
+						}
+					}
+				]
 			}
 		}
 	}
