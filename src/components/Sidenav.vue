@@ -42,7 +42,7 @@
             <v-list-tile-title class="subheading">Notifications</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile class="side-nav-link">
+        <v-list-tile class="side-nav-link" v-on:click="logOut">
           <v-list-tile-action>
             <v-icon large>subdirectory_arrow_left</v-icon>
           </v-list-tile-action>
@@ -65,6 +65,30 @@ export default {
         { title: "logout", icon: "dashboard" }
       ]
     };
+  },
+  methods: {
+    logOut() {
+      if (localStorage.getItem("jwt") != null) {
+        const role = ["principal", "dean", "examiner"].includes(
+          localStorage.getItem("user").role
+        )
+          ? "lecturer"
+          : "student";
+        this.$http
+          .get(
+            `https://arms-graduate-student-tracker.herokuapp.com/api/${role}/logout`
+          )
+          .then(response => {
+            console.log("Logged Out!!");
+            localStorage.removeItem("jwt");
+            localStorage.removeItem("user");
+            this.$router.push({ name: "login" });
+          })
+          .catch(error => {
+            console.log(error.response.data.message);
+          });
+      }
+    }
   }
 };
 </script>
