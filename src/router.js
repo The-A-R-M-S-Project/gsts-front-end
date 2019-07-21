@@ -2,7 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import Login from "./views/Login.vue";
 import Register from "./views/Register.vue";
-import DummyView from "./views/DummyView.vue";
+import AdminDashboard from "./views/AdminDashboard.vue";
 
 Vue.use(Router);
 
@@ -19,9 +19,9 @@ export default new Router({
 			component: Register
 		},
 		{
-			path: "/dummy-view-admin",
-			name: "dummy",
-			component: DummyView
+			path: "/admin-dashboard",
+			name: "admin-dasboard",
+			component: AdminDashboard
 		}
 	]
 });
