@@ -25,8 +25,7 @@
                   <v-layout>
                     <v-flex>
                       <v-text-field
-                        v-model="firstname"
-                        :rules="nameRules"
+                        v-model="firstName"
                         :counter="10"
                         label="First name"
                         required
@@ -38,8 +37,7 @@
 
                     <v-flex>
                       <v-text-field
-                        v-model="lastname"
-                        :rules="nameRules"
+                        v-model="lastName"
                         :counter="10"
                         label="Last name"
                         required
@@ -50,31 +48,26 @@
                     </v-flex>
                   </v-layout>
                   <v-text-field
-                    v-model="firstname"
-                    label="Registration Number"
+                    v-model="email"
+                    label="Email"
+                    :rules="emailRules"
                     required
                     prepend-inner-icon="person"
                     height="28"
                     color="purple"
                   ></v-text-field>
                   <v-text-field
-                    v-model="email"
-                    label="College Email"
+                    v-model="phoneNumber"
+                    label="Phone Number e.g +2567... or 07..."
+                    :rules="phoneNumberRules"
                     required
-                    prepend-inner-icon="person"
-                    height="28"
-                    color="purple"
-                  ></v-text-field>
-                  <v-text-field
-                    v-model="email"
-                    label="Username/Email"
-                    required
-                    prepend-inner-icon="person"
+                    prepend-inner-icon="phone"
                     height="28"
                     color="purple"
                   ></v-text-field>
                   <v-text-field
                     v-model="password"
+                    :rules="passwordRules(8)"
                     label="Password"
                     required
                     type="password"
@@ -83,8 +76,9 @@
                     color="purple"
                   ></v-text-field>
                   <v-text-field
-                    v-model="password"
+                    v-model="passwordConfirm"
                     label="Confirm Password"
+                    :rules="passwordConfirmRules"
                     required
                     type="password"
                     prepend-inner-icon="lock"
@@ -92,7 +86,17 @@
                     color="purple"
                   ></v-text-field>
                   <div class="mx-5">
-                    <v-btn light large round block depressed ripple class="yellow font-weight-bold">
+                    <v-btn
+                      type="submit"
+                      light
+                      large
+                      round
+                      block
+                      depressed
+                      ripple
+                      class="yellow font-weight-bold"
+                      v-on:click="handleSubmit"
+                    >
                       <v-icon>person_add</v-icon>
                       <span>&nbsp;Register</span>
                     </v-btn>
@@ -112,13 +116,37 @@ export default {
   name: "register",
   data() {
     return {
-      firstname: "",
-      lastname: "",
-      password: "",
+      firstName: "",
+      lastName: "",
       email: "",
+      emailRules: [
+        emailField => /.+@+/.test(emailField) || "Please enter a valid email"
+      ],
+      password: "",
+      passwordRules: len => [
+        passwordField =>
+          (passwordField || "").length >= len ||
+          `Invalid password length, requires ${len} characters`
+      ],
+      passwordConfirm: "",
+      passwordConfirmRules: [
+        passwordField =>
+          passwordField === this.password || `Passwords do not match!`
+      ],
       nameRules: [],
-      valid: ""
+      valid: "",
+      phoneNumber: "",
+      phoneNumberRules: [
+        phoneNumberField =>
+          /^(\+2567)[0-9]{8}|^(07)[0-9]{8}/.test(phoneNumberField) ||
+          "Please enter a valid phone Number"
+      ]
     };
+  },
+  methods: {
+    handleSubmit(event) {
+      event.preventDefault();
+    }
   }
 };
 </script>
