@@ -38,7 +38,7 @@
                 </v-card>
               </v-flex>
               <v-flex sm12 md6 pb-3 pl-2 grow>
-                <v-card flat>
+                <v-card elevation="24">
                   <v-card-text pa-1>
                     <h2 class="text-xs-center custom-font-family headline">Upcomping deadlines</h2>
                   </v-card-text>
