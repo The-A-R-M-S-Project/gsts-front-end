@@ -28,7 +28,10 @@
           class="yellow font-weight-bold"
           type="submit"
           v-on:click="submitForm"
-        >Login</v-btn>
+        >
+          <v-icon>subdirectory_arrow_right</v-icon>
+          <span>&nbsp;Login</span>
+        </v-btn>
       </div>
     </v-container>
   </v-form>
