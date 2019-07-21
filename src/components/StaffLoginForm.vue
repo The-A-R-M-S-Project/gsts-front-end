@@ -40,7 +40,7 @@
 </template>
 <script>
 export default {
-  name: "admin-login-form",
+  name: "staff-login-form",
   data: () => ({
     form: false,
     email: "",

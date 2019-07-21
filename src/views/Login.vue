@@ -9,16 +9,16 @@
                 <h2 class="headline pl-md-5 mb-5 custom-font-family">Login</h2>
                 <v-tabs v-model="tabs" fixed-tabs flat>
                   <v-tabs-slider color="purple"></v-tabs-slider>
-                  <v-tab href="#admin" class="text-capitalize title custom-font-family">
-                    <p>Admin</p>
+                  <v-tab href="#staff" class="text-capitalize title custom-font-family">
+                    <p>Staff</p>
                   </v-tab>
                   <v-tab href="#student" class="text-capitalize title custom-font-family">
                     <p>Student</p>
                   </v-tab>
                 </v-tabs>
                 <v-tabs-items v-model="tabs" class="white elevation-0">
-                  <v-tab-item :value="'admin'">
-                    <AdminLoginForm v-on:is-admin="logIn()" />
+                  <v-tab-item :value="'staff'">
+                    <StaffLoginForm />
                   </v-tab-item>
                   <v-tab-item :value="'student'">
                     <StudentLoginForm />
@@ -56,11 +56,11 @@
 </template>
 
 <script>
-import AdminLoginForm from "@/components/AdminLoginForm";
+import StaffLoginForm from "@/components/StaffLoginForm";
 import StudentLoginForm from "@/components/StudentLoginForm";
 export default {
   components: {
-    AdminLoginForm,
+    StaffLoginForm,
     StudentLoginForm
   },
   data() {
@@ -68,11 +68,7 @@ export default {
       tabs: null
     };
   },
-  methods: {
-    logIn() {
-      this.$router.push("/dummy-view-admin");
-    }
-  }
+  methods: {}
 };
 </script>
 <style lang="scss">

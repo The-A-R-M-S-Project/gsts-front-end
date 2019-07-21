@@ -1,5 +1,5 @@
 <template>
-  <div class="admin-dashboard">
+  <div>
     <Navigation />
     <v-container fluid pt-5 class>
       <v-layout mt-5>
@@ -61,7 +61,7 @@ import ReportStatus from "@/components/ReportStatus.vue";
 import PerfomanceChart from "@/components/Perfomance.vue";
 import Calendar from "@/components/Calendar.vue";
 export default {
-  name: "admin-dashboard-layout",
+  name: "principal-dashboard",
   components: {
     Navigation,
     Sidenav,

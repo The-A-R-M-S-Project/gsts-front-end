@@ -2,12 +2,15 @@ import Vue from "vue";
 import Router from "vue-router";
 import Login from "./views/Login.vue";
 import Register from "./views/Register.vue";
-import AdminDashboard from "./views/AdminDashboard.vue";
+import PrincipalDashboard from "./views/PrincipalDashboard.vue";
 import DummyStudentDashboard from "./views/DummyStudentDashboard.vue";
+import DummyDeanDashboard from "./views/DummyDeanDashboard.vue";
+import DummyExaminerDashboard from "./views/DummyExaminerDashboard.vue";
 
 Vue.use(Router);
 
-export default new Router({
+let router = new Router({
+	mode: "history",
 	routes: [
 		{
 			path: "/",
@@ -30,17 +33,38 @@ export default new Router({
 			name: "student-dasboard",
 			component: DummyStudentDashboard,
 			meta: {
-				requiresAuth: true
+				requiresAuth: true,
+				is_student: true
 			}
 		},
 		{
-			path: "/admin-dashboard",
-			name: "admin-dasboard",
-			component: AdminDashboard,
+			path: "/examiner-dashboard",
+			name: "examiner-dasboard",
+			component: DummyExaminerDashboard,
 			meta: {
 				requiresAuth: true,
-				is_Admin: true
+				is_examiner: true
+			}
+		},
+		{
+			path: "/dean-dashboard",
+			name: "dean-dasboard",
+			component: DummyDeanDashboard,
+			meta: {
+				requiresAuth: true,
+				is_dean: true
+			}
+		},
+		{
+			path: "/principal-dashboard",
+			name: "principal-dasboard",
+			component: PrincipalDashboard,
+			meta: {
+				requiresAuth: true,
+				is_principal: true
 			}
 		}
 	]
 });
+
+export default router;
