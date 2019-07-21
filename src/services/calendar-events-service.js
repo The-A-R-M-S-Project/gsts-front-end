@@ -1,4 +1,3 @@
-
 let events = [
 	{
 		title: "Event one",
@@ -19,9 +18,9 @@ let events = [
 		title: "Event four",
 		content: "Event One's content",
 		date: "2019-07-16"
-	},
+	}
 ];
-let eventDates = events.map(event => event.date)
+let eventDates = events.map(event => event.date);
 
 export default {
 	getEventsByDate(calendarDate) {

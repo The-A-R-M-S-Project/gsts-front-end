@@ -8,19 +8,19 @@ let barChartData = {
   datasets: [
     {
       label: "submitted",
-      backgroundColor: "#AA00FF",
+      backgroundColor: "#9C27B0",
       borderWidth: 0,
       data: [3, 5, 6]
     },
     {
       label: "With examiner",
-      backgroundColor: "#8C9EFF",
+      backgroundColor: "#2196F3",
       borderWidth: 0,
       data: [4, 7, 3]
     },
     {
       label: "Cleared",
-      backgroundColor: "#64FFDA",
+      backgroundColor: "#009688",
       borderWidth: 0,
       data: [10, 7, 4]
     }
