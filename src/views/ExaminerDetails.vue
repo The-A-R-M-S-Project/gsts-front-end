@@ -11,17 +11,17 @@
         <v-flex xs12 md9>
           <v-layout row>
             <v-flex md6>
-              <v-card flat text-xs-center>
-                <v-card-title>No. of Marked Reports</v-card-title>
+              <v-card flat px-3>
+                <v-card-title text-xs-center>No. of Marked Reports</v-card-title>
                 <v-card-text>
-                  <h1 style="font-size: 80px">{{ markedReports }}</h1>
+                  <h1 style="font-size: 80px" class="text-xs-center">{{ markedReports }}</h1>
                   <p>out of</p>
-                  <h3 style="font-size: 40px">{{ totalReports() }}</h3>
+                  <h3 style="font-size: 40px" text-xs-center>{{ totalReports() }}</h3>
                 </v-card-text>
               </v-card>
             </v-flex>
             <v-flex md6>
-              <v-card>
+              <v-card px-3>
                 <v-card-title>No. of Unmarked Reports</v-card-title>
                 <v-card-text>
                   <h1 style="font-size: 80px">{{ unmarkedReports }}</h1>
@@ -60,14 +60,16 @@ export default {
   },
   data() {
     return {
-      markedReports: '45',
-      unmarkedReports: '15',
-      total: ''
+      markedReports: "45",
+      unmarkedReports: "15",
+      total: ""
     };
   },
   methods: {
     totalReports() {
-      return this.total = String(parseInt(this.markedReports)+parseInt(this.unmarkedReports))
+      return (this.total = String(
+        parseInt(this.markedReports) + parseInt(this.unmarkedReports)
+      ));
     }
   }
 };
