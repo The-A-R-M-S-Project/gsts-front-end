@@ -146,6 +146,45 @@ export default {
   methods: {
     handleSubmit(event) {
       event.preventDefault();
+      if (this.password === this.passwordConfirm && this.password != "") {
+        let url =
+          "https://arms-graduate-student-tracker.herokuapp.com/api/student/signup";
+
+        this.$http
+          .post(url, {
+            firstName: this.firstName,
+            lastName: this.lastName,
+            email: this.email,
+            password: this.password,
+            passwordConfirm: this.passwordConfirm,
+            phoneNumber: this.phoneNumber
+          })
+          .then(response => {
+            console.log({ response });
+            localStorage.setItem(
+              "user",
+              JSON.stringify(response.data.data.user)
+            );
+            localStorage.setItem("jwt", response.data.token);
+
+            if (localStorage.getItem("jwt") != null) {
+              this.$emit("loggedIn");
+              if (this.$route.params.nextUrl != null) {
+                this.$router.push(this.$route.params.nextUrl);
+              } else {
+                this.$router.push({ name: "student-dashboard" });
+              }
+            }
+          })
+          .catch(error => {
+            console.error(error.response.data.message);
+          });
+      } else {
+        this.password = "";
+        this.passwordConfirm = "";
+
+        alert("Please ensure that all fields are filled");
+      }
     }
   }
 };
