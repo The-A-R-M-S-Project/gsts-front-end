@@ -28,8 +28,8 @@
                 </v-card>
               </v-flex>
             </v-layout>
-            <v-layout>
-              <v-flex sm12 md6 pb-3 pr-2>
+            <v-layout row wrap>
+              <v-flex xs12 md6 pb-3 pr-2>
                 <v-card elevation="20">
                   <v-card-text pa-1>
                     <h2 class="text-xs-center custom-font-family headline">Performance</h2>
@@ -37,7 +37,7 @@
                   </v-card-text>
                 </v-card>
               </v-flex>
-              <v-flex sm12 md6 pb-3 pl-2>
+              <v-flex sm12 md6 pb-3 pl-2 grow>
                 <v-card flat>
                   <v-card-text pa-1>
                     <h2 class="text-xs-center custom-font-family headline">Upcomping deadlines</h2>

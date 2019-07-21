@@ -1,128 +1,126 @@
 <template>
-  <v-layout column wrap pa-3>
-    <v-flex xs12>
-      <v-card class="mt-3 mx-auto calendar-card" flat>
-        <v-sheet
-          class="v-sheet--offset mx-auto"
-          color="cyan"
-          elevation="20"
-          max-width="calc(100% - 32px)"
-          dark
-        >
-          <v-date-picker
-            v-model="date"
-            full-width
-            :events="eventDatesArr"
-            event-color="teal"
-            color="purple"
-            landscape
-          ></v-date-picker>
-        </v-sheet>
-        <v-list three-line>
-          <template>
-            <v-subheader class="title custom-font-family font-weight-medium">This Month</v-subheader>
-            <v-divider></v-divider>
-            <v-list-tile :to="'#'" pt-4>
-              <v-list-tile-avatar>
-                <v-layout column>
-                  <v-flex>
-                    <div class="display-1 custom-font-family purple--text">24</div>
-                  </v-flex>
-                  <v-flex>
-                    <div class="purple--text">Wed</div>
-                  </v-flex>
-                </v-layout>
-              </v-list-tile-avatar>
-              <v-list-tile-content>
-                <v-list-tile-title>
-                  <div
-                    class="title custom-font-family font-weight-light mb-2"
-                  >Presentations for mechanical Students</div>
-                </v-list-tile-title>
-                <v-list-tile-sub-title>
-                  <div
-                    class="subheading custom-font-family font-weight-light grey--text"
-                  >In Cedat conference hall</div>
-                </v-list-tile-sub-title>
-              </v-list-tile-content>
-            </v-list-tile>
-            <v-divider></v-divider>
-            <v-list-tile :to="'#'">
-              <v-list-tile-avatar>
-                <v-layout column>
-                  <v-flex>
-                    <div class="display-1 custom-font-family teal--text">25</div>
-                  </v-flex>
-                  <v-flex>
-                    <div class="teal--text">Thur</div>
-                  </v-flex>
-                </v-layout>
-              </v-list-tile-avatar>
-              <v-list-tile-content>
-                <v-list-tile-title>
-                  <div
-                    class="title custom-font-family font-weight-light mb-2"
-                  >Presentations for mechanical Students</div>
-                </v-list-tile-title>
-                <v-list-tile-sub-title>
-                  <div
-                    class="subheading custom-font-family font-weight-light grey--text"
-                  >In Cedat conference hall</div>
-                </v-list-tile-sub-title>
-              </v-list-tile-content>
-            </v-list-tile>
-            <v-divider></v-divider>
-            <v-list-tile :to="'#'">
-              <v-list-tile-avatar>
-                <v-layout column>
-                  <v-flex>
-                    <div class="display-1 custom-font-family blue--text">26</div>
-                  </v-flex>
-                  <v-flex>
-                    <div class="blue--text">Fri</div>
-                  </v-flex>
-                </v-layout>
-              </v-list-tile-avatar>
-              <v-list-tile-content>
-                <v-list-tile-title>
-                  <div class="title custom-font-family font-weight-light mb-2">Viva Presentations</div>
-                </v-list-tile-title>
-                <v-list-tile-sub-title>
-                  <div
-                    class="subheading custom-font-family font-weight-light grey--text"
-                  >In Cedat conference hall</div>
-                </v-list-tile-sub-title>
-              </v-list-tile-content>
-            </v-list-tile>
-            <v-divider></v-divider>
-            <v-list-tile :to="'#'">
-              <v-list-tile-avatar>
-                <v-layout column>
-                  <v-flex>
-                    <div class="display-1 custom-font-family purple--text">28</div>
-                  </v-flex>
-                  <v-flex>
-                    <div class="purple--text">Mon</div>
-                  </v-flex>
-                </v-layout>
-              </v-list-tile-avatar>
-              <v-list-tile-content>
-                <v-list-tile-title>
-                  <div
-                    class="title custom-font-family font-weight-light mb-2"
-                  >Presentations for Electrical Students</div>
-                </v-list-tile-title>
-                <v-list-tile-sub-title>
-                  <div
-                    class="subheading custom-font-family font-weight-light grey--text"
-                  >In Cedat conference hall</div>
-                </v-list-tile-sub-title>
-              </v-list-tile-content>
-            </v-list-tile>
-          </template>
-        </v-list>
-      </v-card>
-    </v-flex>
+  <v-layout column wrap pa-3 pb-5>
+    <v-card class="mt-3 mx-auto calendar-card" flat>
+      <v-sheet
+        class="v-sheet--offset mx-auto"
+        color="cyan"
+        elevation="20"
+        max-width="calc(100% - 32px)"
+        dark
+      >
+        <v-date-picker
+          v-model="date"
+          full-width
+          :events="eventDatesArr"
+          event-color="teal"
+          color="purple"
+          landscape
+        ></v-date-picker>
+      </v-sheet>
+      <v-list three-line>
+        <template>
+          <v-subheader class="title custom-font-family font-weight-medium">This Month</v-subheader>
+          <v-divider></v-divider>
+          <v-list-tile :to="'#'">
+            <v-list-tile-avatar>
+              <v-layout column>
+                <v-flex>
+                  <div class="display-1 custom-font-family purple--text">24</div>
+                </v-flex>
+                <v-flex>
+                  <div class="purple--text">Wed</div>
+                </v-flex>
+              </v-layout>
+            </v-list-tile-avatar>
+            <v-list-tile-content>
+              <v-list-tile-title>
+                <div
+                  class="title custom-font-family font-weight-light mb-2"
+                >Presentations for mechanical Students</div>
+              </v-list-tile-title>
+              <v-list-tile-sub-title>
+                <div
+                  class="subheading custom-font-family font-weight-light grey--text"
+                >In Cedat conference hall</div>
+              </v-list-tile-sub-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-divider></v-divider>
+          <v-list-tile :to="'#'">
+            <v-list-tile-avatar>
+              <v-layout column>
+                <v-flex>
+                  <div class="display-1 custom-font-family teal--text">25</div>
+                </v-flex>
+                <v-flex>
+                  <div class="teal--text">Thur</div>
+                </v-flex>
+              </v-layout>
+            </v-list-tile-avatar>
+            <v-list-tile-content>
+              <v-list-tile-title>
+                <div
+                  class="title custom-font-family font-weight-light mb-2"
+                >Presentations for mechanical Students</div>
+              </v-list-tile-title>
+              <v-list-tile-sub-title>
+                <div
+                  class="subheading custom-font-family font-weight-light grey--text"
+                >In Cedat conference hall</div>
+              </v-list-tile-sub-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-divider></v-divider>
+          <v-list-tile :to="'#'">
+            <v-list-tile-avatar>
+              <v-layout column>
+                <v-flex>
+                  <div class="display-1 custom-font-family blue--text">26</div>
+                </v-flex>
+                <v-flex>
+                  <div class="blue--text">Fri</div>
+                </v-flex>
+              </v-layout>
+            </v-list-tile-avatar>
+            <v-list-tile-content>
+              <v-list-tile-title>
+                <div class="title custom-font-family font-weight-light mb-2">Viva Presentations</div>
+              </v-list-tile-title>
+              <v-list-tile-sub-title>
+                <div
+                  class="subheading custom-font-family font-weight-light grey--text"
+                >In Cedat conference hall</div>
+              </v-list-tile-sub-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-divider></v-divider>
+          <v-list-tile :to="'#'">
+            <v-list-tile-avatar>
+              <v-layout column>
+                <v-flex>
+                  <div class="display-1 custom-font-family purple--text">28</div>
+                </v-flex>
+                <v-flex>
+                  <div class="purple--text">Mon</div>
+                </v-flex>
+              </v-layout>
+            </v-list-tile-avatar>
+            <v-list-tile-content>
+              <v-list-tile-title>
+                <div
+                  class="title custom-font-family font-weight-light mb-2"
+                >Presentations for Electrical Students</div>
+              </v-list-tile-title>
+              <v-list-tile-sub-title>
+                <div
+                  class="subheading custom-font-family font-weight-light grey--text"
+                >In Cedat conference hall</div>
+              </v-list-tile-sub-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </template>
+      </v-list>
+    </v-card>
     <!-- <v-flex xs12 pl-3>
       <v-card height="100%">
         <v-container fluid pa-0>
