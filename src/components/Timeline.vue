@@ -101,6 +101,9 @@ export default {
       date: "",
       cleared: false
     };
+  },
+  methods: {
+    examinerCleared() {
       this.examiner ? (this.e6 = 4) : (this.e6 = 3);
     },
     setDate() {
@@ -115,4 +118,5 @@ export default {
       this.cleared = true;
     }
   }
+};
 </script>
