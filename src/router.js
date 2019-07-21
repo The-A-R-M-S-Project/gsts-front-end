@@ -30,7 +30,7 @@ let router = new Router({
 		},
 		{
 			path: "/student-dashboard",
-			name: "student-dasboard",
+			name: "student-dashboard",
 			component: DummyStudentDashboard,
 			meta: {
 				requiresAuth: true,
@@ -39,7 +39,7 @@ let router = new Router({
 		},
 		{
 			path: "/examiner-dashboard",
-			name: "examiner-dasboard",
+			name: "examiner-dashboard",
 			component: DummyExaminerDashboard,
 			meta: {
 				requiresAuth: true,
@@ -48,7 +48,7 @@ let router = new Router({
 		},
 		{
 			path: "/dean-dashboard",
-			name: "dean-dasboard",
+			name: "dean-dashboard",
 			component: DummyDeanDashboard,
 			meta: {
 				requiresAuth: true,
@@ -57,7 +57,7 @@ let router = new Router({
 		},
 		{
 			path: "/principal-dashboard",
-			name: "principal-dasboard",
+			name: "principal-dashboard",
 			component: PrincipalDashboard,
 			meta: {
 				requiresAuth: true,
@@ -65,6 +65,49 @@ let router = new Router({
 			}
 		}
 	]
+});
+
+router.beforeEach((to, from, next) => {
+	if (to.matched.some(record => record.meta.requiresAuth)) {
+		if (localStorage.getItem("jwt") == null) {
+			next({
+				path: "/",
+				params: { continue: to.fullPath }
+			});
+		} else {
+			let user = JSON.parse(localStorage.getItem("user"));
+			if (to.matched.some(record => record.meta.is_principal)) {
+				if (user.role === "principal") {
+					next();
+				} else {
+					next({ name: `${user.role}-dashboard` });
+				}
+			} else if (to.matched.some(record => record.meta.is_dean)) {
+				if (user.role === "dean") {
+					next();
+				} else {
+					next({ name: `${user.role}-dashboard` });
+				}
+			} else if (to.matched.some(record => record.meta.is_student)) {
+				if (user.role === "student") {
+					next();
+				} else {
+					next({ name: `${user.role}-dashboard` });
+				}
+			}
+		}
+	} else if (to.matched.some(record => record.meta.guest)) {
+		if (localStorage.getItem("jwt") == null) {
+			next();
+		} else {
+			const userRole = JSON.parse(localStorage.getItem("user")).role;
+			next({
+				name: `${userRole}-dashboard`
+			});
+		}
+	} else {
+		next();
+	}
 });
 
 export default router;
