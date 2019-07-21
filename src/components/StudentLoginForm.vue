@@ -86,8 +86,8 @@ export default {
               }
             }
           })
-          .catch(err => {
-            console.log("The error is", err);
+          .catch(error => {
+            console.log(error.response.data.message);
           });
       } else {
         alert("Please provide both email and password to log in");
