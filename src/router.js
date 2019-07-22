@@ -72,22 +72,42 @@ let router = new Router({
     {
       path: "/departments",
       name: "departments",
-      component: Departments
+      component: Departments,
+      meta: {
+				requiresAuth: true,
+        is_principal: true,
+        is_dean: true
+			}
     },
     {
       path: "/student_view",
       name: "studentview",
-      component: StudentDetails
+      component: StudentDetails,
+      meta: {
+				requiresAuth: true,
+        is_principal: true,
+        is_dean: true
+			}
     },
     {
       path: "/examiners",
       name: "examiners",
-      component: Examiners
+      component: Examiners,
+      meta: {
+				requiresAuth: true,
+        is_principal: true,
+        is_dean: true
+			}
     },
     {
       path: "/examinersdetails",
       name: "examinersDetails",
-      component: ExaminersDetails
+      component: ExaminersDetails,
+      meta: {
+				requiresAuth: true,
+        is_principal: true,
+        is_dean: true
+			}
     },
   ]
 });
