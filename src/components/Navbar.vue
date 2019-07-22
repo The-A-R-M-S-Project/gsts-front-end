@@ -7,7 +7,7 @@
           flat
           small
           class="title custom-font-family text-capitalize font-weight-bold white--text"
-          to="/admin-dashboard"
+          to="/principal-dashboard"
         >Dashboard</v-btn>
         <v-btn
           flat
