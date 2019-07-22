@@ -6,10 +6,10 @@
     <div class="pt-5">
       <v-layout row pt-4>
         <v-flex md3>
-          <SideNav @clickedProfile="setTimelineRoute"/>
+          <SideNav @routeChange="setTimelineRoute" @clickedProfile="setTimelineRoute"/>
         </v-flex>
         <v-flex v-if="route===`timeline`" md9 style="height: 88vh;" class="scroll-y">
-
+          <Timeline/>
         </v-flex>
         <v-flex v-else md9 style="height: 88vh;" class="scroll-y">
           <StudentProfile/>
@@ -23,13 +23,15 @@
 import Navigation from "@/components/StudentsNav.vue"
 import SideNav from "@/components/StudentSidenav.vue"
 import StudentProfile from "@/components/StudentProfile.vue"
+import Timeline from "@/components/StudentTimeline.vue"
 
 export default {
   name: "student-dashboard",
   components: {
     Navigation,
     SideNav,
-    StudentProfile
+    StudentProfile,
+    Timeline
   },
   data() {
     return {
