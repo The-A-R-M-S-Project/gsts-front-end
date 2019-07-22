@@ -7,7 +7,7 @@ import StudentDetails from "./views/AdminStudentView.vue";
 import Examiners from "./views/Examiners.vue";
 import ExaminersDetails from "./views/ExaminerDetails.vue"
 import PrincipalDashboard from "./views/PrincipalDashboard.vue";
-import DummyStudentDashboard from "./views/DummyStudentDashboard.vue";
+import StudentDashboard from "./views/StudentDashboard.vue";
 import DummyDeanDashboard from "./views/DummyDeanDashboard.vue";
 import DummyExaminerDashboard from "./views/DummyExaminerDashboard.vue";
 
@@ -36,7 +36,7 @@ let router = new Router({
     {
 			path: "/student-dashboard",
 			name: "student-dashboard",
-			component: DummyStudentDashboard,
+			component: StudentDashboard,
 			meta: {
 				requiresAuth: true,
 				is_student: true

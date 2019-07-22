@@ -12,8 +12,8 @@
             <v-icon dark size="150px">person</v-icon>
         </v-avatar>
     </v-toolbar>
-    <div class="text-xs-center">
-      student name
+    <div class="text-xs-center white--text">
+      <strong><h3>student name</h3></strong>
     </div>
     <v-list class="pt-0" dense>
       <v-divider></v-divider>
