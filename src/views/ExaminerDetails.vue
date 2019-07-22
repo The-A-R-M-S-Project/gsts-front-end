@@ -10,24 +10,30 @@
         </v-flex>
         <v-flex xs12 md9>
           <v-layout row>
-            <v-flex md6>
-              <v-card flat px-3>
-                <v-card-title text-xs-center>No. of Marked Reports</v-card-title>
+            <v-flex md5>
+              <v-card elevation-17 color="purple-lighten-4">
+                <v-layout row>
+                  <v-card-title text-xs-center>Marked Reports</v-card-title>
+                  <v-spacer></v-spacer>
+                  <v-card-title text-xs-center>Unmarked Reports</v-card-title>
+                </v-layout>
                 <v-card-text>
-                  <h1 style="font-size: 80px" class="text-xs-center">{{ markedReports }}</h1>
-                  <p>out of</p>
-                  <h3 style="font-size: 40px" text-xs-center>{{ totalReports() }}</h3>
+                  <div class="text-xs-center">
+                    <v-layout row purple--text text--lighten-1>
+                        <h1 style="font-size: 80px" class="ml-5">{{ markedReports }}</h1>
+                        <v-spacer></v-spacer>
+                        <h1 style="font-size: 80px" class="mr-5">{{ unmarkedReports }}</h1>
+                    </v-layout>
+                    <h2>VS</h2>
+                    <h3>out of</h3>
+                    <h3 style="font-size: 50px" color="purple-lighten-3">{{ totalReports() }}</h3>
+                  </div>
                 </v-card-text>
               </v-card>
             </v-flex>
             <v-flex md6>
-              <v-card px-3>
-                <v-card-title>No. of Unmarked Reports</v-card-title>
-                <v-card-text>
-                  <h1 style="font-size: 80px">{{ unmarkedReports }}</h1>
-                  <p>out of</p>
-                  <h3 style="font-size: 40px">{{ totalReports()}}</h3>
-                </v-card-text>
+              <v-card>
+                
               </v-card>
             </v-flex>
           </v-layout>
