@@ -1,5 +1,5 @@
 <template>
-  <div class="admin-dashboard">
+  <div>
     <Navigation />
     <v-container fluid pt-5 class>
       <v-layout mt-5>
@@ -38,7 +38,7 @@
                 </v-card>
               </v-flex>
               <v-flex sm12 md6 pb-3 pl-2 grow>
-                <v-card flat>
+                <v-card elevation="24">
                   <v-card-text pa-1>
                     <h2 class="text-xs-center custom-font-family headline">Upcomping deadlines</h2>
                   </v-card-text>
@@ -61,7 +61,7 @@ import ReportStatus from "@/components/ReportStatus.vue";
 import PerfomanceChart from "@/components/Perfomance.vue";
 import Calendar from "@/components/Calendar.vue";
 export default {
-  name: "admin-dashboard-layout",
+  name: "principal-dashboard",
   components: {
     Navigation,
     Sidenav,

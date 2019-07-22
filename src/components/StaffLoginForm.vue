@@ -40,7 +40,7 @@
 </template>
 <script>
 export default {
-  name: "admin-login-form",
+  name: "staff-login-form",
   data: () => ({
     form: false,
     email: "",
@@ -78,22 +78,16 @@ export default {
 
             if (localStorage.getItem("jwt") != null) {
               this.$emit("loggedIn");
-              if (localStorage.getItem("user").role == "principal") {
-                this.$emit("is-admin");
+              if (this.$route.params.continue != null) {
+                this.$router.push(this.$route.params.continue);
+              } else {
+                const user = response.data.data.user;
+                this.$router.push({ name: `${user.role}-dashboard` });
               }
-              // if (this.$route.params.nextUrl != null) {
-              //   this.$router.push(this.$route.params.nextUrl);
-              // } else {
-              //   if (is_admin == 1) {
-              //     this.$router.push("admin");
-              //   } else {
-              //     this.$router.push("dashboard");
-              //   }
-              // }
             }
           })
-          .catch(err => {
-            console.log("The error is", err);
+          .catch(error => {
+            console.log(error.response.data.message);
           });
       } else {
         alert("Please provide both email and password to log in");

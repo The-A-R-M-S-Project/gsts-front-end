@@ -3,20 +3,22 @@
     <v-container>
       <v-text-field
         v-model="email"
-        :rules="[rules.email]"
+        :rules="emailRules"
         label="College Email"
         prepend-inner-icon="person"
         type="email"
         color="purple"
+        required
       ></v-text-field>
       <v-text-field
         v-model="password"
-        :rules="[rules.length(8)]"
+        :rules="passwordRules(8)"
         counter="8"
         label="password"
         prepend-inner-icon="lock"
         type="password"
         color="purple"
+        required
       ></v-text-field>
       <div class="px-5">
         <v-btn
@@ -40,20 +42,57 @@
 export default {
   name: "student-login-form",
   data: () => ({
-    email: undefined,
     form: false,
+    email: "",
+    emailRules: [
+      emailField =>
+        /.+@+/.test(emailField) || "Please enter a valid college email"
+    ],
     password: "",
-    rules: {
-      email: v =>
-        (v || "").match(/@cedat.mak.ac.ug/) ||
-        "Please enter a valid college email",
-      length: len => v =>
-        (v || "").length >= len || `Invalid character length, required ${len}`,
-      required: v => !!v || "This field is required"
-    }
+    passwordRules: len => [
+      passwordField =>
+        (passwordField || "").length >= len ||
+        `Invalid character length, required ${len}`
+    ],
+    required: [field => !!field || "This field is required"]
   }),
   methods: {
-    submitForm() {}
+    submitForm(event) {
+      event.preventDefault();
+      if (!this.password == "" && !this.email == "") {
+        this.$http
+          .post(
+            "https://arms-graduate-student-tracker.herokuapp.com/api/student/login",
+            {
+              email: this.email,
+              password: this.password
+            }
+          )
+          .then(response => {
+            console.log({ response });
+            localStorage.setItem(
+              "user",
+              JSON.stringify(response.data.data.user)
+            );
+            localStorage.setItem("jwt", response.data.token);
+
+            if (localStorage.getItem("jwt") != null) {
+              this.$emit("loggedIn");
+              if (this.$route.params.continue != null) {
+                this.$router.push(this.$route.params.continue);
+              } else {
+                const user = response.data.data.user;
+                this.$router.push({ name: `student-dashboard` });
+              }
+            }
+          })
+          .catch(error => {
+            console.log(error.response.data.message);
+          });
+      } else {
+        alert("Please provide both email and password to log in");
+      }
+    }
   }
 };
 </script>
