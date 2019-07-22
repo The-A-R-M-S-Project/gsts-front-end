@@ -1,6 +1,6 @@
 <template>
   <div class="pa-5">
-    <v-card> 
+    <v-card elevation="18" color="teal lighten-2"> 
       <v-card-title>
         <v-layout>
           <v-flex xs12 sm6 md8>
@@ -9,7 +9,7 @@
             </div>
           </v-flex>
           <v-flex xs12 sm6 md4>
-            <v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details></v-text-field>
+            <v-text-field v-model="search" append-icon="search" label="Search" color="blue-grey lighten-4"></v-text-field>
           </v-flex>
         </v-layout>
       </v-card-title>
