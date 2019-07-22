@@ -1,20 +1,11 @@
 <template>
   <v-container>
     <div id="e3" style="margin: auto;" class="grey lighten-3">
-      <v-toolbar color="purple" dark pa-3>
-        <v-toolbar-side-icon>
-            <v-avatar color="blue grey lighten-2" >
-                <v-icon dark>person</v-icon>
-            </v-avatar>
-        </v-toolbar-side-icon>
-        <v-toolbar-title>Student Name</v-toolbar-title>
-      </v-toolbar>
-
-      <v-card>
+      <v-card flat transparent>
         <v-container fluid grid-list-lg>
           <v-layout row wrap>
             <v-flex xs12>
-              <v-card color="teal" class="white--text">
+              <v-card flat color="teal" class="white--text">
                   <div class="text-xs-center">
                     <h3 class="pa-2">Personal Details</h3>
                   </div>
@@ -39,7 +30,7 @@
             </v-flex>
 
             <v-flex xs12>
-              <v-card color="pink" class="white--text">
+              <v-card flat color="pink" class="white--text">
                   <div class="text-xs-center">
                     <h3 class="pa-2">Academic Details</h3>
                   </div>
