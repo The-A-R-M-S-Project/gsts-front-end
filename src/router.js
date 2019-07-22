@@ -5,6 +5,8 @@ import Register from "./views/Register.vue";
 import Dashboard from "./views/AdminDashboard.vue";
 import Departments from "./views/Departments.vue";
 import StudentDetails from "./views/AdminStudentView.vue";
+import Examiners from "./views/Examiners.vue";
+import ExaminersDetails from "./views/ExaminerDetails.vue"
 
 
 
@@ -36,6 +38,16 @@ export default new Router({
       path: "/student_view",
       name: "studentview",
       component: StudentDetails
-    }
+    },
+    {
+      path: "/examiners",
+      name: "examiners",
+      component: Examiners
+    },
+    {
+      path: "/examinersdetails",
+      name: "examinersDetails",
+      component: ExaminersDetails
+    },
   ]
 });

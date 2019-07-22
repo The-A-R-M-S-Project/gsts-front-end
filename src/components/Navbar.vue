@@ -5,7 +5,7 @@
       <div>
         <v-btn flat small to="/dashboard">Dashboard</v-btn>
         <v-btn flat small to="/departments">Departments</v-btn>
-        <v-btn flat small>Examiners</v-btn>  
+        <v-btn flat small to="/examiners">Examiners</v-btn>  
       </div>
     </v-toolbar>
   </div>
