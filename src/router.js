@@ -9,7 +9,6 @@ import Examiners from "./views/Examiners.vue";
 import ExaminersDetails from "./views/ExaminerDetails.vue"
 
 
-
 Vue.use(Router);
 
 export default new Router({
