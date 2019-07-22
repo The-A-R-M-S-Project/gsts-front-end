@@ -1,6 +1,13 @@
 <template>
-  <v-navigation-drawer stateless value="true" style="height: 89vh;">
-    <v-toolbar flat style="display: flex;" class="transparent justify-center pl-0" height="220">
+  <v-navigation-drawer 
+    dark
+    stateless 
+    value="true" 
+    style="height: 89vh;"
+    width="230px"
+    elevation="23"
+  >
+    <v-toolbar flat style="display: flex;" class="transparent justify-center pl-0" height="220" color="black">
         <v-avatar color="blue grey lighten-2" size="200">
             <v-icon dark size="150px">person</v-icon>
         </v-avatar>
