@@ -21,6 +21,9 @@ export default {
 .custom-font-family {
   font-family: "Comfortaa", cursive !important;
 }
+.custom-link{
+  text-decoration: none;
+}
 .navbar{
     position: fixed; 
     z-index: 1; 
