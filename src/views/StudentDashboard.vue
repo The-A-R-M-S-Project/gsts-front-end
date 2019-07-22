@@ -1,10 +1,26 @@
 <template>
-  <v-container>
-    <h1>THis is a Dummy Student Dashbord to be used temporariry in implementing authentication,</h1>
-  </v-container>
+  <div>
+    <div class="navbar">
+        <!-- <Navigation/> -->
+    </div>
+    <div class="pt-5">
+      <v-layout row pt-4>
+        <v-flex md3>
+
+        </v-flex>
+        <v-flex v-if="route===`timeline`" md9 style="height: 88vh;" class="scroll-y">
+
+        </v-flex>
+        <v-flex v-else md9 style="height: 88vh;" class="scroll-y">
+          
+        </v-flex>
+      </v-layout>
+    </div>
+    
+  </div>
 </template>
 <script>
 export default {
-  name: "dummy-student-dashboard"
+  name: "student-dashboard"
 };
 </script>
