@@ -71,8 +71,8 @@
 </template>
 
 <script>
-import Navigation from "@/components/Navbar.vue";
-import Sidenav from "@/components/ExaminersSidenav.vue";
+import Navigation from "@/components/ExaminersNavbar.vue";
+import Sidenav from "@/components/ExaminersSidenavView.vue";
 import StudentReportTable from "@/components/AssignedStudentsTable.vue";
 import ExaminerRecord from "@/components/ExaminerRecord.vue";
 export default {
