@@ -31,14 +31,14 @@
                 </v-card-text>
               </v-card>
             </v-flex>
-            <v-flex md6 ml-2 pl-3>
-              <v-card elevation-19>
+            <v-flex md7 pl-3>
+              <v-card elevation-19 color="teal">
                 <v-layout row justify-center>
                   <v-card-title text-xs-center><h2>Students' Reports Received:</h2></v-card-title>
                 </v-layout>
                 <v-card-text>
                   <div class="text-xs-center">
-                    <v-layout row justify-center purple--text text--lighten-1>
+                    <v-layout row justify-center purple--text text--lighten-5>
                       <h1 style="font-size: 80px">{{ reportsReceived }}</h1>
                     </v-layout>
                     <h3>Out Of</h3>
@@ -55,8 +55,10 @@
             <v-flex md5>
               <StudentReportTable />
             </v-flex>
-            <v-flex md7>
-              <ExaminerRecord />
+            <v-flex md7 pt-3 px-3>
+              <v-card >
+                <ExaminerRecord/>
+              </v-card>
             </v-flex>
           </v-layout>
         </v-flex>
