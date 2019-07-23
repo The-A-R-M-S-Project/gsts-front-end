@@ -1,8 +1,8 @@
 <template>
   <div class="pt-3">
     <v-card>
-      <v-card-title class="text-xs-center">
-        <h1>Students</h1>
+      <v-card-title justify-center>
+        <h2 class="text-xs-center">Students Assigned</h2>
       </v-card-title>
       <v-data-table :headers="headers" :items="assignedStudents">
         <template v-slot:items="props">
