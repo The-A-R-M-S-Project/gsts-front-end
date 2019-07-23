@@ -138,6 +138,12 @@ router.beforeEach((to, from, next) => {
         } else {
           next({ name: `${user.role}-dashboard` });
         }
+      } else if (to.matched.some(record => record.meta.is_examiner)) {
+        if (user.role === "examiner") {
+          next();
+        } else {
+          next({ name: `${user.role}-dashboard` });
+        }
       }
     }
   } else if (to.matched.some(record => record.meta.guest)) {
