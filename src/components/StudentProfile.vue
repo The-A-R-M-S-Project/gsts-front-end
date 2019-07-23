@@ -5,7 +5,7 @@
         <v-container fluid grid-list-lg>
           <v-layout row wrap>
             <v-flex xs12>
-              <v-card color="" class="teal--text">
+              <v-card color="" elevation="24" class="teal--text">
                   <div class="text-xs-center">
                     <h3 class="pa-2">Personal Details</h3>
                   </div>
@@ -30,7 +30,7 @@
             </v-flex>
 
             <v-flex xs12>
-              <v-card color="" class="purple--text">
+              <v-card color="" elevation="24" class="purple--text">
                   <div class="text-xs-center">
                     <h3 class="pa-2">Academic Details</h3>
                   </div>
