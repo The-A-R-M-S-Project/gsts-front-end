@@ -13,7 +13,6 @@ export default {
         data: {
           datasets: [
             {
-              label: "Viva Status",
               data: [{x: 10, y: 64},
                      {x: 10, y: 65},
                      {x: 15, y: 56},
@@ -22,7 +21,7 @@ export default {
                      {x: 45, y: 57},
                      {x: 45, y: 50},
                      {x: 45, y: 54}],
-              backgroundColor: ["blue"],
+              backgroundColor: ["blue","orange","purple","red","yellow"],
               fill: false,
               lineTension: 0.1
             }
