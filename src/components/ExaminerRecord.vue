@@ -14,13 +14,17 @@ export default {
           datasets: [
             {
               label: "Viva Status",
-              data: [{x: 10, y: 70},
+              data: [{x: 10, y: 64},
+                     {x: 10, y: 65},
                      {x: 15, y: 56},
                      {x: 25, y: 65},
-                     {x: 35, y: 50},
-                     {x: 45, y: 57}],
+                     {x: 35, y: 55},
+                     {x: 45, y: 57},
+                     {x: 45, y: 50},
+                     {x: 45, y: 54}],
               backgroundColor: ["blue"],
-              fill: false
+              fill: false,
+              lineTension: 0.1
             }
           ],
           labels: ["2018", "2017", "2016", "2015", "2014"]
