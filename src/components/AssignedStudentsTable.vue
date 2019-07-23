@@ -1,6 +1,6 @@
 <template>
   <div class="pt-3">
-    <v-card elevation="24">
+    <v-card elevation="24" color="blue">
       <v-card-title justify-center>
         <h2 class="text-xs-center">Students Assigned</h2>
       </v-card-title>
