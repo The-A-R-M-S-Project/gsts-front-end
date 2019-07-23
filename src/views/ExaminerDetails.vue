@@ -11,7 +11,7 @@
         <v-flex xs12 md9>
           <v-layout row>
             <v-flex md5>
-              <v-card elevation-24 color="purple-lighten-4">
+              <v-card elevation="4" color="purple-lighten-4">
                 <v-layout row>
                   <v-card-title text-xs-center ml-5><h3>Marked Reports</h3></v-card-title>
                   <v-spacer></v-spacer>
@@ -32,7 +32,7 @@
               </v-card>
             </v-flex>
             <v-flex md7 pl-3>
-              <v-card elevation-19 color="teal">
+              <v-card elevation="24" color="teal">
                 <v-layout row justify-center>
                   <v-card-title text-xs-center><h2>Students' Reports Received:</h2></v-card-title>
                 </v-layout>
@@ -56,7 +56,10 @@
               <StudentReportTable />
             </v-flex>
             <v-flex md7 pt-3 px-3>
-              <v-card >
+              <v-card elevation="24">
+                  <v-card-text pa-1>
+                    <h2 class="text-xs-center custom-font-family headline">Examiner's Record</h2>
+                  </v-card-text>
                 <ExaminerRecord/>
               </v-card>
             </v-flex>
