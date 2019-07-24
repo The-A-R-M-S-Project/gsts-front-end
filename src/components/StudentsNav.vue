@@ -12,7 +12,7 @@
           to="/examiners"
           @click="logOut"
         >
-            <v-icon>person</v-icon>
+            <v-icon>power_settings_new</v-icon>
             <span>&nbsp;logout</span>
         </v-btn>
       </div>
