@@ -1,22 +1,19 @@
 <template>
   <v-navigation-drawer 
     dark
-    stateless 
-    value="true" 
-    style="height: 89vh;"
-    width="230px"
+    height= "89vh"
+    width="260px"
     elevation="23"
   >
-    <v-toolbar flat style="display: flex;" class="transparent justify-center pl-0" height="220" color="black">
+    <v-toolbar flat style="display: flex;" class="justify-center pl-0" height="220">
         <v-avatar color="blue grey lighten-2" size="200">
-            <v-icon dark size="150px">person</v-icon>
+            <v-icon color="grey" size="150px">person</v-icon>
         </v-avatar>
     </v-toolbar>
-    <div class="text-xs-center white--text">
-      <strong><h3>student name</h3></strong>
-    </div>
+    <h1 class="font-weight-bold white--text text-xs-center">Student Name</h1>
+    <v-divider></v-divider>
     <v-list class="pt-0" dense>
-      <v-divider></v-divider>
+      
 
       <v-list-tile @click="clickedReportStatus()">
         <v-list-tile-action>
