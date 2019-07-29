@@ -8,7 +8,7 @@ import Examiners from "./views/Examiners.vue";
 import ExaminersDetails from "./views/ExaminerDetails.vue";
 import PrincipalDashboard from "./views/PrincipalDashboard.vue";
 import StudentDashboard from "./views/StudentDashboard.vue";
-import DummyDeanDashboard from "./views/DummyDeanDashboard.vue";
+import DeanSEDashboard from "./views/EngDeanDashboard.vue";
 import ExaminerDashboard from "./views/ExaminerDashboard.vue";
 
 Vue.use(Router);
@@ -53,7 +53,7 @@ let router = new Router({
     {
       path: "/dean-dashboard",
       name: "dean-dashboard",
-      component: DummyDeanDashboard,
+      component: DeanSEDashboard,
       meta: {
         requiresAuth: true,
         is_dean: true
