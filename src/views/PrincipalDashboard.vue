@@ -1,10 +1,17 @@
 <template>
     <div>
-        principal dashboard goes here
+        <Navigation/>
     </div>
 </template>
 <script>
+import Navigation from "@/components/StudentsNav.vue"
 export default {
-    name: 'principal-dashboard'
+    name: 'principal-dashboard',
+    components: {
+      Navigation,
+    }
 }
 </script>
+<style>
+
+</style>
