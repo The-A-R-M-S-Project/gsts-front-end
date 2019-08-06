@@ -12,8 +12,8 @@
         prepend-icon
         active-class
         :value="false"
-        v-for="(department, i) in departments"
-        :key="i"
+        v-for="(department, _id) in departments"
+        :key="_id"
         v-on:click="clickedDepartment(department.name)"
       >
         <template v-slot:activator>
@@ -21,8 +21,7 @@
             <v-list-tile-title>{{ department.name }}</v-list-tile-title>
           </v-list-tile>
         </template>
-
-        <v-list-tile v-for="(program, i) in department.programs" :key="i">
+        <v-list-tile v-for="(program) in programmes" :key="program.department">
           <v-icon small dark>star</v-icon>
           <v-list-tile-action
             style="font-size: 12px;"
@@ -39,8 +38,23 @@ import Departments from "@/services/departments-service.js";
 export default {
   data() {
     return {
-      departments: Departments.ECEdepartments
+      departments: [],
+      programmes: []
     };
+  },
+  created() {
+    Departments.getDepartments().then(department => {
+      this.departments.push(department[1])
+      this.departments.push(department[3])
+      this.departments.push(department[6])
+      console.log('the departments are', this.departments[0].name)
+    }),
+    Departments.getDeptProgramme().then(programme => {
+      this.programmes.push(programme.programs[2])
+      this.programmes.push(programme.programs[5])
+      this.programmes.push(programme.programs[9])
+      console.log('the programmes are', this.programmes)
+    })
   },
   methods: {
     clickedLink: function(programName) {

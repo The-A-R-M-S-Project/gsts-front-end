@@ -1,32 +1,18 @@
-let ECEdepartments=[
-        {
-            name: 'Electrical and Computer',
-            programs: [
-                {
-                    name: "Masters in Computer engineering"
-                },
-                {
-                    name: "Masters in Telecommunications engineering"
-                }
-            ]
-        },
-        {
-            name: 'Civil and Environmental',
-            programs: [
-                {
-                    name: "Masters in Civil engineering"
-                }
-            ]
-        },
-        {
-            name: 'Mechanical',
-            programs: [
-                {
-                    name: "Masters in Mechanical engineering"
-                }
-            ]
-        }
-    ]
+import request from "@/services/base-request.js"
+
 export default {
-    ECEdepartments
+    getDepartments() {
+        let uri = 'https://arms-graduate-student-tracker.herokuapp.com/api/department'
+        return request.get({uri: uri}).then(response => {
+            console.log('The response is ', response)
+            return response
+        })
+    },
+    getDeptProgramme() {
+        let uri = 'https://arms-graduate-student-tracker.herokuapp.com/api/program'
+        return request.get({uri: uri}).then(response =>{
+            console.log('The response is', response)
+            return response
+        })
+    }
 }
