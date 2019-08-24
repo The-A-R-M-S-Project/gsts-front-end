@@ -9,7 +9,7 @@
           flat
           small
           class="title custom-font-family text-capitalize white--text"
-          to="/examiners"
+          to="/"
           @click="logOut"
         >
             <v-icon>power_settings_new</v-icon>
