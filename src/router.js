@@ -6,7 +6,8 @@ import Departments from "./views/Departments.vue";
 import StudentDetails from "./views/AdminStudentView.vue";
 import Examiners from "./views/Examiners.vue";
 import ExaminersDetails from "./views/ExaminerDetails.vue";
-import PrincipalDashboard from "./views/PrincipalDashboard.vue";
+import ECEDashboard from "./views/ECEDashboard.vue";
+import PrincipalDashboard from "./views/PrincipalDashboard"
 import StudentDashboard from "./views/StudentDashboard.vue";
 import DeanSEDashboard from "./views/EngDeanDashboard.vue";
 import ExaminerDashboard from "./views/ExaminerDashboard.vue";
@@ -63,6 +64,15 @@ let router = new Router({
       path: "/principal-dashboard",
       name: "principal-dashboard",
       component: PrincipalDashboard,
+      meta: {
+        requiresAuth: true,
+        is_principal: true
+      }
+    },
+    {
+      path: "/ECE-dashboard",
+      name: "principal-dashboard",
+      component: ECEDashboard,
       meta: {
         requiresAuth: true,
         is_principal: true
