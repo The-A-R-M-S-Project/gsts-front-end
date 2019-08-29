@@ -35,19 +35,23 @@
 
 <script>
 import Departments from "@/services/departments-service.js";
+import EngDepartments from "@/services/departments-service.js";
+
 export default {
   data() {
     return {
       departments: [],
+      departmentIds: [],
       programmes: []
     };
   },
   created() {
-    Departments.getDepartments().then(department => {
-      this.departments.push(department[1])
-      this.departments.push(department[3])
-      this.departments.push(department[6])
-      console.log('the departments are', this.departments[0].name)
+    EngDepartments.getEngDepartments().then(department => {
+      this.departments = department.departments
+      for (let x in this.departments){
+          this.departmentIds.push(this.departments[x]._id)
+      }
+      console.log('the departments are', this.departmentIds)
     }),
     Departments.getDeptProgramme().then(programme => {
       this.programmes.push(programme.programs[2])
