@@ -13,5 +13,13 @@ export default {
         return request.get({uri: uri}).then(response =>{
             return response
         })
+    },
+
+    getStudentData(id){
+        let uri = `https://arms-graduate-student-tracker.herokuapp.com/api/program/${id}/student`
+        return request.get({uri: uri}).then(response=>{
+            console.log(response)
+            return response
+        })
     }
 }

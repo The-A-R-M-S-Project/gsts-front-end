@@ -35,9 +35,11 @@
 
 <script>
 import StudentData from "@/services/student-data-service.js"
+import DepartmentService from "@/services/departments-service.js"
 export default {
     props: {
-          program: String
+          program: String,
+          _id: String
       },
     data() {
         return {
@@ -59,6 +61,11 @@ export default {
         ],
         students: StudentData
         };
+    },
+    computed:{
+      studentData: () => DepartmentService.getStudentData(this._id).then(response => {
+                          return response.data.students
+                          })
     }
 };
 </script>

@@ -28,7 +28,7 @@
             <v-icon small dark>star</v-icon>
             <v-list-tile-action
               style="font-size: 12px;"
-              v-on:click="clickedLink(program.name)"
+              v-on:click="clickedLink(program.name, program._id)"
             >
                 {{ program.name }}
             </v-list-tile-action>
@@ -59,8 +59,8 @@ export default {
   },
 
   methods: {
-    clickedLink: function(programName) {
-      this.$emit("clickedLink", programName);
+    clickedLink: function(programName, programID) {
+      this.$emit("clickedLink", programName, programID);
     },
     clickedDepartment: function(departmentName) {
       this.$emit("clickedDepartment", departmentName);

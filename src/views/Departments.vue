@@ -10,7 +10,7 @@
             <v-flex md9 pt-5 style="height: 95vh;" class="scroll-y">
                 <v-container>
                     <h1 class="text-xs-center">{{ department+' Engineering'}}</h1>
-                    <StudentsTable :program="program"></StudentsTable>
+                    <StudentsTable :program="program" :_id="programID"></StudentsTable>
                 </v-container>
             </v-flex>
         </v-layout>
@@ -34,12 +34,14 @@ import Departments from "@/services/departments-service.js";
         data(){
             return{
                 program: null,
-                department: 'Electrical and Computer'
+                department: 'Electrical and Computer',
+                programID: null
             }
         },
         methods: {
-            setProgram(programName){
+            setProgram(programName, programID){
                 this.program = programName
+                this.programID = programID
             },
             setDepartment(departmentName){
                 this.department = departmentName
