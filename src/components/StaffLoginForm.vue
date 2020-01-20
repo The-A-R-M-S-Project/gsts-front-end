@@ -62,7 +62,7 @@ export default {
       if (!this.password == "" && !this.email == "") {
         this.$http
           .post(
-            "https://arms-graduate-student-tracker.herokuapp.com/api/lecturer/login",
+            "https://arms-graduate-student-tracker.herokuapp.com/api/staff/login",
             {
               email: this.email,
               password: this.password

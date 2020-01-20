@@ -7,9 +7,20 @@
           flat
           small
           class="title custom-font-family text-capitalize font-weight-bold white--text"
+          to="/ECE-dashboard"
         >Dashboard</v-btn>
-        <v-btn flat small class="title custom-font-family text-capitalize white--text">Departments</v-btn>
-        <v-btn flat small class="title custom-font-family text-capitalize white--text">Examiners</v-btn>
+        <v-btn
+          flat
+          small
+          class="title custom-font-family text-capitalize white--text"
+          to="/departments"
+        >Departments</v-btn>
+        <v-btn
+          flat
+          small
+          class="title custom-font-family text-capitalize white--text"
+          to="/examiners"
+        >Examiners</v-btn>
       </div>
     </v-toolbar>
   </div>
