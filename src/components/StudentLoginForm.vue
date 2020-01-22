@@ -1,48 +1,55 @@
 <template>
-  <v-form ref="form" v-model="form" class="login-form" name="login">
-    <v-container>
-      <v-text-field
-        v-model="email"
-        :rules="emailRules"
-        label="College Email"
-        prepend-inner-icon="person"
-        type="email"
-        color="purple"
-        required
-      ></v-text-field>
-      <v-text-field
-        v-model="password"
-        :rules="passwordRules(8)"
-        counter="8"
-        label="password"
-        prepend-inner-icon="lock"
-        type="password"
-        color="purple"
-        required
-      ></v-text-field>
-      <div class="px-5">
-        <v-btn
-          block
-          round
-          large
-          depressed
-          ripple
-          class="yellow font-weight-bold"
-          type="submit"
-          v-on:click="submitForm"
-        >
-          <v-icon>subdirectory_arrow_right</v-icon>
-          <span>&nbsp;Login</span>
-        </v-btn>
-      </div>
-    </v-container>
-  </v-form>
+  <div>
+    <v-form ref="form" v-model="form" class="login-form" name="login">
+      <v-container>
+        <v-text-field
+          v-model="email"
+          :rules="emailRules"
+          label="College Email"
+          prepend-inner-icon="person"
+          type="email"
+          color="purple"
+          required
+        ></v-text-field>
+        <v-text-field
+          v-model="password"
+          label="password"
+          prepend-inner-icon="lock"
+          type="password"
+          color="purple"
+          required
+        ></v-text-field>
+        <div class="px-5">
+          <v-btn
+            block
+            round
+            large
+            depressed
+            ripple
+            class="yellow font-weight-bold"
+            type="submit"
+            v-on:click="submitForm"
+          >
+            <v-icon>subdirectory_arrow_right</v-icon>
+            <span>&nbsp;Login</span>
+          </v-btn>
+        </div>
+      </v-container>
+    </v-form>
+    <Alert :show="message"/>
+  </div>
 </template>
 <script>
+import Alert from "@/components/Alert.vue";
+
 export default {
   name: "student-login-form",
+  components: {
+    Alert
+  },
   data: () => ({
     form: false,
+    message: false,
     email: "",
     emailRules: [
       emailField =>
@@ -87,6 +94,7 @@ export default {
             }
           })
           .catch(error => {
+            this.message = true;
             console.log(error.response.data.message);
           });
       } else {

@@ -1,4 +1,5 @@
 <template>
+<div>
   <v-form ref="form" v-model="form" class="login-form" name="login">
     <v-container>
       <v-text-field
@@ -12,8 +13,6 @@
       ></v-text-field>
       <v-text-field
         v-model="password"
-        :rules="passwordRules(8)"
-        counter="8"
         label="password"
         prepend-inner-icon="lock"
         type="password"
@@ -37,12 +36,21 @@
       </div>
     </v-container>
   </v-form>
+  <Alert :show="message" />
+  </div>
 </template>
+
 <script>
+import Alert from "@/components/Alert.vue";
+
 export default {
   name: "staff-login-form",
+  components: {
+    Alert
+  },
   data: () => ({
     form: false,
+    message: false,
     email: "",
     emailRules: [
       emailField =>
@@ -87,6 +95,7 @@ export default {
             }
           })
           .catch(error => {
+            this.message = true;
             console.log(error.response.data.message);
           });
       } else {
