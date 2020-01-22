@@ -11,6 +11,8 @@ import PrincipalDashboard from "./views/PrincipalDashboard"
 import StudentDashboard from "./views/StudentDashboard.vue";
 import DeanSEDashboard from "./views/EngDeanDashboard.vue";
 import ExaminerDashboard from "./views/ExaminerDashboard.vue";
+import ReportStatus from "./components/StudentTimeline.vue";
+import StudentProfile from "./components/StudentProfile.vue";
 
 Vue.use(Router);
 
@@ -40,7 +42,19 @@ let router = new Router({
       meta: {
         requiresAuth: true,
         is_student: true
-      }
+      },
+      children: [
+        {
+          path: "report-status",
+          name: "reportStatus",
+          component: ReportStatus
+        },
+        {
+          path: "student-profile",
+          name: "studentProfile",
+          component: StudentProfile
+        }
+      ]
     },
     {
       path: "/examiner-dashboard",
@@ -146,7 +160,7 @@ router.beforeEach((to, from, next) => {
         if (user.role === "student") {
           next();
         } else {
-          next({ name: `${user.role}-dashboard` });
+          next({ name: `${user.role}-dashboard/report-status` });
         }
       } else if (to.matched.some(record => record.meta.is_examiner)) {
         if (user.role === "examiner") {
