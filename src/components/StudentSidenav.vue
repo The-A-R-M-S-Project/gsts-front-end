@@ -15,20 +15,20 @@
     <v-list class="pt-0" dense>
       
 
-      <v-list-tile @click="clickedReportStatus()">
+      <v-list-tile>
         <v-list-tile-action>
           <v-icon> assessment </v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
-          <v-list-tile-title>Report Status</v-list-tile-title>
+          <v-list-tile-title><router-link to="report-status" class="bttn">Report Status</router-link></v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
-      <v-list-tile @click="clickedProfile()">
+      <v-list-tile>
         <v-list-tile-action>
           <v-icon> person </v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
-          <v-list-tile-title>Profile</v-list-tile-title>
+          <v-list-tile-title ><router-link to="student-profile" class="bttn">Profile</router-link></v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
     </v-list>
@@ -37,16 +37,14 @@
 
 <script>
 export default {
-  methods: {
-    clickedReportStatus: function() {
-      let route = 'timeline'
-      this.$emit('routeChange', route)
-    },
-    clickedProfile: function() {
-      let route = 'profile'
-      this.$emit('clickedProfile', route)
-    }
-  }
+  
 };
 </script>
+
+<style>
+.bttn {
+  text-decoration: none;
+  color: white;
+}
+</style>
 
