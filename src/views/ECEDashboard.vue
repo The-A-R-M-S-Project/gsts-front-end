@@ -41,6 +41,7 @@
                 <v-card elevation="24">
                   <v-card-text pa-1>
                     <h2 class="text-xs-center custom-font-family headline">Upcomping deadlines</h2>
+                    <!-- <p>This a test paragraph to be removed later</p> -->
                   </v-card-text>
                   <Calendar />
                 </v-card>
