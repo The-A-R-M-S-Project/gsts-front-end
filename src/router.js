@@ -38,6 +38,7 @@ let router = new Router({
     {
       path: "/student-dashboard",
       name: "student-dashboard",
+      redirect: "/student-dashboard/report-status",
       component: StudentDashboard,
       meta: {
         requiresAuth: true,
@@ -46,7 +47,7 @@ let router = new Router({
       children: [
         {
           path: "report-status",
-          name: "reportStatus",
+          name: "report-status",
           component: ReportStatus
         },
         {
