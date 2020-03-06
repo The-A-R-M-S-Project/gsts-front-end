@@ -10,11 +10,17 @@ import Axios from "axios";
 
 Vue.use(Vuetify);
 Vue.prototype.$http = Axios;
+const token = localStorage.getItem("access");
+if (token) {
+    Vue.prototype.$http.defaults.headers.common[
+        "Authorization"
+    ] = `bearer ${token}`;
+}
 
 Vue.config.productionTip = false;
 
 new Vue({
-	router,
-	store,
-	render: h => h(App)
+    router,
+    store,
+    render: h => h(App)
 }).$mount("#app");
