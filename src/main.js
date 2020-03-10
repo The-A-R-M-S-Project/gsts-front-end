@@ -1,12 +1,11 @@
 import Vue from "vue";
 import Vuetify from "vuetify";
 import "vuetify/dist/vuetify.min.css";
-import "./plugins/vuetify";
 import App from "./App.vue";
 import router from "./router";
-import store from "./store";
 import "./registerServiceWorker";
 import Axios from "axios";
+import store from "./ store/store";
 
 Vue.use(Vuetify);
 Vue.prototype.$http = Axios;
