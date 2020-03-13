@@ -20,10 +20,10 @@ const mutations = {
 };
 const actions = {
     async login({ commit }, data) {
+        commit("IsLoading", true);
         await axiosInstance
             .post("/staff/login", data)
             .then(response => {
-                commit("IsLoading", true);
                 localStorage.setItem(
                     "user",
                     JSON.stringify(response.data.data.user)

@@ -26,6 +26,7 @@
             large
             block
             depressed
+            :loading="isLoading"
             ripple
             class="yellow font-weight-bold"
             type="submit"
@@ -51,6 +52,7 @@ export default {
   },
   data: () => ({
     form: false,
+    loading: false,
     message: false,
     show: false,
     email: "",
@@ -103,6 +105,7 @@ export default {
       return this.$store.getters.user;
     },
     isLoading() {
+      console.log("isLoading: ", this.$store.getters.isLoading);
       return this.$store.getters.isLoading;
     },
     loginError() {
