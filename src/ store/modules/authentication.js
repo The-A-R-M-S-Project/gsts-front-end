@@ -22,7 +22,7 @@ const actions = {
     async login({ commit }, data) {
         commit("IsLoading", true);
         await axiosInstance
-            .post("/staff/login", data)
+            .post(`/${data.user}/login`, data.credentials)
             .then(response => {
                 localStorage.setItem(
                     "user",

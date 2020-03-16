@@ -75,8 +75,11 @@ export default {
       if (!this.password == "" && !this.email == "") {
         this.$store
           .dispatch("login", {
-            email: this.email,
-            password: this.password
+            user: "staff",
+            credentials: {
+              email: this.email,
+              password: this.password
+            }
           })
           .then(() => {
             if (this.isLogged) {

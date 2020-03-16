@@ -28,9 +28,10 @@
             large
             depressed
             ripple
+            :loading="isLoading"
             class="yellow font-weight-bold"
             type="submit"
-            v-on:click="submitForm"
+            v-on:click="login"
           >
             <v-icon>subdirectory_arrow_right</v-icon>
             <span>&nbsp;Login</span>
@@ -52,6 +53,7 @@ export default {
   data: () => ({
     form: false,
     show: false,
+    laoding: false,
     message: false,
     email: "",
     emailRules: [
@@ -67,42 +69,49 @@ export default {
     required: [field => !!field || "This field is required"]
   }),
   methods: {
-    submitForm(event) {
+    login() {
       event.preventDefault();
       if (!this.password == "" && !this.email == "") {
-        this.$http
-          .post(
-            "https://arms-graduate-student-tracker.herokuapp.com/api/student/login",
-            {
+        this.$store
+          .dispatch("login", {
+            user: "student",
+            credentials: {
               email: this.email,
               password: this.password
             }
-          )
-          .then(response => {
-            console.log({ response });
-            localStorage.setItem(
-              "user",
-              JSON.stringify(response.data.data.user)
-            );
-            localStorage.setItem("jwt", response.data.token);
-
-            if (localStorage.getItem("jwt") != null) {
-              this.$emit("loggedIn");
+          })
+          .then(() => {
+            if (this.isLogged) {
               if (this.$route.params.continue != null) {
                 this.$router.push(this.$route.params.continue);
               } else {
-                const user = response.data.data.user;
-                this.$router.push({ name: `student-dashboard` });
+                const user = this.user;
+                this.$router.push({ name: `${user.role}-dashboard` });
               }
             }
           })
           .catch(error => {
             this.message = true;
-            console.log(error.response.data.message);
+            console.log(error);
+            console.log(this.loginError);
           });
       } else {
-        alert("Please provide both email and password to log in");
+        alert("Please provide both email and password to log in!");
       }
+    }
+  },
+  computed: {
+    isLogged() {
+      return this.$store.getters.isLoggedIn;
+    },
+    user() {
+      return this.$store.getters.user;
+    },
+    isLoading() {
+      return this.$store.getters.isLoading;
+    },
+    loginError() {
+      return this.$store.getters.loginError;
     }
   }
 };
