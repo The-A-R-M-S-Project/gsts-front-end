@@ -15,7 +15,9 @@
           v-model="password"
           label="password"
           prepend-inner-icon="lock"
-          type="password"
+          :append-icon="show ? 'visibility' : 'visibility_off'"
+          :type="show ? 'text' : 'password'"
+          @click:append="show = !show"
           color="purple"
           required
         ></v-text-field>
@@ -36,7 +38,7 @@
         </div>
       </v-container>
     </v-form>
-    <Alert :show="message"/>
+    <Alert :show="message" />
   </div>
 </template>
 <script>
@@ -49,6 +51,7 @@ export default {
   },
   data: () => ({
     form: false,
+    show: false,
     message: false,
     email: "",
     emailRules: [

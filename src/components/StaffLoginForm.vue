@@ -15,8 +15,9 @@
           v-model="password"
           label="password"
           prepend-inner-icon="lock"
-          :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+          :append-icon="show ? 'visibility' : 'visibility_off'"
           :type="show ? 'text' : 'password'"
+          @click:append="show = !show"
           required
           color="purple"
         ></v-text-field>
@@ -105,7 +106,6 @@ export default {
       return this.$store.getters.user;
     },
     isLoading() {
-      console.log("isLoading: ", this.$store.getters.isLoading);
       return this.$store.getters.isLoading;
     },
     loginError() {

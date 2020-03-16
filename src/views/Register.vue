@@ -70,7 +70,9 @@
                     :rules="passwordRules(8)"
                     label="Password"
                     required
-                    type="password"
+                    :append-icon="show ? 'visibility' : 'visibility_off'"
+                    :type="show ? 'text' : 'password'"
+                    @click:append="show = !show"
                     prepend-inner-icon="lock"
                     height="28"
                     color="purple"
@@ -80,7 +82,9 @@
                     label="Confirm Password"
                     :rules="passwordConfirmRules"
                     required
-                    type="password"
+                    :append-icon="show ? 'visibility' : 'visibility_off'"
+                    :type="show ? 'text' : 'password'"
+                    @click:append="show = !show"
                     prepend-inner-icon="lock"
                     height="28"
                     color="purple"
@@ -117,6 +121,7 @@ export default {
   data() {
     return {
       firstName: "",
+      show: false,
       lastName: "",
       email: "",
       emailRules: [
