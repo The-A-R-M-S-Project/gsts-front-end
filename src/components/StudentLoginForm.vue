@@ -39,22 +39,17 @@
         </div>
       </v-container>
     </v-form>
-    <Alert :show="message" />
+    <div v-if="displayError" class="alert">{{ loginError }}</div>
   </div>
 </template>
 <script>
-import Alert from "@/components/Alert.vue";
-
 export default {
   name: "student-login-form",
-  components: {
-    Alert
-  },
   data: () => ({
     form: false,
     show: false,
-    laoding: false,
-    message: false,
+    displayError: false,
+    loading: false,
     email: "",
     emailRules: [
       emailField =>
@@ -88,12 +83,12 @@ export default {
                 const user = this.user;
                 this.$router.push({ name: `${user.role}-dashboard` });
               }
+            } else {
+              this.displayError = true;
             }
           })
           .catch(error => {
-            this.message = true;
-            console.log(error);
-            console.log(this.loginError);
+            console.log("Generic message", error);
           });
       } else {
         alert("Please provide both email and password to log in!");
