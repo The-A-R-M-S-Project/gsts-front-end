@@ -96,10 +96,11 @@
                       large
                       round
                       block
+                      :loading="isLoading"
                       depressed
                       ripple
                       class="yellow font-weight-bold"
-                      v-on:click="handleSubmit"
+                      @click="register"
                     >
                       <v-icon>person_add</v-icon>
                       <span>&nbsp;Register</span>
@@ -107,6 +108,11 @@
                   </div>
                 </v-container>
               </v-form>
+              <div v-if="displaySignUpError" class="alert">{{ signupError }}</div>
+              <div
+                v-if="displayValidityError"
+                class="alert"
+              >Please ensure that you have filled all the fields</div>
             </v-container>
           </v-flex>
         </v-layout>
@@ -122,6 +128,9 @@ export default {
     return {
       firstName: "",
       show: false,
+      loading: false,
+      displayValidityError: false,
+      displaySignUpError: false,
       lastName: "",
       email: "",
       emailRules: [
@@ -149,14 +158,11 @@ export default {
     };
   },
   methods: {
-    handleSubmit(event) {
+    register() {
       event.preventDefault();
       if (this.password === this.passwordConfirm && this.password != "") {
-        let url =
-          "https://arms-graduate-student-tracker.herokuapp.com/api/student/signup";
-
-        this.$http
-          .post(url, {
+        this.$store
+          .dispatch("register", {
             firstName: this.firstName,
             lastName: this.lastName,
             email: this.email,
@@ -164,32 +170,40 @@ export default {
             passwordConfirm: this.passwordConfirm,
             phoneNumber: this.phoneNumber
           })
-          .then(response => {
-            console.log({ response });
-            localStorage.setItem(
-              "user",
-              JSON.stringify(response.data.data.user)
-            );
-            localStorage.setItem("jwt", response.data.token);
-
-            if (localStorage.getItem("jwt") != null) {
-              this.$emit("loggedIn");
-              if (this.$route.params.nextUrl != null) {
-                this.$router.push(this.$route.params.nextUrl);
+          .then(() => {
+            if (this.isLogged) {
+              if (this.$route.params.continue != null) {
+                this.$router.push(this.$route.params.continue);
               } else {
-                this.$router.push({ name: "student-dashboard" });
+                const user = this.user;
+                this.$router.push({ name: `${user.role}-dashboard` });
               }
+            } else {
+              this.displaySignUpError = true;
             }
           })
           .catch(error => {
-            console.error(error.response.data.message);
+            console.log(error);
           });
       } else {
         this.password = "";
         this.passwordConfirm = "";
-
-        alert("Please ensure that all fields are filled");
+        this.displayValidityError = true;
       }
+    }
+  },
+  computed: {
+    isLogged() {
+      return this.$store.getters.isLoggedIn;
+    },
+    user() {
+      return this.$store.getters.user;
+    },
+    isLoading() {
+      return this.$store.getters.isLoading;
+    },
+    signupError() {
+      return this.$store.getters.signupError;
     }
   }
 };
@@ -202,7 +216,11 @@ export default {
     margin: auto;
     font-weight: bold;
   }
+  .alert {
+    color: red;
+    border: solid red 1px;
+    border-radius: 10px;
+    margin-bottom: 0.5rem;
+  }
 }
 </style>
-
-
