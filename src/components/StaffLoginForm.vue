@@ -39,7 +39,8 @@
         </div>
       </v-container>
     </v-form>
-    <div v-if="displayError" class="alert">{{ loginError }}</div>
+    <div v-if="displayLoginError" class="alert">{{ loginError }}</div>
+    <div v-if="displayError" class="alert">Please provide both email and password to log in!</div>
   </div>
 </template>
 
@@ -50,6 +51,7 @@ export default {
     form: false,
     loading: false,
     show: false,
+    displayLoginError: false,
     displayError: false,
     email: "",
     emailRules: [
@@ -60,7 +62,8 @@ export default {
     passwordRules: len => [
       passwordField =>
         (passwordField || "").length >= len ||
-        `Invalid character length, required ${len}`
+        `Invalid character length, required ${len}`,
+      password => !!password || "Password is required"
     ],
     required: [field => !!field || "This field is required"]
   }),
@@ -85,14 +88,14 @@ export default {
                 this.$router.push({ name: `${user.role}-dashboard` });
               }
             } else {
-              this.displayError = true;
+              this.displayLoginError = true;
             }
           })
           .catch(error => {
             console.log("Generic message: ", error);
           });
       } else {
-        alert("Please provide both email and password to log in!");
+        this.displayError = true;
       }
     }
   },

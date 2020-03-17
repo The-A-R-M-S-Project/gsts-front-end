@@ -39,7 +39,8 @@
         </div>
       </v-container>
     </v-form>
-    <div v-if="displayError" class="alert">{{ loginError }}</div>
+    <div v-if="displayLoginError" class="alert">{{ loginError }}</div>
+    <div v-if="displayError" class="alert">Please provide both email and password to login!</div>
   </div>
 </template>
 <script>
@@ -48,6 +49,7 @@ export default {
   data: () => ({
     form: false,
     show: false,
+    displayLoginError: false,
     displayError: false,
     loading: false,
     email: "",
@@ -84,14 +86,14 @@ export default {
                 this.$router.push({ name: `${user.role}-dashboard` });
               }
             } else {
-              this.displayError = true;
+              this.displayLoginError = true;
             }
           })
           .catch(error => {
             console.log("Generic message", error);
           });
       } else {
-        alert("Please provide both email and password to log in!");
+        this.displayError = true;
       }
     }
   },
