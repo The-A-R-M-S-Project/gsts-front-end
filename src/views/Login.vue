@@ -42,7 +42,7 @@
                     to="/register"
                     class="grey login__register-btn"
                   >
-                    <v-icon>person_add</v-icon>
+                    <v-icon>mdi-account-plus</v-icon>
                     <span>&nbsp;Register</span>
                   </v-btn>
                 </v-flex>

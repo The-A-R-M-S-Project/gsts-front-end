@@ -29,7 +29,7 @@
                         :counter="10"
                         label="First name"
                         required
-                        prepend-inner-icon="person"
+                        prepend-inner-icon="mdi-account"
                         height="28"
                         color="purple"
                       ></v-text-field>
@@ -41,7 +41,7 @@
                         :counter="10"
                         label="Last name"
                         required
-                        prepend-inner-icon="person"
+                        prepend-inner-icon="mdi-account"
                         height="28"
                         color="purple"
                       ></v-text-field>
@@ -52,7 +52,7 @@
                     label="Email"
                     :rules="emailRules"
                     required
-                    prepend-inner-icon="person"
+                    prepend-inner-icon="mdi-account"
                     height="28"
                     color="purple"
                   ></v-text-field>
@@ -61,7 +61,7 @@
                     label="Phone Number e.g +2567... or 07..."
                     :rules="phoneNumberRules"
                     required
-                    prepend-inner-icon="phone"
+                    prepend-inner-icon="mdi-phone"
                     height="28"
                     color="purple"
                   ></v-text-field>
@@ -70,10 +70,10 @@
                     :rules="passwordRules(8)"
                     label="Password"
                     required
-                    :append-icon="show ? 'visibility' : 'visibility_off'"
+                    :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                     :type="show ? 'text' : 'password'"
                     @click:append="show = !show"
-                    prepend-inner-icon="lock"
+                    prepend-inner-icon="mdi-lock"
                     height="28"
                     color="purple"
                   ></v-text-field>
@@ -82,10 +82,10 @@
                     label="Confirm Password"
                     :rules="passwordConfirmRules"
                     required
-                    :append-icon="show ? 'visibility' : 'visibility_off'"
+                    :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                     :type="show ? 'text' : 'password'"
                     @click:append="show = !show"
-                    prepend-inner-icon="lock"
+                    prepend-inner-icon="mdi-lock"
                     height="28"
                     color="purple"
                   ></v-text-field>
@@ -102,7 +102,7 @@
                       class="yellow font-weight-bold"
                       @click="register"
                     >
-                      <v-icon>person_add</v-icon>
+                      <v-icon>mdi-account-plus</v-icon>
                       <span>&nbsp;Register</span>
                     </v-btn>
                   </div>

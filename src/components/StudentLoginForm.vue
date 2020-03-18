@@ -6,7 +6,7 @@
           v-model="email"
           :rules="emailRules"
           label="College Email"
-          prepend-inner-icon="person"
+          prepend-inner-icon="mdi-account"
           type="email"
           color="purple"
           required
@@ -14,8 +14,8 @@
         <v-text-field
           v-model="password"
           label="password"
-          prepend-inner-icon="lock"
-          :append-icon="show ? 'visibility' : 'visibility_off'"
+          prepend-inner-icon="mdi-lock"
+          :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
           :type="show ? 'text' : 'password'"
           @click:append="show = !show"
           color="purple"
@@ -33,7 +33,7 @@
             type="submit"
             v-on:click="login"
           >
-            <v-icon>subdirectory_arrow_right</v-icon>
+            <v-icon>mdi-subdirectory-arrow-right</v-icon>
             <span>&nbsp;Login</span>
           </v-btn>
         </div>

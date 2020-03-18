@@ -4,7 +4,6 @@
       <v-toolbar-title>G.S.T.S</v-toolbar-title>
       <v-spacer></v-spacer>
       <div>
-        
         <v-btn
           flat
           small
@@ -12,8 +11,8 @@
           to="/"
           @click="logOut"
         >
-            <v-icon>power_settings_new</v-icon>
-            <span>&nbsp;logout</span>
+          <v-icon>mdi-power</v-icon>
+          <span>&nbsp;logout</span>
         </v-btn>
       </div>
     </v-toolbar>
@@ -21,31 +20,31 @@
 </template>
 <script>
 export default {
-    name: "navbar",
-    methods: {
+  name: "navbar",
+  methods: {
     logOut() {
-        if (localStorage.getItem("jwt") != null) {
+      if (localStorage.getItem("jwt") != null) {
         const role = ["principal", "dean", "examiner"].includes(
-            localStorage.getItem("user").role
+          localStorage.getItem("user").role
         )
-            ? "lecturer"
-            : "student";
+          ? "lecturer"
+          : "student";
         this.$http
-            .get(
+          .get(
             `https://arms-graduate-student-tracker.herokuapp.com/api/${role}/logout`
-            )
-            .then(response => {
+          )
+          .then(response => {
             console.log("Logged Out!!");
             localStorage.removeItem("jwt");
             localStorage.removeItem("user");
             this.$router.push({ name: "login" });
-            })
-            .catch(error => {
+          })
+          .catch(error => {
             console.log(error.response.data.message);
-            });
-        }
+          });
+      }
     }
-    }
+  }
 };
 </script>
 
