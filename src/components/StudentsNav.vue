@@ -7,9 +7,9 @@
         <v-btn
           flat
           small
+          :loading="logoutLoading"
           class="title custom-font-family text-capitalize white--text"
-          to="/"
-          @click="logOut"
+          v-on:click="logOut"
         >
           <v-icon>mdi-power</v-icon>
           <span>&nbsp;logout</span>
@@ -21,28 +21,21 @@
 <script>
 export default {
   name: "navbar",
+  data() {
+    return {
+      loading: false
+    };
+  },
+  computed: {
+    logoutLoading() {
+      return this.$store.state.logoutLoading;
+    }
+  },
   methods: {
     logOut() {
-      if (localStorage.getItem("jwt") != null) {
-        const role = ["principal", "dean", "examiner"].includes(
-          localStorage.getItem("user").role
-        )
-          ? "lecturer"
-          : "student";
-        this.$http
-          .get(
-            `https://arms-graduate-student-tracker.herokuapp.com/api/${role}/logout`
-          )
-          .then(response => {
-            console.log("Logged Out!!");
-            localStorage.removeItem("jwt");
-            localStorage.removeItem("user");
-            this.$router.push({ name: "login" });
-          })
-          .catch(error => {
-            console.log(error.response.data.message);
-          });
-      }
+      this.$store.dispatch("logout").then(() => {
+        this.$router.push("/");
+      });
     }
   }
 };
