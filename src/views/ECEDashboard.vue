@@ -41,7 +41,6 @@
                 <v-card elevation="24">
                   <v-card-text pa-1>
                     <h2 class="text-xs-center custom-font-family headline">Upcomping deadlines</h2>
-                    <!-- <p>This a test paragraph to be removed later</p> -->
                   </v-card-text>
                   <Calendar />
                 </v-card>
@@ -81,7 +80,6 @@ export default {
   left: 0;
 }
 .viva-status {
-  // background-image: linear-gradient(to bottom right, #43cea2, #185a9d);
   background-color: purple;
 }
 </style>
