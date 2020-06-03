@@ -21,6 +21,11 @@
           required
           color="purple"
         ></v-text-field>
+        <p
+          id="forgot-password"
+          class="text-left purple--text"
+          @click="forgotPassword"
+        >Forgot password?</p>
         <div class="px-5">
           <v-btn
             round
@@ -97,6 +102,9 @@ export default {
       } else {
         this.displayError = true;
       }
+    },
+    forgotPassword() {
+      this.$router.push("/forgot-password");
     }
   },
   computed: {
@@ -121,5 +129,8 @@ export default {
   color: red;
   border: solid red 1px;
   border-radius: 10px;
+}
+#forgot-password {
+  cursor: pointer;
 }
 </style>
