@@ -70,9 +70,9 @@
                     :rules="passwordRules(8)"
                     label="Password"
                     required
-                    :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-                    :type="show ? 'text' : 'password'"
-                    @click:append="show = !show"
+                    :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                    :type="showPassword ? 'text' : 'password'"
+                    @click:append="showPassword = !showPassword"
                     prepend-inner-icon="mdi-lock"
                     height="28"
                     color="purple"
@@ -82,9 +82,9 @@
                     label="Confirm Password"
                     :rules="passwordConfirmRules"
                     required
-                    :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-                    :type="show ? 'text' : 'password'"
-                    @click:append="show = !show"
+                    :append-icon="showConfirm ? 'mdi-eye' : 'mdi-eye-off'"
+                    :type="showConfirm ? 'text' : 'password'"
+                    @click:append="showConfirm = !showConfirm"
                     prepend-inner-icon="mdi-lock"
                     height="28"
                     color="purple"
@@ -127,7 +127,8 @@ export default {
   data() {
     return {
       firstName: "",
-      show: false,
+      showPassword: false,
+      showConfirm: false,
       loading: false,
       displayValidityError: false,
       displaySignUpError: false,
