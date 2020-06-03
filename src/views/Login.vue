@@ -5,7 +5,7 @@
         <v-layout row wrap height>
           <v-flex sm7 pa-3>
             <v-card-text>
-              <v-container class>
+              <v-container>
                 <h2 class="headline pl-md-5 mb-5 custom-font-family">Login</h2>
                 <v-tabs v-model="tabs" fixed-tabs flat>
                   <v-tabs-slider color="purple"></v-tabs-slider>
@@ -28,26 +28,7 @@
             </v-card-text>
           </v-flex>
           <v-flex sm5>
-            <v-container fill-height pa-0 overlayed>
-              <v-layout align-center>
-                <v-flex px-4 py-3>
-                  <h1 class="display-2 font-weight-light mb-4">Graduate Student Tracking System</h1>
-                  <p>A system for tracking master's students reports</p>
-                  <p class="subheading">Are you a student? Register Here!</p>
-                  <v-btn
-                    round
-                    large
-                    depressed
-                    block
-                    to="/register"
-                    class="grey login__register-btn"
-                  >
-                    <v-icon>mdi-account-plus</v-icon>
-                    <span>&nbsp;Register</span>
-                  </v-btn>
-                </v-flex>
-              </v-layout>
-            </v-container>
+            <RegisterText />
           </v-flex>
         </v-layout>
       </v-card>
@@ -58,17 +39,18 @@
 <script>
 import StaffLoginForm from "@/components/StaffLoginForm";
 import StudentLoginForm from "@/components/StudentLoginForm";
+import RegisterText from "@/components/RegisterText";
 export default {
   components: {
     StaffLoginForm,
-    StudentLoginForm
+    StudentLoginForm,
+    RegisterText
   },
   data() {
     return {
       tabs: null
     };
-  },
-  methods: {}
+  }
 };
 </script>
 <style lang="scss">
