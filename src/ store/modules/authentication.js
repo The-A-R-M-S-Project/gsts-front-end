@@ -6,11 +6,15 @@ const state = {
     loginError: null,
     logoutLoading: false,
     signupError: null,
+    resetPassword: false,
     isLoggedIn: false,
     logoutError: null,
-    user: {}
+    user: {},
 };
 const mutations = {
+    toggleResetPasswordForm(state, payload) {
+        state.resetPassword = payload;
+    },
     IsLoading(state, payload) {
         state.isLoading = payload;
     },
@@ -29,14 +33,14 @@ const mutations = {
     },
     LogoutError(state, error) {
         state.logoutError = error;
-    }
+    },
 };
 const actions = {
     async login({ commit }, data) {
         commit("IsLoading", true);
         await axiosInstance
             .post(`/${data.user}/login`, data.credentials)
-            .then(response => {
+            .then((response) => {
                 localStorage.setItem(
                     "user",
                     JSON.stringify(response.data.data.user)
@@ -45,16 +49,20 @@ const actions = {
                 commit("SetUser", response.data.data.user);
                 commit("IsLoading", false);
             })
-            .catch(error => {
+            .catch((error) => {
                 commit("IsLoading", false);
                 commit("LoginError", error.response.data.message);
             });
+    },
+    sumbitEmail({ commit }, data) {
+        console.log(data);
+        commit("toggleResetPasswordForm", true);
     },
     async register({ commit }, data) {
         commit("IsLoading", true);
         await axiosInstance
             .post("/student/signup", data)
-            .then(response => {
+            .then((response) => {
                 localStorage.setItem(
                     "user",
                     JSON.stringify(response.data.data.user)
@@ -63,7 +71,7 @@ const actions = {
                 commit("SetUser", response.data.data.user);
                 commit("IsLoading", false);
             })
-            .catch(error => {
+            .catch((error) => {
                 commit("IsLoading", false);
                 commit("SignupError", error.response.data.message);
             });
@@ -81,30 +89,31 @@ const actions = {
                 .get(
                     `https://arms-graduate-student-tracker.herokuapp.com/api/${role}/logout`
                 )
-                .then(response => {
+                .then((response) => {
                     localStorage.removeItem("jwt");
                     localStorage.removeItem("user");
                     response();
                     commit("logoutLoading", false);
                 })
-                .catch(error => {
+                .catch((error) => {
                     commit("logoutLoading", false);
                     commit("LogoutError", error);
                 });
         }
-    }
+    },
 };
 const getters = {
-    isLoggedIn: state => state.isLoggedIn,
-    user: state => state.user,
-    isLoading: state => state.isLoading,
-    loginError: state => state.loginError,
-    signupError: state => state.signupError
+    isLoggedIn: (state) => state.isLoggedIn,
+    user: (state) => state.user,
+    isLoading: (state) => state.isLoading,
+    loginError: (state) => state.loginError,
+    signupError: (state) => state.signupError,
+    resetPassword: (state) => state.resetPassword,
 };
 
 export default {
     state,
     mutations,
     actions,
-    getters
+    getters,
 };
