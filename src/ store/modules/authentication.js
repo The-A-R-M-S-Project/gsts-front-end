@@ -17,8 +17,8 @@ const mutations = {
     toggleResetPasswordMessage(state, payload) {
         state.resetPassword = payload;
     },
-    setResetEmail(state, data) {
-        state.resetEmail = data.email;
+    setResetEmail(state, payload) {
+        state.resetEmail = payload.email;
     },
     IsLoading(state, payload) {
         state.isLoading = payload;
