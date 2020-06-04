@@ -2,6 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import Login from "./views/Login.vue";
 import ForgotPass from "./views/ForgotPass.vue";
+import ResetPass from "./views/ResetPass.vue";
 import Register from "./views/Register.vue";
 import Departments from "./views/Departments.vue";
 import StudentDetails from "./views/AdminStudentView.vue";
@@ -14,6 +15,8 @@ import DeanSEDashboard from "./views/EngDeanDashboard.vue";
 import ExaminerDashboard from "./views/ExaminerDashboard.vue";
 import ReportStatus from "./components/StudentTimeline.vue";
 import StudentProfile from "./components/StudentProfile.vue";
+import PageNotFound from "./components/PageNotFound.vue";
+import store from "./ store/store";
 
 Vue.use(Router);
 
@@ -32,6 +35,14 @@ let router = new Router({
             path: "/forgot-password",
             name: "forgot-password",
             component: ForgotPass,
+            meta: {
+                guest: true,
+            },
+        },
+        {
+            path: "/:user-role/secret/edit?reset_password_token=:token",
+            name: "reset-password",
+            component: ResetPass,
             meta: {
                 guest: true,
             },
@@ -142,6 +153,7 @@ let router = new Router({
                 is_dean: true,
             },
         },
+        { path: "*", component: PageNotFound },
     ],
 });
 
