@@ -8,6 +8,7 @@ const state = {
     forgotPasswordError: null,
     signupError: null,
     resetPassword: false,
+    resetPasswordError: false,
     resetEmail: null,
     isLoggedIn: false,
     logoutError: null,
@@ -41,6 +42,9 @@ const mutations = {
     },
     ForgotPasswordError(state, error) {
         state.forgotPasswordError = error;
+    },
+    ResetPasswordError(state, error) {
+        state.resetPasswordError = error;
     },
 };
 const actions = {
@@ -76,6 +80,24 @@ const actions = {
             .catch((error) => {
                 commit("IsLoading", false);
                 commit("ForgotPasswordError", error.response.data.message);
+            });
+    },
+    async resetPassword({ commit }, data) {
+        commit("IsLoading", true);
+        await axiosInstance
+            .patch(`/staff/resetPassword/${data.resetToken}`, data.passwords)
+            .then((response) => {
+                localStorage.setItem(
+                    "user",
+                    JSON.stringify(response.data.data.user)
+                );
+                localStorage.setItem("jwt", response.data.token);
+                commit("SetUser", response.data.data.user);
+                commit("IsLoading", false);
+            })
+            .catch((error) => {
+                commit("IsLoading", false);
+                commit("ResetPasswordError", error.response.data.message);
             });
     },
     async register({ commit }, data) {
@@ -129,6 +151,7 @@ const getters = {
     resetPassword: (state) => state.resetPassword,
     resetEmail: (state) => state.resetEmail,
     forgotPasswordError: (state) => state.forgotPasswordError,
+    resetPasswordError: (state) => state.resetPasswordError,
 };
 
 export default {

@@ -16,7 +16,6 @@ import ExaminerDashboard from "./views/ExaminerDashboard.vue";
 import ReportStatus from "./components/StudentTimeline.vue";
 import StudentProfile from "./components/StudentProfile.vue";
 import PageNotFound from "./components/PageNotFound.vue";
-import store from "./ store/store";
 
 Vue.use(Router);
 
@@ -40,7 +39,7 @@ let router = new Router({
             },
         },
         {
-            path: "/:user-role/secret/edit?reset_password_token=:token",
+            path: "/:role/secret/edit",
             name: "reset-password",
             component: ResetPass,
             meta: {
