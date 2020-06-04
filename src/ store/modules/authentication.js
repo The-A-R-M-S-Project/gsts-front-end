@@ -5,15 +5,20 @@ const state = {
     isLoading: false,
     loginError: null,
     logoutLoading: false,
+    forgotPasswordError: null,
     signupError: null,
     resetPassword: false,
+    resetEmail: null,
     isLoggedIn: false,
     logoutError: null,
     user: {},
 };
 const mutations = {
-    toggleResetPasswordForm(state, payload) {
+    toggleResetPasswordMessage(state, payload) {
         state.resetPassword = payload;
+    },
+    setResetEmail(state, data) {
+        state.resetEmail = data.email;
     },
     IsLoading(state, payload) {
         state.isLoading = payload;
@@ -33,6 +38,9 @@ const mutations = {
     },
     LogoutError(state, error) {
         state.logoutError = error;
+    },
+    ForgotPasswordError(state, error) {
+        state.forgotPasswordError = error;
     },
 };
 const actions = {
@@ -54,9 +62,21 @@ const actions = {
                 commit("LoginError", error.response.data.message);
             });
     },
-    sumbitEmail({ commit }, data) {
-        console.log(data);
-        commit("toggleResetPasswordForm", true);
+    async sumbitEmail({ commit }, data) {
+        commit("IsLoading", true);
+        commit("setResetEmail", data);
+        await axiosInstance
+            .post("/staff/forgotPassword", data)
+            .then((response) => {
+                if (response.data.status == "success") {
+                    commit("toggleResetPasswordMessage", true);
+                    commit("IsLoading", false);
+                }
+            })
+            .catch((error) => {
+                commit("IsLoading", false);
+                commit("ForgotPasswordError", error.response.data.message);
+            });
     },
     async register({ commit }, data) {
         commit("IsLoading", true);
@@ -86,9 +106,7 @@ const actions = {
                 : "student";
             commit("logoutLoading", true);
             await axiosInstance
-                .get(
-                    `https://arms-graduate-student-tracker.herokuapp.com/api/${role}/logout`
-                )
+                .get(`/${role}/logout`)
                 .then((response) => {
                     localStorage.removeItem("jwt");
                     localStorage.removeItem("user");
@@ -109,6 +127,8 @@ const getters = {
     loginError: (state) => state.loginError,
     signupError: (state) => state.signupError,
     resetPassword: (state) => state.resetPassword,
+    resetEmail: (state) => state.resetEmail,
+    forgotPasswordError: (state) => state.forgotPasswordError,
 };
 
 export default {

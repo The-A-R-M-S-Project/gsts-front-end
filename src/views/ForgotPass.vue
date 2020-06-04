@@ -6,13 +6,16 @@
           <v-flex sm7 pa-3>
             <v-card-text>
               <v-container>
+                <h2 class="headline pl-md-5 mb-5 custom-font-family">Forgot your password?</h2>
                 <template v-if="!resetPassword">
-                  <h2 class="headline pl-md-5 mb-5 custom-font-family">Forgot your password?</h2>
                   <ForgotPassword />
                 </template>
                 <template v-else>
-                  <h2 class="headline pl-md-5 mb-5 custom-font-family">Reset your password</h2>
-                  <ResetPassword />
+                  <span class="reset-message custom-font-family">
+                    A password reset link has been sent to
+                    <br />
+                    <span class="purple--text">{{ resetEmail }}</span>
+                  </span>
                 </template>
               </v-container>
             </v-card-text>
@@ -29,19 +32,17 @@
 <script>
 import RegisterText from "@/components/RegisterText";
 import ForgotPassword from "@/components/ForgotPassword";
-import ResetPassword from "@/components/ResetPassword";
 export default {
-  updated() {
-    console.log("resetPassword: ", this.resetPassword);
-  },
   computed: {
     resetPassword() {
       return this.$store.getters.resetPassword;
+    },
+    resetEmail() {
+      return this.$store.getters.resetEmail;
     }
   },
   components: {
     ForgotPassword,
-    ResetPassword,
     RegisterText
   }
 };
@@ -53,6 +54,9 @@ export default {
     width: 80%;
     margin: auto;
     font-weight: bold;
+  }
+  .reset-message {
+    font-size: 1.3rem;
   }
 }
 </style>

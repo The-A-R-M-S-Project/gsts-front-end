@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <section>
+    <span v-if="forgotPasswordError" class="alert">{{ forgotPasswordError }}</span>
     <v-form ref="forgotPasswordForm" v-model="valid" lazy-validation>
       <v-container>
         <v-text-field
@@ -24,12 +25,12 @@
             @click="submitEmail"
           >
             <v-icon>mdi-check-bold</v-icon>
-            <span>&nbsp;Submit</span>
+            <span>&nbsp;Send Password Reset Link</span>
           </v-btn>
         </div>
       </v-container>
     </v-form>
-  </div>
+  </section>
 </template>
 
 <script>
@@ -55,14 +56,25 @@ export default {
           email: this.email
         };
         this.$store.dispatch("sumbitEmail", resetEmail);
-        console.log("isLoading: ", this.isLoading);
       }
     }
   },
   computed: {
     isLoading() {
       return this.$store.getters.isLoading;
+    },
+    forgotPasswordError() {
+      return this.$store.getters.forgotPasswordError;
     }
   }
 };
 </script>
+
+<style>
+.alert {
+  color: red;
+  border: solid red 1px;
+  border-radius: 1rem;
+  padding: 0.4rem;
+}
+</style>
