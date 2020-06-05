@@ -6,6 +6,7 @@
           <v-flex sm7 pa-3>
             <v-card-text>
               <v-container>
+                <v-row></v-row>
                 <h2 class="headline pl-md-5 mb-5 custom-font-family">Forgot your password?</h2>
                 <template v-if="!resetPassword">
                   <ForgotPassword />
