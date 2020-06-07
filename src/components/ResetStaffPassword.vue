@@ -1,41 +1,56 @@
 <template>
   <div>
-    <span v-if="resetPasswordError" class="alert">{{ resetPasswordError }}</span>
-    <v-form ref="resetPasswordForm" v-model="valid" lazy-validation>
+    <v-alert
+      v-model="displayResetError"
+      type="error"
+      dismissible
+      class="mx-7 mt-2 reset-error error-alert"
+    >
+      <span>
+        {{ ResetStaffPasswordError }}. Click
+        <span
+          class="yellow--text forgot-link"
+          @click="getAnotherLink"
+        >here</span> to get a link
+      </span>
+    </v-alert>
+    <v-form ref="ResetStaffPasswordForm" v-model="valid" lazy-validation>
       <v-container>
         <v-text-field
           v-model="password"
           :rules="passwordRules(8)"
           label="Password"
-          required
           :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
           :type="showPassword ? 'text' : 'password'"
           @click:append="showPassword = !showPassword"
           prepend-inner-icon="mdi-lock"
           height="28"
           color="purple"
+          class="px-7"
+          required
         ></v-text-field>
         <v-text-field
           v-model="passwordConfirm"
           label="Confirm Password"
           :rules="passwordConfirmRules"
-          required
           :append-icon="showConfirm ? 'mdi-eye' : 'mdi-eye-off'"
           :type="showConfirm ? 'text' : 'password'"
           @click:append="showConfirm = !showConfirm"
           prepend-inner-icon="mdi-lock"
           height="28"
           color="purple"
+          class="px-7"
+          required
         ></v-text-field>
-        <div class="px-5">
+        <div class="px-5 text-center">
           <v-btn
-            round
+            rounded
             large
-            block
+            width="400"
             depressed
             :loading="isLoading"
             ripple
-            class="yellow font-weight-bold"
+            class="yellow font-weight-bold mt-2"
             type="submit"
             @click="submitEmail"
           >
@@ -55,6 +70,7 @@ export default {
     return {
       valid: true,
       loading: false,
+      displayResetError: false,
       showPassword: false,
       showConfirm: false,
       password: "",
@@ -75,8 +91,8 @@ export default {
     isLoading() {
       return this.$store.getters.isLoading;
     },
-    resetPasswordError() {
-      return this.$store.getters.resetPasswordError;
+    ResetStaffPasswordError() {
+      return this.$store.getters.ResetStaffPasswordError;
     },
     isLogged() {
       return this.$store.getters.isLoggedIn;
@@ -89,33 +105,40 @@ export default {
     submitEmail() {
       event.preventDefault();
       let token = this.$route.query.reset_password_token;
-      if (this.$refs.resetPasswordForm.validate()) {
-        let resetPassword = {
+      if (this.$refs.ResetStaffPasswordForm.validate()) {
+        let ResetStaffPassword = {
           password: this.password,
           passwordConfirm: this.passwordConfirm
         };
         this.$store
-          .dispatch("resetPassword", {
-            passwords: resetPassword,
+          .dispatch("ResetStaffPassword", {
+            passwords: ResetStaffPassword,
             resetToken: token
           })
           .then(() => {
             if (this.isLogged) {
               const user = this.user;
-              this.$router.push({ name: `${user.role}-dashboard` });
+              this.$router.push({
+                name: `${user.role}-dashboard`
+              });
+            } else {
+              this.displayResetError = true;
             }
           });
       }
+    },
+    getAnotherLink() {
+      this.$router.push("/forgot-password");
     }
   }
 };
 </script>
 
 <style>
-.alert {
-  color: red;
-  border: solid red 1px;
-  border-radius: 1rem;
-  padding: 0.4rem;
+.reset-error {
+  font-size: 1rem !important;
+}
+.forgot-link {
+  cursor: pointer;
 }
 </style>

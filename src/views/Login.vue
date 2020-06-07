@@ -1,22 +1,25 @@
 <template>
   <v-container text-xs-center fluid fill-height class="login">
-    <v-layout align-center justify-center>
-      <v-card min-width="90%" class="elevation-24">
-        <v-layout row wrap height>
-          <v-flex sm7 pa-3>
+    <v-row align="center" justify="center">
+      <v-card max-width="90%" class="elevation-24">
+        <v-row no-gutters>
+          <v-col md="7" class="pa-3">
             <v-card-text>
               <v-container>
-                <h2 class="headline pl-md-5 mb-5 custom-font-family">Login</h2>
-                <v-tabs v-model="tabs" fixed-tabs flat>
+                <h2 class="headline pl-md-5 mb-8 custom-font-family text-center">Login</h2>
+                <v-tabs v-model="tabs" centered>
                   <v-tabs-slider color="purple"></v-tabs-slider>
-                  <v-tab href="#staff" class="text-capitalize title custom-font-family">
-                    <p>Staff</p>
+
+                  <v-tab href="#staff" class="text-capitalize black--text pb-4">
+                    <span class="tab-headings px-7">Staff</span>
                   </v-tab>
-                  <v-tab href="#student" class="text-capitalize title custom-font-family">
-                    <p>Student</p>
+
+                  <v-tab href="#student" class="text-capitalize black--text pb-4">
+                    <span class="tab-headings px-7">Student</span>
                   </v-tab>
                 </v-tabs>
-                <v-tabs-items v-model="tabs" class="white elevation-0">
+
+                <v-tabs-items v-model="tabs">
                   <v-tab-item :value="'staff'">
                     <StaffLoginForm />
                   </v-tab-item>
@@ -26,13 +29,13 @@
                 </v-tabs-items>
               </v-container>
             </v-card-text>
-          </v-flex>
-          <v-flex sm5>
+          </v-col>
+          <v-col md="5">
             <RegisterText />
-          </v-flex>
-        </v-layout>
+          </v-col>
+        </v-row>
       </v-card>
-    </v-layout>
+    </v-row>
   </v-container>
 </template>
 
@@ -64,6 +67,9 @@ export default {
   color: white;
   background-position: center;
 }
+.tab-headings {
+  font-size: 1.25rem;
+}
 .overlayed p {
   font-size: 18px;
   letter-spacing: 150%;
@@ -81,4 +87,3 @@ export default {
   }
 }
 </style>
-

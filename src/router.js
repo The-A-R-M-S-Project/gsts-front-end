@@ -1,8 +1,8 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Login from "./views/Login.vue";
-import ForgotPass from "./views/ForgotPass.vue";
-import ResetPass from "./views/ResetPass.vue";
+import ForgotStaffPass from "./views/ForgotStaffPass.vue";
+import ResetStaffPass from "./views/ResetStaffPass.vue";
 import Register from "./views/Register.vue";
 import Departments from "./views/Departments.vue";
 import StudentDetails from "./views/AdminStudentView.vue";
@@ -33,7 +33,7 @@ let router = new Router({
         {
             path: "/forgot-password",
             name: "forgot-password",
-            component: ForgotPass,
+            component: ForgotStaffPass,
             meta: {
                 guest: true,
             },
@@ -41,7 +41,7 @@ let router = new Router({
         {
             path: "/:role/secret/edit",
             name: "reset-password",
-            component: ResetPass,
+            component: ResetStaffPass,
             meta: {
                 guest: true,
             },

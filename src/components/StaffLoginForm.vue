@@ -1,12 +1,19 @@
 <template>
   <div>
-    <v-form ref="form" v-model="form" class="login-form" name="login">
+    <v-alert
+      v-model="displayLoginError"
+      type="error"
+      dismissible
+      class="mx-7 mt-2 error-alert"
+    >{{ loginError }}</v-alert>
+    <v-form ref="staffLoginForm" v-model="valid" class="login-form" name="login" lazy-validation>
       <v-container>
         <v-text-field
           v-model="email"
           :rules="emailRules"
           label="College Email"
           prepend-inner-icon="mdi-account"
+          class="px-7"
           type="email"
           required
           color="purple"
@@ -15,6 +22,7 @@
           v-model="password"
           label="password"
           prepend-inner-icon="mdi-lock"
+          class="px-7"
           :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
           :type="show ? 'text' : 'password'"
           @click:append="show = !show"
@@ -23,17 +31,17 @@
         ></v-text-field>
         <p
           id="forgot-password"
-          class="text-left purple--text"
-          @click="forgotPassword"
+          class="text-center purple--text"
+          @click="ForgotStaffPassword"
         >Forgot password?</p>
-        <div class="px-5">
+        <div class="px-5 text-center">
           <v-btn
-            round
+            rounded
             large
-            block
             depressed
             :loading="isLoading"
             ripple
+            width="400"
             class="yellow font-weight-bold"
             type="submit"
             @click="login"
@@ -44,8 +52,6 @@
         </div>
       </v-container>
     </v-form>
-    <div v-if="displayLoginError" class="alert">{{ loginError }}</div>
-    <div v-if="displayError" class="alert">Please provide both email and password to log in!</div>
   </div>
 </template>
 
@@ -53,11 +59,10 @@
 export default {
   name: "staff-login-form",
   data: () => ({
-    form: false,
+    valid: true,
     loading: false,
     show: false,
     displayLoginError: false,
-    displayError: false,
     email: "",
     emailRules: [
       emailField =>
@@ -75,7 +80,7 @@ export default {
   methods: {
     login() {
       event.preventDefault();
-      if (!this.password == "" && !this.email == "") {
+      if (this.$refs.staffLoginForm.validate()) {
         this.$store
           .dispatch("login", {
             user: "staff",
@@ -90,7 +95,9 @@ export default {
                 this.$router.push(this.$route.params.continue);
               } else {
                 const user = this.user;
-                this.$router.push({ name: `${user.role}-dashboard` });
+                this.$router.push({
+                  name: `${user.role}-dashboard`
+                });
               }
             } else {
               this.displayLoginError = true;
@@ -99,11 +106,9 @@ export default {
           .catch(error => {
             console.log("Generic message: ", error);
           });
-      } else {
-        this.displayError = true;
       }
     },
-    forgotPassword() {
+    ForgotStaffPassword() {
       this.$router.push("/forgot-password");
     }
   },
@@ -125,10 +130,9 @@ export default {
 </script>
 
 <style>
-.alert {
-  color: red;
-  border: solid red 1px;
-  border-radius: 10px;
+.error-alert {
+  border-radius: 2rem !important;
+  height: 3.4rem;
 }
 #forgot-password {
   cursor: pointer;

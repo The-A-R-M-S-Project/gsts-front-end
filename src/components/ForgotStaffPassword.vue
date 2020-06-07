@@ -1,7 +1,12 @@
 <template>
   <section>
-    <span v-if="forgotPasswordError" class="alert">{{ forgotPasswordError }}</span>
-    <v-form ref="forgotPasswordForm" v-model="valid" lazy-validation>
+    <v-alert
+      v-model="displayForgotStaffPasswordError"
+      type="error"
+      dismissible
+      class="mx-7 mt-2 reset-error error-alert"
+    >{{ ForgotStaffPasswordError }}</v-alert>
+    <v-form ref="ForgotStaffPasswordForm" v-model="valid" lazy-validation>
       <v-container>
         <v-text-field
           v-model="email"
@@ -9,19 +14,19 @@
           label="College Email"
           prepend-inner-icon="mdi-account"
           type="email"
+          class="px-7"
           required
           color="purple"
         ></v-text-field>
-        <div class="px-5">
+        <div class="px-5 py-2 text-center">
           <v-btn
-            round
+            rounded
             large
-            block
             depressed
             :loading="isLoading"
             ripple
+            width="400"
             class="yellow font-weight-bold"
-            type="submit"
             @click="submitEmail"
           >
             <v-icon>mdi-check-bold</v-icon>
@@ -40,6 +45,7 @@ export default {
     return {
       valid: true,
       loading: false,
+      displayForgotStaffPasswordError: false,
       email: "",
       emailRules: [
         emailField =>
@@ -50,12 +56,15 @@ export default {
   },
   methods: {
     submitEmail() {
-      event.preventDefault();
-      if (this.$refs.forgotPasswordForm.validate()) {
+      if (this.$refs.ForgotStaffPasswordForm.validate()) {
         let resetEmail = {
           email: this.email
         };
-        this.$store.dispatch("sumbitEmail", resetEmail);
+        this.$store.dispatch("requestResetLink", resetEmail).then(() => {
+          if (this.ForgotStaffPasswordError) {
+            this.displayForgotStaffPasswordError = true;
+          }
+        });
       }
     }
   },
@@ -63,8 +72,8 @@ export default {
     isLoading() {
       return this.$store.getters.isLoading;
     },
-    forgotPasswordError() {
-      return this.$store.getters.forgotPasswordError;
+    ForgotStaffPasswordError() {
+      return this.$store.getters.ForgotStaffPasswordError;
     }
   }
 };
