@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-navigation-drawer
+    <!-- <v-navigation-drawer
       dark
       class="hidden-sm-and-down"
       height="100vh"
@@ -51,7 +51,7 @@
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
-    </v-navigation-drawer>
+    </v-navigation-drawer>-->
   </div>
 </template>
 <script>
