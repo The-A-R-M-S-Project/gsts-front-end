@@ -30,7 +30,7 @@
           color="purple"
         ></v-text-field>
         <p
-          id="forgot-password"
+          id="forgot-staff-password"
           class="text-center purple--text"
           @click="ForgotStaffPassword"
         >Forgot password?</p>
@@ -109,7 +109,7 @@ export default {
       }
     },
     ForgotStaffPassword() {
-      this.$router.push("/forgot-password");
+      this.$router.push("/forgot-staff-password");
     }
   },
   computed: {
@@ -134,7 +134,7 @@ export default {
   border-radius: 2rem !important;
   height: 3.4rem;
 }
-#forgot-password {
+#forgot-staff-password {
   cursor: pointer;
 }
 </style>

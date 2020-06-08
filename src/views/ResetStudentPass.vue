@@ -13,27 +13,10 @@
                     </v-btn>
                   </v-col>
                   <v-col cols="12" md="9">
-                    <span class="headline pl-md-5 mb-5 custom-font-family">Forgot your password?</span>
+                    <span class="headline pl-md-5 mb-5 custom-font-family">Reset your password</span>
                   </v-col>
                 </v-row>
-
-                <template v-if="!resetStaffPassword">
-                  <ForgotStaffPassword />
-                </template>
-                <template v-else>
-                  <v-row align="center" justify="center" class="py-12">
-                    <span class="reset-message custom-font-family text-center">
-                      A password reset link has been sent
-                      to
-                      <br />
-                      <span class="purple--text">
-                        {{
-                        resetEmail
-                        }}
-                      </span>
-                    </span>
-                  </v-row>
-                </template>
+                <ResetStudentPassword />
               </v-container>
             </v-card-text>
           </v-col>
@@ -48,21 +31,10 @@
 
 <script>
 import RegisterText from "@/components/RegisterText";
-import ForgotStaffPassword from "@/components/ForgotStaffPassword";
+import ResetStudentPassword from "@/components/ResetStudentPassword";
 export default {
-  mounted() {
-    this.$store.dispatch("resetToggle", false);
-  },
-  computed: {
-    resetStaffPassword() {
-      return this.$store.getters.resetStaffPassword;
-    },
-    resetEmail() {
-      return this.$store.getters.resetEmail;
-    }
-  },
   components: {
-    ForgotStaffPassword,
+    ResetStudentPassword,
     RegisterText
   }
 };

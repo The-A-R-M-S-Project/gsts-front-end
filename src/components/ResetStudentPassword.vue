@@ -7,14 +7,14 @@
       class="mx-7 mt-2 reset-error error-alert"
     >
       <span>
-        {{ resetStaffPasswordError }}. Click
+        {{ resetStudentPasswordError }}. Click
         <span
           class="yellow--text forgot-link"
           @click="getAnotherLink"
         >here</span> to get a link
       </span>
     </v-alert>
-    <v-form ref="resetStaffPasswordForm" v-model="valid" lazy-validation>
+    <v-form ref="resetStudentPasswordForm" v-model="valid" lazy-validation>
       <v-container>
         <v-text-field
           v-model="password"
@@ -65,7 +65,7 @@
 
 <script>
 export default {
-  name: "staff-login-form",
+  name: "student-login-form",
   data() {
     return {
       valid: true,
@@ -91,8 +91,8 @@ export default {
     isLoading() {
       return this.$store.getters.isLoading;
     },
-    resetStaffPasswordError() {
-      return this.$store.getters.resetStaffPasswordError;
+    resetStudentPasswordError() {
+      return this.$store.getters.resetStudentPasswordError;
     },
     isLogged() {
       return this.$store.getters.isLoggedIn;
@@ -105,14 +105,14 @@ export default {
     submitEmail() {
       event.preventDefault();
       let token = this.$route.query.reset_password_token;
-      if (this.$refs.resetStaffPasswordForm.validate()) {
-        let resetStaffPassword = {
+      if (this.$refs.resetStudentPasswordForm.validate()) {
+        let resetStudentPassword = {
           password: this.password,
           passwordConfirm: this.passwordConfirm
         };
         this.$store
-          .dispatch("resetStaffPassword", {
-            passwords: resetStaffPassword,
+          .dispatch("resetStudentPassword", {
+            passwords: resetStudentPassword,
             resetToken: token
           })
           .then(() => {
@@ -128,7 +128,7 @@ export default {
       }
     },
     getAnotherLink() {
-      this.$router.push("/forgot-staff-password");
+      this.$router.push("/forgot-student-password");
     }
   }
 };

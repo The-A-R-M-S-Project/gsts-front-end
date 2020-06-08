@@ -5,18 +5,23 @@ const state = {
     isLoading: false,
     loginError: null,
     logoutLoading: false,
-    ForgotStaffPasswordError: null,
+    forgotStaffPasswordError: null,
+    forgotStudentPasswordError: null,
     signupError: null,
-    ResetStaffPassword: false,
-    ResetStaffPasswordError: false,
+    resetStaffPassword: false,
+    resetStudentPassword: false,
+    resetStaffPasswordError: false,
     resetEmail: null,
     isLoggedIn: false,
     logoutError: null,
     user: {},
 };
 const mutations = {
-    toggleResetStaffPasswordMessage(state, payload) {
-        state.ResetStaffPassword = payload;
+    toggleStaffResetMessage(state, payload) {
+        state.resetStaffPassword = payload;
+    },
+    toggleStudentResetMessage(state, payload) {
+        state.resetStudentPassword = payload;
     },
     setResetEmail(state, payload) {
         state.resetEmail = payload.email;
@@ -40,11 +45,14 @@ const mutations = {
     LogoutError(state, error) {
         state.logoutError = error;
     },
-    ForgotStaffPasswordError(state, error) {
-        state.ForgotStaffPasswordError = error;
+    forgotStaffPasswordError(state, error) {
+        state.forgotStaffPasswordError = error;
     },
-    ResetStaffPasswordError(state, error) {
-        state.ResetStaffPasswordError = error;
+    forgotStudentPasswordError(state, error) {
+        state.forgotStudentPasswordError = error;
+    },
+    resetStaffPasswordError(state, error) {
+        state.resetStaffPasswordError = error;
     },
 };
 const actions = {
@@ -66,23 +74,42 @@ const actions = {
                 commit("LoginError", error.response.data.message);
             });
     },
-    async requestResetLink({ commit }, data) {
+    async requestStaffResetLink({ commit }, data) {
         commit("IsLoading", true);
         commit("setResetEmail", data);
         await axiosInstance
             .post("/staff/forgotPassword", data)
             .then((response) => {
                 if (response.data.status == "success") {
-                    commit("toggleResetStaffPasswordMessage", true);
+                    commit("toggleStaffResetMessage", true);
                     commit("IsLoading", false);
                 }
             })
             .catch((error) => {
                 commit("IsLoading", false);
-                commit("ForgotStaffPasswordError", error.response.data.message);
+                commit("forgotStaffPasswordError", error.response.data.message);
             });
     },
-    async ResetStaffPassword({ commit }, data) {
+    async requestStudentResetLink({ commit }, data) {
+        commit("IsLoading", true);
+        commit("setResetEmail", data);
+        await axiosInstance
+            .post("/student/forgotPassword", data)
+            .then((response) => {
+                if (response.data.status == "success") {
+                    commit("toggleStudentResetMessage", true);
+                    commit("IsLoading", false);
+                }
+            })
+            .catch((error) => {
+                commit("IsLoading", false);
+                commit(
+                    "forgotStudentPasswordError",
+                    error.response.data.message
+                );
+            });
+    },
+    async resetStaffPassword({ commit }, data) {
         commit("IsLoading", true);
         await axiosInstance
             .patch(`/staff/resetPassword/${data.resetToken}`, data.passwords)
@@ -97,7 +124,7 @@ const actions = {
             })
             .catch((error) => {
                 commit("IsLoading", false);
-                commit("ResetStaffPasswordError", error.response.data.message);
+                commit("resetStaffPasswordError", error.response.data.message);
             });
     },
     async register({ commit }, data) {
@@ -141,6 +168,9 @@ const actions = {
                 });
         }
     },
+    resetToggle({ commit }, data) {
+        commit("toggleStaffResetMessage", data);
+    },
 };
 const getters = {
     isLoggedIn: (state) => state.isLoggedIn,
@@ -148,10 +178,12 @@ const getters = {
     isLoading: (state) => state.isLoading,
     loginError: (state) => state.loginError,
     signupError: (state) => state.signupError,
-    ResetStaffPassword: (state) => state.ResetStaffPassword,
+    resetStaffPassword: (state) => state.resetStaffPassword,
+    resetStudentPassword: (state) => state.resetStudentPassword,
     resetEmail: (state) => state.resetEmail,
-    ForgotStaffPasswordError: (state) => state.ForgotStaffPasswordError,
-    ResetStaffPasswordError: (state) => state.ResetStaffPasswordError,
+    forgotStaffPasswordError: (state) => state.forgotStaffPasswordError,
+    forgotStudentPasswordError: (state) => state.forgotStudentPasswordError,
+    resetStaffPasswordError: (state) => state.resetStaffPasswordError,
 };
 
 export default {

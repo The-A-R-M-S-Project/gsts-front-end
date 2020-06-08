@@ -17,8 +17,8 @@
                   </v-col>
                 </v-row>
 
-                <template v-if="!resetStaffPassword">
-                  <ForgotStaffPassword />
+                <template v-if="!resetStudentPassword">
+                  <ForgotStudentPassword />
                 </template>
                 <template v-else>
                   <v-row align="center" justify="center" class="py-12">
@@ -48,21 +48,18 @@
 
 <script>
 import RegisterText from "@/components/RegisterText";
-import ForgotStaffPassword from "@/components/ForgotStaffPassword";
+import ForgotStudentPassword from "@/components/ForgotStudentPassword";
 export default {
-  mounted() {
-    this.$store.dispatch("resetToggle", false);
-  },
   computed: {
-    resetStaffPassword() {
-      return this.$store.getters.resetStaffPassword;
+    resetStudentPassword() {
+      return this.$store.getters.resetStudentPassword;
     },
     resetEmail() {
       return this.$store.getters.resetEmail;
     }
   },
   components: {
-    ForgotStaffPassword,
+    ForgotStudentPassword,
     RegisterText
   }
 };
