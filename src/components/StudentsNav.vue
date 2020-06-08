@@ -8,7 +8,7 @@
           text
           :loading="isLoading"
           class="title custom-font-family text-capitalize white--text"
-          v-on:click="logOut"
+          @click="logOut"
         >
           <v-icon>mdi-power</v-icon>
           <span>&nbsp;logout</span>
