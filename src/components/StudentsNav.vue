@@ -5,9 +5,8 @@
       <v-spacer></v-spacer>
       <div>
         <v-btn
-          flat
-          small
-          :loading="logoutLoading"
+          text
+          :loading="isLoading"
           class="title custom-font-family text-capitalize white--text"
           v-on:click="logOut"
         >
@@ -27,8 +26,8 @@ export default {
     };
   },
   computed: {
-    logoutLoading() {
-      return this.$store.state.logoutLoading;
+    isLoading() {
+      return this.$store.getters.isLoading;
     }
   },
   methods: {

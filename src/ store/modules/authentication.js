@@ -4,7 +4,6 @@ import { register } from "register-service-worker";
 const state = {
     isLoading: false,
     loginError: null,
-    logoutLoading: false,
     forgotStaffPasswordError: null,
     forgotStudentPasswordError: null,
     signupError: null,
@@ -28,9 +27,6 @@ const mutations = {
     },
     isLoading(state, payload) {
         state.isLoading = payload;
-    },
-    logoutLoading(state, payload) {
-        state.logoutLoading = payload;
     },
     LoginError(state, error) {
         state.loginError = error;
@@ -149,24 +145,23 @@ const actions = {
             });
     },
     async logout({ commit }) {
-        commit("logoutLoading", true);
+        commit("isLoading", true);
         if (localStorage.getItem("jwt") != null) {
             const role = ["principal", "dean", "examiner"].includes(
                 localStorage.getItem("user").role
             )
                 ? "lecturer"
                 : "student";
-            commit("logoutLoading", true);
             await axiosInstance
                 .get(`/${role}/logout`)
                 .then((response) => {
                     localStorage.removeItem("jwt");
                     localStorage.removeItem("user");
                     response();
-                    commit("logoutLoading", false);
+                    commit("isLoading", false);
                 })
                 .catch((error) => {
-                    commit("logoutLoading", false);
+                    commit("isLoading", false);
                     commit("LogoutError", error);
                 });
         }
