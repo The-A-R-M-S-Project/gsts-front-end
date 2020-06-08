@@ -51,7 +51,7 @@ import RegisterText from "@/components/RegisterText";
 import ForgotStaffPassword from "@/components/ForgotStaffPassword";
 export default {
   mounted() {
-    this.$store.dispatch("resetToggle", false);
+    this.$store.dispatch("resetStaffToggle", false);
   },
   computed: {
     resetStaffPassword() {

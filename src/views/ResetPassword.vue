@@ -16,7 +16,7 @@
                     <span class="headline pl-md-5 mb-5 custom-font-family">Reset your password</span>
                   </v-col>
                 </v-row>
-                <ResetStaffPassword />
+                <ResetPasswordForm />
               </v-container>
             </v-card-text>
           </v-col>
@@ -31,10 +31,10 @@
 
 <script>
 import RegisterText from "@/components/RegisterText";
-import ResetStaffPassword from "@/components/ResetStaffPassword";
+import ResetPasswordForm from "@/components/ResetPasswordForm";
 export default {
   components: {
-    ResetStaffPassword,
+    ResetPasswordForm,
     RegisterText
   }
 };

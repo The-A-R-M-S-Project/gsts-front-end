@@ -7,14 +7,14 @@
       class="mx-7 mt-2 reset-error error-alert"
     >
       <span>
-        {{ resetStudentPasswordError }}. Click
+        {{ resetPasswordError }}. Click
         <span
           class="yellow--text forgot-link"
           @click="getAnotherLink"
         >here</span> to get a link
       </span>
     </v-alert>
-    <v-form ref="resetStudentPasswordForm" v-model="valid" lazy-validation>
+    <v-form ref="resetPasswordForm" v-model="valid" lazy-validation>
       <v-container>
         <v-text-field
           v-model="password"
@@ -65,7 +65,7 @@
 
 <script>
 export default {
-  name: "student-login-form",
+  name: "reset-password-form",
   data() {
     return {
       valid: true,
@@ -91,8 +91,8 @@ export default {
     isLoading() {
       return this.$store.getters.isLoading;
     },
-    resetStudentPasswordError() {
-      return this.$store.getters.resetStudentPasswordError;
+    resetPasswordError() {
+      return this.$store.getters.resetPasswordError;
     },
     isLogged() {
       return this.$store.getters.isLoggedIn;
@@ -105,14 +105,16 @@ export default {
     submitEmail() {
       event.preventDefault();
       let token = this.$route.query.reset_password_token;
-      if (this.$refs.resetStudentPasswordForm.validate()) {
-        let resetStudentPassword = {
+      if (this.$refs.resetPasswordForm.validate()) {
+        let resetPassword = {
           password: this.password,
           passwordConfirm: this.passwordConfirm
         };
+        let userRole = this.setUserRole();
         this.$store
-          .dispatch("resetStudentPassword", {
-            passwords: resetStudentPassword,
+          .dispatch("resetPassword", {
+            role: userRole,
+            passwords: resetPassword,
             resetToken: token
           })
           .then(() => {
@@ -127,8 +129,12 @@ export default {
           });
       }
     },
+    setUserRole() {
+      if (this.$route.params.role == "student") return "student";
+      return "staff";
+    },
     getAnotherLink() {
-      this.$router.push("/forgot-student-password");
+      this.$router.push(`/forgot-${this.setUserRole()}-password`);
     }
   }
 };

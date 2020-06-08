@@ -50,6 +50,9 @@
 import RegisterText from "@/components/RegisterText";
 import ForgotStudentPassword from "@/components/ForgotStudentPassword";
 export default {
+  mounted() {
+    this.$store.dispatch("resetStudentToggle", false);
+  },
   computed: {
     resetStudentPassword() {
       return this.$store.getters.resetStudentPassword;

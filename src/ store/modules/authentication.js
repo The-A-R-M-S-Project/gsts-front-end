@@ -10,7 +10,7 @@ const state = {
     signupError: null,
     resetStaffPassword: false,
     resetStudentPassword: false,
-    resetStaffPasswordError: false,
+    resetPasswordError: null,
     resetEmail: null,
     isLoggedIn: false,
     logoutError: null,
@@ -26,7 +26,7 @@ const mutations = {
     setResetEmail(state, payload) {
         state.resetEmail = payload.email;
     },
-    IsLoading(state, payload) {
+    isLoading(state, payload) {
         state.isLoading = payload;
     },
     logoutLoading(state, payload) {
@@ -51,13 +51,13 @@ const mutations = {
     forgotStudentPasswordError(state, error) {
         state.forgotStudentPasswordError = error;
     },
-    resetStaffPasswordError(state, error) {
-        state.resetStaffPasswordError = error;
+    resetPasswordError(state, error) {
+        state.resetPasswordError = error;
     },
 };
 const actions = {
     async login({ commit }, data) {
-        commit("IsLoading", true);
+        commit("isLoading", true);
         await axiosInstance
             .post(`/${data.user}/login`, data.credentials)
             .then((response) => {
@@ -67,52 +67,55 @@ const actions = {
                 );
                 localStorage.setItem("jwt", response.data.token);
                 commit("SetUser", response.data.data.user);
-                commit("IsLoading", false);
+                commit("isLoading", false);
             })
             .catch((error) => {
-                commit("IsLoading", false);
+                commit("isLoading", false);
                 commit("LoginError", error.response.data.message);
             });
     },
     async requestStaffResetLink({ commit }, data) {
-        commit("IsLoading", true);
+        commit("isLoading", true);
         commit("setResetEmail", data);
         await axiosInstance
             .post("/staff/forgotPassword", data)
             .then((response) => {
                 if (response.data.status == "success") {
                     commit("toggleStaffResetMessage", true);
-                    commit("IsLoading", false);
+                    commit("isLoading", false);
                 }
             })
             .catch((error) => {
-                commit("IsLoading", false);
+                commit("isLoading", false);
                 commit("forgotStaffPasswordError", error.response.data.message);
             });
     },
     async requestStudentResetLink({ commit }, data) {
-        commit("IsLoading", true);
+        commit("isLoading", true);
         commit("setResetEmail", data);
         await axiosInstance
             .post("/student/forgotPassword", data)
             .then((response) => {
                 if (response.data.status == "success") {
                     commit("toggleStudentResetMessage", true);
-                    commit("IsLoading", false);
+                    commit("isLoading", false);
                 }
             })
             .catch((error) => {
-                commit("IsLoading", false);
+                commit("isLoading", false);
                 commit(
                     "forgotStudentPasswordError",
                     error.response.data.message
                 );
             });
     },
-    async resetStaffPassword({ commit }, data) {
-        commit("IsLoading", true);
+    async resetPassword({ commit }, data) {
+        commit("isLoading", true);
         await axiosInstance
-            .patch(`/staff/resetPassword/${data.resetToken}`, data.passwords)
+            .patch(
+                `/${data.role}/resetPassword/${data.resetToken}`,
+                data.passwords
+            )
             .then((response) => {
                 localStorage.setItem(
                     "user",
@@ -120,15 +123,15 @@ const actions = {
                 );
                 localStorage.setItem("jwt", response.data.token);
                 commit("SetUser", response.data.data.user);
-                commit("IsLoading", false);
+                commit("isLoading", false);
             })
             .catch((error) => {
-                commit("IsLoading", false);
-                commit("resetStaffPasswordError", error.response.data.message);
+                commit("isLoading", false);
+                commit("resetPasswordError", error.response.data.message);
             });
     },
     async register({ commit }, data) {
-        commit("IsLoading", true);
+        commit("isLoading", true);
         await axiosInstance
             .post("/student/signup", data)
             .then((response) => {
@@ -138,10 +141,10 @@ const actions = {
                 );
                 localStorage.setItem("jwt", response.data.token);
                 commit("SetUser", response.data.data.user);
-                commit("IsLoading", false);
+                commit("isLoading", false);
             })
             .catch((error) => {
-                commit("IsLoading", false);
+                commit("isLoading", false);
                 commit("SignupError", error.response.data.message);
             });
     },
@@ -168,8 +171,11 @@ const actions = {
                 });
         }
     },
-    resetToggle({ commit }, data) {
+    resetStaffToggle({ commit }, data) {
         commit("toggleStaffResetMessage", data);
+    },
+    resetStudentToggle({ commit }, data) {
+        commit("toggleStudentResetMessage", data);
     },
 };
 const getters = {
@@ -183,7 +189,7 @@ const getters = {
     resetEmail: (state) => state.resetEmail,
     forgotStaffPasswordError: (state) => state.forgotStaffPasswordError,
     forgotStudentPasswordError: (state) => state.forgotStudentPasswordError,
-    resetStaffPasswordError: (state) => state.resetStaffPasswordError,
+    resetPasswordError: (state) => state.resetPasswordError,
 };
 
 export default {

@@ -41,7 +41,7 @@
 
 <script>
 export default {
-  name: "staff-login-form",
+  name: "forgot-staff-password",
   data() {
     return {
       valid: true,
