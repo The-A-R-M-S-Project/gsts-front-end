@@ -114,7 +114,7 @@ let router = new Router({
         },
         {
             path: "/ECE-dashboard",
-            name: "principal-dashboard",
+            name: "ece-dashboard",
             component: ECEDashboard,
             meta: {
                 requiresAuth: true,

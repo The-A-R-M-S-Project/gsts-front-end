@@ -2,24 +2,85 @@
   <div style="height: 100vh;">
     <Navigation />
     <v-container class="container">
-      <v-row class="schools-row" align="center" justify="start">
-        <v-col md="12" v-for="school in schools" :key="school.name">
+      <v-row align="center" justify="center">
+        <v-col md="6" class="px-5">
           <v-hover v-slot:default="{ hover }">
-            <v-card class="mx-auto" color="grey lighten-4" max-width="900" height="170">
-              <v-img :src="getImageURL(school.image)" height="170">
+            <v-card class="mx-auto" color="grey lighten-4" max-width="900" height="625">
+              <v-img :src="getImageURL('ece.jpg')" height="625">
                 <v-expand-transition>
                   <div
                     v-if="hover"
                     class="d-flex transition-fast-in-fast-out yellow darken-2 v-card--reveal display-3 black--text text-center"
                     style="height: 100%;"
-                  >{{school.name}}</div>
+                  >School of engineering</div>
                 </v-expand-transition>
               </v-img>
-              <v-btn absolute class="white--text floating-btn" text right bottom :to="school.path">
+              <v-btn
+                absolute
+                class="white--text floating-btn"
+                text
+                right
+                bottom
+                to="/ECE-dashboard"
+              >
                 <v-icon large color="yellow">mdi-desktop-mac-dashboard</v-icon>
               </v-btn>
             </v-card>
           </v-hover>
+        </v-col>
+        <v-col md="6" class="px-5">
+          <v-row no-gutters>
+            <v-col>
+              <v-hover v-slot:default="{ hover }">
+                <v-card class="mx-auto" color="grey lighten-4" max-width="900" height="255">
+                  <v-img :src="getImageURL('BE.jpg')" height="255">
+                    <v-expand-transition>
+                      <div
+                        v-if="hover"
+                        class="d-flex transition-fast-in-fast-out yellow darken-2 v-card--reveal display-3 black--text text-center"
+                        style="height: 100%;"
+                      >School of built environment</div>
+                    </v-expand-transition>
+                  </v-img>
+                  <v-btn
+                    absolute
+                    class="white--text floating-btn"
+                    text
+                    right
+                    bottom
+                    to="/BE-dashboard"
+                  >
+                    <v-icon large color="yellow">mdi-desktop-mac-dashboard</v-icon>
+                  </v-btn>
+                </v-card>
+              </v-hover>
+            </v-col>
+            <v-col>
+              <v-hover v-slot:default="{ hover }">
+                <v-card class="mx-auto" color="grey lighten-4" max-width="900" height="330">
+                  <v-img :src="getImageURL('FA.jpg')" height="330">
+                    <v-expand-transition>
+                      <div
+                        v-if="hover"
+                        class="d-flex transition-fast-in-fast-out yellow darken-2 v-card--reveal display-3 black--text text-center"
+                        style="height: 100%;"
+                      >School of fine art</div>
+                    </v-expand-transition>
+                  </v-img>
+                  <v-btn
+                    absolute
+                    class="white--text floating-btn"
+                    text
+                    right
+                    bottom
+                    to="/FA-dashboard"
+                  >
+                    <v-icon large color="yellow">mdi-desktop-mac-dashboard</v-icon>
+                  </v-btn>
+                </v-card>
+              </v-hover>
+            </v-col>
+          </v-row>
         </v-col>
       </v-row>
     </v-container>
@@ -64,9 +125,6 @@ export default {
 .mx-auto {
   margin: 20px;
   min-width: 250px;
-}
-.schools-row {
-  height: 80vh;
 }
 .v-card--reveal {
   align-items: center;
