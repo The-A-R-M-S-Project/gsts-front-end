@@ -111,6 +111,9 @@ export default {
       ]
     };
   },
+  mounted() {
+    this.$store.dispatch("fetchSchools");
+  },
   methods: {
     getImageURL(imageName) {
       return require(`../assets/principal/${imageName}`);
