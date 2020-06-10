@@ -1,18 +1,85 @@
-// import axiosInstance from "../axios_setup";
-import dashboardData from "../../services/dashboard-data.json";
+import axiosInstance from "../axios_setup";
 
 const state = {
-    dashboardStats: dashboardData
+    dashboardStats: dashboardData,
+    schools: null,
+    vivaStats: null,
+    reportStats: null,
+    performanceStats: null,
+    fetchSchoolsError: null,
+    fetchDashboardStatsError: null,
+    loader: false,
 };
-const mutations = {};
-const actions = {};
+const mutations = {
+    setSchoolsList(state, payload) {
+        state.schools = payload;
+    },
+    setDashboardStats(state, payload) {
+        state.vivaStats = payload.vivaStatus;
+        state.reportStats = payload.reportStatus;
+        state.performanceStats = payload.performance;
+    },
+    setFetchSchoolsError(state, payload) {
+        state.fetchSchoolsError = payload;
+    },
+    setFetchDashboardStatsError(state, payload) {
+        state.fetchDashboardStatsError = payload;
+    },
+    setLoader(state, payload) {
+        state.loader = payload;
+    },
+};
+const actions = {
+    async fetchSchools({ commit }) {
+        await axiosInstance
+            .get("/school/")
+            .then((response) => {
+                console.log("List of schools response: ", response.data);
+                commit("setSchoolsList", response.data);
+            })
+            .catch((error) => {
+                commit("setFetchSchoolsError", error.response.data.message);
+            });
+    },
+    async fetchDashboardStats({ commit }, data) {
+        console.log("It works");
+        commit("setLoader", true);
+        let accessToken = localStorage.getItem("jwt");
+        axiosInstance.defaults.headers.common[
+            "Authorization"
+        ] = `Bearer ${accessToken}`;
+        await axiosInstance
+            .get(`/staff/dashboard-stats/${data}`)
+            .then((response) => {
+                console.log("Stats response: ", response.data.data);
+                commit("setDashboardStats", response.data.data);
+                commit("setLoader", false);
+            })
+            .catch((error) => {
+                console.log(
+                    "Error fetching stats: ",
+                    error.response.data.message
+                );
+                commit(
+                    "setFetchDashboardStatsError",
+                    error.response.data.message
+                );
+                commit("setLoader", false);
+            });
+    },
+};
 const getters = {
-    dashboardStats: state => state.dashboardStats
+    schools: (state) => state.schools,
+    vivaStats: (state) => state.vivaStats,
+    reportStats: (state) => state.reportStats,
+    performanceStats: (state) => state.performanceStats,
+    loader: (state) => state.loader,
+    fetchDashboardStatsError: (state) => state.fetchDashboardStatsError,
 };
 
 export default {
     state,
     mutations,
     actions,
-    getters
+    getters,
 };

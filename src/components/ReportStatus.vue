@@ -14,22 +14,28 @@ export default {
         };
     },
     mounted() {
+        console.log("reportStatus: ", this.reportStatus);
         this.createChart("barChart", this.chartData);
+    },
+    computed: {
+        reportStatus() {
+            return this.$store.getters.reportStats;
+        },
     },
     methods: {
         createChart(chartId, chartData) {
-            const reportStatus = this.$store.getters.dashboardStats
-                .ReportStatus;
+            let keys = this.reportStatus.map((obj) => {
+                return Object.keys(obj);
+            });
+            let values = this.reportStatus.map((obj) => {
+                return Object.values(obj);
+            });
             Chart.defaults.global.defaultFontFamily = "Comfortaa";
             const ctx = document.getElementById(chartId);
             const myChart = new Chart(ctx, {
                 type: chartData.type,
                 data: {
-                    labels: [
-                        "Electrical and Computer",
-                        "Civil and Environmental",
-                        "Mechanical",
-                    ],
+                    labels: [keys[0][0], keys[1][0], keys[2][0]],
                     datasets: [
                         {
                             label: "submitted",
@@ -38,9 +44,9 @@ export default {
                             barPercentage: 0.7,
                             categoryPercentage: 0.3,
                             data: [
-                                reportStatus.EC.submitted,
-                                reportStatus.CE.submitted,
-                                reportStatus.Mechanical.submitted,
+                                values[0][0].submitted,
+                                values[1][0].submitted,
+                                values[2][0].submitted,
                             ],
                         },
                         {
@@ -50,9 +56,9 @@ export default {
                             barPercentage: 0.7,
                             categoryPercentage: 0.3,
                             data: [
-                                reportStatus.EC.withExaminer,
-                                reportStatus.CE.withExaminer,
-                                reportStatus.Mechanical.withExaminer,
+                                values[0][0].withExaminer,
+                                values[1][0].withExaminer,
+                                values[2][0].withExaminer,
                             ],
                         },
                         {
@@ -62,9 +68,9 @@ export default {
                             barPercentage: 0.7,
                             categoryPercentage: 0.3,
                             data: [
-                                reportStatus.EC.cleared,
-                                reportStatus.CE.cleared,
-                                reportStatus.Mechanical.cleared,
+                                values[0][0].cleared,
+                                values[1][0].cleared,
+                                values[2][0].cleared,
                             ],
                         },
                     ],

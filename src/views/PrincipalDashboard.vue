@@ -33,6 +33,7 @@
                                 text
                                 right
                                 bottom
+                                :loading="loader"
                                 @click="
                                     getSelectedSchool(
                                         schoolDetails.engineering.name
@@ -84,6 +85,7 @@
                                         text
                                         right
                                         bottom
+                                        :loading="loader"
                                         @click="
                                             getSelectedSchool(
                                                 schoolDetails.builtEnvironment
@@ -130,6 +132,7 @@
                                         text
                                         right
                                         bottom
+                                        :loading="loader"
                                         @click="
                                             getSelectedSchool(
                                                 schoolDetails.fineArt.name
@@ -181,26 +184,31 @@ export default {
         schools() {
             return this.$store.getters.schools;
         },
+        loader() {
+            return this.$store.getters.loader;
+        },
     },
     methods: {
         getImageURL(imageName) {
             return require(`../assets/principal/${imageName}`);
         },
         getSelectedSchool(schoolName) {
-            let selectedSchool = this.schools.find((school) => {
-                return school.name == schoolName;
-            });
-
-            let selectedSchoolDetails = Object.values(this.schoolDetails).find(
-                (school) => {
+            if (this.schools) {
+                let selectedSchool = this.schools.find((school) => {
                     return school.name == schoolName;
-                }
-            );
-            this.$store
-                .dispatch("fetchDashboardStats", selectedSchool._id)
-                .then(() => {
-                    this.$router.push(selectedSchoolDetails.route);
                 });
+
+                let selectedSchoolDetails = Object.values(
+                    this.schoolDetails
+                ).find((school) => {
+                    return school.name == schoolName;
+                });
+                this.$store
+                    .dispatch("fetchDashboardStats", selectedSchool._id)
+                    .then(() => {
+                        this.$router.push(selectedSchoolDetails.route);
+                    });
+            }
         },
     },
     components: {
