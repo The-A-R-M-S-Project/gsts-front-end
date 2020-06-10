@@ -1,13 +1,12 @@
 import axiosInstance from "../axios_setup";
 
 const state = {
-    dashboardStats: dashboardData,
     schools: null,
     vivaStats: null,
     reportStats: null,
     performanceStats: null,
     fetchSchoolsError: null,
-    fetchDashboardStatsError: null,
+    fetchDashboardStatsError: "",
     loader: false,
 };
 const mutations = {
@@ -42,7 +41,6 @@ const actions = {
             });
     },
     async fetchDashboardStats({ commit }, data) {
-        console.log("It works");
         commit("setLoader", true);
         let accessToken = localStorage.getItem("jwt");
         axiosInstance.defaults.headers.common[

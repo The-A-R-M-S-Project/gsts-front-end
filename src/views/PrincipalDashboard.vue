@@ -187,6 +187,9 @@ export default {
         loader() {
             return this.$store.getters.loader;
         },
+        fetchDashboardStatsError() {
+            return this.$store.getters.fetchDashboardStatsError;
+        },
     },
     methods: {
         getImageURL(imageName) {
@@ -206,7 +209,15 @@ export default {
                 this.$store
                     .dispatch("fetchDashboardStats", selectedSchool._id)
                     .then(() => {
-                        this.$router.push(selectedSchoolDetails.route);
+                        if (
+                            this.fetchDashboardStatsError.includes(
+                                "token has expired!"
+                            )
+                        ) {
+                            this.$router.push("/expired-session");
+                        } else {
+                            this.$router.push(selectedSchoolDetails.route);
+                        }
                     });
             }
         },

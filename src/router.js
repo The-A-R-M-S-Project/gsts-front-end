@@ -9,6 +9,7 @@ import Departments from "./views/Departments.vue";
 import StudentDetails from "./views/AdminStudentView.vue";
 import Examiners from "./views/Examiners.vue";
 import ExaminersDetails from "./views/ExaminerDetails.vue";
+import ExpiredSession from "./views/ExpiredSession.vue";
 import ECEDashboard from "./views/ECEDashboard.vue";
 import PrincipalDashboard from "./views/PrincipalDashboard";
 import StudentDashboard from "./views/StudentDashboard.vue";
@@ -155,6 +156,16 @@ let router = new Router({
             path: "/examinersdetails",
             name: "examinersDetails",
             component: ExaminersDetails,
+            meta: {
+                requiresAuth: true,
+                is_principal: true,
+                is_dean: true,
+            },
+        },
+        {
+            path: "/expired-session",
+            name: "expired-session",
+            component: ExpiredSession,
             meta: {
                 requiresAuth: true,
                 is_principal: true,
