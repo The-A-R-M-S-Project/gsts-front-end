@@ -212,6 +212,7 @@ export default {
                 this.$store
                     .dispatch("fetchDashboardStats", selectedSchool._id)
                     .then(() => {
+                        console.log("session expired: ", this.sessionExpired);
                         if (this.sessionExpired) {
                             this.$router.push("/expired-session");
                         } else {

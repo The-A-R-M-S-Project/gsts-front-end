@@ -11,6 +11,7 @@ import Examiners from "./views/Examiners.vue";
 import ExaminersDetails from "./views/ExaminerDetails.vue";
 import ExpiredSession from "./views/ExpiredSession.vue";
 import ECEDashboard from "./views/ECEDashboard.vue";
+import FADashboard from "./views/FADashboard.vue";
 import PrincipalDashboard from "./views/PrincipalDashboard";
 import StudentDashboard from "./views/StudentDashboard.vue";
 import DeanSEDashboard from "./views/EngDeanDashboard.vue";
@@ -117,6 +118,24 @@ let router = new Router({
             path: "/ECE-dashboard",
             name: "ece-dashboard",
             component: ECEDashboard,
+            meta: {
+                requiresAuth: true,
+                is_principal: true,
+            },
+        },
+        {
+            path: "/BE-dashboard",
+            name: "be-dashboard",
+            component: ECEDashboard,
+            meta: {
+                requiresAuth: true,
+                is_principal: true,
+            },
+        },
+        {
+            path: "/FA-dashboard",
+            name: "fa-dashboard",
+            component: FADashboard,
             meta: {
                 requiresAuth: true,
                 is_principal: true,

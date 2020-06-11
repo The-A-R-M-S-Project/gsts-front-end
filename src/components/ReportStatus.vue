@@ -14,7 +14,6 @@ export default {
         };
     },
     mounted() {
-        console.log("reportStatus: ", this.reportStatus);
         this.createChart("barChart", this.chartData);
     },
     computed: {

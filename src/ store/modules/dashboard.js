@@ -55,16 +55,15 @@ const actions = {
             .then((response) => {
                 console.log("Stats response: ", response.data.data);
                 commit("setDashboardStats", response.data.data);
+                commit("setSessionExpired", false);
                 commit("setLoader", false);
             })
             .catch((error) => {
                 if (
                     error.response.data.message.includes("token has expired!")
                 ) {
-                    console.log("session expired: ", true);
                     commit("setSessionExpired", true);
                 } else {
-                    console.log("session expired: ", false);
                     commit("setSessionExpired", false);
                 }
                 commit(
