@@ -190,6 +190,9 @@ export default {
         fetchDashboardStatsError() {
             return this.$store.getters.fetchDashboardStatsError;
         },
+        sessionExpired() {
+            return this.$store.getters.sessionExpired;
+        },
     },
     methods: {
         getImageURL(imageName) {
@@ -209,11 +212,7 @@ export default {
                 this.$store
                     .dispatch("fetchDashboardStats", selectedSchool._id)
                     .then(() => {
-                        if (
-                            this.fetchDashboardStatsError.includes(
-                                "token has expired!"
-                            )
-                        ) {
+                        if (this.sessionExpired) {
                             this.$router.push("/expired-session");
                         } else {
                             this.$router.push(selectedSchoolDetails.route);
