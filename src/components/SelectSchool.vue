@@ -34,10 +34,12 @@ export default {
         schools() {
             return this.$store.getters.schools;
         },
+        sessionExpired() {
+            return this.$store.getters.sessionExpired;
+        },
     },
     methods: {
         fetchSchoolData() {
-            event.preventDefault();
             let route = "";
             if (this.selectedSchool.name == "School of Engineering")
                 route = "/ECE-dashboard";
