@@ -9,7 +9,6 @@ import Departments from "./views/Departments.vue";
 import StudentDetails from "./views/AdminStudentView.vue";
 import Examiners from "./views/Examiners.vue";
 import ExaminersDetails from "./views/ExaminerDetails.vue";
-import ExpiredSession from "./views/ExpiredSession.vue";
 import ECEDashboard from "./views/ECEDashboard.vue";
 import FADashboard from "./views/FADashboard.vue";
 import PrincipalDashboard from "./views/PrincipalDashboard";
@@ -18,6 +17,8 @@ import DeanSEDashboard from "./views/EngDeanDashboard.vue";
 import ExaminerDashboard from "./views/ExaminerDashboard.vue";
 import ReportStatus from "./components/StudentTimeline.vue";
 import StudentProfile from "./components/StudentProfile.vue";
+import ExpiredSession from "./views/ExpiredSession.vue";
+import UnderConstruction from "./views/UnderConstruction.vue";
 import PageNotFound from "./components/PageNotFound.vue";
 
 Vue.use(Router);
@@ -190,6 +191,11 @@ let router = new Router({
                 is_principal: true,
                 is_dean: true,
             },
+        },
+        {
+            path: "/under-construction",
+            name: "under-construction",
+            component: UnderConstruction,
         },
         { path: "*", component: PageNotFound },
     ],

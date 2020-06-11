@@ -37,7 +37,6 @@ const actions = {
         await axiosInstance
             .get("/school/")
             .then((response) => {
-                console.log("List of schools response: ", response.data);
                 commit("setSchoolsList", response.data);
             })
             .catch((error) => {
@@ -53,7 +52,6 @@ const actions = {
         await axiosInstance
             .get(`/staff/dashboard-stats/${data}`)
             .then((response) => {
-                console.log("Stats response: ", response.data.data);
                 commit("setDashboardStats", response.data.data);
                 commit("setSessionExpired", false);
                 commit("setLoader", false);

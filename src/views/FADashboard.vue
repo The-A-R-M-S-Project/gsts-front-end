@@ -74,7 +74,7 @@ import VivaStatus from "@/components/VivaStatus.vue";
 import Calendar from "@/components/Calendar.vue";
 import Chart from "chart.js";
 export default {
-    name: "ECE-dashboard",
+    name: "FA-dashboard",
     data() {
         return {
             reportChartData: {
