@@ -20,15 +20,25 @@ export default {
     name: "select-school-dropdown",
     data() {
         return {
-            selectedSchool: {
-                _id: "5c88fa8cf4afda39709c2959",
-                name: "School of Built Environment",
-                __v: 0,
-            },
+            selectedSchool: null,
         };
     },
     mounted() {
-        this.$store.dispatch("fetchSchools");
+        this.$store.dispatch("fetchSchools").then(() => {
+            if (this.$route.path == "/ECE-dashboard") {
+                this.selectedSchool = this.schools.find((school) => {
+                    return school.name == "School of Engineering";
+                });
+            } else if (this.$route.path == "/BE-dashboard") {
+                this.selectedSchool = this.schools.find((school) => {
+                    return school.name == "School of Built Environment";
+                });
+            } else if (this.$route.path == "/FA-dashboard") {
+                this.selectedSchool = this.schools.find((school) => {
+                    return school.name == "School of Industrial and Fine Arts";
+                });
+            }
+        });
     },
     computed: {
         schools() {
@@ -40,15 +50,7 @@ export default {
     },
     methods: {
         fetchSchoolData() {
-            let route = "";
-            if (this.selectedSchool.name == "School of Engineering")
-                route = "/ECE-dashboard";
-            else if (this.selectedSchool.name == "School of Built Environment")
-                route = "/BE-dashboard";
-            else if (
-                this.selectedSchool.name == "School of Industrial and Fine Arts"
-            )
-                route = "/FA-dashboard";
+            let route = this.getSchoolRoute(this.selectedSchool);
             this.$store
                 .dispatch("fetchDashboardStats", this.selectedSchool._id)
                 .then(() => {
@@ -60,6 +62,13 @@ export default {
                         }
                     }
                 });
+        },
+        getSchoolRoute(school) {
+            if (school.name == "School of Engineering") return "/ECE-dashboard";
+            else if (school.name == "School of Built Environment")
+                return "/BE-dashboard";
+            else if (school.name == "School of Industrial and Fine Arts")
+                return "/FA-dashboard";
         },
     },
 };
