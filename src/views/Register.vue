@@ -1,52 +1,61 @@
 <template>
-  <v-container text-xs-center fluid fill-height class="register">
-    <v-layout align-center justify-center>
-      <v-card min-width="90%" class="elevation-24">
-        <v-layout row wrap>
-          <v-flex sm5>
-            <v-container fill-height pa-0 overlayed>
-              <v-layout align-center>
-                <v-flex px-4 py-2>
+  <v-container class="register" fluid fill-height>
+    <v-row align="center" justify="center">
+      <v-card max-width="90%" class="elevation-24">
+        <v-row no-gutters>
+          <v-col md="5">
+            <v-container class="text-center" fill-height overlayed>
+              <v-row>
+                <v-col class="px-4 py-2">
                   <h1 class="display-3 font-weight-light">Welcome</h1>
                   <p class="mt-5 mb-4">
                     To keep track of your report please
                     login with your personal information
                   </p>
-                  <v-btn round large depressed block to="/" class="register__login-btn grey">login</v-btn>
-                </v-flex>
-              </v-layout>
+                  <v-btn rounded large depressed to="/" class="register__login-btn grey">
+                    <v-icon>mdi-subdirectory-arrow-right</v-icon>
+                    <span>&nbsp;Login</span>
+                  </v-btn>
+                </v-col>
+              </v-row>
             </v-container>
-          </v-flex>
-          <v-flex sm7>
+          </v-col>
+          <v-col md="7">
             <v-container>
-              <v-form v-model="valid">
-                <v-container class="container">
-                  <h2 class="headline custom-font-family">Register</h2>
-                  <v-layout>
-                    <v-flex>
+              <v-form ref="registerForm" v-model="valid">
+                <h2 class="headline py-2 text-center">Register</h2>
+                <v-alert
+                  v-model="displaySignUpError"
+                  type="error"
+                  dismissible
+                  class="mx-7 mt-2 error-alert"
+                >{{ signupError }}</v-alert>
+                <v-container class="container px-8 text-center">
+                  <v-row>
+                    <v-col>
                       <v-text-field
                         v-model="firstName"
-                        :counter="10"
                         label="First name"
-                        required
+                        :rules="nameRules"
                         prepend-inner-icon="mdi-account"
                         height="28"
                         color="purple"
+                        required
                       ></v-text-field>
-                    </v-flex>
+                    </v-col>
 
-                    <v-flex>
+                    <v-col>
                       <v-text-field
                         v-model="lastName"
-                        :counter="10"
                         label="Last name"
-                        required
+                        :rules="nameRules"
                         prepend-inner-icon="mdi-account"
                         height="28"
                         color="purple"
+                        required
                       ></v-text-field>
-                    </v-flex>
-                  </v-layout>
+                    </v-col>
+                  </v-row>
                   <v-text-field
                     v-model="email"
                     label="Email"
@@ -92,10 +101,9 @@
                   <div class="mx-5">
                     <v-btn
                       type="submit"
-                      light
                       large
-                      round
-                      block
+                      width="400"
+                      rounded
                       :loading="isLoading"
                       depressed
                       ripple
@@ -108,16 +116,11 @@
                   </div>
                 </v-container>
               </v-form>
-              <div v-if="displaySignUpError" class="alert">{{ signupError }}</div>
-              <div
-                v-if="displayValidityError"
-                class="alert"
-              >Please ensure that you have filled all the fields</div>
             </v-container>
-          </v-flex>
-        </v-layout>
+          </v-col>
+        </v-row>
       </v-card>
-    </v-layout>
+    </v-row>
   </v-container>
 </template>
 
@@ -130,7 +133,6 @@ export default {
       showPassword: false,
       showConfirm: false,
       loading: false,
-      displayValidityError: false,
       displaySignUpError: false,
       lastName: "",
       email: "",
@@ -148,8 +150,8 @@ export default {
         passwordField =>
           passwordField === this.password || `Passwords do not match!`
       ],
-      nameRules: [],
-      valid: "",
+      nameRules: [name => !!name || "This field is required"],
+      valid: true,
       phoneNumber: "",
       phoneNumberRules: [
         phoneNumberField =>
@@ -161,7 +163,7 @@ export default {
   methods: {
     register() {
       event.preventDefault();
-      if (this.password === this.passwordConfirm && this.password != "") {
+      if (this.$refs.registerForm.validate()) {
         this.$store
           .dispatch("register", {
             firstName: this.firstName,
@@ -172,6 +174,7 @@ export default {
             phoneNumber: this.phoneNumber
           })
           .then(() => {
+            console.log("Logged in: ", this.isLogged);
             if (this.isLogged) {
               if (this.$route.params.continue != null) {
                 this.$router.push(this.$route.params.continue);
@@ -182,14 +185,7 @@ export default {
             } else {
               this.displaySignUpError = true;
             }
-          })
-          .catch(error => {
-            console.log(error);
           });
-      } else {
-        this.password = "";
-        this.passwordConfirm = "";
-        this.displayValidityError = true;
       }
     }
   },

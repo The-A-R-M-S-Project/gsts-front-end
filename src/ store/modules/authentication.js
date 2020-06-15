@@ -30,6 +30,7 @@ const mutations = {
     },
     LoginError(state, error) {
         state.loginError = error;
+        state.isLoggedIn = false;
     },
     SetUser(state, payload) {
         state.user = payload;
@@ -37,6 +38,7 @@ const mutations = {
     },
     SignupError(state, error) {
         state.signupError = error;
+        state.isLoggedIn = false;
     },
     LogoutError(state, error) {
         state.logoutError = error;
