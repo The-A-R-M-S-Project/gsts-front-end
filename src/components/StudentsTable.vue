@@ -2,10 +2,20 @@
   <v-card elevation="18" width="100%" color="teal lighten-2">
     <v-card-title>
       <v-row>
-        <v-col xs="12" sm="6" md="8">
-          <div class="text-xs-left">
-            <h2>{{ program }}</h2>
-          </div>
+        <v-col xs="12" sm="6" md="8" class="text-xs-left" align-self="center">
+          <v-select
+            label="Select a department"
+            class="select-department"
+            :items="departments"
+            item-text="name"
+            return-object
+            flat
+            dense
+            light
+            hide-details
+            single-line
+            v-model="selectedDepartment"
+          ></v-select>
         </v-col>
         <v-col xs="12" sm="6" md="4">
           <v-text-field
@@ -64,19 +74,34 @@ export default {
         { text: "VIVA STATUS", value: "vivaStatus" },
         { text: "VIVA DATE", value: "vivaDate" }
       ],
-      students: StudentData
+      students: StudentData,
+      selectedDepartment: null
     };
+  },
+  mounted() {
+    this.$store.dispatch("fetchDepartments", this.selectedSchoolID).then(() => {
+      this.selectedDepartment = this.departments[0];
+    });
   },
   computed: {
     studentData: () =>
       DepartmentService.getStudentData(this._id).then(response => {
         return response.data.students;
-      })
+      }),
+    selectedSchoolID() {
+      return this.$store.getters.selectedSchoolID;
+    },
+    departments() {
+      return this.$store.getters.departments;
+    }
   }
 };
 </script>
 <style>
 .students-table {
   width: 100%;
+}
+.select-department {
+  width: 50%;
 }
 </style>

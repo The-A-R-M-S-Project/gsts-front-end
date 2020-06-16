@@ -5,7 +5,7 @@ import ForgotStaffPass from "./views/ForgotStaffPass.vue";
 import ForgotStudentPass from "./views/ForgotStudentPass.vue";
 import ResetPassword from "./views/ResetPassword.vue";
 import Register from "./views/Register.vue";
-import Departments from "./views/Departments.vue";
+import Students from "./views/Students.vue";
 import StudentDetails from "./views/AdminStudentView.vue";
 import Examiners from "./views/Examiners.vue";
 import ExaminersDetails from "./views/ExaminerDetails.vue";
@@ -143,9 +143,9 @@ let router = new Router({
             },
         },
         {
-            path: "/departments",
-            name: "departments",
-            component: Departments,
+            path: "/students",
+            name: "students",
+            component: Students,
             meta: {
                 requiresAuth: true,
                 is_principal: true,

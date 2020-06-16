@@ -14,7 +14,7 @@
         </v-col>
 
         <v-col md="auto">
-          <v-btn text class="title text-capitalize white--text" to="/departments">Students</v-btn>
+          <v-btn text class="title text-capitalize white--text" to="/students">Students</v-btn>
         </v-col>
         <v-col md="auto">
           <v-menu
