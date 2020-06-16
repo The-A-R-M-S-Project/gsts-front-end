@@ -174,7 +174,6 @@ export default {
             phoneNumber: this.phoneNumber
           })
           .then(() => {
-            console.log("Logged in: ", this.isLogged);
             if (this.isLogged) {
               if (this.$route.params.continue != null) {
                 this.$router.push(this.$route.params.continue);

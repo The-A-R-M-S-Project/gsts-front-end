@@ -1,16 +1,23 @@
 <template>
   <div class="pa-5">
-    <v-card elevation="18" color="teal lighten-2"> 
+    <v-card elevation="18" color="teal lighten-2">
       <v-card-title>
-        <v-layout>
-          <v-flex xs12 sm6 md4>
-            <v-text-field v-model="search" append-icon="search" label="Search" color="blue-grey lighten-4"></v-text-field>
-          </v-flex>
-        </v-layout>
+        <v-row>
+          <v-col xs="12" sm="6" md="4">
+            <v-text-field
+              v-model="search"
+              append-icon="search"
+              label="Search"
+              color="blue-grey lighten-4"
+            ></v-text-field>
+          </v-col>
+        </v-row>
       </v-card-title>
       <v-data-table :headers="headers" :items="examiners" :search="search">
         <template v-slot:items="props">
-          <router-link to="/examinersdetails" class="purple--text custom-link"><td>{{ props.item.name }}</td></router-link>
+          <router-link to="/examinersdetails" class="purple--text custom-link">
+            <td>{{ props.item.name }}</td>
+          </router-link>
           <td class="text-xs-left">{{ props.item.department }}</td>
           <td class="text-xs-left">{{ props.item.category }}</td>
           <td class="text-xs-left">{{ props.item.offNo }}</td>
@@ -30,28 +37,28 @@
 </template>
 
 <script>
-import ExaminerData from "@/services/examiners-data-service.js"
+import ExaminerData from "@/services/examiners-data-service.js";
 export default {
-    props: {
-          program: String
-      },
-    data() {
-        return {
-        search: "",
-        headers: [
-            {
-            text: "EXAMINER NAME",
-            align: "left",
-            value: "name"
-            },
-            { text: "DEPARTMENT", value: "department" },
-            { text: "CATEGORY", value: "category" },
-            {text: "OFFICE NUMBER", value: "offNo"},
-            { text: "CONTACT", value: "contact" },
-            { text: "EMAIL", value: "email" }
-        ],
-        examiners: ExaminerData
-        };
-    }
+  props: {
+    program: String
+  },
+  data() {
+    return {
+      search: "",
+      headers: [
+        {
+          text: "EXAMINER NAME",
+          align: "left",
+          value: "name"
+        },
+        { text: "DEPARTMENT", value: "department" },
+        { text: "CATEGORY", value: "category" },
+        { text: "OFFICE NUMBER", value: "offNo" },
+        { text: "CONTACT", value: "contact" },
+        { text: "EMAIL", value: "email" }
+      ],
+      examiners: ExaminerData
+    };
+  }
 };
 </script>
