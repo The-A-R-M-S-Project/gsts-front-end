@@ -98,6 +98,7 @@ export default {
                 this.$router.push({
                   name: `${user.role}-dashboard`
                 });
+                this.$store.dispatch("setLoginTime", new Date());
               }
             } else {
               this.displayLoginError = true;

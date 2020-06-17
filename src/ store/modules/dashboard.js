@@ -10,7 +10,6 @@ const state = {
     fetchSchoolsError: null,
     fetchDepartmentsError: null,
     fetchDashboardStatsError: "",
-    sessionExpired: false,
     loader: false,
 };
 const mutations = {
@@ -39,9 +38,6 @@ const mutations = {
     },
     setLoader(state, payload) {
         state.loader = payload;
-    },
-    setSessionExpired(state, payload) {
-        state.sessionExpired = payload;
     },
 };
 const actions = {
@@ -76,17 +72,9 @@ const actions = {
             .get(`/staff/dashboard-stats/${data}`)
             .then((response) => {
                 commit("setDashboardStats", response.data.data);
-                commit("setSessionExpired", false);
                 commit("setLoader", false);
             })
             .catch((error) => {
-                if (
-                    error.response.data.message.includes("token has expired!")
-                ) {
-                    commit("setSessionExpired", true);
-                } else {
-                    commit("setSessionExpired", false);
-                }
                 commit(
                     "setFetchDashboardStatsError",
                     error.response.data.message
@@ -104,17 +92,8 @@ const actions = {
             .then((response) => {
                 console.log("Dean dashboard: ", response.data.data);
                 commit("setDashboardStats", response.data.data);
-                commit("setSessionExpired", false);
             })
             .catch((error) => {
-                console.log("Dean dash: ", error.response.data.message);
-                if (
-                    error.response.data.message.includes("token has expired!")
-                ) {
-                    commit("setSessionExpired", true);
-                } else {
-                    commit("setSessionExpired", false);
-                }
                 commit(
                     "setFetchDashboardStatsError",
                     error.response.data.message
@@ -130,7 +109,6 @@ const getters = {
     reportStats: (state) => state.reportStats,
     performanceStats: (state) => state.performanceStats,
     loader: (state) => state.loader,
-    sessionExpired: (state) => state.sessionExpired,
     fetchDashboardStatsError: (state) => state.fetchDashboardStatsError,
 };
 

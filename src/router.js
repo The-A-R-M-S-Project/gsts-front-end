@@ -20,6 +20,7 @@ import StudentProfile from "./components/StudentProfile.vue";
 import ExpiredSession from "./views/ExpiredSession.vue";
 import UnderConstruction from "./views/UnderConstruction.vue";
 import PageNotFound from "./components/PageNotFound.vue";
+import store from "./ store/store";
 
 Vue.use(Router);
 
@@ -190,6 +191,7 @@ let router = new Router({
                 requiresAuth: true,
                 is_principal: true,
                 is_dean: true,
+                is_student: true,
             },
         },
         {
@@ -200,7 +202,10 @@ let router = new Router({
         { path: "*", component: PageNotFound },
     ],
 });
-
+function getTime(signInTime) {
+    let diff = Math.abs(signInTime - new Date());
+    return diff / (1000 * 60);
+}
 router.beforeEach((to, from, next) => {
     if (to.matched.some((record) => record.meta.requiresAuth)) {
         if (localStorage.getItem("jwt") == null) {
@@ -209,6 +214,9 @@ router.beforeEach((to, from, next) => {
                 params: { continue: to.fullPath },
             });
         } else {
+            if (getTime(store.getters.loginTime) > 30) {
+                next("/expired-session");
+            }
             let user = JSON.parse(localStorage.getItem("user"));
             if (to.matched.some((record) => record.meta.is_principal)) {
                 if (user.role === "principal") {

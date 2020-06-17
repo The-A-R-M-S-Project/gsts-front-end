@@ -4,6 +4,7 @@ import { register } from "register-service-worker";
 const state = {
     isLoading: false,
     loginError: null,
+    loginTime: {},
     forgotStaffPasswordError: null,
     forgotStudentPasswordError: null,
     signupError: null,
@@ -27,6 +28,9 @@ const mutations = {
     },
     isLoading(state, payload) {
         state.isLoading = payload;
+    },
+    signInTime(state, payload) {
+        state.loginTime = payload;
     },
     LoginError(state, error) {
         state.loginError = error;
@@ -174,9 +178,13 @@ const actions = {
     resetStudentToggle({ commit }, data) {
         commit("toggleStudentResetMessage", data);
     },
+    setLoginTime({ commit }, data) {
+        commit("signInTime", data);
+    },
 };
 const getters = {
     isLoggedIn: (state) => state.isLoggedIn,
+    loginTime: (state) => state.loginTime,
     user: (state) => state.user,
     isLoading: (state) => state.isLoading,
     loginError: (state) => state.loginError,
