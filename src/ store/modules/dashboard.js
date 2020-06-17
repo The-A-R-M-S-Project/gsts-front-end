@@ -94,6 +94,33 @@ const actions = {
                 commit("setLoader", false);
             });
     },
+    async fetchDeanDashboardStats({ commit }) {
+        let accessToken = localStorage.getItem("jwt");
+        axiosInstance.defaults.headers.common[
+            "Authorization"
+        ] = `Bearer ${accessToken}`;
+        await axiosInstance
+            .get("/staff/dashboard-stats/")
+            .then((response) => {
+                console.log("Dean dashboard: ", response.data.data);
+                commit("setDashboardStats", response.data.data);
+                commit("setSessionExpired", false);
+            })
+            .catch((error) => {
+                console.log("Dean dash: ", error.response.data.message);
+                if (
+                    error.response.data.message.includes("token has expired!")
+                ) {
+                    commit("setSessionExpired", true);
+                } else {
+                    commit("setSessionExpired", false);
+                }
+                commit(
+                    "setFetchDashboardStatsError",
+                    error.response.data.message
+                );
+            });
+    },
 };
 const getters = {
     schools: (state) => state.schools,

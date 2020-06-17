@@ -1,6 +1,6 @@
 <template>
   <v-card elevation="18" width="100%" color="teal lighten-2">
-    <v-card-title>
+    <v-card-title class="py-1">
       <v-row>
         <v-col xs="12" sm="6" md="8" class="text-xs-left" align-self="center">
           <v-select

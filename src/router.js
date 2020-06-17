@@ -13,7 +13,7 @@ import ECEDashboard from "./views/ECEDashboard.vue";
 import FADashboard from "./views/FADashboard.vue";
 import PrincipalDashboard from "./views/PrincipalDashboard";
 import StudentDashboard from "./views/StudentDashboard.vue";
-import DeanSEDashboard from "./views/EngDeanDashboard.vue";
+import DeanDashboard from "./views/DeanDashboard.vue";
 import ExaminerDashboard from "./views/ExaminerDashboard.vue";
 import ReportStatus from "./components/StudentTimeline.vue";
 import StudentProfile from "./components/StudentProfile.vue";
@@ -100,7 +100,7 @@ let router = new Router({
         {
             path: "/dean-dashboard",
             name: "dean-dashboard",
-            component: DeanSEDashboard,
+            component: DeanDashboard,
             meta: {
                 requiresAuth: true,
                 is_dean: true,
