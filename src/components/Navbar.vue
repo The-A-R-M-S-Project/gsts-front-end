@@ -4,7 +4,7 @@
       <v-toolbar-title>
         <v-btn
           text
-          to="/ECE-dashboard"
+          to="/principal-dashboard"
           class="white--text font-weight-bold text-capitalize title"
         >G.S.T.S</v-btn>
       </v-toolbar-title>

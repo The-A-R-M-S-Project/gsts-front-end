@@ -219,7 +219,7 @@ router.beforeEach((to, from, next) => {
                 getTime(store.getters.loginTime) > 30 &&
                 to.path !== "/expired-session"
             ) {
-                next("/expired-session");
+                next({ name: "expired-session", path: "/expired-session" });
             } else {
                 if (to.matched.some((record) => record.meta.is_principal)) {
                     if (user.role === "principal") {

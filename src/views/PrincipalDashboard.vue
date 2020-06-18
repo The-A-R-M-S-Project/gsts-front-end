@@ -5,7 +5,15 @@
       <v-row align="center" justify="center">
         <v-col md="6" class="px-5">
           <v-hover v-slot:default="{ hover }">
-            <v-card class="mx-auto" color="grey lighten-4" max-width="900" height="625">
+            <v-card
+              class="mx-auto"
+              color="grey lighten-4"
+              max-width="900"
+              @click="getSelectedSchool(
+                                        schoolDetails.engineering.name
+                                    )"
+              height="625"
+            >
               <v-img
                 :src="
                                     getImageURL(schoolDetails.engineering.image)
@@ -17,24 +25,21 @@
                     v-if="hover"
                     class="d-flex transition-fast-in-fast-out yellow darken-2 v-card--reveal display-3 black--text text-center"
                     style="height: 100%;"
-                  >{{ schoolDetails.engineering.name }}</div>
+                  >
+                    <div>{{ schoolDetails.engineering.name }}</div>
+                    <v-btn
+                      absolute
+                      class="white--text floating-btn"
+                      text
+                      right
+                      bottom
+                      :loading="loader"
+                    >
+                      <v-icon light large color="black">mdi-desktop-mac-dashboard</v-icon>
+                    </v-btn>
+                  </div>
                 </v-expand-transition>
               </v-img>
-              <v-btn
-                absolute
-                class="white--text floating-btn"
-                text
-                right
-                bottom
-                :loading="loader"
-                @click="
-                                    getSelectedSchool(
-                                        schoolDetails.engineering.name
-                                    )
-                                "
-              >
-                <v-icon large color="yellow">mdi-desktop-mac-dashboard</v-icon>
-              </v-btn>
             </v-card>
           </v-hover>
         </v-col>
@@ -42,7 +47,18 @@
           <v-row no-gutters>
             <v-col>
               <v-hover v-slot:default="{ hover }">
-                <v-card class="mx-auto" color="grey lighten-4" max-width="900" height="255">
+                <v-card
+                  class="mx-auto"
+                  color="grey lighten-4"
+                  max-width="900"
+                  height="255"
+                  @click="
+                                            getSelectedSchool(
+                                                schoolDetails.builtEnvironment
+                                                    .name
+                                            )
+                                        "
+                >
                   <v-img
                     :src="
                                             getImageURL(
@@ -58,35 +74,41 @@
                         class="d-flex transition-fast-in-fast-out yellow darken-2 v-card--reveal display-3 black--text text-center"
                         style="height: 100%;"
                       >
-                        {{
-                        schoolDetails
-                        .builtEnvironment.name
-                        }}
+                        <div>
+                          {{
+                          schoolDetails
+                          .builtEnvironment.name
+                          }}
+                        </div>
+                        <v-btn
+                          absolute
+                          class="white--text floating-btn"
+                          text
+                          right
+                          bottom
+                          :loading="loader"
+                        >
+                          <v-icon large color="black">mdi-desktop-mac-dashboard</v-icon>
+                        </v-btn>
                       </div>
                     </v-expand-transition>
                   </v-img>
-                  <v-btn
-                    absolute
-                    class="white--text floating-btn"
-                    text
-                    right
-                    bottom
-                    :loading="loader"
-                    @click="
-                                            getSelectedSchool(
-                                                schoolDetails.builtEnvironment
-                                                    .name
-                                            )
-                                        "
-                  >
-                    <v-icon large color="yellow">mdi-desktop-mac-dashboard</v-icon>
-                  </v-btn>
                 </v-card>
               </v-hover>
             </v-col>
             <v-col>
               <v-hover v-slot:default="{ hover }">
-                <v-card class="mx-auto" color="grey lighten-4" max-width="900" height="330">
+                <v-card
+                  class="mx-auto"
+                  color="grey lighten-4"
+                  max-width="900"
+                  height="330"
+                  @click="
+                                            getSelectedSchool(
+                                                schoolDetails.fineArt.name
+                                            )
+                                        "
+                >
                   <v-img
                     :src="
                                             getImageURL(
@@ -100,24 +122,21 @@
                         v-if="hover"
                         class="d-flex transition-fast-in-fast-out yellow darken-2 v-card--reveal display-3 black--text text-center"
                         style="height: 100%;"
-                      >{{ schoolDetails.fineArt.name }}</div>
+                      >
+                        <div>{{ schoolDetails.fineArt.name }}</div>
+                        <v-btn
+                          absolute
+                          class="white--text floating-btn"
+                          text
+                          right
+                          bottom
+                          :loading="loader"
+                        >
+                          <v-icon large color="black">mdi-desktop-mac-dashboard</v-icon>
+                        </v-btn>
+                      </div>
                     </v-expand-transition>
                   </v-img>
-                  <v-btn
-                    absolute
-                    class="white--text floating-btn"
-                    text
-                    right
-                    bottom
-                    :loading="loader"
-                    @click="
-                                            getSelectedSchool(
-                                                schoolDetails.fineArt.name
-                                            )
-                                        "
-                  >
-                    <v-icon large color="yellow">mdi-desktop-mac-dashboard</v-icon>
-                  </v-btn>
                 </v-card>
               </v-hover>
             </v-col>
