@@ -2,7 +2,22 @@
   <v-card elevation="18" width="100%" color="teal lighten-2">
     <v-card-title class="py-1">
       <v-row>
-        <v-col xs="12" sm="6" md="8" class="text-xs-left" align-self="center">
+        <v-col xs="12" sm="12" md="4" class="text-xs-left" align-self="center">
+          <v-select
+            label="Select a school"
+            :items="schools"
+            item-text="name"
+            return-object
+            flat
+            dense
+            light
+            hide-details
+            single-line
+            @input="fetchDepartments"
+            v-model="selectedSchool"
+          ></v-select>
+        </v-col>
+        <v-col xs="12" sm="12" md="4" class="text-xs-left" align-self="center">
           <v-select
             label="Select a department"
             class="select-department"
@@ -17,7 +32,7 @@
             v-model="selectedDepartment"
           ></v-select>
         </v-col>
-        <v-col xs="12" sm="6" md="4">
+        <v-col xs="12" sm="12" md="4">
           <v-text-field
             v-model="search"
             append-icon="search"
@@ -75,13 +90,9 @@ export default {
         { text: "VIVA DATE", value: "vivaDate" }
       ],
       students: StudentData,
+      selectedSchool: null,
       selectedDepartment: null
     };
-  },
-  mounted() {
-    this.$store.dispatch("fetchDepartments", this.selectedSchoolID).then(() => {
-      this.selectedDepartment = this.departments[0];
-    });
   },
   computed: {
     studentData: () =>
@@ -93,6 +104,14 @@ export default {
     },
     departments() {
       return this.$store.getters.departments;
+    },
+    schools() {
+      return this.$store.getters.schools;
+    }
+  },
+  methods: {
+    fetchDepartments() {
+      this.$store.dispatch("fetchDepartments", this.selectedSchool._id);
     }
   }
 };
@@ -102,6 +121,6 @@ export default {
   width: 100%;
 }
 .select-department {
-  width: 50%;
+  width: 90%;
 }
 </style>
