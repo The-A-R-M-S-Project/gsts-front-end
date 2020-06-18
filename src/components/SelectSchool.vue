@@ -48,9 +48,6 @@ export default {
     schools() {
       return this.$store.getters.schools;
     },
-    sessionExpired() {
-      return this.$store.getters.sessionExpired;
-    },
     selectedSchoolID() {
       return this.$store.getters.selectedSchoolID;
     }
@@ -61,12 +58,8 @@ export default {
       this.$store
         .dispatch("fetchDashboardStats", this.selectedSchool._id)
         .then(() => {
-          if (this.sessionExpired) {
-            this.$router.push("/expired-session");
-          } else {
-            if (this.$route.path !== route) {
-              this.$router.push(route);
-            }
+          if (this.$route.path !== route) {
+            this.$router.push(route);
           }
         });
     },

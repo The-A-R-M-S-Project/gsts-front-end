@@ -32,7 +32,7 @@
         <p
           id="forgot-staff-password"
           class="text-center purple--text"
-          @click="ForgotStaffPassword"
+          @click="forgotStaffPassword"
         >Forgot password?</p>
         <div class="px-5 text-center">
           <v-btn
@@ -77,6 +77,20 @@ export default {
     ],
     required: [field => !!field || "This field is required"]
   }),
+  computed: {
+    isLogged() {
+      return this.$store.getters.isLoggedIn;
+    },
+    user() {
+      return this.$store.getters.user;
+    },
+    isLoading() {
+      return this.$store.getters.isLoading;
+    },
+    loginError() {
+      return this.$store.getters.loginError;
+    }
+  },
   methods: {
     login() {
       event.preventDefault();
@@ -103,28 +117,11 @@ export default {
             } else {
               this.displayLoginError = true;
             }
-          })
-          .catch(error => {
-            console.log("Generic message: ", error);
           });
       }
     },
-    ForgotStaffPassword() {
+    forgotStaffPassword() {
       this.$router.push("/forgot-staff-password");
-    }
-  },
-  computed: {
-    isLogged() {
-      return this.$store.getters.isLoggedIn;
-    },
-    user() {
-      return this.$store.getters.user;
-    },
-    isLoading() {
-      return this.$store.getters.isLoading;
-    },
-    loginError() {
-      return this.$store.getters.loginError;
     }
   }
 };
