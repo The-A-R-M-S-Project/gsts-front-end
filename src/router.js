@@ -20,7 +20,6 @@ import StudentProfile from "./components/StudentProfile.vue";
 import ExpiredSession from "./views/ExpiredSession.vue";
 import UnderConstruction from "./views/UnderConstruction.vue";
 import PageNotFound from "./components/PageNotFound.vue";
-import store from "./ store/store";
 
 Vue.use(Router);
 
@@ -187,12 +186,6 @@ let router = new Router({
             path: "/expired-session",
             name: "expired-session",
             component: ExpiredSession,
-            meta: {
-                requiresAuth: true,
-                is_principal: true,
-                is_dean: true,
-                is_student: true,
-            },
         },
         {
             path: "/under-construction",
@@ -202,10 +195,6 @@ let router = new Router({
         { path: "*", component: PageNotFound },
     ],
 });
-function getTime(signInTime) {
-    let diff = Math.abs(new Date(signInTime) - new Date());
-    return Math.floor(diff / (1000 * 60));
-}
 router.beforeEach((to, from, next) => {
     if (to.matched.some((record) => record.meta.requiresAuth)) {
         if (localStorage.getItem("jwt") == null) {
@@ -215,41 +204,33 @@ router.beforeEach((to, from, next) => {
             });
         } else {
             let user = JSON.parse(localStorage.getItem("user"));
-            if (
-                getTime(store.getters.loginTime) > 30 &&
-                to.path !== "/expired-session"
-            ) {
-                next({ name: "expired-session", path: "/expired-session" });
-            } else {
-                if (to.matched.some((record) => record.meta.is_principal)) {
-                    if (user.role === "principal") {
-                        next();
-                    } else {
-                        next({ name: `${user.role}-dashboard` });
-                    }
-                } else if (to.matched.some((record) => record.meta.is_dean)) {
-                    if (user.role === "dean") {
-                        next();
-                    } else {
-                        next({ name: `${user.role}-dashboard` });
-                    }
-                } else if (
-                    to.matched.some((record) => record.meta.is_student)
-                ) {
-                    if (user.role === "student") {
-                        next();
-                    } else {
-                        next({ name: `${user.role}-dashboard/report-status` });
-                    }
-                } else if (
-                    to.matched.some((record) => record.meta.is_examiner)
-                ) {
-                    if (user.role === "examiner") {
-                        next();
-                    } else {
-                        next({ name: `${user.role}-dashboard` });
-                    }
+            if (to.matched.some((record) => record.meta.is_principal)) {
+                if (user.role === "principal") {
+                    next();
+                } else {
+                    next({ name: `${user.role}-dashboard` });
                 }
+            } else if (to.matched.some((record) => record.meta.is_dean)) {
+                if (user.role === "dean") {
+                    next();
+                } else {
+                    next({ name: `${user.role}-dashboard` });
+                }
+            } else if (to.matched.some((record) => record.meta.is_student)) {
+                if (user.role === "student") {
+                    next();
+                } else {
+                    next({ name: `${user.role}-dashboard/report-status` });
+                }
+            } else if (to.matched.some((record) => record.meta.is_examiner)) {
+                if (user.role === "examiner") {
+                    next();
+                } else {
+                    next({ name: `${user.role}-dashboard` });
+                }
+            } else {
+                next();
+                return;
             }
         }
     } else if (to.matched.some((record) => record.meta.guest)) {

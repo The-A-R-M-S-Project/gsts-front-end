@@ -30,7 +30,6 @@ export default {
   methods: {
     returnToApp() {
       this.$store.dispatch("logout").then(() => {
-        this.$store.dispatch("setLoginTime", new Date());
         this.$router.push("/");
       });
     }

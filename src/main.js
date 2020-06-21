@@ -4,6 +4,7 @@ import router from "./router";
 import "./registerServiceWorker";
 import vuetify from "./plugins/vuetify.js";
 import Axios from "axios";
+import axiosInstance from "./ store/axios_setup";
 import store from "./ store/store";
 
 Vue.prototype.$http = Axios;
@@ -13,6 +14,22 @@ if (token) {
         "Authorization"
     ] = `bearer ${token}`;
 }
+
+axiosInstance.interceptors.response.use(
+    (response) => {
+        if (response.status === 200 || response.status === 201) {
+            return Promise.resolve(response);
+        } else {
+            return Promise.reject(response);
+        }
+    },
+    (error) => {
+        if (error.response.status) {
+            router.push("/expired-session");
+            return Promise.reject(error.response);
+        }
+    }
+);
 
 Vue.config.productionTip = false;
 
