@@ -4,6 +4,7 @@ const state = {
     schools: null,
     departments: null,
     selectedSchoolID: "",
+    schoolName: "",
     vivaStats: null,
     reportStats: null,
     performanceStats: null,
@@ -38,6 +39,9 @@ const mutations = {
     },
     setLoader(state, payload) {
         state.loader = payload;
+    },
+    setSchoolName(state, payload) {
+        state.schoolName = payload;
     },
 };
 const actions = {
@@ -90,8 +94,21 @@ const actions = {
         await axiosInstance
             .get("/staff/dashboard-stats/")
             .then((response) => {
-                console.log("Dean dashboard: ", response.data.data);
                 commit("setDashboardStats", response.data.data);
+            })
+            .catch((error) => {
+                commit("setFetchDashboardStatsError", error.data.message);
+            });
+    },
+    async fetchSchoolDetails({ commit }, data) {
+        let accessToken = localStorage.getItem("jwt");
+        axiosInstance.defaults.headers.common[
+            "Authorization"
+        ] = `Bearer ${accessToken}`;
+        await axiosInstance
+            .get(`/school/${data}`)
+            .then((response) => {
+                commit("setSchoolName", response.data.name);
             })
             .catch((error) => {
                 commit(
@@ -105,6 +122,7 @@ const getters = {
     schools: (state) => state.schools,
     departments: (state) => state.departments,
     selectedSchoolID: (state) => state.selectedSchoolID,
+    schoolName: (state) => state.schoolName,
     vivaStats: (state) => state.vivaStats,
     reportStats: (state) => state.reportStats,
     performanceStats: (state) => state.performanceStats,

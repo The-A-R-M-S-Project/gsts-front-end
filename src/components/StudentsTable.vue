@@ -19,7 +19,7 @@
         </v-col>
         <v-col xs="12" sm="12" md="4" class="text-xs-left" align-self="center">
           <v-select
-            label="Select a department"
+            label="Filter by department"
             class="select-department"
             :items="departments"
             item-text="name"

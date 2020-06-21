@@ -53,7 +53,7 @@ import PerfomanceChart from "@/components/Perfomance.vue";
 import Calendar from "@/components/Calendar.vue";
 export default {
   name: "dean-dashboard",
-  mounted() {
+  created() {
     this.$store.dispatch("fetchDeanDashboardStats");
   },
   components: {
