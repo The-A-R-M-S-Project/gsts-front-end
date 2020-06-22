@@ -1,6 +1,7 @@
 <template>
   <div>
     <DeanNav />
+    <OverlayLoader />
     <v-container fluid class="pt-5">
       <v-row class="px-4">
         <v-row>
@@ -50,6 +51,7 @@ import DeanNav from "@/components/DeanNav.vue";
 import VivaStatus from "@/components/VivaStatus.vue";
 import ReportStatus from "@/components/ReportStatus.vue";
 import PerfomanceChart from "@/components/Perfomance.vue";
+import OverlayLoader from "@/components/OverlayLoader.vue";
 import Calendar from "@/components/Calendar.vue";
 export default {
   name: "dean-dashboard",
@@ -61,7 +63,8 @@ export default {
     VivaStatus,
     ReportStatus,
     PerfomanceChart,
-    Calendar
+    Calendar,
+    OverlayLoader
   }
 };
 </script>

@@ -11,6 +11,7 @@ const state = {
     fetchSchoolsError: null,
     fetchDepartmentsError: null,
     fetchDashboardStatsError: "",
+    overlayLoader: false,
     loader: false,
 };
 const mutations = {
@@ -42,6 +43,9 @@ const mutations = {
     },
     setSchoolName(state, payload) {
         state.schoolName = payload;
+    },
+    setOverlayLoader(state, payload) {
+        state.overlayLoader = payload;
     },
 };
 const actions = {
@@ -87,6 +91,7 @@ const actions = {
             });
     },
     async fetchDeanDashboardStats({ commit }) {
+        commit("setOverlayLoader", true);
         let accessToken = localStorage.getItem("jwt");
         axiosInstance.defaults.headers.common[
             "Authorization"
@@ -95,12 +100,15 @@ const actions = {
             .get("/staff/dashboard-stats/")
             .then((response) => {
                 commit("setDashboardStats", response.data.data);
+                commit("setOverlayLoader", false);
             })
             .catch((error) => {
                 commit("setFetchDashboardStatsError", error.data.message);
+                commit("setOverlayLoader", false);
             });
     },
     async fetchSchoolDetails({ commit }, data) {
+        commit("setOverlayLoader", true);
         let accessToken = localStorage.getItem("jwt");
         axiosInstance.defaults.headers.common[
             "Authorization"
@@ -109,13 +117,18 @@ const actions = {
             .get(`/school/${data}`)
             .then((response) => {
                 commit("setSchoolName", response.data.name);
+                commit("setOverlayLoader", false);
             })
             .catch((error) => {
                 commit(
                     "setFetchDashboardStatsError",
                     error.response.data.message
                 );
+                commit("setOverlayLoader", false);
             });
+    },
+    toggleOverlayLoader({ commit }, data) {
+        commit("setOverlayLoader", data);
     },
 };
 const getters = {
@@ -127,6 +140,7 @@ const getters = {
     reportStats: (state) => state.reportStats,
     performanceStats: (state) => state.performanceStats,
     loader: (state) => state.loader,
+    overlayLoader: (state) => state.overlayLoader,
     fetchDashboardStatsError: (state) => state.fetchDashboardStatsError,
 };
 
