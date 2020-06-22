@@ -1,6 +1,7 @@
 <template>
   <div>
     <Navigation />
+    <OverlayLoader />
     <v-container fluid class="pt-5">
       <v-row class="px-4">
         <v-row>
@@ -52,6 +53,8 @@ import VivaStatus from "@/components/VivaStatus.vue";
 import ReportStatus from "@/components/ReportStatus.vue";
 import PerfomanceChart from "@/components/Perfomance.vue";
 import Calendar from "@/components/Calendar.vue";
+import OverlayLoader from "@/components/OverlayLoader.vue";
+
 export default {
   name: "ECE-dashboard",
   components: {
@@ -59,7 +62,8 @@ export default {
     VivaStatus,
     ReportStatus,
     PerfomanceChart,
-    Calendar
+    Calendar,
+    OverlayLoader
   }
 };
 </script>

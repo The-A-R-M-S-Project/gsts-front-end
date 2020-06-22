@@ -50,27 +50,34 @@ const mutations = {
 };
 const actions = {
     async fetchSchools({ commit }) {
+        commit("setOverlayLoader", true);
         await axiosInstance
             .get("/school/")
             .then((response) => {
                 commit("setSchoolsList", response.data);
+                commit("setOverlayLoader", false);
             })
             .catch((error) => {
                 commit("setFetchSchoolsError", error.response.data.message);
+                commit("setOverlayLoader", false);
             });
     },
     async fetchDepartments({ commit }, data) {
+        commit("setOverlayLoader", true);
         await axiosInstance
             .get(`/school/${data}/department`)
             .then((response) => {
                 commit("setDepartmentsList", response.data.departments);
+                commit("setOverlayLoader", false);
             })
             .catch((error) => {
                 commit("setFetchDepartmentsError", error.response.data.message);
+                commit("setOverlayLoader", false);
             });
     },
     async fetchDashboardStats({ commit }, data) {
         commit("setLoader", true);
+        commit("setOverlayLoader", true);
         commit("selectedSchoolID", data);
         let accessToken = localStorage.getItem("jwt");
         axiosInstance.defaults.headers.common[
@@ -81,6 +88,7 @@ const actions = {
             .then((response) => {
                 commit("setDashboardStats", response.data.data);
                 commit("setLoader", false);
+                commit("setOverlayLoader", false);
             })
             .catch((error) => {
                 commit(
@@ -88,6 +96,7 @@ const actions = {
                     error.response.data.message
                 );
                 commit("setLoader", false);
+                commit("setOverlayLoader", false);
             });
     },
     async fetchDeanDashboardStats({ commit }) {
