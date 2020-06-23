@@ -186,6 +186,9 @@ let router = new Router({
             path: "/expired-session",
             name: "expired-session",
             component: ExpiredSession,
+            meta: {
+                requiresAuth: true,
+            },
         },
         {
             path: "/under-construction",
@@ -204,30 +207,26 @@ router.beforeEach((to, from, next) => {
             });
         } else {
             let user = JSON.parse(localStorage.getItem("user"));
-            if (to.matched.some((record) => record.meta.is_principal)) {
-                if (user.role === "principal") {
-                    next();
-                } else {
-                    next({ name: `${user.role}-dashboard` });
-                }
-            } else if (to.matched.some((record) => record.meta.is_dean)) {
-                if (user.role === "dean") {
-                    next();
-                } else {
-                    next({ name: `${user.role}-dashboard` });
-                }
-            } else if (to.matched.some((record) => record.meta.is_student)) {
-                if (user.role === "student") {
-                    next();
-                } else {
-                    next({ name: `${user.role}-dashboard/report-status` });
-                }
-            } else if (to.matched.some((record) => record.meta.is_examiner)) {
-                if (user.role === "examiner") {
-                    next();
-                } else {
-                    next({ name: `${user.role}-dashboard` });
-                }
+            if (
+                to.matched.some((record) => record.meta.is_principal) &&
+                user.role === "principal"
+            ) {
+                next();
+            } else if (
+                to.matched.some((record) => record.meta.is_dean) &&
+                user.role === "dean"
+            ) {
+                next();
+            } else if (
+                to.matched.some((record) => record.meta.is_student) &&
+                user.role === "student"
+            ) {
+                next();
+            } else if (
+                to.matched.some((record) => record.meta.is_examiner) &&
+                user.role === "examiner"
+            ) {
+                next();
             } else {
                 next();
                 return;
@@ -244,6 +243,7 @@ router.beforeEach((to, from, next) => {
         }
     } else {
         next();
+        return;
     }
 });
 
