@@ -16,4 +16,4 @@ jobs:
             - deploy:
                   name: Deploying to Digital Ocean
                   command: |
-                      ssh -o "StrictHostKeyChecking no" root@161.35.252.183 "cd ~ && cd gsts-front-end && git pull && sh scripts/postDeploy.sh"
+                      ssh -o "StrictHostKeyChecking no" arms@161.35.252.183 "cd ~ && cd gsts-front-end && git pull && sh scripts/postdeploy.sh"
