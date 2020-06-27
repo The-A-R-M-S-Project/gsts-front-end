@@ -1,0 +1,19 @@
+version: 2.1
+workflows:
+    version: 2
+    deploy:
+        jobs:
+            - deploy
+
+jobs:
+    deploy:
+        machine:
+            image: ubuntu-1604:201903-01
+        steps:
+            - add_ssh_keys:
+                  fingerprints:
+                      - "01:f5:cb:0e:f0:1b:ef:2b:88:6d:fd:2b:1f:18:a3:93"
+            - deploy:
+                  name: Deploying to Digital Ocean
+                  command: |
+                      ssh -o "StrictHostKeyChecking no" root@161.35.252.183 "cd ~ && cd gsts-front-end && git pull && sh scripts/postDeploy.sh"
