@@ -109,9 +109,15 @@ export default {
                 this.$router.push(this.$route.params.continue);
               } else {
                 const user = this.user;
-                this.$router.push({
-                  name: `${user.role}-dashboard`
-                });
+                if (user.role === "dean") {
+                  this.$store.dispatch("fetchDeanDashboardStats").then(() => {
+                    this.$router.push({ name: "dean-dashboard" });
+                  });
+                } else {
+                  this.$router.push({
+                    name: `${user.role}-dashboard`
+                  });
+                }
               }
             } else {
               this.displayLoginError = true;

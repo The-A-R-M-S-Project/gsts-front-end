@@ -10,6 +10,7 @@ import StudentDetails from "./views/AdminStudentView.vue";
 import Examiners from "./views/Examiners.vue";
 import ExaminersDetails from "./views/ExaminerDetails.vue";
 import ECEDashboard from "./views/ECEDashboard.vue";
+import BEDashbaord from "./views/BEDashboard.vue";
 import FADashboard from "./views/FADashboard.vue";
 import PrincipalDashboard from "./views/PrincipalDashboard";
 import StudentDashboard from "./views/StudentDashboard.vue";
@@ -127,7 +128,7 @@ let router = new Router({
         {
             path: "/BE-dashboard",
             name: "be-dashboard",
-            component: ECEDashboard,
+            component: BEDashbaord,
             meta: {
                 requiresAuth: true,
                 is_principal: true,
