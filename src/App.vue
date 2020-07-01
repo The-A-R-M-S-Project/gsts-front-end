@@ -1,34 +1,28 @@
 <template>
-  <v-app>
-    <v-content>
-      <router-view />
-    </v-content>
-  </v-app>
+    <v-app>
+        <v-content>
+            <router-view />
+        </v-content>
+    </v-app>
 </template>
 <script>
 export default {
-  name: "App",
-
-  data() {
-    return {};
-  }
+    name: "App",
 };
 </script>
 <style lang="scss">
 #app {
-  font-family: "Comfortaa", cursive;
+    font-family: "Comfortaa", "Arial";
 }
 .custom-font-family {
-  font-family: "Comfortaa", cursive !important;
+    font-family: "Comfortaa", "Arial" !important;
 }
-.custom-link{
-  text-decoration: none;
+.custom-link {
+    text-decoration: none;
 }
-.navbar{
-    position: fixed; 
-    z-index: 1; 
+.navbar {
+    position: fixed;
+    z-index: 1;
     width: 100%;
 }
 </style>
-
-

@@ -1,44 +1,148 @@
 <template>
   <div style="height: 100vh;">
     <Navigation />
-    <v-container fill-height class="container">
-      <v-layout wrap align-center>
-        <v-flex md4>
-          <v-card class="mx-auto" max-width="344">
-            <v-img :src="require('@/assets/principal/ece.jpg')" height="200px"></v-img>
-            <v-card-title>
-              School of engineering
-            </v-card-title>
-            <v-card-actions>
-              <v-btn class="white--text" color="teal" to="/ECE-dashboard">dashboard</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-flex>
-
-        <v-flex md4 px-3>
-          <v-card class="mx-auto" max-width="344">
-            <v-img :src="require('@/assets/principal/BE.jpg')" height="200px"></v-img>
-            <v-card-title>
-              School of built environment
-            </v-card-title>
-            <v-card-actions>
-              <v-btn class="white--text" color="purple" to="/BE-dashboard">dashboard</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-flex>
-
-        <v-flex md4>
-          <v-card class="mx-auto" max-width="344">
-            <v-img :src="require('@/assets/principal/FA.jpg')" height="200px"></v-img>
-            <v-card-title>
-              School of fine art
-            </v-card-title>
-            <v-card-actions>
-              <v-btn class="white--text" color="teal" to="/FA-dashboard">dashboard</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-flex>
-      </v-layout>
+    <v-container class="container">
+      <v-row align="center" justify="center">
+        <v-col md="6" class="px-5">
+          <v-hover v-slot:default="{ hover }">
+            <v-card
+              class="mx-auto"
+              color="grey lighten-4"
+              max-width="900"
+              @click="getSelectedSchool(
+                                        schoolDetails.engineering.name
+                                    )"
+              height="625"
+            >
+              <v-img
+                :src="
+                                    getImageURL(schoolDetails.engineering.image)
+                                "
+                height="625"
+              >
+                <v-expand-transition>
+                  <div
+                    v-if="hover"
+                    class="d-flex transition-fast-in-fast-out yellow darken-2 v-card--reveal display-3 black--text text-center"
+                    style="height: 100%;"
+                  >
+                    <div>{{ schoolDetails.engineering.name }}</div>
+                    <v-btn
+                      absolute
+                      class="white--text floating-btn"
+                      text
+                      right
+                      bottom
+                      :loading="loader"
+                    >
+                      <v-icon light large color="black">mdi-desktop-mac-dashboard</v-icon>
+                    </v-btn>
+                  </div>
+                </v-expand-transition>
+              </v-img>
+            </v-card>
+          </v-hover>
+        </v-col>
+        <v-col md="6" class="px-5">
+          <v-row no-gutters>
+            <v-col>
+              <v-hover v-slot:default="{ hover }">
+                <v-card
+                  class="mx-auto"
+                  color="grey lighten-4"
+                  max-width="900"
+                  height="255"
+                  @click="
+                                            getSelectedSchool(
+                                                schoolDetails.builtEnvironment
+                                                    .name
+                                            )
+                                        "
+                >
+                  <v-img
+                    :src="
+                                            getImageURL(
+                                                schoolDetails.builtEnvironment
+                                                    .image
+                                            )
+                                        "
+                    height="255"
+                  >
+                    <v-expand-transition>
+                      <div
+                        v-if="hover"
+                        class="d-flex transition-fast-in-fast-out yellow darken-2 v-card--reveal display-3 black--text text-center"
+                        style="height: 100%;"
+                      >
+                        <div>
+                          {{
+                          schoolDetails
+                          .builtEnvironment.name
+                          }}
+                        </div>
+                        <v-btn
+                          absolute
+                          class="white--text floating-btn"
+                          text
+                          right
+                          bottom
+                          :loading="loader"
+                        >
+                          <v-icon large color="black">mdi-desktop-mac-dashboard</v-icon>
+                        </v-btn>
+                      </div>
+                    </v-expand-transition>
+                  </v-img>
+                </v-card>
+              </v-hover>
+            </v-col>
+            <v-col>
+              <v-hover v-slot:default="{ hover }">
+                <v-card
+                  class="mx-auto"
+                  color="grey lighten-4"
+                  max-width="900"
+                  height="330"
+                  @click="
+                                            getSelectedSchool(
+                                                schoolDetails.fineArt.name
+                                            )
+                                        "
+                >
+                  <v-img
+                    :src="
+                                            getImageURL(
+                                                schoolDetails.fineArt.image
+                                            )
+                                        "
+                    height="330"
+                  >
+                    <v-expand-transition>
+                      <div
+                        v-if="hover"
+                        class="d-flex transition-fast-in-fast-out yellow darken-2 v-card--reveal display-3 black--text text-center"
+                        style="height: 100%;"
+                      >
+                        <div>{{ schoolDetails.fineArt.name }}</div>
+                        <v-btn
+                          absolute
+                          class="white--text floating-btn"
+                          text
+                          right
+                          bottom
+                          :loading="loader"
+                        >
+                          <v-icon large color="black">mdi-desktop-mac-dashboard</v-icon>
+                        </v-btn>
+                      </div>
+                    </v-expand-transition>
+                  </v-img>
+                </v-card>
+              </v-hover>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
     </v-container>
   </div>
 </template>
@@ -46,17 +150,80 @@
 import Navigation from "@/components/StudentsNav.vue";
 export default {
   name: "principal-dashboard",
+  data() {
+    return {
+      schoolDetails: {
+        engineering: {
+          name: "School of Engineering",
+          image: "ece.jpg",
+          route: "/ECE-dashboard"
+        },
+        builtEnvironment: {
+          name: "School of Built Environment",
+          image: "BE.jpg",
+          route: "/BE-dashboard"
+        },
+        fineArt: {
+          name: "School of Industrial and Fine Arts",
+          image: "FA.jpg",
+          route: "/FA-dashboard"
+        }
+      }
+    };
+  },
+  mounted() {
+    this.$store.dispatch("fetchSchools");
+  },
+  computed: {
+    schools() {
+      return this.$store.getters.schools;
+    },
+    loader() {
+      return this.$store.getters.loader;
+    },
+    fetchDashboardStatsError() {
+      return this.$store.getters.fetchDashboardStatsError;
+    }
+  },
+  methods: {
+    getImageURL(imageName) {
+      return require(`../assets/principal/${imageName}`);
+    },
+    getSelectedSchool(schoolName) {
+      if (this.schools) {
+        let selectedSchool = this.schools.find(school => {
+          return school.name == schoolName;
+        });
+
+        let selectedSchoolDetails = Object.values(this.schoolDetails).find(
+          school => {
+            return school.name == schoolName;
+          }
+        );
+        this.$store
+          .dispatch("fetchDashboardStats", selectedSchool._id)
+          .then(() => {
+            this.$router.push(selectedSchoolDetails.route);
+          });
+      }
+    }
+  },
   components: {
     Navigation
   }
 };
 </script>
 <style lang="scss" scoped>
-.mx-auto{
+.mx-auto {
   margin: 20px;
   min-width: 250px;
 }
-.container{
-  margin-top: 50px;
+.v-card--reveal {
+  align-items: center;
+  bottom: 0;
+  justify-content: center;
+  opacity: 0.6;
+  position: absolute;
+  width: 100%;
 }
 </style>

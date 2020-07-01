@@ -3,28 +3,81 @@
 </template>
 <script>
 import Chart from "chart.js";
-let barChartData = {
-  labels: ["Electrical and Computer", "Civil and Environmental", "Mechanical"],
-  datasets: [
-    {
-      label: "submitted",
-      backgroundColor: "#9C27B0",
-      borderWidth: 0,
-      data: [3, 5, 6]
-    },
-    {
-      label: "With examiner",
-      backgroundColor: "#2196F3",
-      borderWidth: 0,
-      data: [4, 7, 3]
-    },
-    {
-      label: "Cleared",
-      backgroundColor: "#009688",
-      borderWidth: 0,
-      data: [10, 7, 4]
+export default {
+  name: "VivaStatus",
+  data() {
+    return {
+      chartData: {
+        type: "bar",
+        options: chartOptions
+      }
+    };
+  },
+  mounted() {
+    this.createChart("barChart", this.chartData);
+  },
+  computed: {
+    reportStatus() {
+      return this.$store.getters.reportStats;
     }
-  ]
+  },
+  methods: {
+    createChart(chartId, chartData) {
+      let keys = this.reportStatus.map(obj => {
+        return Object.keys(obj);
+      });
+      let values = this.reportStatus.map(obj => {
+        return Object.values(obj);
+      });
+      Chart.defaults.global.defaultFontFamily = "Comfortaa";
+      const ctx = document.getElementById(chartId);
+      const myChart = new Chart(ctx, {
+        type: chartData.type,
+        data: {
+          labels: [keys[0][0], keys[1][0], keys[2][0]],
+          datasets: [
+            {
+              label: "submitted",
+              backgroundColor: "#9C27B0",
+              borderWidth: 0,
+              barPercentage: 0.7,
+              categoryPercentage: 0.3,
+              data: [
+                values[0][0].submitted,
+                values[1][0].submitted,
+                values[2][0].submitted
+              ]
+            },
+            {
+              label: "With examiner",
+              backgroundColor: "#2196F3",
+              borderWidth: 0,
+              barPercentage: 0.7,
+              categoryPercentage: 0.3,
+              data: [
+                values[0][0].withExaminer,
+                values[1][0].withExaminer,
+                values[2][0].withExaminer
+              ]
+            },
+            {
+              label: "Cleared",
+              backgroundColor: "#009688",
+              borderWidth: 0,
+              barPercentage: 0.7,
+              categoryPercentage: 0.3,
+              data: [
+                values[0][0].cleared,
+                values[1][0].cleared,
+                values[2][0].cleared
+              ]
+            }
+          ]
+        },
+        options: chartData.options
+      });
+    }
+  }
 };
 
 let chartOptions = {
@@ -61,8 +114,6 @@ let chartOptions = {
     ],
     xAxes: [
       {
-        barPercentage: 0.7,
-        categoryPercentage: 0.3,
         gridLines: {
           display: false,
           drawBorder: false,
@@ -70,32 +121,6 @@ let chartOptions = {
         }
       }
     ]
-  }
-};
-export default {
-  name: "VivaStatus",
-  data() {
-    return {
-      chartData: {
-        type: "bar",
-        data: barChartData,
-        options: chartOptions
-      }
-    };
-  },
-  mounted() {
-    this.createChart("barChart", this.chartData);
-  },
-  methods: {
-    createChart(chartId, chartData) {
-      Chart.defaults.global.defaultFontFamily = "Comfortaa";
-      const ctx = document.getElementById(chartId);
-      const myChart = new Chart(ctx, {
-        type: chartData.type,
-        data: chartData.data,
-        options: chartData.options
-      });
-    }
   }
 };
 </script>

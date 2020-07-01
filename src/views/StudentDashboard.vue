@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="navbar">
-        <Navigation/>
+      <Navigation />
     </div>
     <div class="pt-5">
       <v-layout row pt-4>
@@ -13,18 +13,17 @@
         </v-flex>
       </v-layout>
     </div>
-    
   </div>
 </template>
 <script>
-import Navigation from "@/components/StudentsNav.vue"
-import SideNav from "@/components/StudentSidenav.vue"
+import Navigation from "@/components/StudentsNav.vue";
+import SideNav from "@/components/StudentSidenav.vue";
 
 export default {
   name: "student-dashboard",
   components: {
     Navigation,
-    SideNav,
-  },
+    SideNav
+  }
 };
 </script>

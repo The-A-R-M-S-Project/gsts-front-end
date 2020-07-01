@@ -1,6 +1,6 @@
 <template>
-  <v-layout column wrap pa-3 pb-5>
-    <v-card class="mt-3 mx-auto calendar-card" flat>
+  <v-row class="pa-3 pb-5">
+    <v-card class="mt-3 mx-auto" flat>
       <v-sheet
         class="v-sheet--offset mx-auto"
         color="cyan"
@@ -18,148 +18,35 @@
         ></v-date-picker>
       </v-sheet>
       <v-list three-line>
-        <template>
-          <v-subheader class="title custom-font-family font-weight-medium">This Month</v-subheader>
-          <v-divider></v-divider>
-          <v-list-tile :to="'#'">
-            <v-list-tile-avatar>
-              <v-layout column>
-                <v-flex>
-                  <div class="display-1 custom-font-family purple--text">24</div>
-                </v-flex>
-                <v-flex>
-                  <div class="purple--text">Wed</div>
-                </v-flex>
-              </v-layout>
-            </v-list-tile-avatar>
-            <v-list-tile-content>
-              <v-list-tile-title>
-                <div
-                  class="title custom-font-family font-weight-light mb-2"
-                >Presentations for mechanical Students</div>
-              </v-list-tile-title>
-              <v-list-tile-sub-title>
+        <v-subheader>This Month</v-subheader>
+        <template v-for="(event, index) in events">
+          <v-list-item :to="'#'" :key="event.title">
+            <v-list-item-avatar size="80">
+              <v-row no-gutters>
+                <v-col md="12">
+                  <div class="display-2 custom-font-family purple--text">{{event.date}}</div>
+                </v-col>
+                <v-col md="12">
+                  <div class="purple--text">{{event.day}}</div>
+                </v-col>
+              </v-row>
+            </v-list-item-avatar>
+            <v-list-item-content>
+              <v-list-item-title>
+                <div class="title custom-font-family font-weight-light mb-2">{{event.title}}</div>
+              </v-list-item-title>
+              <v-list-item-subtitle>
                 <div
                   class="subheading custom-font-family font-weight-light grey--text"
-                >In Cedat conference hall</div>
-              </v-list-tile-sub-title>
-            </v-list-tile-content>
-          </v-list-tile>
-          <v-divider></v-divider>
-          <v-list-tile :to="'#'">
-            <v-list-tile-avatar>
-              <v-layout column>
-                <v-flex>
-                  <div class="display-1 custom-font-family teal--text">25</div>
-                </v-flex>
-                <v-flex>
-                  <div class="teal--text">Thur</div>
-                </v-flex>
-              </v-layout>
-            </v-list-tile-avatar>
-            <v-list-tile-content>
-              <v-list-tile-title>
-                <div
-                  class="title custom-font-family font-weight-light mb-2"
-                >Presentations for mechanical Students</div>
-              </v-list-tile-title>
-              <v-list-tile-sub-title>
-                <div
-                  class="subheading custom-font-family font-weight-light grey--text"
-                >In Cedat conference hall</div>
-              </v-list-tile-sub-title>
-            </v-list-tile-content>
-          </v-list-tile>
-          <v-divider></v-divider>
-          <v-list-tile :to="'#'">
-            <v-list-tile-avatar>
-              <v-layout column>
-                <v-flex>
-                  <div class="display-1 custom-font-family blue--text">26</div>
-                </v-flex>
-                <v-flex>
-                  <div class="blue--text">Fri</div>
-                </v-flex>
-              </v-layout>
-            </v-list-tile-avatar>
-            <v-list-tile-content>
-              <v-list-tile-title>
-                <div class="title custom-font-family font-weight-light mb-2">Viva Presentations</div>
-              </v-list-tile-title>
-              <v-list-tile-sub-title>
-                <div
-                  class="subheading custom-font-family font-weight-light grey--text"
-                >In Cedat conference hall</div>
-              </v-list-tile-sub-title>
-            </v-list-tile-content>
-          </v-list-tile>
-          <v-divider></v-divider>
-          <v-list-tile :to="'#'">
-            <v-list-tile-avatar>
-              <v-layout column>
-                <v-flex>
-                  <div class="display-1 custom-font-family purple--text">28</div>
-                </v-flex>
-                <v-flex>
-                  <div class="purple--text">Mon</div>
-                </v-flex>
-              </v-layout>
-            </v-list-tile-avatar>
-            <v-list-tile-content>
-              <v-list-tile-title>
-                <div
-                  class="title custom-font-family font-weight-light mb-2"
-                >Presentations for Electrical Students</div>
-              </v-list-tile-title>
-              <v-list-tile-sub-title>
-                <div
-                  class="subheading custom-font-family font-weight-light grey--text"
-                >In Cedat conference hall</div>
-              </v-list-tile-sub-title>
-            </v-list-tile-content>
-          </v-list-tile>
+                >{{event.location}}</div>
+              </v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+          <v-divider v-if="index + 1 < events.length" :key="index"></v-divider>
         </template>
       </v-list>
     </v-card>
-    <!-- <v-flex xs12 pl-3>
-      <v-card height="100%">
-        <v-container fluid pa-0>
-          <v-toolbar color="blue darken-2" dark height="89" flat>
-            <v-toolbar-title>Date Events: ({{ date }})</v-toolbar-title>
-          </v-toolbar>
-          <v-list v-for="(event, index) in events" :key="index">
-            <v-list-tile v-on:click="clickedEvent(event)">
-              <v-list-tile-avatar>
-                <v-icon>calendar_today</v-icon>
-              </v-list-tile-avatar>
-              <h4>{{ event.title }}</h4>
-            </v-list-tile>
-
-            <v-divider></v-divider>
-          </v-list>
-        </v-container>
-      </v-card>
-    </v-flex>
-    <v-flex xs12 pl-1>
-      <v-card height="100%">
-        <v-container fluid pa-0>
-          <v-toolbar color="blue darken-2" dark height="89" flat>
-            <v-toolbar-title>Event Details</v-toolbar-title>
-          </v-toolbar>
-          <v-card-title primary-title>
-            <div height="100%">
-              <h4>{{ eventBody.title}}</h4>
-              <p>{{ eventBody.content }}</p>
-              <p>{{ eventBody.date }}</p>
-            </div>
-          </v-card-title>
-        </v-container>
-        <v-card-actions>
-          <v-btn @click="clearEvent()">clear</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-flex>-->
-  </v-layout>
+  </v-row>
 </template>
 
 <script>
@@ -170,7 +57,39 @@ export default {
     date: new Date().toISOString().substr(0, 10),
     selectedDate: "",
     eventDatesArr: null,
-    eventDetails: {}
+    eventDetails: {},
+    events: [
+      {
+        day: "Wed",
+        date: "3",
+        title: "Presentation for mechanical engineering students",
+        location: "Cedat conference hall"
+      },
+      {
+        day: "Mon",
+        date: "8",
+        title: "Presentation for civil engineering students",
+        location: "Cedat conference hall"
+      },
+      {
+        day: "Fri",
+        date: "19",
+        title: "Viva",
+        location: "Cedat conference hall"
+      },
+      {
+        day: "Tue",
+        date: "23",
+        title: "Presentation for electrical engineering students",
+        location: "Cedat conference hall"
+      },
+      {
+        day: "Mon",
+        date: "29",
+        title: "Presentation for computer engineering students",
+        location: "Cedat conference hall"
+      }
+    ]
   }),
 
   methods: {
@@ -183,9 +102,9 @@ export default {
   },
 
   computed: {
-    events: function() {
-      return CalendarEvents.getEventsByDate(this.date);
-    },
+    // events: function() {
+    //   return CalendarEvents.getEventsByDate(this.date);
+    // },
     eventBody: function() {
       return this.eventDetails;
     }

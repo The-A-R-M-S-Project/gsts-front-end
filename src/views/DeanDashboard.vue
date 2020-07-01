@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Navigation />
+    <DeanNav />
     <OverlayLoader />
     <v-container fluid class="pt-5">
       <v-row class="px-4">
@@ -46,19 +46,17 @@
     </v-container>
   </div>
 </template>
-
 <script>
-import Navigation from "@/components/Navbar.vue";
+import DeanNav from "@/components/DeanNav.vue";
 import VivaStatus from "@/components/VivaStatus.vue";
 import ReportStatus from "@/components/ReportStatus.vue";
 import PerfomanceChart from "@/components/Perfomance.vue";
-import Calendar from "@/components/Calendar.vue";
 import OverlayLoader from "@/components/OverlayLoader.vue";
-
+import Calendar from "@/components/Calendar.vue";
 export default {
-  name: "ECE-dashboard",
+  name: "dean-dashboard",
   components: {
-    Navigation,
+    DeanNav,
     VivaStatus,
     ReportStatus,
     PerfomanceChart,
@@ -67,9 +65,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss">
-.viva-status {
-  background-color: purple;
-}
-</style>

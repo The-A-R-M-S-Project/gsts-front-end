@@ -1,28 +1,20 @@
 <template>
     <div>
-        <div class="navbar">
-            <Navigation/>
-        </div>
-        <v-layout row pt-4>
-            <v-flex pt-5 style="height: 95vh;" class="scroll-y">
-                <v-container fluid>
-                    <h1 class="text-xs-center">Table Of Examiners</h1>
-                    <ExaminersTable :program="program"></ExaminersTable>
-                </v-container>
-            </v-flex>
-        </v-layout>
+        <DeanNav />
+        <v-container fluid class="pt-1">
+            <v-row class="mx-1">
+                <ExaminersTable />
+            </v-row>
+        </v-container>
     </div>
 </template>
-<style>
-
-</style>
 <script>
-import Navigation from "@/components/Navbar.vue"
-import ExaminersTable from "@/components/ExaminersTable.vue"
-    export default {
-        components: {
-            Navigation,
-            ExaminersTable
-        },
-    }
+import DeanNav from "@/components/DeanNav.vue";
+import ExaminersTable from "@/components/ExaminersTable.vue";
+export default {
+    components: {
+        DeanNav,
+        ExaminersTable,
+    },
+};
 </script>

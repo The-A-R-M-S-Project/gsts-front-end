@@ -1,58 +1,67 @@
 <template>
-  <v-container text-xs-center fluid fill-height class="register">
-    <v-layout align-center justify-center>
-      <v-card min-width="90%" class="elevation-24">
-        <v-layout row wrap>
-          <v-flex sm5>
-            <v-container fill-height pa-0 overlayed>
-              <v-layout align-center>
-                <v-flex px-4 py-2>
+  <v-container class="register" fluid fill-height>
+    <v-row align="center" justify="center">
+      <v-card max-width="90%" class="elevation-24">
+        <v-row no-gutters>
+          <v-col md="5">
+            <v-container class="text-center" fill-height overlayed>
+              <v-row>
+                <v-col class="px-4 py-2">
                   <h1 class="display-3 font-weight-light">Welcome</h1>
                   <p class="mt-5 mb-4">
                     To keep track of your report please
                     login with your personal information
                   </p>
-                  <v-btn round large depressed block to="/" class="register__login-btn grey">login</v-btn>
-                </v-flex>
-              </v-layout>
+                  <v-btn rounded large depressed to="/" class="register__login-btn grey">
+                    <v-icon>mdi-subdirectory-arrow-right</v-icon>
+                    <span>&nbsp;Login</span>
+                  </v-btn>
+                </v-col>
+              </v-row>
             </v-container>
-          </v-flex>
-          <v-flex sm7>
+          </v-col>
+          <v-col md="7">
             <v-container>
-              <v-form v-model="valid">
-                <v-container class="container">
-                  <h2 class="headline custom-font-family">Register</h2>
-                  <v-layout>
-                    <v-flex>
+              <v-form ref="registerForm" v-model="valid">
+                <h2 class="headline py-2 text-center">Register</h2>
+                <v-alert
+                  v-model="displaySignUpError"
+                  type="error"
+                  dismissible
+                  class="mx-7 mt-2 error-alert"
+                >{{ signupError }}</v-alert>
+                <v-container class="container px-8 text-center">
+                  <v-row>
+                    <v-col>
                       <v-text-field
                         v-model="firstName"
-                        :counter="10"
                         label="First name"
-                        required
-                        prepend-inner-icon="person"
+                        :rules="nameRules"
+                        prepend-inner-icon="mdi-account"
                         height="28"
                         color="purple"
+                        required
                       ></v-text-field>
-                    </v-flex>
+                    </v-col>
 
-                    <v-flex>
+                    <v-col>
                       <v-text-field
                         v-model="lastName"
-                        :counter="10"
                         label="Last name"
-                        required
-                        prepend-inner-icon="person"
+                        :rules="nameRules"
+                        prepend-inner-icon="mdi-account"
                         height="28"
                         color="purple"
+                        required
                       ></v-text-field>
-                    </v-flex>
-                  </v-layout>
+                    </v-col>
+                  </v-row>
                   <v-text-field
                     v-model="email"
                     label="Email"
                     :rules="emailRules"
                     required
-                    prepend-inner-icon="person"
+                    prepend-inner-icon="mdi-account"
                     height="28"
                     color="purple"
                   ></v-text-field>
@@ -61,7 +70,7 @@
                     label="Phone Number e.g +2567... or 07..."
                     :rules="phoneNumberRules"
                     required
-                    prepend-inner-icon="phone"
+                    prepend-inner-icon="mdi-phone"
                     height="28"
                     color="purple"
                   ></v-text-field>
@@ -70,8 +79,10 @@
                     :rules="passwordRules(8)"
                     label="Password"
                     required
-                    type="password"
-                    prepend-inner-icon="lock"
+                    :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                    :type="showPassword ? 'text' : 'password'"
+                    @click:append="showPassword = !showPassword"
+                    prepend-inner-icon="mdi-lock"
                     height="28"
                     color="purple"
                   ></v-text-field>
@@ -80,34 +91,36 @@
                     label="Confirm Password"
                     :rules="passwordConfirmRules"
                     required
-                    type="password"
-                    prepend-inner-icon="lock"
+                    :append-icon="showConfirm ? 'mdi-eye' : 'mdi-eye-off'"
+                    :type="showConfirm ? 'text' : 'password'"
+                    @click:append="showConfirm = !showConfirm"
+                    prepend-inner-icon="mdi-lock"
                     height="28"
                     color="purple"
                   ></v-text-field>
                   <div class="mx-5">
                     <v-btn
                       type="submit"
-                      light
                       large
-                      round
-                      block
+                      width="400"
+                      rounded
+                      :loading="isLoading"
                       depressed
                       ripple
                       class="yellow font-weight-bold"
-                      v-on:click="handleSubmit"
+                      @click="register"
                     >
-                      <v-icon>person_add</v-icon>
+                      <v-icon>mdi-account-plus</v-icon>
                       <span>&nbsp;Register</span>
                     </v-btn>
                   </div>
                 </v-container>
               </v-form>
             </v-container>
-          </v-flex>
-        </v-layout>
+          </v-col>
+        </v-row>
       </v-card>
-    </v-layout>
+    </v-row>
   </v-container>
 </template>
 
@@ -117,6 +130,10 @@ export default {
   data() {
     return {
       firstName: "",
+      showPassword: false,
+      showConfirm: false,
+      loading: false,
+      displaySignUpError: false,
       lastName: "",
       email: "",
       emailRules: [
@@ -133,8 +150,8 @@ export default {
         passwordField =>
           passwordField === this.password || `Passwords do not match!`
       ],
-      nameRules: [],
-      valid: "",
+      nameRules: [name => !!name || "This field is required"],
+      valid: true,
       phoneNumber: "",
       phoneNumberRules: [
         phoneNumberField =>
@@ -144,14 +161,11 @@ export default {
     };
   },
   methods: {
-    handleSubmit(event) {
+    register() {
       event.preventDefault();
-      if (this.password === this.passwordConfirm && this.password != "") {
-        let url =
-          "https://arms-graduate-student-tracker.herokuapp.com/api/student/signup";
-
-        this.$http
-          .post(url, {
+      if (this.$refs.registerForm.validate()) {
+        this.$store
+          .dispatch("register", {
             firstName: this.firstName,
             lastName: this.lastName,
             email: this.email,
@@ -159,32 +173,33 @@ export default {
             passwordConfirm: this.passwordConfirm,
             phoneNumber: this.phoneNumber
           })
-          .then(response => {
-            console.log({ response });
-            localStorage.setItem(
-              "user",
-              JSON.stringify(response.data.data.user)
-            );
-            localStorage.setItem("jwt", response.data.token);
-
-            if (localStorage.getItem("jwt") != null) {
-              this.$emit("loggedIn");
-              if (this.$route.params.nextUrl != null) {
-                this.$router.push(this.$route.params.nextUrl);
+          .then(() => {
+            if (this.isLogged) {
+              if (this.$route.params.continue != null) {
+                this.$router.push(this.$route.params.continue);
               } else {
-                this.$router.push({ name: "student-dashboard" });
+                const user = this.user;
+                this.$router.push({ name: `${user.role}-dashboard` });
               }
+            } else {
+              this.displaySignUpError = true;
             }
-          })
-          .catch(error => {
-            console.error(error.response.data.message);
           });
-      } else {
-        this.password = "";
-        this.passwordConfirm = "";
-
-        alert("Please ensure that all fields are filled");
       }
+    }
+  },
+  computed: {
+    isLogged() {
+      return this.$store.getters.isLoggedIn;
+    },
+    user() {
+      return this.$store.getters.user;
+    },
+    isLoading() {
+      return this.$store.getters.isLoading;
+    },
+    signupError() {
+      return this.$store.getters.signupError;
     }
   }
 };
@@ -197,7 +212,11 @@ export default {
     margin: auto;
     font-weight: bold;
   }
+  .alert {
+    color: red;
+    border: solid red 1px;
+    border-radius: 10px;
+    margin-bottom: 0.5rem;
+  }
 }
 </style>
-
-

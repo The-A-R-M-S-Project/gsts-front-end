@@ -1,20 +1,41 @@
 import Vue from "vue";
-import Vuetify from "vuetify";
-import "vuetify/dist/vuetify.min.css";
-import "./plugins/vuetify";
 import App from "./App.vue";
 import router from "./router";
-import store from "./store";
 import "./registerServiceWorker";
+import vuetify from "./plugins/vuetify.js";
 import Axios from "axios";
+import axiosInstance from "./ store/axios_setup";
+import store from "./ store/store";
 
-Vue.use(Vuetify);
 Vue.prototype.$http = Axios;
+const token = localStorage.getItem("access");
+if (token) {
+    Vue.prototype.$http.defaults.headers.common[
+        "Authorization"
+    ] = `bearer ${token}`;
+}
+
+axiosInstance.interceptors.response.use(
+    (response) => {
+        if (response.status === 200 || response.status === 201) {
+            return Promise.resolve(response);
+        } else {
+            return Promise.reject(response);
+        }
+    },
+    (error) => {
+        if (error.response.status) {
+            router.push("/expired-session");
+            return Promise.reject(error.response);
+        }
+    }
+);
 
 Vue.config.productionTip = false;
 
 new Vue({
-	router,
-	store,
-	render: h => h(App)
+    router,
+    store,
+    vuetify,
+    render: (h) => h(App),
 }).$mount("#app");

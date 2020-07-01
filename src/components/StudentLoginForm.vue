@@ -1,12 +1,19 @@
 <template>
   <div>
-    <v-form ref="form" v-model="form" class="login-form" name="login">
+    <v-alert
+      v-model="displayLoginError"
+      type="error"
+      dismissible
+      class="mx-7 mt-2 error-alert"
+    >{{ loginError }}</v-alert>
+    <v-form ref="studentLoginForm" v-model="valid" class="login-form" name="login">
       <v-container>
         <v-text-field
           v-model="email"
           :rules="emailRules"
           label="College Email"
-          prepend-inner-icon="person"
+          prepend-inner-icon="mdi-account"
+          class="px-7"
           type="email"
           color="purple"
           required
@@ -14,42 +21,47 @@
         <v-text-field
           v-model="password"
           label="password"
-          prepend-inner-icon="lock"
-          type="password"
+          prepend-inner-icon="mdi-lock"
+          class="px-7"
+          :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+          :type="show ? 'text' : 'password'"
+          @click:append="show = !show"
           color="purple"
           required
         ></v-text-field>
-        <div class="px-5">
+        <p
+          id="forgot-staff-password"
+          class="text-center purple--text"
+          @click="forgotStudentPassword"
+        >Forgot password?</p>
+        <div class="px-5 text-center">
           <v-btn
-            block
-            round
+            rounded
             large
             depressed
             ripple
+            width="400"
+            :loading="isLoading"
             class="yellow font-weight-bold"
             type="submit"
-            v-on:click="submitForm"
+            v-on:click="login"
           >
-            <v-icon>subdirectory_arrow_right</v-icon>
+            <v-icon>mdi-subdirectory-arrow-right</v-icon>
             <span>&nbsp;Login</span>
           </v-btn>
         </div>
       </v-container>
     </v-form>
-    <Alert :show="message"/>
   </div>
 </template>
 <script>
-import Alert from "@/components/Alert.vue";
-
 export default {
   name: "student-login-form",
-  components: {
-    Alert
-  },
   data: () => ({
-    form: false,
-    message: false,
+    valid: true,
+    show: false,
+    displayLoginError: false,
+    loading: false,
     email: "",
     emailRules: [
       emailField =>
@@ -64,44 +76,53 @@ export default {
     required: [field => !!field || "This field is required"]
   }),
   methods: {
-    submitForm(event) {
+    login() {
       event.preventDefault();
-      if (!this.password == "" && !this.email == "") {
-        this.$http
-          .post(
-            "https://arms-graduate-student-tracker.herokuapp.com/api/student/login",
-            {
+      if (this.$refs.studentLoginForm.validate()) {
+        this.$store
+          .dispatch("login", {
+            user: "student",
+            credentials: {
               email: this.email,
               password: this.password
             }
-          )
-          .then(response => {
-            console.log({ response });
-            localStorage.setItem(
-              "user",
-              JSON.stringify(response.data.data.user)
-            );
-            localStorage.setItem("jwt", response.data.token);
-
-            if (localStorage.getItem("jwt") != null) {
-              this.$emit("loggedIn");
+          })
+          .then(() => {
+            if (this.isLogged) {
               if (this.$route.params.continue != null) {
                 this.$router.push(this.$route.params.continue);
               } else {
-                const user = response.data.data.user;
-                this.$router.push({ name: `student-dashboard` });
+                const user = this.user;
+                this.$router.push({
+                  name: `${user.role}-dashboard`
+                });
               }
+            } else {
+              this.displayLoginError = true;
             }
           })
           .catch(error => {
-            this.message = true;
-            console.log(error.response.data.message);
+            console.log("Generic message", error);
           });
-      } else {
-        alert("Please provide both email and password to log in");
       }
+    },
+    forgotStudentPassword() {
+      this.$router.push("/forgot-student-password");
+    }
+  },
+  computed: {
+    isLogged() {
+      return this.$store.getters.isLoggedIn;
+    },
+    user() {
+      return this.$store.getters.user;
+    },
+    isLoading() {
+      return this.$store.getters.isLoading;
+    },
+    loginError() {
+      return this.$store.getters.loginError;
     }
   }
 };
 </script>
-
