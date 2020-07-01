@@ -14,7 +14,10 @@
           label="College Email"
           prepend-inner-icon="mdi-account"
           class="px-7"
+          :class="{'pt-5 sub-heading': $vuetify.breakpoint.xs}"
           type="email"
+          clearable
+          height="2rem"
           required
           color="purple"
         ></v-text-field>
@@ -23,6 +26,7 @@
           label="password"
           prepend-inner-icon="mdi-lock"
           class="px-7"
+          :class="{'pt-5 sub-heading': $vuetify.breakpoint.xs}"
           :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
           :type="show ? 'text' : 'password'"
           @click:append="show = !show"
@@ -32,6 +36,7 @@
         <p
           id="forgot-staff-password"
           class="text-center purple--text"
+          :class="{'pt-1 pb-4 sub-heading': $vuetify.breakpoint.xs}"
           @click="forgotStaffPassword"
         >Forgot password?</p>
         <div class="px-5 text-center">
@@ -42,11 +47,26 @@
             :loading="isLoading"
             ripple
             width="400"
-            class="yellow font-weight-bold"
+            class="yellow font-weight-bold d-none d-sm-flex"
             type="submit"
             @click="login"
           >
-            <v-icon>mdi-subdirectory-arrow-right</v-icon>
+            <v-icon class>mdi-subdirectory-arrow-right</v-icon>
+            <span>&nbsp;Login</span>
+          </v-btn>
+          <v-btn
+            rounded
+            large
+            depressed
+            :loading="isLoading"
+            height="3.5rem"
+            ripple
+            width="400"
+            class="yellow font-weight-bold button-text d-flex d-sm-none"
+            type="submit"
+            @click="login"
+          >
+            <v-icon large>mdi-subdirectory-arrow-right</v-icon>
             <span>&nbsp;Login</span>
           </v-btn>
         </div>

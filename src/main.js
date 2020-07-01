@@ -24,10 +24,13 @@ axiosInstance.interceptors.response.use(
         }
     },
     (error) => {
-        if (error.response.status) {
+        if (
+            error.response.data.status === "fail" &&
+            error.response.data.message.includes("token")
+        ) {
             router.push("/expired-session");
-            return Promise.reject(error.response);
         }
+        return Promise.reject(error);
     }
 );
 
