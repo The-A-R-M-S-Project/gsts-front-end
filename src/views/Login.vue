@@ -19,7 +19,7 @@
 
                                         <v-tab
                                             href="#staff"
-                                            class="text-capitalize black--text pb-4"
+                                            class="text-capitalize black--text py-4"
                                         >
                                             <span class="tab-headings px-7"
                                                 >Staff</span
@@ -28,7 +28,7 @@
 
                                         <v-tab
                                             href="#student"
-                                            class="text-capitalize black--text pb-4"
+                                            class="text-capitalize black--text py-4"
                                         >
                                             <span class="tab-headings px-7"
                                                 >Student</span
@@ -147,7 +147,7 @@ export default {
     margin-left: auto;
 }
 .register-text {
-    height: 70%;
+    height: 63%;
 }
 .login-page {
     height: 100%;

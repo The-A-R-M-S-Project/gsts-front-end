@@ -11,7 +11,6 @@
         <v-form
             ref="staffLoginForm"
             v-model="valid"
-            class="login-form"
             name="login"
             lazy-validation
         >
@@ -21,8 +20,11 @@
                     :rules="emailRules"
                     label="College Email"
                     prepend-inner-icon="mdi-account"
-                    class="px-7"
-                    :class="{ 'pt-5 sub-heading': $vuetify.breakpoint.xs }"
+                    :class="{
+                        'pt-5 px-2 styled-input sub-heading':
+                            $vuetify.breakpoint.xs,
+                        'px-7': !$vuetify.breakpoint.xs,
+                    }"
                     type="email"
                     clearable
                     height="2rem"
@@ -31,10 +33,13 @@
                 ></v-text-field>
                 <v-text-field
                     v-model="password"
-                    label="password"
+                    label="Password"
                     prepend-inner-icon="mdi-lock"
-                    class="px-7"
-                    :class="{ 'pt-5 sub-heading': $vuetify.breakpoint.xs }"
+                    :class="{
+                        'pt-5 px-2 styled-input sub-heading':
+                            $vuetify.breakpoint.xs,
+                        'px-7': !$vuetify.breakpoint.xs,
+                    }"
                     :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                     :type="show ? 'text' : 'password'"
                     @click:append="show = !show"
