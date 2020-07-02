@@ -70,14 +70,14 @@
 
                         <v-tab
                             href="#staff"
-                            class="text-capitalize black--text pb-4"
+                            class="text-capitalize black--text py-4"
                         >
                             <span class="sub-heading px-7">Staff</span>
                         </v-tab>
 
                         <v-tab
                             href="#student"
-                            class="text-capitalize black--text pb-4"
+                            class="text-capitalize black--text py-4"
                         >
                             <span class="sub-heading px-7">Student</span>
                         </v-tab>

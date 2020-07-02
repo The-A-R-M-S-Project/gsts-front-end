@@ -77,7 +77,7 @@
                         height="3.5rem"
                         ripple
                         width="400"
-                        class="yellow font-weight-bold button-text d-flex d-sm-none"
+                        class="yellow font-weight-bold mb-4 button-text d-flex d-sm-none"
                         type="submit"
                         @click="login"
                     >
