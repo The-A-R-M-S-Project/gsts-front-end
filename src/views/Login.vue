@@ -103,7 +103,7 @@ export default {
   margin-left: auto;
 }
 .register-text {
-  height: 100vh;
+  height: 93vh;
 }
 .login {
   &__register-btn {
