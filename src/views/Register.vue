@@ -145,14 +145,14 @@
     </v-container>
     <v-container class="d-block d-sm-none">
       <v-form ref="registerForm" v-model="valid" class="text-center">
-        <v-row justify="start" align="center" no-gutters>
+        <v-row justify="start" align="center" class="pt-4" no-gutters>
           <v-col cols="1">
             <v-btn to="/" icon>
               <v-icon x-large color="black">mdi-arrow-left</v-icon>
             </v-btn>
           </v-col>
           <v-col cols="11">
-            <span class="heading custom-font-family py-2">Register</span>
+            <h2 class="heading custom-font-family py-2">Register</h2>
           </v-col>
         </v-row>
 
@@ -160,7 +160,7 @@
           v-model="displaySignUpError"
           type="error"
           dismissible
-          class="mx-7 mt-2 error-alert"
+          class="mx-3 mt-2 error-alert"
         >{{ signupError }}</v-alert>
         <v-container class="container text-center">
           <v-row no-gutters>
@@ -236,11 +236,11 @@
             height="2rem"
             color="purple"
           ></v-text-field>
-          <div class="text-center my-3">
+          <div class="text-center my-6">
             <v-btn
               type="submit"
               large
-              width="80%"
+              width="85%"
               rounded
               height="3.5rem"
               :loading="isLoading"
@@ -348,12 +348,6 @@ export default {
     width: 80%;
     margin: auto;
     font-weight: bold;
-  }
-  .alert {
-    color: red;
-    border: solid red 1px;
-    border-radius: 10px;
-    margin-bottom: 0.5rem;
   }
 }
 </style>
