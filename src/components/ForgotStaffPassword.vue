@@ -5,9 +5,10 @@
       type="error"
       dismissible
       class="mx-7 mt-2 reset-error error-alert"
+      :class="{'mobile-error': $vuetify.breakpoint.xs}"
     >{{ forgotStaffPasswordError }}</v-alert>
     <v-form ref="forgotStaffPasswordForm" v-model="valid" lazy-validation>
-      <v-container>
+      <v-container class="d-none d-sm-block">
         <v-text-field
           v-model="email"
           :rules="emailRules"
@@ -26,6 +27,35 @@
             :loading="isLoading"
             ripple
             width="400"
+            class="yellow font-weight-bold"
+            type="submit"
+            @click="submitEmail"
+          >
+            <v-icon>mdi-check-bold</v-icon>
+            <span>&nbsp;Send Password Reset Link</span>
+          </v-btn>
+        </div>
+      </v-container>
+      <v-container class="d-block d-sm-none">
+        <v-text-field
+          v-model="email"
+          :rules="emailRules"
+          label="College Email"
+          prepend-inner-icon="mdi-account"
+          type="email"
+          class="styled-input sub-heading mx-2"
+          required
+          clearable
+          color="purple"
+        ></v-text-field>
+        <div class="px-5 py-2 text-center">
+          <v-btn
+            rounded
+            large
+            depressed
+            :loading="isLoading"
+            ripple
+            width="100%"
             class="yellow font-weight-bold"
             type="submit"
             @click="submitEmail"
