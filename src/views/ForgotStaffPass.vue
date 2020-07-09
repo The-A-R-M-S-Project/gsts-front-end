@@ -53,7 +53,7 @@
           </v-btn>
         </v-col>
         <v-col cols="11">
-          <h2 class="sub-heading custom-font-family py-2 text-center">Forgot password?</h2>
+          <h2 class="normal-text custom-font-family py-2 text-center">Forgot password?</h2>
         </v-col>
       </v-row>
       <template v-if="!resetStaffPassword">
@@ -111,8 +111,5 @@ export default {
   .reset-message {
     font-size: 1.3rem;
   }
-}
-.mobile-container {
-  margin-top: 30vh;
 }
 </style>

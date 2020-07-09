@@ -152,7 +152,7 @@
             </v-btn>
           </v-col>
           <v-col cols="11">
-            <h2 class="heading custom-font-family py-2">Register</h2>
+            <h2 class="normal-text custom-font-family py-2">Register</h2>
           </v-col>
         </v-row>
 
@@ -171,7 +171,7 @@
                 :rules="nameRules"
                 prepend-inner-icon="mdi-account"
                 height="2rem"
-                class="styled-input sub-heading"
+                class="styled-input normal-text"
                 color="purple"
                 required
               ></v-text-field>
@@ -183,7 +183,7 @@
                 label="Last name"
                 :rules="nameRules"
                 prepend-inner-icon="mdi-account"
-                class="mt-5 styled-input sub-heading"
+                class="mt-5 styled-input normal-text"
                 height="2rem"
                 color="purple"
                 required
@@ -196,7 +196,7 @@
             :rules="emailRules"
             required
             prepend-inner-icon="mdi-email"
-            class="mt-5 styled-input sub-heading"
+            class="mt-5 styled-input normal-text"
             height="2rem"
             color="purple"
           ></v-text-field>
@@ -206,7 +206,7 @@
             :rules="phoneNumberRules"
             required
             prepend-inner-icon="mdi-phone"
-            class="mt-5 styled-input sub-heading"
+            class="mt-5 styled-input normal-text"
             height="2rem"
             color="purple"
           ></v-text-field>
@@ -218,7 +218,7 @@
             :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
             :type="showPassword ? 'text' : 'password'"
             @click:append="showPassword = !showPassword"
-            class="mt-5 styled-input sub-heading"
+            class="mt-5 styled-input normal-text"
             prepend-inner-icon="mdi-lock"
             height="2rem"
             color="purple"
@@ -230,7 +230,7 @@
             required
             :append-icon="showConfirm ? 'mdi-eye' : 'mdi-eye-off'"
             :type="showConfirm ? 'text' : 'password'"
-            class="mt-5 styled-input sub-heading"
+            class="mt-5 styled-input normal-text"
             @click:append="showConfirm = !showConfirm"
             prepend-inner-icon="mdi-lock"
             height="2rem"

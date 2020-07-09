@@ -15,7 +15,7 @@
           label="College Email"
           prepend-inner-icon="mdi-account"
           :class="{
-                        'pt-5 px-2 styled-input sub-heading':
+                        'pt-5 px-2 styled-input normal-text':
                             $vuetify.breakpoint.xs,
                         'px-7': !$vuetify.breakpoint.xs,
                     }"
@@ -30,7 +30,7 @@
           label="Password"
           prepend-inner-icon="mdi-lock"
           :class="{
-                        'pt-5 px-2 styled-input sub-heading':
+                        'pt-5 px-2 styled-input normal-text':
                             $vuetify.breakpoint.xs,
                         'px-7': !$vuetify.breakpoint.xs,
                     }"
