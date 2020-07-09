@@ -41,7 +41,7 @@
         <p
           id="forgot-staff-password"
           class="text-center purple--text"
-          :class="{ 'pt-1 pb-4 sub-heading': $vuetify.breakpoint.xs }"
+          :class="{ 'pt-1 pb-4 normal-text': $vuetify.breakpoint.xs }"
           @click="forgotStudentPassword"
         >Forgot password?</p>
         <div class="px-5 text-center">
@@ -64,14 +64,14 @@
             large
             depressed
             :loading="isLoading"
-            height="3.5rem"
             ripple
             width="100%"
+            height="3rem"
             class="yellow font-weight-bold mb-4 button-text d-flex d-sm-none"
             type="submit"
             @click="login"
           >
-            <v-icon large>mdi-subdirectory-arrow-right</v-icon>
+            <v-icon size="2rem">mdi-subdirectory-arrow-right</v-icon>
             <span>&nbsp;Login</span>
           </v-btn>
         </div>

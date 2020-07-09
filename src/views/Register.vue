@@ -148,7 +148,7 @@
         <v-row justify="start" align="center" class="pt-4" no-gutters>
           <v-col cols="1">
             <v-btn to="/" icon>
-              <v-icon x-large color="black">mdi-arrow-left</v-icon>
+              <v-icon large color="black">mdi-arrow-left</v-icon>
             </v-btn>
           </v-col>
           <v-col cols="11">
@@ -242,14 +242,14 @@
               large
               width="85%"
               rounded
-              height="3.5rem"
+              height="3rem"
               :loading="isLoading"
               depressed
               ripple
               class="yellow button-text font-weight-bold"
               @click="register"
             >
-              <v-icon x-large>mdi-account-plus</v-icon>
+              <v-icon size="2rem">mdi-account-plus</v-icon>
               <span>&nbsp;Register</span>
             </v-btn>
           </div>

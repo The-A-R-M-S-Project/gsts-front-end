@@ -55,13 +55,14 @@
             depressed
             :loading="isLoading"
             ripple
+            height="3rem"
             width="100%"
             class="yellow font-weight-bold"
             type="submit"
             @click="submitEmail"
           >
             <v-icon>mdi-check-bold</v-icon>
-            <span>&nbsp;Send Password Reset Link</span>
+            <span>&nbsp;Send Reset Link</span>
           </v-btn>
         </div>
       </v-container>

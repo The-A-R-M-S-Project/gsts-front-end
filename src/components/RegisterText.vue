@@ -21,12 +21,12 @@
             </v-btn>
             <v-btn
               rounded
-              height="3.5rem"
+              height="3rem"
               depressed
               to="/register"
               class="grey login__register-btn d-flex d-sm-none"
             >
-              <v-icon large>mdi-account-plus</v-icon>
+              <v-icon size="2rem">mdi-account-plus</v-icon>
               <span class="button-text">&nbsp;Register</span>
             </v-btn>
             <span class="mx-auto my-6 arrow-down d-flex d-sm-none">tree</span>

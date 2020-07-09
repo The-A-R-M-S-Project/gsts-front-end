@@ -27,7 +27,7 @@ export default {
   font-size: 1.5rem !important;
 }
 .button-text {
-  font-size: 1.3rem !important;
+  font-size: 1rem !important;
 }
 .styled-input label[for] {
   height: 2.2rem !important;
