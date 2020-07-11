@@ -46,6 +46,9 @@ export default {
 .mobile-error {
   height: 4rem !important;
 }
+.mobile-container {
+  margin-top: 30vh;
+}
 .custom-link {
   text-decoration: none;
 }

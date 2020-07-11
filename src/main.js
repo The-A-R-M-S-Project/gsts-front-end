@@ -25,12 +25,14 @@ axiosInstance.interceptors.response.use(
     },
     (error) => {
         if (
-            error.response.data.status === "fail" &&
-            error.response.data.message.includes("token")
+            error.response.data.message ==
+            "Your token has expired! Please log in again."
         ) {
+            console.log("Reset error: ", error.response.data.message);
             router.push("/expired-session");
+        } else {
+            return Promise.reject(error);
         }
-        return Promise.reject(error);
     }
 );
 

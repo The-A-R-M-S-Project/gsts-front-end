@@ -43,7 +43,7 @@
           label="College Email"
           prepend-inner-icon="mdi-account"
           type="email"
-          class="styled-input sub-heading mx-2"
+          class="styled-input normal-text"
           required
           clearable
           color="purple"

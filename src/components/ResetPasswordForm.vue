@@ -4,7 +4,8 @@
       v-model="displayResetError"
       type="error"
       dismissible
-      class="mx-7 mt-2 reset-error error-alert"
+      class="mx-7 mt-2 reset-error"
+      :class="{'reset-mobile-error': $vuetify.breakpoint.xs}"
     >
       <span>
         {{ resetPasswordError }}. Click
@@ -15,7 +16,7 @@
       </span>
     </v-alert>
     <v-form ref="resetPasswordForm" v-model="valid" lazy-validation>
-      <v-container>
+      <v-container class="d-none d-sm-block">
         <v-text-field
           v-model="password"
           :rules="passwordRules(8)"
@@ -52,6 +53,49 @@
             ripple
             class="yellow font-weight-bold mt-2"
             type="submit"
+            @click="submitEmail"
+          >
+            <v-icon>mdi-restore</v-icon>
+            <span>&nbsp;Reset</span>
+          </v-btn>
+        </div>
+      </v-container>
+      <v-container class="d-block d-sm-none">
+        <v-text-field
+          v-model="password"
+          :rules="passwordRules(8)"
+          label="Password"
+          :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+          :type="showPassword ? 'text' : 'password'"
+          @click:append="showPassword = !showPassword"
+          prepend-inner-icon="mdi-lock"
+          class="styled-input sub-heading mx-2"
+          color="purple"
+          required
+        ></v-text-field>
+        <v-text-field
+          v-model="passwordConfirm"
+          label="Confirm Password"
+          :rules="passwordConfirmRules"
+          :append-icon="showConfirm ? 'mdi-eye' : 'mdi-eye-off'"
+          :type="showConfirm ? 'text' : 'password'"
+          @click:append="showConfirm = !showConfirm"
+          prepend-inner-icon="mdi-lock"
+          color="purple"
+          class="styled-input sub-heading mx-2"
+          required
+        ></v-text-field>
+        <div class="px-5 text-center">
+          <v-btn
+            rounded
+            large
+            width="100%"
+            depressed
+            :loading="isLoading"
+            ripple
+            class="yellow font-weight-bold mt-2"
+            type="submit"
+            height="3rem"
             @click="submitEmail"
           >
             <v-icon>mdi-restore</v-icon>
@@ -146,5 +190,8 @@ export default {
 }
 .forgot-link {
   cursor: pointer;
+}
+.reset-mobile-error {
+  height: 5.5rem !important;
 }
 </style>
