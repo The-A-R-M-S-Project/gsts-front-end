@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-toolbar fixed color="purple" class="white--text">
-      <v-toolbar-title>G.S.T.S</v-toolbar-title>
+      <v-toolbar-title class="font-weight-bold">GSTS</v-toolbar-title>
       <v-spacer></v-spacer>
       <div>
         <v-btn
