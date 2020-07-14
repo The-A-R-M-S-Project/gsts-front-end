@@ -4,8 +4,8 @@
       v-model="displayLoginError"
       type="error"
       dismissible
-      class="mx-7 mt-2 error-alert"
-      :class="{ 'normal-text': $vuetify.breakpoint.xs }"
+      class="mx-7 mt-2 text-center"
+      :class="{ 'button-text mobile-error': $vuetify.breakpoint.xs, 'error-alert': !$vuetify.breakpoint.xs }"
     >{{ loginError }}</v-alert>
     <v-form ref="staffLoginForm" v-model="valid" name="login" lazy-validation>
       <v-container>

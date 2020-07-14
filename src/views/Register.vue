@@ -29,8 +29,8 @@
                     v-model="displaySignUpError"
                     type="error"
                     dismissible
-                    class="mx-7 mt-2 error-alert"
-                  >{{ signupError }}</v-alert>
+                    class="mx-7 mt-2 error-alert text-center"
+                  >This user account already exists!</v-alert>
                   <v-container class="container px-8 text-center">
                     <v-row>
                       <v-col>
@@ -152,7 +152,7 @@
             </v-btn>
           </v-col>
           <v-col cols="11">
-            <h2 class="normal-text custom-font-family py-2">Register</h2>
+            <h2 class="sub-heading custom-font-family py-2">Register</h2>
           </v-col>
         </v-row>
 
@@ -160,9 +160,9 @@
           v-model="displaySignUpError"
           type="error"
           dismissible
-          class="mx-3 mt-2 error-alert"
-        >{{ signupError }}</v-alert>
-        <v-container class="container text-center">
+          class="mx-3 mt-2 mobile-error button-text text-center"
+        >This user account already exists!</v-alert>
+        <v-container class="text-center">
           <v-row no-gutters>
             <v-col cols="12" xs="12">
               <v-text-field

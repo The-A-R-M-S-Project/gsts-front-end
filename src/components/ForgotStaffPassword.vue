@@ -4,7 +4,7 @@
       v-model="displayForgotStaffPasswordError"
       type="error"
       dismissible
-      class="mx-7 mt-2 reset-error error-alert"
+      class="mx-7 mt-2 reset-error error-alert text-center"
       :class="{'mobile-error': $vuetify.breakpoint.xs}"
     >{{ forgotStaffPasswordError }}</v-alert>
     <v-form ref="forgotStaffPasswordForm" v-model="valid" lazy-validation>

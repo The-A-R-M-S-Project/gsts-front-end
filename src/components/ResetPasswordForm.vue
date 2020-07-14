@@ -4,8 +4,8 @@
       v-model="displayResetError"
       type="error"
       dismissible
-      class="mx-7 mt-2 reset-error"
-      :class="{'reset-mobile-error': $vuetify.breakpoint.xs}"
+      class="mx-7 mt-2 text-center"
+      :class="{'reset-mobile-error button-text': $vuetify.breakpoint.xs, 'reset-error': !$vuetify.breakpoint.xs}"
     >
       <span>
         {{ resetPasswordError }}. Click
@@ -193,5 +193,6 @@ export default {
 }
 .reset-mobile-error {
   height: 5.5rem !important;
+  border-radius: 3rem !important;
 }
 </style>

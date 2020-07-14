@@ -44,7 +44,8 @@ export default {
   font-size: 2rem !important;
 }
 .mobile-error {
-  height: 4rem !important;
+  height: 4.5rem !important;
+  border-radius: 10rem !important;
 }
 .mobile-container {
   margin-top: 30vh;

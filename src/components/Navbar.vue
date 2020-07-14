@@ -6,7 +6,7 @@
           text
           to="/principal-dashboard"
           class="white--text font-weight-bold text-capitalize title"
-        >G.S.T.S</v-btn>
+        >GSTS</v-btn>
       </v-toolbar-title>
       <v-row justify="end" align="center">
         <v-col md="4">
