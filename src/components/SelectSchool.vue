@@ -6,7 +6,9 @@
     return-object
     flat
     dense
-    dark
+    :class="{'styled-input': $vuetify.breakpoint.xs}"
+    :dark="$vuetify.breakpoint.xs ? false : true"
+    :light="$vuetify.breakpoint.xs ? true : false"
     hide-details
     prepend-icon="mdi-desktop-mac-dashboard"
     single-line

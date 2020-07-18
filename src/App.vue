@@ -33,11 +33,16 @@ export default {
   height: 2.2rem !important;
   font-size: 1.2rem !important;
 }
-.styled-input .v-input__icon--prepend-inner .v-icon.v-icon {
+.styled-input .v-input__icon--prepend-inner .v-icon.v-icon,
+.styled-input .v-input__icon--prepend .v-icon {
   font-size: 2rem !important;
   padding-right: 0.6rem;
 }
-.styled-input .v-input__icon--append .v-icon.v-icon {
+.styled-input .v-select__selection {
+  font-size: 1.09rem !important;
+}
+.styled-input .v-input__icon--append .v-icon.v-icon,
+.styled-input .v-input__icon--append .v-icon {
   font-size: 2rem !important;
 }
 .styled-input .v-input__icon--clear .v-icon.v-icon {
