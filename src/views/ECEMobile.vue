@@ -1,7 +1,13 @@
 <template>
   <div class="mx-auto overflow-hidden">
     <v-app-bar color="purple" class="mobile-drawer" dark>
-      <v-toolbar-title>GSTS</v-toolbar-title>
+      <v-toolbar-title>
+        <v-btn
+          text
+          to="/principal-dashboard"
+          class="white--text font-weight-bold text-capitalize title px-0"
+        >GSTS</v-btn>
+      </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
     </v-app-bar>
@@ -38,45 +44,43 @@
     <div>
       <OverlayLoader />
       <v-container fluid class="pt-5">
-        <v-row class="px-4">
-          <v-row>
-            <v-col class="pb-3 pr-2">
-              <v-card class="viva-status" flat color="teal">
-                <v-card-text class="pa-1">
-                  <h2 class="text-center custom-font-family headline white--text">Viva Status</h2>
-                  <div class="text-center mt-4 mb-3">
-                    <VivaStatus />
-                  </div>
-                </v-card-text>
-              </v-card>
-            </v-col>
-            <v-col class="pb-3 pl-2">
-              <v-card flat elevation="24">
-                <v-card-text class="pa-1">
-                  <h2 class="text-center custom-font-family headline">Report Status</h2>
-                </v-card-text>
-                <ReportStatus />
-              </v-card>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col class="pb-3 pr-2">
-              <v-card elevation="20">
-                <v-card-text class="pa-1">
-                  <h2 class="text-center custom-font-family headline">Performance</h2>
-                  <PerfomanceChart />
-                </v-card-text>
-              </v-card>
-            </v-col>
-            <v-col class="pb-3 pl-2">
-              <v-card elevation="24">
-                <v-card-text class="pa-1">
-                  <h2 class="text-center custom-font-family headline">Upcoming deadlines</h2>
-                </v-card-text>
-                <Calendar />
-              </v-card>
-            </v-col>
-          </v-row>
+        <v-row>
+          <v-col>
+            <v-card class="viva-status" flat color="teal">
+              <v-card-text class="pa-1">
+                <h2 class="text-center custom-font-family headline white--text">Viva Status</h2>
+                <div class="text-center mt-4 mb-3">
+                  <VivaStatus />
+                </div>
+              </v-card-text>
+            </v-card>
+          </v-col>
+          <v-col>
+            <v-card flat elevation="24">
+              <v-card-text class="pa-1">
+                <h2 class="text-center custom-font-family headline">Report Status</h2>
+              </v-card-text>
+              <ReportStatus />
+            </v-card>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-card elevation="20">
+              <v-card-text class="pa-1">
+                <h2 class="text-center custom-font-family headline">Performance</h2>
+                <PerfomanceChart />
+              </v-card-text>
+            </v-card>
+          </v-col>
+          <v-col>
+            <v-card elevation="24">
+              <v-card-text class="pa-1">
+                <h2 class="text-center custom-font-family headline">Upcoming deadlines</h2>
+              </v-card-text>
+              <Calendar />
+            </v-card>
+          </v-col>
         </v-row>
       </v-container>
     </div>
