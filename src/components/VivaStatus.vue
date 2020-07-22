@@ -1,5 +1,5 @@
 <template>
-  <div style="position: relative; height:55vh">
+  <div class="responsive-viva" :class="$vuetify.breakpoint.xs?'mobile-viva':'desktop-viva'">
     <canvas id="donutChart"></canvas>
   </div>
 </template>
@@ -39,7 +39,7 @@ export default {
               borderWidth: [0, 0, 0, 0]
             }
           ],
-          labels: ["done", "pending"]
+          labels: ["done (10)", "pending (8)"]
         },
         options: chartData.options
       });
@@ -55,18 +55,24 @@ const chartOptions = {
       fontSize: 15
     }
   },
-  cutoutPercentage: 93,
+  cutoutPercentage: 90,
   layout: {
     padding: {
       left: 12,
-      right: 30
+      right: 12
     }
   }
 };
 </script>
 
 <style>
-.viva-chart {
-  height: auto;
+.responsive-viva {
+  position: relative;
+}
+.desktop-viva {
+  height: 53vh !important;
+}
+.mobile-viva {
+  height: 30vh !important;
 }
 </style>
