@@ -11,8 +11,8 @@ export default {
     return {
       chartData: {
         type: "bar",
-        options: chartOptions
-      }
+        options: chartOptions,
+      },
     };
   },
   mounted() {
@@ -21,14 +21,14 @@ export default {
   computed: {
     reportStatus() {
       return this.$store.getters.reportStats;
-    }
+    },
   },
   methods: {
     createChart(chartId, chartData) {
-      let keys = this.reportStatus.map(obj => {
+      let keys = this.reportStatus.map((obj) => {
         return Object.keys(obj);
       });
-      let values = this.reportStatus.map(obj => {
+      let values = this.reportStatus.map((obj) => {
         return Object.values(obj);
       });
       Chart.defaults.global.defaultFontFamily = "Comfortaa";
@@ -40,7 +40,7 @@ export default {
           labels: [
             "Electrical and Computer Engineering",
             "Mechanical Engineering",
-            "Civil and Environmental Engineering"
+            "Civil and Environmental Engineering",
           ],
           datasets: [
             {
@@ -54,7 +54,7 @@ export default {
               //     values[1][0].submitted,
               //     values[2][0].submitted
               //   ]
-              data: [10, 4, 3]
+              data: [10, 4, 3],
             },
             {
               label: "With examiner",
@@ -67,7 +67,7 @@ export default {
               //     values[1][0].withExaminer,
               //     values[2][0].withExaminer
               //   ]
-              data: [17, 15, 12]
+              data: [17, 15, 12],
             },
             {
               label: "Cleared",
@@ -80,14 +80,14 @@ export default {
               //   values[1][0].cleared,
               //   values[2][0].cleared
               // ],
-              data: [8, 7, 6]
-            }
-          ]
+              data: [8, 7, 6],
+            },
+          ],
         },
-        options: chartData.options
+        options: chartData.options,
       });
-    }
-  }
+    },
+  },
 };
 
 let chartOptions = {
@@ -98,49 +98,49 @@ let chartOptions = {
     align: "center",
     labels: {
       usePointStyle: true,
-      padding: 20
-    }
+      padding: 20,
+    },
   },
   layout: {
     padding: {
       left: 15,
       right: 20,
       top: 5,
-      bottom: 5
-    }
+      bottom: 5,
+    },
   },
   scales: {
     yAxes: [
       {
         ticks: {
-          beginAtZero: true
+          beginAtZero: true,
         },
         gridLines: {
           drawBorder: false,
           lineWidth: 0.5,
-          tickMarkLength: 5
-        }
-      }
+          tickMarkLength: 15,
+        },
+      },
     ],
     xAxes: [
       {
         ticks: {
-          callback: label => {
+          callback: (label) => {
             if (window.outerWidth < 960 && /\s/.test(label)) {
               return label.split(" ");
             } else {
               return label;
             }
-          }
+          },
         },
         gridLines: {
           display: false,
           drawBorder: false,
-          tickMarkLength: 15
-        }
-      }
-    ]
-  }
+          tickMarkLength: 15,
+        },
+      },
+    ],
+  },
 };
 </script>
 
@@ -152,6 +152,6 @@ let chartOptions = {
   height: 58vh !important;
 }
 .mobile-report {
-  height: 37vh !important;
+  height: 50vh !important;
 }
 </style>
