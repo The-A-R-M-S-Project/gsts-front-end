@@ -4,6 +4,9 @@
       <v-row align="center" justify="center">
         <v-card max-width="90%" class="elevation-24">
           <v-row no-gutters>
+            <v-col md="5" class="d-flex d-md-none">
+              <RegisterText />
+            </v-col>
             <v-col md="7" class="pa-3">
               <v-card-text>
                 <v-container>
@@ -31,7 +34,7 @@
                 </v-container>
               </v-card-text>
             </v-col>
-            <v-col md="5">
+            <v-col md="5" class="d-none d-md-flex">
               <RegisterText />
             </v-col>
           </v-row>
@@ -79,13 +82,13 @@ export default {
   components: {
     StaffLoginForm,
     StudentLoginForm,
-    RegisterText
+    RegisterText,
   },
   data() {
     return {
-      tabs: null
+      tabs: null,
     };
-  }
+  },
 };
 </script>
 <style lang="scss">

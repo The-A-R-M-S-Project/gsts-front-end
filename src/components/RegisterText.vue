@@ -12,6 +12,7 @@
             <v-btn
               rounded
               large
+              :width="$vuetify.breakpoint.sm?'50%':'70%'"
               depressed
               to="/register"
               class="grey login__register-btn d-none d-sm-flex"
