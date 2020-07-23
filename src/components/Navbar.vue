@@ -9,14 +9,14 @@
         >GSTS</v-btn>
       </v-toolbar-title>
       <v-row justify="end" align="center">
-        <v-col md="4">
+        <v-col md="4" sm="5">
           <SelectSchool />
         </v-col>
 
-        <v-col md="auto">
+        <v-col md="auto" sm="3" class="text-center">
           <v-btn text class="title text-capitalize white--text" to="/students">Students</v-btn>
         </v-col>
-        <v-col md="auto">
+        <v-col md="auto" sm="1">
           <v-menu
             offset-y
             offset-x
@@ -25,7 +25,7 @@
             transition="slide-y-transition"
           >
             <template v-slot:activator="{ on, attrs }">
-              <v-btn icon v-on="on" v-bind="attrs">
+              <v-btn icon v-on="on" v-bind="attrs" :class="{'pr-5': $vuetify.breakpoint.sm}">
                 <v-avatar size="48">
                   <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
                 </v-avatar>
@@ -62,13 +62,13 @@ export default {
   data() {
     return {
       loading: false,
-      closeOnContentClick: true
+      closeOnContentClick: true,
     };
   },
   computed: {
     isLoading() {
       return this.$store.getters.isLoading;
-    }
+    },
   },
   methods: {
     logOut() {
@@ -76,10 +76,16 @@ export default {
       this.$store.dispatch("logout").then(() => {
         this.$router.push("/");
       });
-    }
+    },
   },
   components: {
-    SelectSchool
-  }
+    SelectSchool,
+  },
 };
 </script>
+
+<style>
+.small-device-width {
+  width: 30vw !important;
+}
+</style>

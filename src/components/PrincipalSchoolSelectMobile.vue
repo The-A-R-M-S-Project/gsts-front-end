@@ -6,9 +6,8 @@
     </div>
     <v-col md="6" class="px-5 pb-0">
       <v-card
-        class="mx-auto school-card"
+        class="mx-auto school-card text-center"
         color="grey lighten-4"
-        max-width="900"
         @click="getSelectedSchool(
                                         schoolDetails.engineering.name
                                     )"
@@ -20,9 +19,7 @@
           class="school-card"
         >
           <div class="yellow darken-1 v-card--reveal black--text text-center" style="height: 100%;">
-            <div
-              class="heading font-weight-bold vertical-center"
-            >{{ schoolDetails.engineering.name }}</div>
+            <p class="heading font-weight-bold vertical-center">{{ schoolDetails.engineering.name }}</p>
             <v-btn absolute class="white--text floating-btn" text right bottom :loading="loader">
               <v-icon light large color="black">mdi-desktop-mac-dashboard</v-icon>
             </v-btn>
@@ -36,7 +33,6 @@
           <v-card
             class="mx-auto school-card"
             color="grey lighten-4"
-            max-width="900"
             @click="
                                             getSelectedSchool(
                                                 schoolDetails.builtEnvironment
@@ -57,12 +53,12 @@
                 class="yellow darken-2 v-card--reveal black--text text-center"
                 style="height: 100%;"
               >
-                <div class="heading font-weight-bold vertical-center">
+                <p class="heading font-weight-bold vertical-center">
                   {{
                   schoolDetails
                   .builtEnvironment.name
                   }}
-                </div>
+                </p>
                 <v-btn
                   absolute
                   class="white--text floating-btn"
@@ -81,7 +77,6 @@
           <v-card
             class="mx-auto school-card"
             color="grey lighten-4"
-            max-width="900"
             @click="
                                             getSelectedSchool(
                                                 schoolDetails.fineArt.name
@@ -100,9 +95,7 @@
                 class="yellow darken-2 v-card--reveal black--text text-center"
                 style="height: 100%;"
               >
-                <div
-                  class="heading font-weight-bold vertical-center"
-                >{{ schoolDetails.fineArt.name }}</div>
+                <p class="heading font-weight-bold vertical-center">{{ schoolDetails.fineArt.name }}</p>
                 <v-btn
                   absolute
                   class="white--text floating-btn"
@@ -131,19 +124,19 @@ export default {
         engineering: {
           name: "School of Engineering",
           image: "ece.jpg",
-          route: "/ECE-dashboard"
+          route: "/ECE-dashboard",
         },
         builtEnvironment: {
           name: "School of Built Environment",
           image: "BE.jpg",
-          route: "/BE-dashboard"
+          route: "/BE-dashboard",
         },
         fineArt: {
           name: "School of Industrial and Fine Arts",
           image: "FA.jpg",
-          route: "/FA-dashboard"
-        }
-      }
+          route: "/FA-dashboard",
+        },
+      },
     };
   },
   mounted() {
@@ -158,7 +151,7 @@ export default {
     },
     fetchDashboardStatsError() {
       return this.$store.getters.fetchDashboardStatsError;
-    }
+    },
   },
   methods: {
     getImageURL(imageName) {
@@ -166,12 +159,12 @@ export default {
     },
     getSelectedSchool(schoolName) {
       if (this.schools) {
-        let selectedSchool = this.schools.find(school => {
+        let selectedSchool = this.schools.find((school) => {
           return school.name == schoolName;
         });
 
         let selectedSchoolDetails = Object.values(this.schoolDetails).find(
-          school => {
+          (school) => {
             return school.name == schoolName;
           }
         );
@@ -181,8 +174,8 @@ export default {
             this.$router.push(selectedSchoolDetails.route);
           });
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -204,7 +197,7 @@ export default {
 }
 .vertical-center {
   margin: 0;
-  position: absolute;
+  position: relative;
   top: 50%;
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);

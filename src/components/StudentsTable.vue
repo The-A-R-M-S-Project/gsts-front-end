@@ -1,12 +1,12 @@
 <template>
   <v-card elevation="18" width="100%" color="teal lighten-2">
-    <v-card-title class="d-flex d-sm-none">
+    <v-card-title class="hidden-md-and-up">
       <span class="mx-auto font-weight-bold sub-heading">Students</span>
     </v-card-title>
     <v-card-subtitle class="py-1">
       <v-row>
         <template v-if="user.role === 'principal'">
-          <v-col cols="12" xs="12" sm="12" md="4" class="text-xs-left" align-self="center">
+          <v-col cols="12" xs="12" sm="6" md="4" class="text-xs-left" align-self="center">
             <v-select
               label="Select a school"
               :items="schools"
@@ -21,10 +21,10 @@
               v-model="selectedSchool"
             ></v-select>
           </v-col>
-          <v-col cols="12" xs="12" sm="12" md="4" class="text-xs-left" align-self="center">
+          <v-col cols="12" xs="12" sm="6" md="4" class="text-xs-left" align-self="center">
             <v-select
               label="Filter by department"
-              :class="{'select-department': !$vuetify.breakpoint.xs}"
+              :class="{'select-department': (!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm)}"
               :items="departments"
               item-text="name"
               return-object

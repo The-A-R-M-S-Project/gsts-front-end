@@ -1,10 +1,10 @@
 <template>
   <div style="height: 100vh;">
     <Navigation />
-    <v-container class="d-none d-sm-flex">
+    <v-container class="d-none d-md-flex">
       <PrincipalSchoolSelect />
     </v-container>
-    <v-container class="d-block d-sm-none">
+    <v-container class="hidden-md-and-up">
       <PrincipalSchoolSelectMobile />
     </v-container>
   </div>
@@ -18,7 +18,7 @@ export default {
   components: {
     Navigation,
     PrincipalSchoolSelect,
-    PrincipalSchoolSelectMobile
-  }
+    PrincipalSchoolSelectMobile,
+  },
 };
 </script>
