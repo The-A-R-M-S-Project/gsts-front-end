@@ -17,13 +17,13 @@ export default {
   computed: {
     performance() {
       return this.$store.getters.performanceStats;
-    }
+    },
   },
   mounted() {
-    let keys = this.performance.map(obj => {
+    let keys = this.performance.map((obj) => {
       return Object.keys(obj);
     });
-    let values = this.performance.map(obj => {
+    let values = this.performance.map((obj) => {
       return Object.values(obj);
     });
     this.createChart("electricalAndComputer", {
@@ -40,46 +40,46 @@ export default {
               "#2196F3",
               "#2196F3",
               "#2196F3",
-              "#2196F3"
-            ]
-          }
+              "#2196F3",
+            ],
+          },
         ],
-        labels: ["A", "B", "C", "D", "E", "F"]
+        labels: ["A", "B", "C", "D", "E", "F"],
       },
       options: {
         title: {
           display: true,
           text: keys[0][0],
-          fontSize: 12
+          fontSize: 12,
         },
         responsive: true,
         legend: {
           display: false,
           position: "bottom",
           labels: {
-            boxWidth: 12
-          }
+            boxWidth: 12,
+          },
         },
         scales: {
           yAxes: [
             {
               gridLines: {
-                display: false
-              }
-            }
+                display: false,
+              },
+            },
           ],
           xAxes: [
             {
               gridLines: {
-                drawBorder: false
+                drawBorder: false,
               },
               ticks: {
-                beginAtZero: true
-              }
-            }
-          ]
-        }
-      }
+                beginAtZero: true,
+              },
+            },
+          ],
+        },
+      },
     });
     this.createChart("civil", {
       type: "horizontalBar",
@@ -95,43 +95,43 @@ export default {
               "#9C27B0",
               "#9C27B0",
               "#9C27B0",
-              "#9C27B0"
-            ]
-          }
+              "#9C27B0",
+            ],
+          },
         ],
-        labels: ["A", "B", "C", "D", "E", "F"]
+        labels: ["A", "B", "C", "D", "E", "F"],
       },
       options: {
         title: {
           display: true,
           text: keys[1][0],
-          fontSize: 12
+          fontSize: 12,
         },
         responsive: true,
         legend: {
           display: false,
           position: "bottom",
           labels: {
-            boxWidth: 12
-          }
+            boxWidth: 12,
+          },
         },
         scales: {
           yAxes: [
             {
               gridLines: {
-                display: false
-              }
-            }
+                display: false,
+              },
+            },
           ],
           xAxes: [
             {
               gridLines: {
-                drawBorder: false
-              }
-            }
-          ]
-        }
-      }
+                drawBorder: false,
+              },
+            },
+          ],
+        },
+      },
     });
     this.createChart("mechanical", {
       type: "horizontalBar",
@@ -147,43 +147,43 @@ export default {
               "#009688",
               "#009688",
               "#009688",
-              "#009688"
-            ]
-          }
+              "#009688",
+            ],
+          },
         ],
-        labels: ["A", "B", "C", "D", "E", "F"]
+        labels: ["A", "B", "C", "D", "E", "F"],
       },
       options: {
         title: {
           display: true,
           text: keys[2][0],
-          fontSize: 12
+          fontSize: 12,
         },
         responsive: true,
         legend: {
           display: false,
           position: "bottom",
           labels: {
-            boxWidth: 12
-          }
+            boxWidth: 12,
+          },
         },
         scales: {
           yAxes: [
             {
               gridLines: {
-                display: false
-              }
-            }
+                display: false,
+              },
+            },
           ],
           xAxes: [
             {
               gridLines: {
-                drawBorder: false
-              }
-            }
-          ]
-        }
-      }
+                drawBorder: false,
+              },
+            },
+          ],
+        },
+      },
     });
   },
   methods: {
@@ -193,9 +193,9 @@ export default {
       const myChart = new Chart(ctx, {
         type: chartData.type,
         data: chartData.data,
-        options: chartData.options
+        options: chartData.options,
       });
-    }
-  }
+    },
+  },
 };
 </script>

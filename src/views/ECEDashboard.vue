@@ -91,23 +91,23 @@
 import Navigation from "@/components/Navbar.vue";
 import VivaStatus from "@/components/VivaStatus.vue";
 import ReportStatus from "@/components/ReportStatus.vue";
-import PerfomanceChart from "@/components/Perfomance.vue";
+import PerfomanceChart from "@/components/Performance.vue";
 import Calendar from "@/components/Calendar.vue";
 import OverlayLoader from "@/components/OverlayLoader.vue";
 import SelectSchool from "@/components/SelectSchool.vue";
 
 export default {
-  name: "ECE-Desktop",
+  name: "ECE-Dashboard",
   data() {
     return {
       drawer: false,
-      loading: false
+      loading: false,
     };
   },
   computed: {
     isLoading() {
       return this.$store.getters.isLoading;
-    }
+    },
   },
   methods: {
     logOut() {
@@ -115,7 +115,7 @@ export default {
       this.$store.dispatch("logout").then(() => {
         this.$router.push("/");
       });
-    }
+    },
   },
   components: {
     Navigation,
@@ -124,8 +124,8 @@ export default {
     PerfomanceChart,
     Calendar,
     OverlayLoader,
-    SelectSchool
-  }
+    SelectSchool,
+  },
 };
 </script>
 <style>

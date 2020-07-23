@@ -1,12 +1,52 @@
 <template>
-  <div>
-    <Navigation />
+  <div class="mx-auto overflow-hidden">
+    <Navigation class="d-none d-sm-block" />
+    <v-app-bar color="purple" class="mobile-drawer d-block d-sm-none" dark>
+      <v-toolbar-title>
+        <v-btn
+          text
+          to="/principal-dashboard"
+          class="white--text font-weight-bold text-capitalize title px-0"
+        >GSTS</v-btn>
+      </v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
+    </v-app-bar>
+    <v-navigation-drawer v-model="drawer" class="d-flex d-sm-none" fixed bottom temporary>
+      <v-list nav dense>
+        <v-list-item-group active-class="deep-purple--text text--accent-4">
+          <v-list-item class="my-6" to="/under-construction">
+            <v-btn text class="title text-capitalize">
+              <v-icon large>mdi-account</v-icon>
+              <span>&nbsp;Profile</span>
+            </v-btn>
+          </v-list-item>
+          <v-list-item class="my-6" to="/students">
+            <v-btn text class="title text-capitalize">
+              <v-icon large>mdi-account-group</v-icon>
+              <span>&nbsp;Students</span>
+            </v-btn>
+          </v-list-item>
+          <v-list-item class="my-6 px-8 mobile-select">
+            <SelectSchool />
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
+      <template v-slot:append>
+        <v-list-item class="my-4" @click="logOut">
+          <v-btn text :loading="isLoading" class="title text-capitalize">
+            <v-icon large>mdi-power</v-icon>
+            <span>&nbsp;Sign out</span>
+          </v-btn>
+        </v-list-item>
+      </template>
+    </v-navigation-drawer>
     <OverlayLoader />
     <v-container fluid class="pt-5">
       <v-row class="px-4">
         <v-row>
-          <v-col sm="12" md="4" class="pb-3 pr-2">
-            <v-card class="viva-status" flat color="teal">
+          <v-col sm="12" md="4" class="pb-3" :class="{'pr-2': !$vuetify.breakpoint.xs}">
+            <v-card color="teal" max-width="90vw" class="mx-auto">
               <v-card-text class="pa-1">
                 <h2 class="text-center custom-font-family headline white--text">Viva Status</h2>
                 <div class="text-center mt-4 mb-3">
@@ -15,31 +55,41 @@
               </v-card-text>
             </v-card>
           </v-col>
-          <v-col xs="12" md="8" class="pb-3 pl-2">
-            <v-card flat elevation="24">
+          <v-col xs="12" md="8" class="pb-3" :class="{'pl-2': !$vuetify.breakpoint.xs}">
+            <v-card max-width="90vw" class="mx-auto">
               <v-card-text class="pa-1">
                 <h2 class="text-center custom-font-family headline">Report Status</h2>
               </v-card-text>
-              <canvas id="fineArtReports"></canvas>
+              <div
+                class="responsive-report"
+                :class="$vuetify.breakpoint.xs?'mobile-report':'desktop-report'"
+              >
+                <canvas id="fineArtReports"></canvas>
+              </div>
             </v-card>
           </v-col>
         </v-row>
         <v-row>
-          <v-col xs="12" md="6" class="pb-3 pr-2">
-            <v-card elevation="20">
+          <v-col xs="12" md="6" class="pb-3" :class="{'pr-2': !$vuetify.breakpoint.xs}">
+            <v-card max-width="90vw" class="mx-auto">
               <v-card-text class="pa-1">
                 <h2 class="text-center custom-font-family headline">Performance</h2>
                 <v-row class="px-2">
                   <v-col sm="12" md="12">
-                    <canvas id="fineArtPerformance"></canvas>
+                    <div
+                      class="responsive-performance"
+                      :class="$vuetify.breakpoint.xs?'mobile-performance':'desktop-performance'"
+                    >
+                      <canvas id="fineArtPerformance"></canvas>
+                    </div>
                   </v-col>
                 </v-row>
               </v-card-text>
             </v-card>
           </v-col>
-          <v-col sm="12" md="6" class="pb-3 pl-2" grow>
-            <v-card elevation="24">
-              <v-card-text pa-1>
+          <v-col sm="12" md="6" class="pb-3" :class="{'pl-2': !$vuetify.breakpoint.xs}">
+            <v-card max-width="90vw" class="mx-auto">
+              <v-card-text>
                 <h2 class="text-center custom-font-family headline">Upcoming deadlines</h2>
               </v-card-text>
               <Calendar />
@@ -56,19 +106,22 @@ import Navigation from "@/components/Navbar.vue";
 import VivaStatus from "@/components/VivaStatus.vue";
 import Calendar from "@/components/Calendar.vue";
 import OverlayLoader from "@/components/OverlayLoader.vue";
+import SelectSchool from "@/components/SelectSchool.vue";
 import Chart from "chart.js";
 
 export default {
   name: "FA-dashboard",
   data() {
     return {
+      drawer: false,
+      loading: false,
       reportChartData: {
         type: "bar",
-        options: chartOptions
+        options: reportChartOptions,
       },
       performanceChartData: {
-        type: "horizontalBar"
-      }
+        type: "horizontalBar",
+      },
     };
   },
   mounted() {
@@ -84,14 +137,23 @@ export default {
     },
     performance() {
       return this.$store.getters.performanceStats;
-    }
+    },
+    isLoading() {
+      return this.$store.getters.isLoading;
+    },
   },
   methods: {
+    logOut() {
+      this.closeOnContentClick = false;
+      this.$store.dispatch("logout").then(() => {
+        this.$router.push("/");
+      });
+    },
     createReportChart(chartID, chartData) {
-      let keys = this.reportStatus.map(obj => {
+      let keys = this.reportStatus.map((obj) => {
         return Object.keys(obj);
       });
-      let values = this.reportStatus.map(obj => {
+      let values = this.reportStatus.map((obj) => {
         return Object.values(obj);
       });
       Chart.defaults.global.defaultFontFamily = "Comfortaa";
@@ -99,7 +161,8 @@ export default {
       const myChart = new Chart(ctx, {
         type: chartData.type,
         data: {
-          labels: [keys[0][0]],
+          // labels: [keys[0][0]],
+          labels: ["Fine Art"],
           datasets: [
             {
               label: "submitted",
@@ -107,7 +170,8 @@ export default {
               borderWidth: 0,
               barPercentage: 0.7,
               categoryPercentage: 0.3,
-              data: [values[0][0].submitted]
+              data: [6],
+              // data: [values[0][0].submitted]
             },
             {
               label: "With examiner",
@@ -115,7 +179,8 @@ export default {
               borderWidth: 0,
               barPercentage: 0.7,
               categoryPercentage: 0.3,
-              data: [values[0][0].withExaminer]
+              // data: [values[0][0].withExaminer]
+              data: [4],
             },
             {
               label: "Cleared",
@@ -123,18 +188,19 @@ export default {
               borderWidth: 0,
               barPercentage: 0.7,
               categoryPercentage: 0.3,
-              data: [values[0][0].cleared]
-            }
-          ]
+              data: [3],
+              // data: [values[0][0].cleared]
+            },
+          ],
         },
-        options: chartData.options
+        options: chartData.options,
       });
     },
     createPerformanceChart(chartID, chartData) {
-      let keys = this.performance.map(obj => {
+      let keys = this.performance.map((obj) => {
         return Object.keys(obj);
       });
-      let values = this.performance.map(obj => {
+      let values = this.performance.map((obj) => {
         return Object.values(obj);
       });
       Chart.defaults.global.defaultFontFamily = "Comfortaa";
@@ -145,87 +211,105 @@ export default {
           datasets: [
             {
               label: "Perfomance",
-              data: values[0],
+              // data: values[0],
+              data: [1, 1, 4, 6, 3, 2],
               backgroundColor: [
                 "#2196F3",
                 "#2196F3",
                 "#2196F3",
                 "#2196F3",
                 "#2196F3",
-                "#2196F3"
-              ]
-            }
+                "#2196F3",
+              ],
+            },
           ],
-          labels: ["A", "B", "C", "D", "E", "F"]
+          labels: ["A", "B", "C", "D", "E", "F"],
         },
         options: {
-          title: { display: true, text: keys[0][0], fontSize: 12 },
-          responsive: true,
+          title: {
+            display: true,
+            // text: keys[0][0],
+            text: "Fine Art",
+            fontSize: 12,
+          },
+          maintainAspectRatio: false,
           legend: {
             display: false,
             position: "bottom",
             labels: {
-              boxWidth: 12
-            }
+              boxWidth: 12,
+            },
           },
           scales: {
-            yAxes: [{ gridLines: { display: false } }],
-            xAxes: [{ gridLines: { drawBorder: false } }]
-          }
-        }
+            yAxes: [
+              {
+                gridLines: { display: false },
+              },
+            ],
+            xAxes: [
+              {
+                ticks: {
+                  beginAtZero: true,
+                },
+                gridLines: { drawBorder: false },
+              },
+            ],
+          },
+        },
       });
-    }
+    },
   },
   components: {
     Navigation,
     VivaStatus,
     Calendar,
-    OverlayLoader
-  }
+    SelectSchool,
+    OverlayLoader,
+  },
 };
 
-let chartOptions = {
-  responsive: true,
+let reportChartOptions = {
+  maintainAspectRatio: false,
   defaultFontFamily: "Comfortaa",
   legend: {
     position: "bottom",
-    align: "start",
+    align: "center",
     labels: {
       usePointStyle: true,
-      padding: 20
-    }
+      padding: 20,
+    },
   },
   layout: {
     padding: {
       left: 15,
       right: 20,
       top: 5,
-      bottom: 5
-    }
+      bottom: 5,
+    },
   },
   scales: {
     yAxes: [
       {
         ticks: {
-          beginAtZero: true
+          beginAtZero: true,
         },
         gridLines: {
           drawBorder: false,
           lineWidth: 0.5,
-          tickMarkLength: 5
-        }
-      }
+          tickMarkLength: 5,
+        },
+      },
     ],
     xAxes: [
       {
         gridLines: {
           display: false,
           drawBorder: false,
-          tickMarkLength: 15
-        }
-      }
-    ]
-  }
+          tickMarkLength: 15,
+        },
+      },
+    ],
+  },
 };
 </script>
 
@@ -235,7 +319,13 @@ let chartOptions = {
   top: 9vh;
   left: 0;
 }
-.viva-status {
-  background-color: purple;
+.responsive-performance {
+  position: relative;
+}
+.desktop-performance {
+  height: 50vh !important;
+}
+.mobile-performance {
+  height: 25vh !important;
 }
 </style>

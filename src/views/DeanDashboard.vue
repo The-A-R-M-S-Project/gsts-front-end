@@ -50,7 +50,7 @@
 import DeanNav from "@/components/DeanNav.vue";
 import VivaStatus from "@/components/VivaStatus.vue";
 import ReportStatus from "@/components/ReportStatus.vue";
-import PerfomanceChart from "@/components/Perfomance.vue";
+import PerfomanceChart from "@/components/Performance.vue";
 import OverlayLoader from "@/components/OverlayLoader.vue";
 import Calendar from "@/components/Calendar.vue";
 export default {
@@ -64,7 +64,7 @@ export default {
     ReportStatus,
     PerfomanceChart,
     Calendar,
-    OverlayLoader
-  }
+    OverlayLoader,
+  },
 };
 </script>
