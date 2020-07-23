@@ -24,7 +24,7 @@
           <v-col cols="12" xs="12" sm="12" md="4" class="text-xs-left" align-self="center">
             <v-select
               label="Filter by department"
-              class="select-department"
+              :class="{'select-department': !$vuetify.breakpoint.xs}"
               :items="departments"
               item-text="name"
               return-object

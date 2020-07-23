@@ -8,11 +8,20 @@
     </template>
     <v-app-bar color="purple" class="mobile-drawer d-block d-sm-none" dark>
       <v-toolbar-title>
-        <v-btn
-          text
-          class="normal-text px-0 text-capitalize white--text font-weight-bold"
-          href="/dean-dashboard"
-        >Dashboard</v-btn>
+        <template v-if="user.role === 'dean'">
+          <v-btn
+            text
+            class="normal-text px-0 text-capitalize white--text font-weight-bold"
+            href="/dean-dashboard"
+          >Dashboard</v-btn>
+        </template>
+        <template v-else-if="user.role === 'principal'">
+          <v-btn
+            text
+            to="/principal-dashboard"
+            class="white--text font-weight-bold text-capitalize title px-0"
+          >GSTS</v-btn>
+        </template>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
