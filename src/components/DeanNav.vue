@@ -1,28 +1,38 @@
 <template>
   <nav>
     <v-toolbar color="purple" class="white--text">
-      <v-toolbar-title class="white--text font-weight-bold text-capitalize title">G.S.T.S</v-toolbar-title>
+      <v-toolbar-title
+        class="white--text font-weight-bold text-capitalize title d-sm-none d-md-flex"
+      >G.S.T.S</v-toolbar-title>
+      <v-toolbar-title class="d-none d-sm-flex d-md-none">
+        <v-btn
+          text
+          class="title font-weight-bold text-capitalize white--text px-0"
+          href="/dean-dashboard"
+        >{{ schoolName }}</v-btn>
+      </v-toolbar-title>
       <v-row justify="end" align="center">
-        <v-col md="auto">
+        <v-col md="auto" class="d-sm-none d-md-flex">
           <v-btn
             text
             class="title text-capitalize white--text"
             href="/dean-dashboard"
           >{{ schoolName }}</v-btn>
         </v-col>
-        <v-col md="auto">
+        <v-col md="auto" sm="3">
           <v-btn text class="title text-capitalize white--text" to="/students">Students</v-btn>
         </v-col>
-        <v-col md="auto">
+        <v-col md="auto" sm="4">
           <v-btn text class="title text-capitalize white--text" to="/examiners">Examiners</v-btn>
         </v-col>
-        <v-col md="auto">
+        <v-col md="auto" sm="2">
           <v-menu
             offset-y
             offset-x
             :close-on-content-click="closeOnContentClick"
             direction="bottom"
             transition="slide-y-transition"
+            class="mx-auto"
           >
             <template v-slot:activator="{ on, attrs }">
               <v-btn icon v-on="on" v-bind="attrs">

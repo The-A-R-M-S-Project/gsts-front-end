@@ -75,6 +75,7 @@ export default {
               },
               ticks: {
                 beginAtZero: true,
+                stepSize: 1,
               },
             },
           ],
@@ -128,6 +129,10 @@ export default {
               gridLines: {
                 drawBorder: false,
               },
+              ticks: {
+                beginAtZero: true,
+                stepSize: 1,
+              },
             },
           ],
         },
@@ -179,6 +184,10 @@ export default {
             {
               gridLines: {
                 drawBorder: false,
+              },
+              ticks: {
+                beginAtZero: true,
+                stepSize: 1,
               },
             },
           ],

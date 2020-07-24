@@ -1,18 +1,17 @@
 <template>
   <v-card elevation="18" width="100%" color="teal lighten-2">
-    <v-card-title class="d-flex d-sm-none">
+    <v-card-title>
       <span class="mx-auto font-weight-bold sub-heading">Examiners</span>
     </v-card-title>
     <v-card-subtitle class="py-1">
       <v-row>
-        <v-col cols="12" xs="12" sm="12" md="8" class="text-xs-left" align-self="center">
+        <v-col cols="12" xs="12" sm="6" md="8" class="text-xs-left" align-self="center">
           <v-select
             label="Filter by department"
-            :class="{'dean-select-department': !$vuetify.breakpoint.xs}"
+            :class="{'dean-select-department': (!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm)}"
             :items="departments"
             item-text="name"
             return-object
-            :width="$vuetify.breakpoint.xs?'100%':'50%'"
             flat
             dense
             light

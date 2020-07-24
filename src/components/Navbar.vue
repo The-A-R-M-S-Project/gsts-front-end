@@ -83,9 +83,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.small-device-width {
-  width: 30vw !important;
-}
-</style>

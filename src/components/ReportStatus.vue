@@ -1,5 +1,8 @@
 <template>
-  <div class="responsive-report" :class="$vuetify.breakpoint.xs?'mobile-report':'desktop-report'">
+  <div
+    class="responsive-report"
+    :class="$vuetify.breakpoint.xs?'mobile-report':$vuetify.breakpoint.sm?'tablet-report':'desktop-report'"
+  >
     <canvas id="barChart"></canvas>
   </div>
 </template>
@@ -149,7 +152,10 @@ let chartOptions = {
   position: relative;
 }
 .desktop-report {
-  height: 58vh !important;
+  height: 57vh !important;
+}
+.tablet-report {
+  height: 69vh !important;
 }
 .mobile-report {
   height: 50vh !important;
