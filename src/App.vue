@@ -7,16 +7,16 @@
 </template>
 <script>
 export default {
-  name: "App"
+  name: "App",
 };
 </script>
 <style lang="scss">
 * {
-  font-family: "Comfortaa", "Arial";
+  font-family: "Arial";
 }
-.custom-font-family {
-  font-family: "Comfortaa", "Arial" !important;
-}
+// .custom-font-family {
+//   font-family: "Comfortaa", "Arial" !important;
+// }
 .normal-text {
   font-size: 1.3rem !important;
 }

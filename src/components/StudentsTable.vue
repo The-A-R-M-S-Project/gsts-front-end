@@ -55,7 +55,7 @@
           </v-col>
         </template>
 
-        <v-col cols="12" xs="12" sm="6" md="4">
+        <v-col cols="12" xs="12" :sm="user.role==='dean'?'6':'12'" md="4">
           <v-text-field
             v-model="search"
             append-icon="search"

@@ -101,7 +101,7 @@ let chartOptions = {
     align: "center",
     labels: {
       usePointStyle: true,
-      padding: 20,
+      padding: 5,
     },
   },
   layout: {
