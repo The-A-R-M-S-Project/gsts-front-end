@@ -38,7 +38,7 @@
         </v-list-item>
       </template>
     </v-navigation-drawer>
-    <div class="pt-5" :class="{'px-9': !$vuetify.breakpoint.xs}">
+    <div class="pt-5" :class="{'px-9 notifications': !$vuetify.breakpoint.xs}">
       <v-row>
         <v-col cols="12">
           <div class="display-1 text-center font-weight-medium">Report status</div>
@@ -47,10 +47,12 @@
           <StudentTimeline />
         </v-col>-->
         <v-col cols="12">
-          <!-- <div class="text-center headline font-weight-medium">Events log</div> -->
           <StudentsNotifications class="mx-auto" />
         </v-col>
       </v-row>
+      <v-btn color="teal" fab dark fixed bottom right class="v-btn--example">
+        <v-icon>mdi-plus</v-icon>
+      </v-btn>
     </div>
   </div>
 </template>
@@ -87,3 +89,9 @@ export default {
   },
 };
 </script>
+
+<style>
+.notifications .v-btn--example {
+  margin: 0 1rem 2rem 2rem;
+}
+</style>
