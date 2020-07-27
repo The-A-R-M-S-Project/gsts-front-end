@@ -77,18 +77,22 @@
     </v-stepper-content>
 
     <v-stepper-step color="teal" :complete="e6 > 5" step="5">Viva examination</v-stepper-step>
-    <div class="v-stepper__content">
-      <div class="body-1 mb-1">Congratulations! You've successfully completed your viva examination.</div>
-      <div class="body-2">
-        You scored
-        <span class="subtitle-1">
-          <strong>
-            <u>83%</u>
-          </strong>
-        </span>
+    <template v-if="e6 > 5">
+      <div class="v-stepper__content">
+        <div
+          class="body-1 mb-1"
+        >Congratulations! You've successfully completed your viva examination.</div>
+        <div class="body-2">
+          You scored
+          <span class="subtitle-1">
+            <strong>
+              <u>83%</u>
+            </strong>
+          </span>
+        </div>
+        <div class="caption mt-3 font-weight-light">Fri Jul 24, 18:40</div>
       </div>
-      <div class="caption mt-3 font-weight-light">Fri Jul 24, 18:40</div>
-    </div>
+    </template>
   </v-stepper>
 </template>
 
@@ -97,7 +101,7 @@ import LoadingDots from "@/components/LoadingDots.vue";
 export default {
   data() {
     return {
-      e6: 6,
+      e6: 3,
     };
   },
   components: {

@@ -38,13 +38,17 @@
         </v-list-item>
       </template>
     </v-navigation-drawer>
-    <div class="pt-5 px-9">
+    <div class="pt-5" :class="{'px-9': !$vuetify.breakpoint.xs}">
       <v-row>
         <v-col cols="12">
-          <div class="display-1 text-center">Report status</div>
+          <div class="display-1 text-center font-weight-medium">Report status</div>
         </v-col>
+        <!-- <v-col cols="12" md="6" lg="6">
+          <StudentTimeline />
+        </v-col>-->
         <v-col cols="12">
-          <router-view />
+          <!-- <div class="text-center headline font-weight-medium">Events log</div> -->
+          <StudentsNotifications class="mx-auto" />
         </v-col>
       </v-row>
     </div>
@@ -52,6 +56,8 @@
 </template>
 <script>
 import Navigation from "@/components/StudentsNav.vue";
+// import StudentTimeline from "@/components/StudentTimeline.vue";
+import StudentsNotifications from "@/components/StudentsNotifications.vue";
 
 export default {
   name: "student-dashboard",
@@ -76,6 +82,8 @@ export default {
   },
   components: {
     Navigation,
+    // StudentTimeline,
+    StudentsNotifications,
   },
 };
 </script>
