@@ -5,13 +5,13 @@
       <template v-if="user.role === 'principal'">
         <v-spacer></v-spacer>
       </template>
-      <v-row justify="end" align="center">
-        <template v-if="user.role === 'student'">
+      <template v-if="user.role === 'student'">
+        <v-row justify="end" align="center">
           <v-col md="auto" sm="1">
-            <v-btn text class="title text-capitalize white--text">Status</v-btn>
+            <v-btn text to="report-status" class="title text-capitalize white--text">Status</v-btn>
           </v-col>
-        </template>
-      </v-row>
+        </v-row>
+      </template>
       <v-col md="auto" sm="2" class="text-right">
         <v-menu
           offset-y

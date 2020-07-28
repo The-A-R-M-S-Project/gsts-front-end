@@ -41,16 +41,10 @@
     <div class="pt-5" :class="{'px-9 notifications': !$vuetify.breakpoint.xs}">
       <v-row>
         <v-col cols="12">
-          <div class="display-1 text-center font-weight-medium">Report status</div>
-        </v-col>
-        <!-- <v-col cols="12" md="6" lg="6">
-          <StudentTimeline />
-        </v-col>-->
-        <v-col cols="12">
-          <StudentsNotifications class="mx-auto" />
+          <router-view></router-view>
         </v-col>
       </v-row>
-      <v-btn color="teal" fab dark fixed bottom right class="v-btn--example">
+      <v-btn color="teal" fab dark fixed bottom right class="v-btn--example" @click="submitReport">
         <v-icon>mdi-plus</v-icon>
       </v-btn>
     </div>
@@ -58,8 +52,6 @@
 </template>
 <script>
 import Navigation from "@/components/StudentsNav.vue";
-// import StudentTimeline from "@/components/StudentTimeline.vue";
-import StudentsNotifications from "@/components/StudentsNotifications.vue";
 
 export default {
   name: "student-dashboard",
@@ -81,11 +73,12 @@ export default {
         this.$router.push("/");
       });
     },
+    submitReport() {
+      this.$router.push("/student-dashboard/submit-report");
+    },
   },
   components: {
     Navigation,
-    // StudentTimeline,
-    StudentsNotifications,
   },
 };
 </script>
