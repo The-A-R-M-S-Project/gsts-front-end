@@ -15,7 +15,7 @@
     <v-navigation-drawer v-model="drawer" class="d-flex d-sm-none" fixed bottom temporary>
       <v-list nav dense>
         <v-list-item-group active-class="deep-purple--text text--accent-4">
-          <v-list-item class="my-6" to="/under-construction">
+          <v-list-item class="my-6" to="student-profile">
             <v-btn text class="title text-capitalize">
               <v-icon large>mdi-account</v-icon>
               <span>&nbsp;Profile</span>
@@ -44,7 +44,6 @@
           <router-view></router-view>
         </v-col>
       </v-row>
-      <!-- <template v-show="$route.path.includes('report-status')"> -->
       <v-btn
         v-show="$route.path.includes('report-status')"
         color="teal"
@@ -58,7 +57,6 @@
       >
         <v-icon>mdi-plus</v-icon>
       </v-btn>
-      <!-- </template> -->
     </div>
   </div>
 </template>
