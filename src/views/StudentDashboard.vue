@@ -40,7 +40,10 @@
     </v-navigation-drawer>
     <div class="pt-5" :class="{'px-9 notifications': !$vuetify.breakpoint.xs}">
       <v-row>
-        <v-col cols="12">
+        <v-col cols="6">
+          <StudentTimeline />
+        </v-col>
+        <v-col cols="6">
           <router-view></router-view>
         </v-col>
       </v-row>
@@ -62,7 +65,7 @@
 </template>
 <script>
 import Navigation from "@/components/StudentsNav.vue";
-
+import StudentTimeline from "@/components/StudentTimeline.vue";
 export default {
   name: "student-dashboard",
   data() {
@@ -89,6 +92,7 @@ export default {
   },
   components: {
     Navigation,
+    StudentTimeline,
   },
 };
 </script>
