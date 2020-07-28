@@ -21,7 +21,7 @@
               <span>&nbsp;Profile</span>
             </v-btn>
           </v-list-item>
-          <v-list-item class="my-6">
+          <v-list-item to="report-status" class="my-6">
             <v-btn text class="title text-capitalize">
               <v-icon large>mdi-progress-check</v-icon>
               <span>&nbsp;Status</span>
@@ -44,9 +44,21 @@
           <router-view></router-view>
         </v-col>
       </v-row>
-      <v-btn color="teal" fab dark fixed bottom right class="v-btn--example" @click="submitReport">
+      <!-- <template v-show="$route.path.includes('report-status')"> -->
+      <v-btn
+        v-show="$route.path.includes('report-status')"
+        color="teal"
+        fab
+        dark
+        fixed
+        bottom
+        right
+        class="v-btn--example"
+        @click="submitReport"
+      >
         <v-icon>mdi-plus</v-icon>
       </v-btn>
+      <!-- </template> -->
     </div>
   </div>
 </template>
@@ -74,7 +86,7 @@ export default {
       });
     },
     submitReport() {
-      this.$router.push("/student-dashboard/submit-report");
+      this.$router.push("submit-report");
     },
   },
   components: {

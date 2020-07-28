@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto">
+  <div class="mx-auto" style="top: 40vh !important">
     <ReportSubmission />
   </div>
 </template>
