@@ -13,6 +13,8 @@
           v-model="email"
           :rules="emailRules"
           label="College Email"
+          placeholder="example@cedat.mak.ac.ug"
+          clearable
           prepend-inner-icon="mdi-account"
           :class="{
                         'pt-5 px-2 styled-input normal-text':
@@ -89,16 +91,16 @@ export default {
     loading: false,
     email: "",
     emailRules: [
-      emailField =>
-        /.+@+/.test(emailField) || "Please enter a valid college email"
+      (emailField) =>
+        /.+@+/.test(emailField) || "Please enter a valid college email",
     ],
     password: "",
-    passwordRules: len => [
-      passwordField =>
+    passwordRules: (len) => [
+      (passwordField) =>
         (passwordField || "").length >= len ||
-        `Invalid character length, required ${len}`
+        `Invalid character length, required ${len}`,
     ],
-    required: [field => !!field || "This field is required"]
+    required: [(field) => !!field || "This field is required"],
   }),
   methods: {
     login() {
@@ -109,8 +111,8 @@ export default {
             user: "student",
             credentials: {
               email: this.email,
-              password: this.password
-            }
+              password: this.password,
+            },
           })
           .then(() => {
             if (this.isLogged) {
@@ -119,21 +121,21 @@ export default {
               } else {
                 const user = this.user;
                 this.$router.push({
-                  name: `${user.role}-dashboard`
+                  name: `${user.role}-dashboard`,
                 });
               }
             } else {
               this.displayLoginError = true;
             }
           })
-          .catch(error => {
+          .catch((error) => {
             console.log("Generic message", error);
           });
       }
     },
     forgotStudentPassword() {
       this.$router.push("/forgot-student-password");
-    }
+    },
   },
   computed: {
     isLogged() {
@@ -147,7 +149,7 @@ export default {
     },
     loginError() {
       return this.$store.getters.loginError;
-    }
-  }
+    },
+  },
 };
 </script>

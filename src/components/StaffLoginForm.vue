@@ -13,6 +13,7 @@
           v-model="email"
           :rules="emailRules"
           label="College Email"
+          placeholder="example@cedat.mak.ac.ug"
           prepend-inner-icon="mdi-account"
           :class="{
                         'pt-5 px-2 styled-input normal-text':
@@ -92,17 +93,17 @@ export default {
     displayLoginError: false,
     email: "",
     emailRules: [
-      emailField =>
-        /.+@+/.test(emailField) || "Please enter a valid college email"
+      (emailField) =>
+        /.+@+/.test(emailField) || "Please enter a valid college email",
     ],
     password: "",
-    passwordRules: len => [
-      passwordField =>
+    passwordRules: (len) => [
+      (passwordField) =>
         (passwordField || "").length >= len ||
         `Invalid character length, required ${len}`,
-      password => !!password || "Password is required"
+      (password) => !!password || "Password is required",
     ],
-    required: [field => !!field || "This field is required"]
+    required: [(field) => !!field || "This field is required"],
   }),
   computed: {
     isLogged() {
@@ -116,7 +117,7 @@ export default {
     },
     loginError() {
       return this.$store.getters.loginError;
-    }
+    },
   },
   methods: {
     login() {
@@ -127,8 +128,8 @@ export default {
             user: "staff",
             credentials: {
               email: this.email,
-              password: this.password
-            }
+              password: this.password,
+            },
           })
           .then(() => {
             if (this.isLogged) {
@@ -137,7 +138,7 @@ export default {
               } else {
                 const user = this.user;
                 this.$router.push({
-                  name: `${user.role}-dashboard`
+                  name: `${user.role}-dashboard`,
                 });
               }
             } else {
@@ -148,8 +149,8 @@ export default {
     },
     forgotStaffPassword() {
       this.$router.push("/forgot-staff-password");
-    }
-  }
+    },
+  },
 };
 </script>
 
