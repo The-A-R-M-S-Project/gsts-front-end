@@ -87,6 +87,7 @@
         </v-row>
       </v-row>
     </v-container>
+    <Footer />
   </div>
 </template>
 <script>
@@ -96,6 +97,7 @@ import ReportStatus from "@/components/ReportStatus.vue";
 import PerfomanceChart from "@/components/Performance.vue";
 import OverlayLoader from "@/components/OverlayLoader.vue";
 import Calendar from "@/components/Calendar.vue";
+import Footer from "@/components/Footer.vue";
 export default {
   name: "dean-dashboard",
   data() {
@@ -127,6 +129,7 @@ export default {
     PerfomanceChart,
     Calendar,
     OverlayLoader,
+    Footer,
   },
 };
 </script>

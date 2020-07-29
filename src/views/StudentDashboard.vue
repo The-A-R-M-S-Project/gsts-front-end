@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto overflow-hidden">
+  <div class="mx-auto overflow-hidden" style="height: 100%">
     <Navigation class="d-none d-sm-block" />
     <v-app-bar color="purple" class="mobile-drawer d-block d-sm-none" dark>
       <v-toolbar-title>
@@ -40,10 +40,10 @@
     </v-navigation-drawer>
     <div class="pt-5" :class="{'px-9 notifications': !$vuetify.breakpoint.xs}">
       <v-row>
-        <v-col cols="6">
+        <v-col cols="12" md="6" v-show="$route.path.includes('report-status')">
           <StudentTimeline />
         </v-col>
-        <v-col cols="6">
+        <v-col cols="12" :md="!$route.path.includes('report-status')?'12':'6'">
           <router-view></router-view>
         </v-col>
       </v-row>
@@ -61,11 +61,13 @@
         <v-icon>mdi-plus</v-icon>
       </v-btn>
     </div>
+    <Footer />
   </div>
 </template>
 <script>
 import Navigation from "@/components/StudentsNav.vue";
 import StudentTimeline from "@/components/StudentTimeline.vue";
+import Footer from "@/components/Footer.vue";
 export default {
   name: "student-dashboard",
   data() {
@@ -93,6 +95,7 @@ export default {
   components: {
     Navigation,
     StudentTimeline,
+    Footer,
   },
 };
 </script>

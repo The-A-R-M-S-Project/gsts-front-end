@@ -70,6 +70,7 @@
         <StudentsTable />
       </v-row>
     </v-container>
+    <Footer />
   </div>
 </template>
 <style></style>
@@ -78,6 +79,7 @@ import StudentsTable from "@/components/StudentsTable.vue";
 import Navigation from "@/components/Navbar.vue";
 import DeanNav from "@/components/DeanNav.vue";
 import SelectSchool from "@/components/SelectSchool.vue";
+import Footer from "@/components/Footer.vue";
 
 export default {
   data() {
@@ -107,6 +109,7 @@ export default {
     Navigation,
     DeanNav,
     SelectSchool,
+    Footer,
   },
 };
 </script>

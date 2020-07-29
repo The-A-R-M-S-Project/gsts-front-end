@@ -98,6 +98,7 @@
         </v-row>
       </v-row>
     </v-container>
+    <Footer />
   </div>
 </template>
 
@@ -107,6 +108,7 @@ import VivaStatus from "@/components/VivaStatus.vue";
 import Calendar from "@/components/Calendar.vue";
 import OverlayLoader from "@/components/OverlayLoader.vue";
 import SelectSchool from "@/components/SelectSchool.vue";
+import Footer from "@/components/Footer.vue";
 import Chart from "chart.js";
 
 export default {
@@ -265,6 +267,7 @@ export default {
     Calendar,
     SelectSchool,
     OverlayLoader,
+    Footer,
   },
 };
 

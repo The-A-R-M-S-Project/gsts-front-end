@@ -49,11 +49,13 @@
         <ExaminersTable />
       </v-row>
     </v-container>
+    <Footer />
   </div>
 </template>
 <script>
 import DeanNav from "@/components/DeanNav.vue";
 import ExaminersTable from "@/components/ExaminersTable.vue";
+import Footer from "@/components/Footer.vue";
 export default {
   name: "examiners",
   data() {
@@ -78,6 +80,7 @@ export default {
   components: {
     DeanNav,
     ExaminersTable,
+    Footer,
   },
 };
 </script>

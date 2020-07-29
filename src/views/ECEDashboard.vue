@@ -84,6 +84,7 @@
         </v-row>
       </v-row>
     </v-container>
+    <Footer />
   </div>
 </template>
 
@@ -95,6 +96,7 @@ import PerfomanceChart from "@/components/Performance.vue";
 import Calendar from "@/components/Calendar.vue";
 import OverlayLoader from "@/components/OverlayLoader.vue";
 import SelectSchool from "@/components/SelectSchool.vue";
+import Footer from "@/components/Footer.vue";
 
 export default {
   name: "ECE-Dashboard",
@@ -125,6 +127,7 @@ export default {
     Calendar,
     OverlayLoader,
     SelectSchool,
+    Footer,
   },
 };
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="height: 80vh !important;">
     <div class="display-1 text-center font-weight-medium mb-4">Report submission</div>
     <v-card :max-width="$vuetify.breakpoint.xs?'95vw':'70vw'" class="mx-auto pa-5">
       <p>
