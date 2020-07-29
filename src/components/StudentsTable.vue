@@ -72,7 +72,6 @@
         </router-link>
         <td class="text-xs-left">{{ props.item.regNo }}</td>
         <td class="text-xs-left">{{ props.item.reportStatus }}</td>
-        <td class="text-xs-left">{{ props.item.vivaStatus }}</td>
         <td class="text-xs-left">{{ props.item.vivaDate }}</td>
       </template>
       <template v-slot:no-results>
@@ -108,8 +107,7 @@ export default {
           text: "REGISTRATION NUMBER",
           value: "regNo",
         },
-        { text: "REPORT STATUS", value: "reportStatus" },
-        { text: "VIVA STATUS", value: "vivaStatus" },
+        { text: "STATUS", value: "reportStatus" },
         { text: "VIVA DATE", value: "vivaDate" },
       ],
       students: StudentData,
