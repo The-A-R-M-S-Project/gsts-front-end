@@ -18,12 +18,12 @@
                                 "
           class="school-card"
         >
-          <div class="yellow darken-1 v-card--reveal black--text text-center" style="height: 100%;">
-            <p class="heading font-weight-bold vertical-center">{{ schoolDetails.engineering.name }}</p>
-            <v-btn absolute class="white--text floating-btn" text right bottom :loading="loader">
-              <v-icon light large color="black">mdi-desktop-mac-dashboard</v-icon>
-            </v-btn>
-          </div>
+          <p
+            class="heading font-weight-bold white--text vertical-center"
+          >{{ schoolDetails.engineering.name }}</p>
+          <v-btn absolute class="white--text floating-btn" text right bottom :loading="loader">
+            <v-icon light large color="white">mdi-desktop-mac-dashboard</v-icon>
+          </v-btn>
         </v-img>
       </v-card>
     </v-col>
@@ -31,7 +31,7 @@
       <v-row no-gutters>
         <v-col>
           <v-card
-            class="mx-auto school-card"
+            class="mx-auto school-card text-center"
             color="grey lighten-4"
             @click="
                                             getSelectedSchool(
@@ -49,33 +49,21 @@
                                         "
               class="school-card"
             >
-              <div
-                class="yellow darken-2 v-card--reveal black--text text-center"
-                style="height: 100%;"
-              >
-                <p class="heading font-weight-bold vertical-center">
-                  {{
-                  schoolDetails
-                  .builtEnvironment.name
-                  }}
-                </p>
-                <v-btn
-                  absolute
-                  class="white--text floating-btn"
-                  text
-                  right
-                  bottom
-                  :loading="loader"
-                >
-                  <v-icon large color="black">mdi-desktop-mac-dashboard</v-icon>
-                </v-btn>
-              </div>
+              <p class="heading font-weight-bold white--text vertical-center">
+                {{
+                schoolDetails
+                .builtEnvironment.name
+                }}
+              </p>
+              <v-btn absolute class="white--text floating-btn" text right bottom :loading="loader">
+                <v-icon large color="white">mdi-desktop-mac-dashboard</v-icon>
+              </v-btn>
             </v-img>
           </v-card>
         </v-col>
         <v-col>
           <v-card
-            class="mx-auto school-card"
+            class="mx-auto school-card text-center"
             color="grey lighten-4"
             @click="
                                             getSelectedSchool(
@@ -91,22 +79,12 @@
                                         "
               class="school-card"
             >
-              <div
-                class="yellow darken-2 v-card--reveal black--text text-center"
-                style="height: 100%;"
-              >
-                <p class="heading font-weight-bold vertical-center">{{ schoolDetails.fineArt.name }}</p>
-                <v-btn
-                  absolute
-                  class="white--text floating-btn"
-                  text
-                  right
-                  bottom
-                  :loading="loader"
-                >
-                  <v-icon large color="black">mdi-desktop-mac-dashboard</v-icon>
-                </v-btn>
-              </div>
+              <p
+                class="heading font-weight-bold white--text vertical-center"
+              >{{ schoolDetails.fineArt.name }}</p>
+              <v-btn absolute class="white--text floating-btn" text right bottom :loading="loader">
+                <v-icon large color="white">mdi-desktop-mac-dashboard</v-icon>
+              </v-btn>
             </v-img>
           </v-card>
         </v-col>
