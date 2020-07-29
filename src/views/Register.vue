@@ -30,7 +30,7 @@
                     type="error"
                     dismissible
                     class="mx-7 mt-2 error-alert text-center"
-                  >This user account already exists!</v-alert>
+                  >{{signupError}}</v-alert>
                   <v-container class="container px-8 text-center">
                     <v-row>
                       <v-col>
@@ -161,7 +161,7 @@
           type="error"
           dismissible
           class="mx-3 mt-2 mobile-error button-text text-center"
-        >This user account already exists!</v-alert>
+        >{{ signupError }}</v-alert>
         <v-container class="text-center">
           <v-row no-gutters>
             <v-col cols="12" xs="12">
@@ -272,27 +272,27 @@ export default {
       lastName: "",
       email: "",
       emailRules: [
-        emailField => /.+@+/.test(emailField) || "Please enter a valid email"
+        (emailField) => /.+@+/.test(emailField) || "Please enter a valid email",
       ],
       password: "",
-      passwordRules: len => [
-        passwordField =>
+      passwordRules: (len) => [
+        (passwordField) =>
           (passwordField || "").length >= len ||
-          `Invalid password length, requires ${len} characters`
+          `Invalid password length, requires ${len} characters`,
       ],
       passwordConfirm: "",
       passwordConfirmRules: [
-        passwordField =>
-          passwordField === this.password || `Passwords do not match!`
+        (passwordField) =>
+          passwordField === this.password || `Passwords do not match!`,
       ],
-      nameRules: [name => !!name || "This field is required"],
+      nameRules: [(name) => !!name || "This field is required"],
       valid: true,
       phoneNumber: "",
       phoneNumberRules: [
-        phoneNumberField =>
+        (phoneNumberField) =>
           /^(\+2567)[0-9]{8}|^(07)[0-9]{8}/.test(phoneNumberField) ||
-          "Please enter a valid phone Number"
-      ]
+          "Please enter a valid phone Number",
+      ],
     };
   },
   methods: {
@@ -306,7 +306,7 @@ export default {
             email: this.email,
             password: this.password,
             passwordConfirm: this.passwordConfirm,
-            phoneNumber: this.phoneNumber
+            phoneNumber: this.phoneNumber,
           })
           .then(() => {
             if (this.isLogged) {
@@ -315,7 +315,7 @@ export default {
               } else {
                 const user = this.user;
                 this.$router.push({
-                  name: `${user.role}-dashboard`
+                  name: `${user.role}-dashboard`,
                 });
               }
             } else {
@@ -323,7 +323,7 @@ export default {
             }
           });
       }
-    }
+    },
   },
   computed: {
     isLogged() {
@@ -337,8 +337,8 @@ export default {
     },
     signupError() {
       return this.$store.getters.signupError;
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">
