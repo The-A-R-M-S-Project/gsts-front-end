@@ -1,46 +1,7 @@
 <template>
   <div class="mx-auto overflow-hidden">
     <Navigation class="d-none d-sm-block" />
-    <v-app-bar color="purple" class="mobile-drawer d-block d-sm-none" dark>
-      <v-toolbar-title>
-        <v-btn
-          text
-          to="/principal-dashboard"
-          class="white--text font-weight-bold text-capitalize title px-0"
-        >GSTS</v-btn>
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
-    </v-app-bar>
-    <v-navigation-drawer v-model="drawer" class="d-flex d-sm-none" fixed bottom temporary>
-      <v-list nav dense>
-        <v-list-item-group active-class="deep-purple--text text--accent-4">
-          <v-list-item class="my-6" to="/under-construction">
-            <v-btn text class="title text-capitalize">
-              <v-icon large>mdi-account</v-icon>
-              <span>&nbsp;Profile</span>
-            </v-btn>
-          </v-list-item>
-          <v-list-item class="my-6" to="/students">
-            <v-btn text class="title text-capitalize">
-              <v-icon large>mdi-account-group</v-icon>
-              <span>&nbsp;Students</span>
-            </v-btn>
-          </v-list-item>
-          <v-list-item class="my-6 px-8 mobile-select">
-            <SelectSchool />
-          </v-list-item>
-        </v-list-item-group>
-      </v-list>
-      <template v-slot:append>
-        <v-list-item class="my-4" @click="logOut">
-          <v-btn text :loading="isLoading" class="title text-capitalize">
-            <v-icon large>mdi-power</v-icon>
-            <span>&nbsp;Sign out</span>
-          </v-btn>
-        </v-list-item>
-      </template>
-    </v-navigation-drawer>
+    <MobileDrawer />
     <OverlayLoader />
     <v-container fluid class="pt-5">
       <v-row class="px-4">
@@ -90,12 +51,12 @@
 
 <script>
 import Navigation from "@/components/Navbar.vue";
+import MobileDrawer from "@/components/MobileDrawer.vue";
 import VivaStatus from "@/components/VivaStatus.vue";
 import ReportStatus from "@/components/ReportStatus.vue";
 import PerfomanceChart from "@/components/Performance.vue";
 import Calendar from "@/components/Calendar.vue";
 import OverlayLoader from "@/components/OverlayLoader.vue";
-import SelectSchool from "@/components/SelectSchool.vue";
 import Footer from "@/components/Footer.vue";
 
 export default {
@@ -121,12 +82,12 @@ export default {
   },
   components: {
     Navigation,
+    MobileDrawer,
     VivaStatus,
     ReportStatus,
     PerfomanceChart,
     Calendar,
     OverlayLoader,
-    SelectSchool,
     Footer,
   },
 };

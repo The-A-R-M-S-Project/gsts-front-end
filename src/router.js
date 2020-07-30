@@ -6,7 +6,6 @@ import ForgotStudentPass from "./views/ForgotStudentPass.vue";
 import ResetPassword from "./views/ResetPassword.vue";
 import Register from "./views/Register.vue";
 import Students from "./views/Students.vue";
-import StudentDetails from "./views/AdminStudentView.vue";
 import Examiners from "./views/Examiners.vue";
 import ExaminersDetails from "./views/ExaminerDetails.vue";
 import ECEDashboard from "./views/ECEDashboard.vue";
@@ -151,15 +150,6 @@ let router = new Router({
             path: "/students",
             name: "students",
             component: Students,
-            meta: {
-                requiresAuth: true,
-                is_principal: true,
-                is_dean: true
-            }
-        }, {
-            path: "/student_view",
-            name: "studentview",
-            component: StudentDetails,
             meta: {
                 requiresAuth: true,
                 is_principal: true,
