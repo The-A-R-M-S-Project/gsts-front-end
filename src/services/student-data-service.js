@@ -71,7 +71,7 @@ let studentData = [
         reportStatus: {
             value: 100,
             message: "Complete",
-            color: "green darken-3"
+            color: "green"
         },
         vivaDate: "02-11-2020"
     }, {

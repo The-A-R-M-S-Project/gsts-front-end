@@ -69,9 +69,8 @@
       :headers="headers"
       :items="students"
       :search="search"
-      single-expand
       show-expand
-      item-key="name"
+      item-key="regNo"
     >
       <template v-slot:no-results>
         <v-alert
@@ -82,13 +81,22 @@
       </template>
       <template v-slot:expanded-item="{ headers, item }">
         <td :colspan="headers.length">
-          <v-progress-linear
-            :value="item.reportStatus.value"
-            :color="item.reportStatus.color"
-            height="25"
-          >
-            <strong>{{item.reportStatus.value}}%</strong>
-          </v-progress-linear>
+          <v-row align="center" justify="center">
+            <v-col cols="12" sm="9" md="10">
+              <v-progress-linear
+                :value="item.reportStatus.value"
+                :color="item.reportStatus.color"
+                height="25"
+              >
+                <strong>{{item.reportStatus.value}}% ({{item.reportStatus.message}})</strong>
+              </v-progress-linear>
+            </v-col>
+            <v-col cols="12" sm="3" md="2">
+              <div class="text-center">
+                <v-btn color="primary">View Details</v-btn>
+              </div>
+            </v-col>
+          </v-row>
         </td>
       </template>
     </v-data-table>
