@@ -21,7 +21,7 @@
             <v-row>
               <v-col cols="12" md="6">
                 <v-card
-                  :height="!$vuetify.breakpoint.xs?'29vh':undefined"
+                  :height="($vuetify.breakpoint.xs || $vuetify.breakpoint.sm)?undefined:'29vh'"
                   elevation="24"
                   class="teal--text"
                 >

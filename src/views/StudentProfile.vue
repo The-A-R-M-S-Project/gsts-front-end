@@ -38,13 +38,13 @@
         </v-list-item>
       </template>
     </v-navigation-drawer>
-    <ReportSubmission />
+    <StudentProfileDetails />
     <Footer />
   </div>
 </template>
 <script>
 import Navigation from "@/components/StudentsNav.vue";
-import ReportSubmission from "@/components/ReportSubmission.vue";
+import StudentProfileDetails from "@/components/StudentProfileDetails.vue";
 import Footer from "@/components/Footer.vue";
 
 export default {
@@ -70,7 +70,7 @@ export default {
   },
   components: {
     Navigation,
-    ReportSubmission,
+    StudentProfileDetails,
     Footer,
   },
 };

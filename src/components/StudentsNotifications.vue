@@ -1,34 +1,39 @@
 <template>
-  <div>
-    <div class="display-1 text-center font-weight-medium mb-4">Report status</div>
-    <v-card :max-width="$vuetify.breakpoint.xs?'95vw':'70vw'" class="mx-auto">
-      <v-list two-line>
-        <v-list-item-group multiple active-class="purple--text">
-          <template v-for="(item, index) in items">
-            <v-list-item :key="item.id">
-              <template>
-                <v-list-item-action>
-                  <v-icon :color="item.tag">mdi-circle</v-icon>
-                </v-list-item-action>
-                <v-list-item-content>
-                  <v-list-item-title v-text="item.headline"></v-list-item-title>
-                  <v-list-item-subtitle class="text-wrap" v-text="item.title"></v-list-item-subtitle>
-                  <v-list-item-subtitle v-text="item.subtitle"></v-list-item-subtitle>
-                </v-list-item-content>
+  <v-list two-line class="notifications">
+    <v-list-item>
+      <v-list-item-content>
+        <v-list-item-title>
+          <div class="title text-center font-weight-bold mb-4">Activity Log</div>
+        </v-list-item-title>
+      </v-list-item-content>
+    </v-list-item>
 
-                <v-list-item-action>
-                  <v-list-item-action-text v-text="item.action"></v-list-item-action-text>
-                  <v-list-item-action-text v-text="item.time"></v-list-item-action-text>
-                </v-list-item-action>
-              </template>
-            </v-list-item>
+    <v-divider></v-divider>
 
-            <v-divider v-if="index + 1 < items.length" :key="index"></v-divider>
+    <v-list-item-group active-class="purple--text">
+      <template v-for="(item, index) in items">
+        <v-list-item :key="item.id">
+          <template>
+            <v-list-item-action>
+              <v-icon :color="item.tag">mdi-circle</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title v-text="item.headline"></v-list-item-title>
+              <v-list-item-subtitle class="text-wrap" v-text="item.title"></v-list-item-subtitle>
+              <v-list-item-subtitle v-text="item.subtitle"></v-list-item-subtitle>
+            </v-list-item-content>
+
+            <v-list-item-action>
+              <v-list-item-action-text v-text="item.action"></v-list-item-action-text>
+              <v-list-item-action-text v-text="item.time"></v-list-item-action-text>
+            </v-list-item-action>
           </template>
-        </v-list-item-group>
-      </v-list>
-    </v-card>
-  </div>
+        </v-list-item>
+
+        <v-divider v-if="index + 1 < items.length" :key="index"></v-divider>
+      </template>
+    </v-list-item-group>
+  </v-list>
 </template>
 
 <script>
@@ -103,3 +108,12 @@ export default {
   }),
 };
 </script>
+<style>
+.notifications {
+  width: auto !important;
+  height: 100%;
+  border-left: 1px solid rgba(0, 0, 0, 0.12) !important;
+  border-top: 1px solid rgba(0, 0, 0, 0.12) !important;
+  border-radius: 0 !important;
+}
+</style>

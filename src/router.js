@@ -15,8 +15,8 @@ import PrincipalDashboard from "./views/PrincipalDashboard";
 import StudentDashboard from "./views/StudentDashboard.vue";
 import DeanDashboard from "./views/DeanDashboard.vue";
 import ExaminerDashboard from "./views/ExaminerDashboard.vue";
-import StudentsNotifications from './components/StudentsNotifications.vue'
-import StudentProfile from "./components/StudentProfile.vue";
+import StudentActivity from './views/StudentActivity.vue'
+import StudentProfile from "./views/StudentProfile.vue";
 import StudentSubmission from "./views/StudentSubmission.vue"
 import ExpiredSession from "./views/ExpiredSession.vue";
 import UnderConstruction from "./views/UnderConstruction.vue";
@@ -82,7 +82,7 @@ let router = new Router({
                 }, {
                     path: "report-status",
                     name: "report-status",
-                    component: StudentsNotifications
+                    component: StudentActivity
                 }, {
                     path: "student-profile",
                     name: "studentProfile",

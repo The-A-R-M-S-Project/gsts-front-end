@@ -19,7 +19,7 @@
 <script>
 import Navigation from "@/components/Navbar.vue";
 import Timeline from "@/components/Timeline.vue";
-import StudentProfile from "@/components/StudentProfile.vue";
+import StudentProfile from "@/components/StudentProfileDetails.vue";
 export default {
   name: "studentview",
   components: {

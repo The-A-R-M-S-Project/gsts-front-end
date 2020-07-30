@@ -7,7 +7,7 @@
       </template>
       <template v-if="user.role === 'student'">
         <v-row justify="end" align="center">
-          <v-col md="auto" sm="1">
+          <v-col md="auto" sm="2">
             <v-btn text to="report-status" class="title text-capitalize white--text">Status</v-btn>
           </v-col>
         </v-row>
