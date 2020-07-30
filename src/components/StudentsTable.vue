@@ -65,21 +65,31 @@
         </v-col>
       </v-row>
     </v-card-subtitle>
-    <v-data-table :headers="headers" :items="students" :search="search">
-      <template v-slot:items="props">
-        <router-link class="purple--text custom-link" to="/student_view">
-          <td>{{ props.item.name }}</td>
-        </router-link>
-        <td class="text-xs-left">{{ props.item.regNo }}</td>
-        <td class="text-xs-left">{{ props.item.reportStatus }}</td>
-        <td class="text-xs-left">{{ props.item.vivaDate }}</td>
-      </template>
+    <v-data-table
+      :headers="headers"
+      :items="students"
+      :search="search"
+      single-expand
+      show-expand
+      item-key="name"
+    >
       <template v-slot:no-results>
         <v-alert
           :value="true"
           color="error"
           icon="warning"
         >Your search for "{{ search }}" found no results.</v-alert>
+      </template>
+      <template v-slot:expanded-item="{ headers, item }">
+        <td :colspan="headers.length">
+          <v-progress-linear
+            :value="item.reportStatus.value"
+            :color="item.reportStatus.color"
+            height="25"
+          >
+            <strong>{{item.reportStatus.value}}%</strong>
+          </v-progress-linear>
+        </td>
       </template>
     </v-data-table>
   </v-card>
@@ -96,6 +106,7 @@ export default {
   data() {
     return {
       search: "",
+      expanded: [],
       headers: [
         {
           text: "STUDENT NAME",
@@ -107,7 +118,7 @@ export default {
           text: "REGISTRATION NUMBER",
           value: "regNo",
         },
-        { text: "STATUS", value: "reportStatus" },
+        { text: "STATUS", value: "reportStatus.message" },
         { text: "VIVA DATE", value: "vivaDate" },
       ],
       students: StudentData,
