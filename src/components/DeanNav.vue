@@ -3,7 +3,7 @@
     <v-toolbar color="purple" class="white--text">
       <v-toolbar-title
         class="white--text font-weight-bold text-capitalize title d-sm-none d-md-flex"
-      >G.S.T.S</v-toolbar-title>
+      >GSTS</v-toolbar-title>
       <v-toolbar-title class="d-none d-sm-flex d-md-none">
         <v-btn
           text

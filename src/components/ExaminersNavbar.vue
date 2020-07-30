@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-toolbar fixed color="purple" class="white--text">
-      <v-toolbar-title>G.S.T.S</v-toolbar-title>
+      <v-toolbar-title>GSTS</v-toolbar-title>
       <div>
         <v-btn
           flat
@@ -13,7 +13,7 @@
           flat
           small
           class="title custom-font-family text-capitalize white--text"
-          to=""
+          to
         >Departments</v-btn>
       </div>
     </v-toolbar>
@@ -21,7 +21,7 @@
 </template>
 <script>
 export default {
-  name: "navbar"
+  name: "navbar",
 };
 </script>
 

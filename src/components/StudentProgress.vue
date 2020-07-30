@@ -1,22 +1,59 @@
 <template>
   <div class="pt-4">
     <div class="display-1 text-center font-weight-medium mb-4">Progress</div>
-    <v-row justify="center" align="center">
+    <v-row justify="center" :align="user.role==='student'?'center':'start'">
       <v-col cols="12" md="4">
-        <div class="text-center">
-          <v-progress-circular
-            :rotate="-90"
-            size="250"
-            width="20"
-            :value="event.value"
-            :color="event.color"
-            class="my-3"
-          >
-            {{ event.value }}%
-            <br />
-            {{event.message}}
-          </v-progress-circular>
-        </div>
+        <v-row>
+          <v-col>
+            <div class="text-center">
+              <v-progress-circular
+                :rotate="-90"
+                size="250"
+                width="20"
+                :value="event.value"
+                :color="event.color"
+                class="my-3"
+              >
+                {{ event.value }}%
+                <br />
+                {{event.message}}
+              </v-progress-circular>
+            </div>
+          </v-col>
+          <v-col v-show="user.role !== 'student'">
+            <div class="pa-3">
+              <div class="px-3 text-left body-2 mx-auto">
+                <div class="pa-1">
+                  <span class="font-weight-bold">Name</span>
+                  : Student Name
+                </div>
+
+                <div class="pa-1">
+                  <span class="font-weight-bold">Gender</span> : Male
+                </div>
+                <div class="pa-1">
+                  <span class="font-weight-bold">Email</span> : Student@cedat.mak.ac.ug
+                </div>
+                <div class="pa-1">
+                  <span class="font-weight-bold">Contacts</span> : +256701000000
+                </div>
+                <div class="pa-1">
+                  <span class="font-weight-bold">Department</span>: Electrical and Computer Engineering
+                </div>
+
+                <div class="pa-1">
+                  <span class="font-weight-bold">Programme</span> : Master of Science in telecom engineering
+                </div>
+                <div class="pa-1">
+                  <span class="font-weight-bold">Registraion Number</span> : 19/U/168/PS
+                </div>
+                <div class="pa-1">
+                  <span class="font-weight-bold">Year of Study</span> : I
+                </div>
+              </div>
+            </div>
+          </v-col>
+        </v-row>
       </v-col>
       <v-col cols="12" md="8" class="px-10">
         <v-stepper v-model="e6" vertical>
@@ -183,6 +220,11 @@ export default {
         index = 0;
       }
     }, 1000);
+  },
+  computed: {
+    user() {
+      return this.$store.getters.user;
+    },
   },
   components: {
     LoadingDots,
