@@ -12,6 +12,7 @@ import ExaminersDetails from "./views/ExaminerDetails.vue";
 import ECEDashboard from "./views/ECEDashboard.vue";
 import FADashboard from "./views/FADashboard.vue";
 import PrincipalDashboard from "./views/PrincipalDashboard";
+import PrincipalStudentDashboard from "./views/PrincipalStudentDashboard.vue"
 import StudentDashboard from "./views/StudentDashboard.vue";
 import DeanDashboard from "./views/DeanDashboard.vue";
 import ExaminerDashboard from "./views/ExaminerDashboard.vue";
@@ -112,6 +113,15 @@ let router = new Router({
             meta: {
                 requiresAuth: true,
                 is_principal: true
+            }
+        }, {
+            path: "/student-progress",
+            name: "student-progress",
+            component: PrincipalStudentDashboard,
+            meta: {
+                requiresAuth: true,
+                is_principal: true,
+                is_dean: true
             }
         }, {
             path: "/ECE-dashboard",

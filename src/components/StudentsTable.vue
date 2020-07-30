@@ -93,7 +93,7 @@
             </v-col>
             <v-col cols="12" sm="3" md="2">
               <div class="text-center">
-                <v-btn color="primary">View Details</v-btn>
+                <v-btn to="/student-progress" color="primary">View Details</v-btn>
               </div>
             </v-col>
           </v-row>
