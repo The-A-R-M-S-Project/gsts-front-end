@@ -69,6 +69,8 @@
       :headers="headers"
       :items="students"
       :search="search"
+      :expanded="expanded"
+      @click:row="clicked"
       show-expand
       item-key="regNo"
     >
@@ -157,6 +159,14 @@ export default {
   methods: {
     fetchDepartments() {
       this.$store.dispatch("fetchDepartments", this.selectedSchool._id);
+    },
+    clicked(value) {
+      const index = this.expanded.indexOf(value);
+      if (index === -1) {
+        this.expanded.push(value);
+      } else {
+        this.expanded.splice(index, 1);
+      }
     },
   },
 };
