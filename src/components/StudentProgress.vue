@@ -19,6 +19,12 @@
                 {{event.message}}
               </v-progress-circular>
             </div>
+            <div
+              class="text-center"
+              v-show="user.role !== 'student' && event.message === 'Submitted'"
+            >
+              <v-btn color="primary">Assign examiner</v-btn>
+            </div>
           </v-col>
           <v-col v-show="user.role !== 'student'">
             <div class="pa-3">
