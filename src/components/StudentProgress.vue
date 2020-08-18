@@ -10,20 +10,20 @@
                 :rotate="-90"
                 size="250"
                 width="20"
-                :value="event.value"
-                :color="event.color"
+                :value="progressEvents[1].value"
+                :color="progressEvents[1].color"
                 class="my-3"
               >
-                {{ event.value }}%
+                {{ progressEvents[1].value }}%
                 <br />
-                {{event.message}}
+                {{progressEvents[1].message}}
               </v-progress-circular>
             </div>
             <div
               class="text-center"
-              v-show="user.role !== 'student' && event.message === 'Submitted'"
+              v-show="user.role !== 'student' && progressEvents[1].message === 'Submitted'"
             >
-              <v-btn color="primary">Assign examiner</v-btn>
+              <AssignExaminer />
             </div>
           </v-col>
           <v-col v-show="user.role !== 'student'">
@@ -164,6 +164,7 @@
 
 <script>
 import LoadingDots from "@/components/LoadingDots.vue";
+import AssignExaminer from "@/components/AssignExaminer.vue";
 export default {
   data() {
     return {
@@ -214,19 +215,19 @@ export default {
       ],
     };
   },
-  beforeDestroy() {
-    clearInterval(this.interval);
-  },
-  mounted() {
-    let index = 0;
-    this.interval = setInterval(() => {
-      this.event = this.progressEvents[index];
-      index += 1;
-      if (this.event.value === 100) {
-        index = 0;
-      }
-    }, 1000);
-  },
+  // beforeDestroy() {
+  //   clearInterval(this.interval);
+  // },
+  // mounted() {
+  //   let index = 0;
+  //   this.interval = setInterval(() => {
+  //     this.event = this.progressEvents[index];
+  //     index += 1;
+  //     if (this.event.value === 100) {
+  //       index = 0;
+  //     }
+  //   }, 1000);
+  // },
   computed: {
     user() {
       return this.$store.getters.user;
@@ -234,6 +235,7 @@ export default {
   },
   components: {
     LoadingDots,
+    AssignExaminer,
   },
 };
 </script>

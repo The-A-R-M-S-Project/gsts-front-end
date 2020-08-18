@@ -70,7 +70,7 @@
       :items="students"
       :search="search"
       :expanded="expanded"
-      @click:row="clicked"
+      @click:row="itemClicked"
       show-expand
       item-key="regNo"
     >
@@ -95,7 +95,7 @@
             </v-col>
             <v-col cols="12" sm="3" md="2">
               <div class="text-center">
-                <v-btn to="/student-progress" color="primary">View Details</v-btn>
+                <v-btn @click="viewDetails(item)" color="primary">View Details</v-btn>
               </div>
             </v-col>
           </v-row>
@@ -160,13 +160,18 @@ export default {
     fetchDepartments() {
       this.$store.dispatch("fetchDepartments", this.selectedSchool._id);
     },
-    clicked(value) {
+    itemClicked(value) {
       const index = this.expanded.indexOf(value);
       if (index === -1) {
         this.expanded.push(value);
       } else {
         this.expanded.splice(index, 1);
       }
+    },
+    viewDetails(student) {
+      this.$store.dispatch("setStudentDetails", student).then(() => {
+        this.$router.push("/student-progress");
+      });
     },
   },
 };
