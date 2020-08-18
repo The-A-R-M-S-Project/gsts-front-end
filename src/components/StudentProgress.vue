@@ -10,20 +10,19 @@
                 :rotate="-90"
                 size="250"
                 width="20"
-                :value="progressEvents[1].value"
-                :color="progressEvents[1].color"
+                :value="progressEvents[5].value"
+                :color="progressEvents[5].color"
                 class="my-3"
               >
-                {{ progressEvents[1].value }}%
+                {{ progressEvents[5].value }}%
                 <br />
-                {{progressEvents[1].message}}
+                {{progressEvents[5].message}}
               </v-progress-circular>
             </div>
-            <div
-              class="text-center"
-              v-show="user.role !== 'student' && progressEvents[1].message === 'Submitted'"
-            >
-              <AssignExaminer />
+            <div class="text-center" v-show="user.role !== 'student'">
+              <!-- <AssignExaminer v-show="progressEvents[1].message === 'Submitted'" /> -->
+              <!-- <SetVivaDate v-show="progressEvents[5].message === 'Cleared by examiner'" /> -->
+              <SetVivaScore v-show="progressEvents[5].message === 'Viva complete'" />
             </div>
           </v-col>
           <v-col v-show="user.role !== 'student'">
@@ -164,7 +163,10 @@
 
 <script>
 import LoadingDots from "@/components/LoadingDots.vue";
-import AssignExaminer from "@/components/AssignExaminer.vue";
+// import AssignExaminer from "@/components/AssignExaminer.vue";
+// import SetVivaDate from "@/components/SetVivaDate.vue";
+import SetVivaScore from "@/components/SetVivaScore.vue";
+
 export default {
   data() {
     return {
@@ -235,7 +237,9 @@ export default {
   },
   components: {
     LoadingDots,
-    AssignExaminer,
+    // AssignExaminer,
+    // SetVivaDate,
+    SetVivaScore,
   },
 };
 </script>
