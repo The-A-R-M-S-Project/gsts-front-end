@@ -40,11 +40,7 @@ export default {
         type: chartData.type,
         data: {
           // labels: [keys[0][0], keys[1][0], keys[2][0]],
-          labels: [
-            "Electrical and Computer Engineering",
-            "Mechanical Engineering",
-            "Civil and Environmental Engineering",
-          ],
+          labels: this.determineLabel(),
           datasets: [
             {
               label: "Submitted",
@@ -90,6 +86,21 @@ export default {
         options: chartData.options,
       });
     },
+    determineLabel() {
+      let vw = Math.max(
+        document.documentElement.clientWidth || 0,
+        window.innerWidth || 0
+      );
+      if (vw < 960) {
+        return ["ECE", "ME", "CEE"];
+      } else {
+        return [
+          "Electrical and Computer Engineering",
+          "Mechanical Engineering",
+          "Civil and Environmental Engineering",
+        ];
+      }
+    },
   },
 };
 
@@ -127,15 +138,6 @@ let chartOptions = {
     ],
     xAxes: [
       {
-        ticks: {
-          callback: (label) => {
-            if (window.outerWidth < 960 && /\s/.test(label)) {
-              return label.split(" ");
-            } else {
-              return label;
-            }
-          },
-        },
         gridLines: {
           display: false,
           drawBorder: false,
