@@ -72,7 +72,7 @@
       :expanded="expanded"
       @click:row="itemClicked"
       show-expand
-      item-key="regNo"
+      item-key="student._id"
     >
       <template v-slot:no-results>
         <v-alert
@@ -81,16 +81,20 @@
           icon="warning"
         >Your search for "{{ search }}" found no results.</v-alert>
       </template>
+      <!-- eslint-disable-next-line vue/no-v-html -->
+      <template v-slot:item.status="{ item }">{{ progressEvents[`${item.status}`].message }}</template>
+      <!-- eslint-disable-next-line vue/no-v-html -->
+      <template v-slot:item.vivaDate="{ item }">{{ formatDate(item.vivaDate) }}</template>
       <template v-slot:expanded-item="{ headers, item }">
         <td :colspan="headers.length">
           <v-row align="center" justify="center">
             <v-col cols="12" sm="9" md="10">
               <v-progress-linear
-                :value="item.reportStatus.value"
-                :color="item.reportStatus.color"
+                :value="progressEvents[`${item.status}`].value"
+                :color="progressEvents[`${item.status}`].color"
                 height="25"
               >
-                <strong>{{item.reportStatus.value}}% ({{item.reportStatus.message}})</strong>
+                <strong>{{progressEvents[`${item.status}`].value}}% ({{progressEvents[`${item.status}`].message}})</strong>
               </v-progress-linear>
             </v-col>
             <v-col cols="12" sm="3" md="2">
@@ -106,31 +110,61 @@
 </template>
 
 <script>
-import StudentData from "@/services/student-data-service.js";
+import StudentData from "@/services/student-events.js";
 import DepartmentService from "@/services/departments-service.js";
 export default {
-  props: {
-    program: String,
-    _id: String,
-  },
   data() {
     return {
       search: "",
       expanded: [],
+      showBadge: false,
       headers: [
         {
           text: "STUDENT NAME",
           align: "left",
           sortable: false,
-          value: "name",
+          value: "student.name",
         },
         {
-          text: "REGISTRATION NUMBER",
-          value: "regNo",
+          text: "PROGRAM",
+          value: "program",
         },
-        { text: "STATUS", value: "reportStatus.message" },
+        { text: "STATUS", value: "status" },
         { text: "VIVA DATE", value: "vivaDate" },
+        { value: "data-table-expand" },
       ],
+      progressEvents: {
+        notSubmitted: {
+          value: 0,
+          message: "Not submitted",
+          color: "grey",
+        },
+        submitted: {
+          value: 17,
+          message: "Submitted",
+          color: "deep-orange darken-2",
+        },
+        withExaminer: {
+          value: 39,
+          message: "With examiner",
+          color: "orange",
+        },
+        clearedByExaminer: {
+          value: 56,
+          message: "Cleared by examiner",
+          color: "amber",
+        },
+        vivaDateSet: {
+          value: 73,
+          message: "Viva date set",
+          color: "yellow darken-1",
+        },
+        vivaComplete: {
+          value: 100,
+          message: "Viva complete",
+          color: "green lighten-2",
+        },
+      },
       students: StudentData,
       selectedSchool: null,
       selectedDepartment: null,
@@ -172,6 +206,13 @@ export default {
       this.$store.dispatch("setStudentDetails", student).then(() => {
         this.$router.push("/student-progress");
       });
+    },
+    formatDate(date) {
+      if (date !== "Not set") {
+        let newFormat = new Date(date);
+        let newDate = `${newFormat}`.substring(4, 15);
+        return newDate.replace(/ /g, " - ");
+      } else return date;
     },
   },
 };
