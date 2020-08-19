@@ -99,7 +99,10 @@
             </v-col>
             <v-col cols="12" sm="3" md="2">
               <div class="text-center">
-                <v-btn @click="viewDetails(item)" color="primary">View Details</v-btn>
+                <AssignExaminer v-if="item.status === 'submitted'" />
+                <SetVivaDate v-else-if="item.status === 'clearedByExaminer'" />
+                <SetVivaScore v-else-if="item.status === 'vivaDateSet'" />
+                <v-btn v-else @click="viewDetails(item)" color="primary">View Details</v-btn>
               </div>
             </v-col>
           </v-row>
@@ -112,6 +115,9 @@
 <script>
 import StudentData from "@/services/student-events.js";
 import DepartmentService from "@/services/departments-service.js";
+import AssignExaminer from "@/components/AssignExaminer.vue";
+import SetVivaDate from "@/components/SetVivaDate.vue";
+import SetVivaScore from "@/components/SetVivaScore.vue";
 export default {
   data() {
     return {
@@ -201,6 +207,7 @@ export default {
       } else {
         this.expanded.splice(index, 1);
       }
+      this.$store.dispatch("setStudentDetails", value);
     },
     viewDetails(student) {
       this.$store.dispatch("setStudentDetails", student).then(() => {
@@ -214,6 +221,11 @@ export default {
         return newDate.replace(/ /g, " - ");
       } else return date;
     },
+  },
+  components: {
+    AssignExaminer,
+    SetVivaDate,
+    SetVivaScore,
   },
 };
 </script>
