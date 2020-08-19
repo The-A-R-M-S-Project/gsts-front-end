@@ -8,7 +8,7 @@
       <v-card>
         <v-card-title class="text-center headline purple white--text">Set viva date</v-card-title>
         <v-card-text class="py-3 px-6">
-          <p class="body-1">Sign viva date for {{student.name}}</p>
+          <p class="body-1">Sign viva date for {{student.student.name}}</p>
           <v-date-picker v-model="picker" full-width color="purple" show-current type="date"></v-date-picker>
         </v-card-text>
         <v-divider></v-divider>

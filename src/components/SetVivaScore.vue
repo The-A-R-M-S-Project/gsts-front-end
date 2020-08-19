@@ -8,7 +8,7 @@
       <v-card>
         <v-card-title class="text-center headline purple white--text">Set viva score</v-card-title>
         <v-card-text class="py-3 px-6">
-          <p class="body-1">Sign viva score for {{student.name}}</p>
+          <p class="body-1">Sign viva score for {{student.student.name}}</p>
           <v-form>
             <v-text-field label="Set score" type="number"></v-text-field>
           </v-form>

@@ -8,7 +8,7 @@
       <v-card>
         <v-card-title class="text-center headline purple white--text">Assign an examiner</v-card-title>
         <v-card-text class="py-3 px-6">
-          <p class="body-1">Assign an examiner to {{student.name}}</p>
+          <p class="body-1">Assign an examiner to {{student.student.name}}</p>
           <v-autocomplete
             v-model="examiner"
             :items="examiners"

@@ -131,7 +131,7 @@ let studentEvents = [
             lastName: "Student7",
             name: "Test Student7"
         },
-        vivaDate: "Not set",
+        vivaDate: "2020-03-20T11:00:00.757Z",
         vivaScore: "Not set",
         program: "Master of Science in Civil Engineering",
         department: "5c88fa8cf4afda39709c2957"

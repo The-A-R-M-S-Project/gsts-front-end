@@ -25,7 +25,7 @@
                 v-show="progressEvents[`${student.status}`].message === 'Cleared by examiner'"
               />
               <SetVivaScore
-                v-show="progressEvents[`${student.status}`].message === 'Viva complete'"
+                v-show="progressEvents[`${student.status}`].message === 'Viva date set'"
               />
             </div>
           </v-col>
@@ -70,15 +70,17 @@
           <template v-if="e6 > 1">
             <div class="v-stepper__content">
               <div class="body-1 mb-1">Your report has been submitted to the right person</div>
-              <div class="caption mt-3 font-weight-light">Fri Jul 24, 18:40</div>
+              <div
+                class="caption mt-3 font-weight-light"
+              >{{ formatDate(student.statusEvents.submitted) }}</div>
             </div>
           </template>
           <v-stepper-content step="1">
             <template v-if="e6 === 1">
               <div class="body-1 mb-1">Submit your report for grading</div>
-              <div class="body-2">
+              <div v-show="user.role=== 'student'" class="body-2">
                 In case you haven't submitted your report, click
-                <a href>here</a>
+                <a @click="submitReport">here</a>
               </div>
             </template>
           </v-stepper-content>
@@ -87,7 +89,9 @@
           <template v-if="e6 > 2">
             <div class="v-stepper__content">
               <div class="body-1">Your examiner has acknowledged receipt of your report</div>
-              <div class="caption mt-3 font-weight-light">Fri Jul 24, 18:40</div>
+              <div
+                class="caption mt-3 font-weight-light"
+              >{{ formatDate(student.statusEvents.withExaminer) }}</div>
             </div>
           </template>
           <v-stepper-content step="2">
@@ -112,7 +116,9 @@
                   </strong>
                 </span>
               </div>
-              <div class="caption mt-3 font-weight-light">Fri Jul 24, 18:40</div>
+              <div
+                class="caption mt-3 font-weight-light"
+              >{{ formatDate(student.statusEvents.clearedByExaminer) }}</div>
             </div>
           </template>
           <v-stepper-content step="3">
@@ -130,12 +136,14 @@
                 Your viva examination date has been set to
                 <span
                   class="headline text-color blue--text"
-                >2nd November, 2020</span>
+                >{{ formatDate(student.vivaDate) }}</span>
               </div>
               <div class="body-2">
                 <strong>Location:</strong> Cedat conference hall
               </div>
-              <div class="caption mt-3 font-weight-light">Fri Jul 24, 18:40</div>
+              <div
+                class="caption mt-3 font-weight-light"
+              >{{ formatDate(student.statusEvents.vivaDateSet) }}</div>
             </div>
           </template>
           <v-stepper-content step="4">
@@ -156,7 +164,9 @@
                   </strong>
                 </span>
               </div>
-              <div class="caption mt-3 font-weight-light">Fri Jul 24, 18:40</div>
+              <div
+                class="caption mt-3 font-weight-light"
+              >{{ formatDate(student.statusEvents.vivaComplete) }}</div>
             </div>
           </template>
         </v-stepper>
@@ -175,43 +185,49 @@ import StudentEvents from "@/services/student-events.js";
 export default {
   data() {
     return {
-      e6: 3,
+      e6: null,
       progressEvents: {
         notSubmitted: {
           value: 0,
           message: "Not submitted",
           color: "grey",
+          step: 1,
         },
         submitted: {
-          value: 16,
+          value: 17,
           message: "Submitted",
           color: "deep-orange darken-2",
+          step: 2,
         },
         withExaminer: {
-          value: 30,
+          value: 39,
           message: "With examiner",
           color: "orange",
+          step: 3,
         },
         clearedByExaminer: {
-          value: 44,
+          value: 56,
           message: "Cleared by examiner",
           color: "amber",
+          step: 4,
         },
         vivaDateSet: {
-          value: 58,
+          value: 73,
           message: "Viva date set",
-          color: "green lighten-2",
+          color: "yellow darken-1",
+          step: 5,
         },
         vivaComplete: {
-          value: 72,
+          value: 100,
           message: "Viva complete",
-          color: "green darken-3",
+          color: "green lighten-2",
+          step: 6,
         },
       },
     };
   },
-  mounted() {
-    console.log(this.student);
+  created() {
+    this.e6 = this.progressEvents[`${this.student.status}`].step;
   },
   computed: {
     user() {
@@ -219,6 +235,37 @@ export default {
     },
     student() {
       return this.$store.getters.student;
+    },
+  },
+  methods: {
+    submitReport() {
+      this.$router.push("/submit-report");
+    },
+    formatDate(timestamp) {
+      let diff = Math.abs(new Date() - new Date(timestamp));
+      let seconds = diff / 1000;
+      let minutes = Math.floor(seconds / 60);
+      let hours = Math.floor(minutes / 60);
+      let days = Math.floor(hours / 24);
+      if (seconds < 60) {
+        return "a few seconds ago";
+      } else if (minutes < 60) {
+        return `${minutes} minutes ago`;
+      } else if (hours < 24) {
+        return `${hours} hours ago`;
+      } else if (days < 7) {
+        return `${days} days ago`;
+      } else {
+        let monthDay = new Date(timestamp);
+        return `${monthDay.toLocaleTimeString(
+          {},
+          {
+            hour12: true,
+            hour: "numeric",
+            minute: "numeric",
+          }
+        )} ${new String(monthDay).substring(4, 15).replace(/ /g, "-")}`;
+      }
     },
   },
   components: {
