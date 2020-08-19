@@ -10,19 +10,23 @@
                 :rotate="-90"
                 size="250"
                 width="20"
-                :value="progressEvents[5].value"
-                :color="progressEvents[5].color"
+                :value="progressEvents[`${student.status}`].value"
+                :color="progressEvents[`${student.status}`].color"
                 class="my-3"
               >
-                {{ progressEvents[5].value }}%
+                {{ progressEvents[`${student.status}`].value }}%
                 <br />
-                {{progressEvents[5].message}}
+                {{progressEvents[`${student.status}`].message}}
               </v-progress-circular>
             </div>
             <div class="text-center" v-show="user.role !== 'student'">
-              <!-- <AssignExaminer v-show="progressEvents[1].message === 'Submitted'" /> -->
-              <!-- <SetVivaDate v-show="progressEvents[5].message === 'Cleared by examiner'" /> -->
-              <SetVivaScore v-show="progressEvents[5].message === 'Viva complete'" />
+              <AssignExaminer v-show="progressEvents[`${student.status}`].message === 'Submitted'" />
+              <SetVivaDate
+                v-show="progressEvents[`${student.status}`].message === 'Cleared by examiner'"
+              />
+              <SetVivaScore
+                v-show="progressEvents[`${student.status}`].message === 'Viva complete'"
+              />
             </div>
           </v-col>
           <v-col v-show="user.role !== 'student'">
@@ -163,82 +167,64 @@
 
 <script>
 import LoadingDots from "@/components/LoadingDots.vue";
-// import AssignExaminer from "@/components/AssignExaminer.vue";
-// import SetVivaDate from "@/components/SetVivaDate.vue";
+import AssignExaminer from "@/components/AssignExaminer.vue";
+import SetVivaDate from "@/components/SetVivaDate.vue";
 import SetVivaScore from "@/components/SetVivaScore.vue";
+import StudentEvents from "@/services/student-events.js";
 
 export default {
   data() {
     return {
       e6: 3,
-      interval: {},
-      event: {},
-      progressEvents: [
-        {
+      progressEvents: {
+        notSubmitted: {
           value: 0,
           message: "Not submitted",
           color: "grey",
         },
-        {
+        submitted: {
           value: 16,
           message: "Submitted",
           color: "deep-orange darken-2",
         },
-        {
+        withExaminer: {
           value: 30,
           message: "With examiner",
-          color: "deep-orange darken-1",
-        },
-        {
-          value: 44,
-          message: "Cleared by examiner",
           color: "orange",
         },
-        {
-          value: 58,
-          message: "Viva date set",
-          color: "orange lighten-1",
-        },
-        {
-          value: 72,
-          message: "Viva complete",
+        clearedByExaminer: {
+          value: 44,
+          message: "Cleared by examiner",
           color: "amber",
         },
-        {
-          value: 86,
-          message: "Pending revision",
+        vivaDateSet: {
+          value: 58,
+          message: "Viva date set",
           color: "green lighten-2",
         },
-        {
-          value: 100,
-          message: "Complete",
+        vivaComplete: {
+          value: 72,
+          message: "Viva complete",
           color: "green darken-3",
         },
-      ],
+      },
     };
   },
-  // beforeDestroy() {
-  //   clearInterval(this.interval);
-  // },
-  // mounted() {
-  //   let index = 0;
-  //   this.interval = setInterval(() => {
-  //     this.event = this.progressEvents[index];
-  //     index += 1;
-  //     if (this.event.value === 100) {
-  //       index = 0;
-  //     }
-  //   }, 1000);
-  // },
+  mounted() {
+    console.log(this.student);
+  },
   computed: {
     user() {
       return this.$store.getters.user;
     },
+    student() {
+      return this.$store.getters.student;
+    },
   },
   components: {
     LoadingDots,
-    // AssignExaminer,
-    // SetVivaDate,
+    AssignExaminer,
+    SetVivaDate,
     SetVivaScore,
   },
 };
