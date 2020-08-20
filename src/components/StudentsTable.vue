@@ -69,6 +69,7 @@
       :headers="headers"
       :items="students"
       :search="search"
+      :custom-sort="sortStudentsByProcess"
       :expanded="expanded"
       @click:row="itemClicked"
       show-expand
@@ -232,6 +233,38 @@ export default {
       )
         return true;
       else return false;
+    },
+    sortStudentsByProcess(items, index, isDesc) {
+      let sortOrder = [
+        "notSubmitted",
+        "submitted",
+        "withExaminer",
+        "clearedByExaminer",
+        "vivaDateSet",
+        "vivaComplete",
+      ];
+      items.sort((a, b) => {
+        if (index[0] == "status") {
+          if (isDesc[0]) {
+            return sortOrder.indexOf(a.status) - sortOrder.indexOf(b.status);
+          } else {
+            return sortOrder.indexOf(b.status) - sortOrder.indexOf(a.status);
+          }
+        } else if (!isNaN(a[index[0]])) {
+          if (!isDesc[0]) {
+            return a[index[0]] - b[index[0]];
+          } else {
+            return b[index[0]] - a[index[0]];
+          }
+        } else {
+          if (!isDesc[0]) {
+            return a[index[0]] < b[index[0]] ? -1 : 1;
+          } else {
+            return b[index[0]] < a[index[0]] ? -1 : 1;
+          }
+        }
+      });
+      return items;
     },
   },
   components: {
