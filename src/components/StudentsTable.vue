@@ -67,7 +67,7 @@
     </v-card-subtitle>
     <v-data-table
       :headers="headers"
-      :items="students"
+      :items="filteredStudents"
       :search="search"
       :custom-sort="sortStudentsByProcess"
       :expanded="expanded"
@@ -75,6 +75,33 @@
       show-expand
       item-key="student._id"
     >
+      <template v-slot:header="{ props: { headers } }">
+        <thead>
+          <tr>
+            <th :colspan="headers.length">
+              <div v-if="filters.hasOwnProperty('status')">
+                <v-select
+                  flat
+                  hide-details
+                  prepend-icon="mdi-filter-variant"
+                  small
+                  multiple
+                  label="Filter by status"
+                  clearable
+                  :items="columnValueList('status')"
+                  v-model="filters['status']"
+                >
+                  <template v-slot:item="{item}">{{ progressEvents[`${item}`].message }}</template>
+                  <template
+                    v-slot:selection="{item}"
+                  >{{ progressEvents[`${item}`].message }}, &nbsp;</template>
+                </v-select>
+              </div>
+            </th>
+          </tr>
+        </thead>
+      </template>
+
       <template v-slot:no-results>
         <v-alert
           :value="true"
@@ -127,11 +154,24 @@ export default {
   data() {
     return {
       search: "",
+      filters: {
+        status: [],
+      },
+      labels: [
+        "Not Submitted",
+        "Submitted",
+        "With examiner",
+        "Cleared by examiner",
+        "Viva date set",
+        "Viva complete",
+      ],
+      filteredEvent: "",
       expanded: [],
       headers: [
         {
           value: "action",
           width: "1rem",
+          sortable: false,
         },
         {
           text: "STUDENT NAME",
@@ -179,6 +219,14 @@ export default {
           color: "green lighten-2",
         },
       },
+      sortOrder: [
+        "notSubmitted",
+        "submitted",
+        "withExaminer",
+        "clearedByExaminer",
+        "vivaDateSet",
+        "vivaComplete",
+      ],
       students: StudentData,
       selectedSchool: null,
       selectedDepartment: null,
@@ -198,6 +246,13 @@ export default {
     },
     user() {
       return this.$store.getters.user;
+    },
+    filteredStudents() {
+      return this.students.filter((d) => {
+        return Object.keys(this.filters).every((f) => {
+          return this.filters[f].length < 1 || this.filters[f].includes(d[f]);
+        });
+      });
     },
   },
   methods: {
@@ -235,20 +290,18 @@ export default {
       else return false;
     },
     sortStudentsByProcess(items, index, isDesc) {
-      let sortOrder = [
-        "notSubmitted",
-        "submitted",
-        "withExaminer",
-        "clearedByExaminer",
-        "vivaDateSet",
-        "vivaComplete",
-      ];
       items.sort((a, b) => {
         if (index[0] == "status") {
           if (isDesc[0]) {
-            return sortOrder.indexOf(a.status) - sortOrder.indexOf(b.status);
+            return (
+              this.sortOrder.indexOf(a.status) -
+              this.sortOrder.indexOf(b.status)
+            );
           } else {
-            return sortOrder.indexOf(b.status) - sortOrder.indexOf(a.status);
+            return (
+              this.sortOrder.indexOf(b.status) -
+              this.sortOrder.indexOf(a.status)
+            );
           }
         } else if (!isNaN(a[index[0]])) {
           if (!isDesc[0]) {
@@ -265,6 +318,9 @@ export default {
         }
       });
       return items;
+    },
+    columnValueList(val) {
+      return this.students.map((d) => d[val]);
     },
   },
   components: {
