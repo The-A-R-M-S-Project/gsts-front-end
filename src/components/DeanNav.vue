@@ -20,7 +20,12 @@
           >{{ schoolName }}</v-btn>
         </v-col>
         <v-col md="auto" sm="3">
-          <v-btn text class="title text-capitalize white--text" to="/students">Students</v-btn>
+          <v-btn text class="title text-capitalize white--text" to="/students">
+            <v-badge v-if="studentUpdates" color="teal" dot>
+              <span>Students</span>
+            </v-badge>
+            <span v-else>Students</span>
+          </v-btn>
         </v-col>
         <v-col md="auto" sm="4">
           <v-btn text class="title text-capitalize white--text" to="/examiners">Examiners</v-btn>
@@ -72,16 +77,22 @@
   </nav>
 </template>
 <script>
+import StudentData from "@/services/student-events.js";
 export default {
   name: "dean-navbar",
   data() {
     return {
       loading: false,
       closeOnContentClick: true,
+      students: StudentData,
+      studentUpdates: false,
     };
   },
   created() {
     this.$store.dispatch("fetchSchoolDetails", this.user.school);
+  },
+  mounted() {
+    this.checkForUpdates();
   },
   computed: {
     isLoading() {
@@ -100,6 +111,18 @@ export default {
       this.$store.dispatch("logout").then(() => {
         this.$router.push("/");
       });
+    },
+    checkForUpdates() {
+      for (let i = 0; i < this.students.length; i++) {
+        if (
+          this.students[i].status === "submitted" ||
+          this.students[i].status === "clearedByExaminer" ||
+          this.students[i].status === "vivaDateSet"
+        ) {
+          break;
+        }
+      }
+      this.studentUpdates = true;
     },
   },
 };
