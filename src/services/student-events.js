@@ -22,11 +22,7 @@ let studentEvents = [
     {
         status: "submitted",
         statusEvents: {
-            submitted: "2020-02-15T18:28:46.757Z",
-            // withExaminer: "2020-02-17T18:28:46.757Z",
-            // clearedByExaminer: "2020-02-21T18:28:46.757Z",
-            // vivaDateSet: "2020-03-15T18:28:46.757Z",
-            // vivaComplete: "2020-03-21T18:28:46.757Z"
+            submitted: "2020-02-15T18:28:46.757Z"
         },
         student: {
             _id: "5c8a1d5b0190b214360dc060",
@@ -43,10 +39,7 @@ let studentEvents = [
         status: "withExaminer",
         statusEvents: {
             submitted: "2020-02-15T18:28:46.757Z",
-            withExaminer: "2020-02-17T18:28:46.757Z",
-            // clearedByExaminer: "2020-02-21T18:28:46.757Z",
-            // vivaDateSet: "2020-03-15T18:28:46.757Z",
-            // vivaComplete: "2020-03-21T18:28:46.757Z"
+            withExaminer: "2020-02-17T18:28:46.757Z"
         },
         student: {
             _id: "5c8a1d5b0190b214360dc061",
@@ -64,9 +57,7 @@ let studentEvents = [
         statusEvents: {
             submitted: "2020-02-15T18:28:46.757Z",
             withExaminer: "2020-02-17T18:28:46.757Z",
-            clearedByExaminer: "2020-02-21T18:28:46.757Z",
-            // vivaDateSet: "2020-03-15T18:28:46.757Z",
-            // vivaComplete: "2020-03-21T18:28:46.757Z"
+            clearedByExaminer: "2020-02-21T18:28:46.757Z"
         },
         student: {
             _id: "5c8a1d5b0190b214360dc058",
@@ -99,13 +90,7 @@ let studentEvents = [
         department: "5c88fa8cf4afda39709c2957"
     }, {
         status: "notSubmitted",
-        statusEvents: {
-            // submitted: "2020-02-15T18:28:46.757Z",
-            // withExaminer: "2020-02-17T18:28:46.757Z",
-            // clearedByExaminer: "2020-02-21T18:28:46.757Z",
-            // vivaDateSet: "2020-03-15T18:28:46.757Z",
-            // vivaComplete: "2020-03-21T18:28:46.757Z"
-        },
+        statusEvents: {},
         student: {
             _id: "5c8a1d5b0190b214360dc056",
             firstName: "Test",
@@ -122,8 +107,7 @@ let studentEvents = [
             submitted: "2020-02-15T18:28:46.757Z",
             withExaminer: "2020-02-17T18:28:46.757Z",
             clearedByExaminer: "2020-02-21T18:28:46.757Z",
-            vivaDateSet: "2020-03-15T18:28:46.757Z",
-            // vivaComplete: "2020-03-21T18:28:46.757Z"
+            vivaDateSet: "2020-03-15T18:28:46.757Z"
         },
         student: {
             _id: "5c8a1d5b0190b214360dc055",
@@ -139,10 +123,7 @@ let studentEvents = [
         status: "withExaminer",
         statusEvents: {
             submitted: "2020-02-15T18:28:46.757Z",
-            withExaminer: "2020-02-17T18:28:46.757Z",
-            // clearedByExaminer: "2020-02-21T18:28:46.757Z",
-            // vivaDateSet: "2020-03-15T18:28:46.757Z",
-            // vivaComplete: "2020-03-21T18:28:46.757Z"
+            withExaminer: "2020-02-17T18:28:46.757Z"
         },
         student: {
             _id: "5c8a1d5b0190b214360dc062",
@@ -156,13 +137,7 @@ let studentEvents = [
         department: "5c88fa8cf4afda39709c2957"
     }, {
         status: "notSubmitted",
-        statusEvents: {
-            // submitted: "2020-02-15T18:28:46.757Z",
-            // withExaminer: "2020-02-17T18:28:46.757Z",
-            // clearedByExaminer: "2020-02-21T18:28:46.757Z",
-            // vivaDateSet: "2020-03-15T18:28:46.757Z",
-            // vivaComplete: "2020-03-21T18:28:46.757Z"
-        },
+        statusEvents: {},
         student: {
             _id: "5c8a1d5b0190b214360dc063",
             firstName: "Test",

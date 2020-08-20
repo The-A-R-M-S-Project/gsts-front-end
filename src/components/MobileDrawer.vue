@@ -32,7 +32,10 @@
           <v-list-item class="my-6" to="/students" v-if="user.role!=='student'">
             <v-btn text class="title text-capitalize">
               <v-icon large>mdi-account-group</v-icon>
-              <span>&nbsp;Students</span>
+              <v-badge v-if="studentUpdates" color="pink" dot>
+                <span>&nbsp;Students</span>
+              </v-badge>
+              <span v-else>&nbsp;Students</span>
             </v-btn>
           </v-list-item>
           <v-list-item class="my-6 px-8 mobile-select" v-if="user.role==='principal'">
@@ -66,12 +69,16 @@
 
 <script>
 import SelectSchool from "@/components/SelectSchool.vue";
+import StudentData from "@/services/student-events.js";
+
 export default {
   name: "mobile-drawer",
   data() {
     return {
       drawer: false,
       loading: false,
+      students: StudentData,
+      studentUpdates: false,
     };
   },
   computed: {
@@ -82,12 +89,27 @@ export default {
       return this.$store.getters.user;
     },
   },
+  mounted() {
+    this.checkForUpdates();
+  },
   methods: {
     logOut() {
       this.closeOnContentClick = false;
       this.$store.dispatch("logout").then(() => {
         this.$router.push("/");
       });
+    },
+    checkForUpdates() {
+      for (let i = 0; i < this.students.length; i++) {
+        if (
+          this.students[i].status === "submitted" ||
+          this.students[i].status === "clearedByExaminer" ||
+          this.students[i].status === "vivaDateSet"
+        ) {
+          break;
+        }
+      }
+      this.studentUpdates = true;
     },
   },
   components: {

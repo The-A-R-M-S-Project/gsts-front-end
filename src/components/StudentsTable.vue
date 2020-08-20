@@ -85,6 +85,10 @@
       <template v-slot:item.status="{ item }">{{ progressEvents[`${item.status}`].message }}</template>
       <!-- eslint-disable-next-line vue/no-v-html -->
       <template v-slot:item.vivaDate="{ item }">{{ formatDate(item.vivaDate) }}</template>
+      <!-- eslint-disable-next-line vue/no-v-html -->
+      <template v-slot:item.action="{ item }">
+        <v-icon small v-if="callToAction(item.status)" color="pink">mdi-circle</v-icon>
+      </template>
       <template v-slot:expanded-item="{ headers, item }">
         <td :colspan="headers.length">
           <v-row align="center" justify="center">
@@ -123,8 +127,11 @@ export default {
     return {
       search: "",
       expanded: [],
-      showBadge: false,
       headers: [
+        {
+          value: "action",
+          width: "1rem",
+        },
         {
           text: "STUDENT NAME",
           align: "left",
@@ -182,10 +189,6 @@ export default {
     }
   },
   computed: {
-    studentData: () =>
-      DepartmentService.getStudentData(this._id).then((response) => {
-        return response.data.students;
-      }),
     departments() {
       return this.$store.getters.departments;
     },
@@ -220,6 +223,15 @@ export default {
         let newDate = `${newFormat}`.substring(4, 15);
         return newDate.replace(/ /g, " - ");
       } else return date;
+    },
+    callToAction(status) {
+      if (
+        status === "submitted" ||
+        status === "clearedByExaminer" ||
+        status === "vivaDateSet"
+      )
+        return true;
+      else return false;
     },
   },
   components: {

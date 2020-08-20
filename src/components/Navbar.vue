@@ -14,7 +14,12 @@
         </v-col>
 
         <v-col md="auto" sm="3" class="text-center">
-          <v-btn text class="title text-capitalize white--text" to="/students">Students</v-btn>
+          <v-btn text class="title text-capitalize white--text" to="/students">
+            <v-badge v-if="studentUpdates" color="teal" dot>
+              <span>Students</span>
+            </v-badge>
+            <span v-else>Students</span>
+          </v-btn>
         </v-col>
         <v-col md="auto" sm="1">
           <v-menu
@@ -57,12 +62,15 @@
 </template>
 <script>
 import SelectSchool from "./SelectSchool.vue";
+import StudentData from "@/services/student-events.js";
 export default {
   name: "menu-bar",
   data() {
     return {
       loading: false,
       closeOnContentClick: true,
+      students: StudentData,
+      studentUpdates: false,
     };
   },
   computed: {
@@ -70,12 +78,27 @@ export default {
       return this.$store.getters.isLoading;
     },
   },
+  mounted() {
+    this.checkForUpdates();
+  },
   methods: {
     logOut() {
       this.closeOnContentClick = false;
       this.$store.dispatch("logout").then(() => {
         this.$router.push("/");
       });
+    },
+    checkForUpdates() {
+      for (let i = 0; i < this.students.length; i++) {
+        if (
+          this.students[i].status === "submitted" ||
+          this.students[i].status === "clearedByExaminer" ||
+          this.students[i].status === "vivaDateSet"
+        ) {
+          break;
+        }
+      }
+      this.studentUpdates = true;
     },
   },
   components: {
