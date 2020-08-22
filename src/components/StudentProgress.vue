@@ -19,15 +19,6 @@
                 {{progressEvents[`${student.status}`].message}}
               </v-progress-circular>
             </div>
-            <div class="text-center" v-show="user.role !== 'student'">
-              <AssignExaminer v-show="progressEvents[`${student.status}`].message === 'Submitted'" />
-              <SetVivaDate
-                v-show="progressEvents[`${student.status}`].message === 'Cleared by examiner'"
-              />
-              <SetVivaScore
-                v-show="progressEvents[`${student.status}`].message === 'Viva date set'"
-              />
-            </div>
           </v-col>
           <v-col v-show="user.role !== 'student'">
             <div class="pa-3">
