@@ -4,68 +4,74 @@
       <Navigation />
     </div>
     <div class="pt-5">
-      <v-layout row pt-4>
-        <v-flex md3>
+      <v-row pt-4>
+        <v-col md3>
           <Sidenav />
-        </v-flex>
-        <v-flex xs12 md9>
-          <v-layout row>
-            <v-flex md5>
+        </v-col>
+        <v-col xs12 md9>
+          <v-row>
+            <v-col md5>
               <v-card elevation="4" color="purple-lighten-4">
-                <v-layout row>
-                  <v-card-title text-xs-center ml-5><h3>Marked Reports</h3></v-card-title>
+                <v-row>
+                  <v-card-title text-xs-center ml-5>
+                    <h3>Marked Reports</h3>
+                  </v-card-title>
                   <v-spacer></v-spacer>
-                  <v-card-title text-xs-center mr-1><h3>Unmarked Reports</h3></v-card-title>
-                </v-layout>
+                  <v-card-title text-xs-center mr-1>
+                    <h3>Unmarked Reports</h3>
+                  </v-card-title>
+                </v-row>
                 <v-card-text>
                   <div class="text-xs-center">
-                    <v-layout row purple--text text--lighten-1>
+                    <v-row purple--text text--lighten-1>
                       <h1 style="font-size: 80px" class="ml-5">{{ markedReports }}</h1>
                       <v-spacer></v-spacer>
                       <h1 style="font-size: 80px" class="mr-5">{{ unmarkedReports }}</h1>
-                    </v-layout>
+                    </v-row>
                     <h2>VS</h2>
                     <h3>out of</h3>
                     <h3 style="font-size: 50px" color="purple-lighten-3">{{ totalReports() }}</h3>
                   </div>
                 </v-card-text>
               </v-card>
-            </v-flex>
-            <v-flex md7 pl-3>
+            </v-col>
+            <v-col md7 pl-3>
               <v-card elevation="24" color="teal">
-                <v-layout row justify-center>
-                  <v-card-title text-xs-center><h2>Students' Reports Received:</h2></v-card-title>
-                </v-layout>
+                <v-row justify-center>
+                  <v-card-title text-xs-center>
+                    <h2>Students' Reports Received:</h2>
+                  </v-card-title>
+                </v-row>
                 <v-card-text>
                   <div class="text-xs-center">
-                    <v-layout row justify-center purple--text text--lighten-5>
+                    <v-row justify-center purple--text text--lighten-5>
                       <h1 style="font-size: 80px">{{ reportsReceived }}</h1>
-                    </v-layout>
+                    </v-row>
                     <h3>Out Of</h3>
-                    <v-layout row justify-center>
+                    <v-row justify-center>
                       <h1 style="font-size: 50px">{{ studentsAssigned }}</h1>
-                    </v-layout>
+                    </v-row>
                     <h3>Assigned Students</h3>
                   </div>
                 </v-card-text>
               </v-card>
-            </v-flex>
-          </v-layout>
-          <v-layout row wrap>
-            <v-flex md5>
+            </v-col>
+          </v-row>
+          <v-row wrap>
+            <v-col md5>
               <StudentReportTable />
-            </v-flex>
-            <v-flex md7 pt-3 px-3>
+            </v-col>
+            <v-col md7 pt-3 px-3>
               <v-card elevation="24">
-                  <v-card-text pa-1>
-                    <h2 class="text-xs-center custom-font-family headline">Examiner's Record</h2>
-                  </v-card-text>
-                <ExaminerRecord/>
+                <v-card-text pa-1>
+                  <h2 class="text-xs-center custom-font-family headline">Examiner's Record</h2>
+                </v-card-text>
+                <ExaminerRecord />
               </v-card>
-            </v-flex>
-          </v-layout>
-        </v-flex>
-      </v-layout>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
     </div>
   </div>
 </template>
@@ -81,7 +87,7 @@ export default {
     Navigation,
     Sidenav,
     StudentReportTable,
-    ExaminerRecord
+    ExaminerRecord,
   },
   data() {
     return {
@@ -89,7 +95,7 @@ export default {
       unmarkedReports: "15",
       total: "",
       reportsReceived: "60",
-      studentsAssigned: "78"
+      studentsAssigned: "78",
     };
   },
   methods: {
@@ -97,7 +103,7 @@ export default {
       return (this.total = String(
         parseInt(this.markedReports) + parseInt(this.unmarkedReports)
       ));
-    }
-  }
+    },
+  },
 };
 </script>
