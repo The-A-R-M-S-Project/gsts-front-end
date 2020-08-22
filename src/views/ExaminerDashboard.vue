@@ -1,8 +1,8 @@
 <template>
-  <div>
-    <div class="navbar">
-      <Navigation />
-    </div>
+  <div class="mx-auto overflow-hidden">
+    <Navigation class="d-none d-sm-block" />
+    <OverlayLoader />
+    <MobileDrawer />
     <div class="pt-5">
       <v-row pt-4>
         <v-col md3>
@@ -78,17 +78,14 @@
 
 <script>
 import Navigation from "@/components/ExaminersNavbar.vue";
+import MobileDrawer from "@/components/MobileDrawer.vue";
 import Sidenav from "@/components/ExaminersSidenavView.vue";
 import StudentReportTable from "@/components/AssignedStudentsTable.vue";
 import ExaminerRecord from "@/components/ExaminerRecord.vue";
+import OverlayLoader from "@/components/OverlayLoader.vue";
+
 export default {
   name: "examinerDetails",
-  components: {
-    Navigation,
-    Sidenav,
-    StudentReportTable,
-    ExaminerRecord,
-  },
   data() {
     return {
       markedReports: "45",
@@ -104,6 +101,14 @@ export default {
         parseInt(this.markedReports) + parseInt(this.unmarkedReports)
       ));
     },
+  },
+  components: {
+    Navigation,
+    Sidenav,
+    MobileDrawer,
+    StudentReportTable,
+    OverlayLoader,
+    ExaminerRecord,
   },
 };
 </script>

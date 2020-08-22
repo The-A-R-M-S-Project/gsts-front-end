@@ -29,7 +29,11 @@
               <span>&nbsp;Profile</span>
             </v-btn>
           </v-list-item>
-          <v-list-item class="my-6" to="/students" v-if="user.role!=='student'">
+          <v-list-item
+            class="my-6"
+            to="/students"
+            v-if="user.role!=='student' && user.role!=='examiner'"
+          >
             <v-btn text class="title text-capitalize">
               <v-icon large>mdi-account-group</v-icon>
               <v-badge v-if="studentUpdates" color="pink" dot>
@@ -40,6 +44,15 @@
           </v-list-item>
           <v-list-item class="my-6 px-8 mobile-select" v-if="user.role==='principal'">
             <SelectSchool />
+          </v-list-item>
+          <v-list-item class="my-6" to="/examiner-dashboard" v-if="user.role==='examiner'">
+            <v-btn text class="title text-capitalize">
+              <v-icon large>mdi-desktop-mac-dashboard</v-icon>
+              <v-badge v-if="studentUpdates" color="pink" dot>
+                <span>&nbsp;Dashboard</span>
+              </v-badge>
+              <span v-else>&nbsp;Dashboard</span>
+            </v-btn>
           </v-list-item>
           <v-list-item class="my-6" to="/examiners" v-if="user.role==='dean'">
             <v-btn text class="title text-capitalize">
