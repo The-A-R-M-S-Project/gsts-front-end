@@ -5,9 +5,6 @@
     <MobileDrawer />
     <div class="pt-5">
       <v-row pt-4>
-        <v-col md3>
-          <Sidenav />
-        </v-col>
         <v-col xs12 md9>
           <v-row>
             <v-col md5>
@@ -79,7 +76,6 @@
 <script>
 import Navigation from "@/components/ExaminersNavbar.vue";
 import MobileDrawer from "@/components/MobileDrawer.vue";
-import Sidenav from "@/components/ExaminersSidenavView.vue";
 import StudentReportTable from "@/components/AssignedStudentsTable.vue";
 import ExaminerRecord from "@/components/ExaminerRecord.vue";
 import OverlayLoader from "@/components/OverlayLoader.vue";
@@ -104,7 +100,6 @@ export default {
   },
   components: {
     Navigation,
-    Sidenav,
     MobileDrawer,
     StudentReportTable,
     OverlayLoader,

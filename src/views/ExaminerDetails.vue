@@ -5,17 +5,19 @@
     </div>
     <div class="pt-5">
       <v-layout row pt-4>
-        <v-flex md3>
-          <Sidenav />
-        </v-flex>
+        <v-flex md3></v-flex>
         <v-flex xs12 md9>
           <v-layout row>
             <v-flex md5>
               <v-card elevation="4" color="purple-lighten-4">
                 <v-layout row>
-                  <v-card-title text-xs-center ml-5><h3>Marked Reports</h3></v-card-title>
+                  <v-card-title text-xs-center ml-5>
+                    <h3>Marked Reports</h3>
+                  </v-card-title>
                   <v-spacer></v-spacer>
-                  <v-card-title text-xs-center mr-1><h3>Unmarked Reports</h3></v-card-title>
+                  <v-card-title text-xs-center mr-1>
+                    <h3>Unmarked Reports</h3>
+                  </v-card-title>
                 </v-layout>
                 <v-card-text>
                   <div class="text-xs-center">
@@ -34,7 +36,9 @@
             <v-flex md7 pl-3>
               <v-card elevation="24" color="teal">
                 <v-layout row justify-center>
-                  <v-card-title text-xs-center><h2>Students' Reports Received:</h2></v-card-title>
+                  <v-card-title text-xs-center>
+                    <h2>Students' Reports Received:</h2>
+                  </v-card-title>
                 </v-layout>
                 <v-card-text>
                   <div class="text-xs-center">
@@ -57,10 +61,10 @@
             </v-flex>
             <v-flex md7 pt-3 px-3>
               <v-card elevation="24">
-                  <v-card-text pa-1>
-                    <h2 class="text-xs-center custom-font-family headline">Examiner's Record</h2>
-                  </v-card-text>
-                <ExaminerRecord/>
+                <v-card-text pa-1>
+                  <h2 class="text-xs-center custom-font-family headline">Examiner's Record</h2>
+                </v-card-text>
+                <ExaminerRecord />
               </v-card>
             </v-flex>
           </v-layout>
@@ -72,16 +76,14 @@
 
 <script>
 import Navigation from "@/components/Navbar.vue";
-import Sidenav from "@/components/ExaminersSidenav.vue";
 import StudentReportTable from "@/components/AssignedStudentsTable.vue";
 import ExaminerRecord from "@/components/ExaminerRecord.vue";
 export default {
   name: "examinerDetails",
   components: {
     Navigation,
-    Sidenav,
     StudentReportTable,
-    ExaminerRecord
+    ExaminerRecord,
   },
   data() {
     return {
@@ -89,7 +91,7 @@ export default {
       unmarkedReports: "15",
       total: "",
       reportsReceived: "60",
-      studentsAssigned: "78"
+      studentsAssigned: "78",
     };
   },
   methods: {
@@ -97,7 +99,7 @@ export default {
       return (this.total = String(
         parseInt(this.markedReports) + parseInt(this.unmarkedReports)
       ));
-    }
-  }
+    },
+  },
 };
 </script>
