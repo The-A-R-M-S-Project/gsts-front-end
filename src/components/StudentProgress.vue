@@ -168,9 +168,6 @@
 
 <script>
 import LoadingDots from "@/components/LoadingDots.vue";
-import AssignExaminer from "@/components/AssignExaminer.vue";
-import SetVivaDate from "@/components/SetVivaDate.vue";
-import SetVivaScore from "@/components/SetVivaScore.vue";
 import StudentEvents from "@/services/student-events.js";
 
 export default {
@@ -261,9 +258,6 @@ export default {
   },
   components: {
     LoadingDots,
-    AssignExaminer,
-    SetVivaDate,
-    SetVivaScore,
   },
 };
 </script>

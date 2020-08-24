@@ -73,7 +73,7 @@
       :expanded="expanded"
       @click:row="itemClicked"
       show-expand
-      item-key="student._id"
+      item-key="_id"
     >
       <template v-slot:header="{ props: { headers } }">
         <thead>
@@ -236,6 +236,7 @@ export default {
     if (this.user.role === "dean") {
       this.$store.dispatch("fetchDepartments", this.user.school);
     }
+    this.$store.dispatch("fetchReports");
   },
   computed: {
     departments() {
@@ -248,11 +249,14 @@ export default {
       return this.$store.getters.user;
     },
     filteredStudents() {
-      return this.students.filter((d) => {
+      return this.reports.filter((d) => {
         return Object.keys(this.filters).every((f) => {
           return this.filters[f].length < 1 || this.filters[f].includes(d[f]);
         });
       });
+    },
+    reports() {
+      return this.$store.getters.reports;
     },
   },
   methods: {
@@ -274,11 +278,13 @@ export default {
       });
     },
     formatDate(date) {
-      if (date !== "Not set") {
+      if (date) {
         let newFormat = new Date(date);
         let newDate = `${newFormat}`.substring(4, 15);
         return newDate.replace(/ /g, " - ");
-      } else return date;
+      } else {
+        return "Not set";
+      }
     },
     callToAction(status) {
       if (
