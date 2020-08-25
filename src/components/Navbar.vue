@@ -77,6 +77,9 @@ export default {
     isLoading() {
       return this.$store.getters.isLoading;
     },
+    reports() {
+      return this.$store.getters.reports;
+    },
   },
   mounted() {
     this.checkForUpdates();
@@ -89,16 +92,18 @@ export default {
       });
     },
     checkForUpdates() {
-      for (let i = 0; i < this.students.length; i++) {
+      for (let i = 0; i < this.reports.length; i++) {
         if (
-          this.students[i].status === "submitted" ||
-          this.students[i].status === "clearedByExaminer" ||
-          this.students[i].status === "vivaDateSet"
+          this.reports[i].status === "submitted" ||
+          this.reports[i].status === "clearedByExaminer" ||
+          this.reports[i].status === "vivaDateSet"
         ) {
+          this.studentUpdates = true;
           break;
+        } else {
+          this.studentUpdates = false;
         }
       }
-      this.studentUpdates = true;
     },
   },
   components: {
