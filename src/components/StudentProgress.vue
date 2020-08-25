@@ -10,13 +10,13 @@
                 :rotate="-90"
                 size="250"
                 width="20"
-                :value="progressEvents[`${student.status}`].value"
-                :color="progressEvents[`${student.status}`].color"
+                :value="progressEvents[`${student.report.status}`].value"
+                :color="progressEvents[`${student.report.status}`].color"
                 class="my-3"
               >
-                {{ progressEvents[`${student.status}`].value }}%
+                {{ progressEvents[`${student.report.status}`].value }}%
                 <br />
-                {{progressEvents[`${student.status}`].message}}
+                {{progressEvents[`${student.report.status}`].message}}
               </v-progress-circular>
             </div>
           </v-col>
@@ -25,30 +25,32 @@
               <div class="px-3 text-left body-2 mx-auto">
                 <div class="pa-1">
                   <span class="font-weight-bold">Name</span>
-                  : Student Name
+                  : {{ student.name }}
+                </div>
+                <div class="pa-1">
+                  <span class="font-weight-bold">Email</span>
+                  : {{ student.email }}
+                </div>
+                <div class="pa-1">
+                  <span class="font-weight-bold">Contacts</span>
+                  : {{student.phoneNumber }}
+                </div>
+                <div class="pa-1">
+                  <span class="font-weight-bold">School</span>
+                  : {{ school }}
+                </div>
+                <div class="pa-1">
+                  <span class="font-weight-bold">Department</span>
+                  : {{ department }}
                 </div>
 
                 <div class="pa-1">
-                  <span class="font-weight-bold">Gender</span> : Male
+                  <span class="font-weight-bold">Programme</span>
+                  : {{student.program.name}}
                 </div>
                 <div class="pa-1">
-                  <span class="font-weight-bold">Email</span> : Student@cedat.mak.ac.ug
-                </div>
-                <div class="pa-1">
-                  <span class="font-weight-bold">Contacts</span> : +256701000000
-                </div>
-                <div class="pa-1">
-                  <span class="font-weight-bold">Department</span>: Electrical and Computer Engineering
-                </div>
-
-                <div class="pa-1">
-                  <span class="font-weight-bold">Programme</span> : Master of Science in telecom engineering
-                </div>
-                <div class="pa-1">
-                  <span class="font-weight-bold">Registraion Number</span> : 19/U/168/PS
-                </div>
-                <div class="pa-1">
-                  <span class="font-weight-bold">Year of Study</span> : I
+                  <span class="font-weight-bold">Year of Study</span>
+                  : {{ student.yearOfStudy }}
                 </div>
               </div>
             </div>
@@ -63,7 +65,7 @@
               <div class="body-1 mb-1">Your report has been submitted to the right person</div>
               <div
                 class="caption mt-3 font-weight-light"
-              >{{ formatDate(student.statusEvents.submitted) }}</div>
+              >{{ formatDate(student.report.submittedAt) }}</div>
             </div>
           </template>
           <v-stepper-content step="1">
@@ -82,7 +84,7 @@
               <div class="body-1">Your examiner has acknowledged receipt of your report</div>
               <div
                 class="caption mt-3 font-weight-light"
-              >{{ formatDate(student.statusEvents.withExaminer) }}</div>
+              >{{ formatDate(student.report.receivedAt) }}</div>
             </div>
           </template>
           <v-stepper-content step="2">
@@ -103,13 +105,13 @@
                 You scored
                 <span class="subtitle-1">
                   <strong>
-                    <u>71%</u>
+                    <u>{{student.report.examinerScore}}% ({{ student.report.examinerGrade }})</u>
                   </strong>
                 </span>
               </div>
               <div
                 class="caption mt-3 font-weight-light"
-              >{{ formatDate(student.statusEvents.clearedByExaminer) }}</div>
+              >{{ formatDate(student.report.examinerScoreDate) }}</div>
             </div>
           </template>
           <v-stepper-content step="3">
@@ -127,14 +129,15 @@
                 Your viva examination date has been set to
                 <span
                   class="headline text-color blue--text"
-                >{{ formatDate(student.vivaDate) }}</span>
+                >{{ formatDate(student.report.vivaDate) }}</span>
               </div>
               <div class="body-2">
                 <strong>Location:</strong> Cedat conference hall
               </div>
+              <!-- This is supposed to be the date when the viva date was set by principal/dean -->
               <div
                 class="caption mt-3 font-weight-light"
-              >{{ formatDate(student.statusEvents.vivaDateSet) }}</div>
+              >{{ formatDate(student.report.examinerScoreDate) }}</div>
             </div>
           </template>
           <v-stepper-content step="4">
@@ -151,13 +154,13 @@
                 You scored
                 <span class="subtitle-1">
                   <strong>
-                    <u>83%</u>
+                    <u>{{student.report.vivaScore}}%</u>
                   </strong>
                 </span>
               </div>
               <div
                 class="caption mt-3 font-weight-light"
-              >{{ formatDate(student.statusEvents.vivaComplete) }}</div>
+              >{{ formatDate(student.report.vivaScoreDate) }}</div>
             </div>
           </template>
         </v-stepper>
@@ -215,7 +218,8 @@ export default {
     };
   },
   created() {
-    this.e6 = this.progressEvents[`${this.student.status}`].step;
+    this.e6 = this.progressEvents[`${this.student.report.status}`].step;
+    this.$store.dispatch("fetchStudentDepartment", this.student.school);
   },
   computed: {
     user() {
@@ -223,6 +227,14 @@ export default {
     },
     student() {
       return this.$store.getters.student;
+    },
+    department() {
+      return this.$store.getters.department.name;
+    },
+    school() {
+      return this.$store.getters.schools.filter((school) => {
+        return school._id === this.student.school;
+      })[0].name;
     },
   },
   methods: {
