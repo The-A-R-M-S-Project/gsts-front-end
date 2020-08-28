@@ -32,7 +32,15 @@
             <template v-slot:activator="{ on, attrs }">
               <v-btn icon v-on="on" v-bind="attrs" :class="{'pr-5': $vuetify.breakpoint.sm}">
                 <v-avatar size="48">
-                  <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
+                  <v-img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John">
+                    <template v-slot:placeholder>
+                      <v-row align="center" justify="center">
+                        <v-col>
+                          <v-icon large>mdi-account</v-icon>
+                        </v-col>
+                      </v-row>
+                    </template>
+                  </v-img>
                 </v-avatar>
               </v-btn>
             </template>
