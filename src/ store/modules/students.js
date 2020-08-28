@@ -10,7 +10,8 @@ const state = {
     examinerStudentDetails: {},
     reportsError: null,
     studentDetailsError: null,
-    fetchAssignedStudentsError: null
+    fetchAssignedStudentsError: null,
+    studentDashboardError: null
 }
 const mutations = {
     setLoader(state, payload) {
@@ -34,6 +35,9 @@ const mutations = {
     examinerStudentDetails(state, payload) {
         state.examinerStudentDetails = payload
     },
+    setLoggedInStudentDetails(state, payload) {
+        state.student = payload
+    },
     fetchStudentDetailsError() {
         state.studentDetailsError = payload
     },
@@ -48,6 +52,9 @@ const mutations = {
     },
     fetchAssignedStudentsError(state, payload) {
         state.fetchAssignedStudentsError = payload
+    },
+    fetchStudentDashboardError(state, payload) {
+        state.studentDashboardError = payload
     }
 }
 const actions = {
@@ -95,6 +102,18 @@ const actions = {
             commit("fetchAssignedStudentsError", error.response.data.message)
         })
     },
+    async fetchLoggedInStudentDetails({commit}) {
+        let accessToken = localStorage.getItem("jwt");
+        axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+        commit("setOverlayLoader", true);
+        await axiosInstance.get("/student/me").then(response => {
+            commit("setLoggedInStudentDetails", response.data)
+            commit("setOverlayLoader", false);
+        }).catch(error => {
+            commit("fetchStudentDashboardError", error.response.data.message)
+            commit("setOverlayLoader", false);
+        })
+    },
     setExaminerStudentDetails({
         commit
     }, data) {
@@ -103,6 +122,11 @@ const actions = {
 }
 const getters = {
     student: (state) => state.student,
+    studentSchool: (state) => {
+        return state.schools.filter((school) => {
+            return school._id === state.student.school;
+        })[0].name;
+    },
     reports: (state) => state.reports,
     department: (state) => {
         return state.departments.filter(department => {

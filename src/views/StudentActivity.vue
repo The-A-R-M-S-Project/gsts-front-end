@@ -2,6 +2,7 @@
   <div class="mx-auto overflow-hidden" style="height: 100%">
     <Navigation class="d-none d-sm-block" />
     <MobileDrawer />
+    <OverlayLoader />
     <div :class="{'progress': !$vuetify.breakpoint.xs}">
       <v-row no-gutters>
         <v-col cols="12" lg="9">
@@ -31,12 +32,16 @@
 </template>
 <script>
 import Navigation from "@/components/StudentsNav.vue";
-import StudentProgress from "@/components/StudentProgress.vue";
 import MobileDrawer from "@/components/MobileDrawer.vue";
+import OverlayLoader from "@/components/OverlayLoader.vue";
+import StudentProgress from "@/components/StudentProgress.vue";
 import StudentsNotifications from "@/components/StudentsNotifications.vue";
 import Footer from "@/components/Footer.vue";
 export default {
   name: "student-dashboard",
+  created() {
+    this.$store.dispatch("fetchLoggedInStudentDetails");
+  },
   methods: {
     submitReport() {
       this.$router.push("submit-report");
@@ -44,8 +49,9 @@ export default {
   },
   components: {
     Navigation,
-    StudentProgress,
     MobileDrawer,
+    OverlayLoader,
+    StudentProgress,
     StudentsNotifications,
     Footer,
   },

@@ -21,39 +21,7 @@
             </div>
           </v-col>
           <v-col v-show="user.role !== 'student'">
-            <div class="pa-3">
-              <div class="px-3 text-left body-2 mx-auto">
-                <div class="pa-1">
-                  <span class="font-weight-bold">Name</span>
-                  : {{ student.name }}
-                </div>
-                <div class="pa-1">
-                  <span class="font-weight-bold">Email</span>
-                  : {{ student.email }}
-                </div>
-                <div class="pa-1">
-                  <span class="font-weight-bold">Contacts</span>
-                  : {{student.phoneNumber }}
-                </div>
-                <div class="pa-1">
-                  <span class="font-weight-bold">School</span>
-                  : {{ school }}
-                </div>
-                <div class="pa-1">
-                  <span class="font-weight-bold">Department</span>
-                  : {{ department }}
-                </div>
-
-                <div class="pa-1">
-                  <span class="font-weight-bold">Programme</span>
-                  : {{student.program.name}}
-                </div>
-                <div class="pa-1">
-                  <span class="font-weight-bold">Year of Study</span>
-                  : {{ student.yearOfStudy }}
-                </div>
-              </div>
-            </div>
+            <StaffStudentProfile />
           </v-col>
         </v-row>
       </v-col>
@@ -171,7 +139,7 @@
 
 <script>
 import LoadingDots from "@/components/LoadingDots.vue";
-import StudentEvents from "@/services/student-events.js";
+import StaffStudentProfile from "@/components/StaffStudentProfile.vue";
 
 export default {
   data() {
@@ -228,14 +196,6 @@ export default {
     student() {
       return this.$store.getters.student;
     },
-    department() {
-      return this.$store.getters.department.name;
-    },
-    school() {
-      return this.$store.getters.schools.filter((school) => {
-        return school._id === this.student.school;
-      })[0].name;
-    },
   },
   methods: {
     submitReport() {
@@ -270,6 +230,7 @@ export default {
   },
   components: {
     LoadingDots,
+    StaffStudentProfile,
   },
 };
 </script>
