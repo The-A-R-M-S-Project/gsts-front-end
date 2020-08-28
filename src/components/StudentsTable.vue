@@ -74,6 +74,7 @@
       @click:row="itemClicked"
       show-expand
       item-key="_id"
+      :loading="tableLoading"
     >
       <template v-slot:header="{ props: { headers } }">
         <thead>
@@ -109,11 +110,8 @@
           icon="warning"
         >Your search for "{{ search }}" found no results.</v-alert>
       </template>
-      <!-- eslint-disable-next-line vue/no-v-html -->
       <template v-slot:item.status="{ item }">{{ progressEvents[`${item.status}`].message }}</template>
-      <!-- eslint-disable-next-line vue/no-v-html -->
       <template v-slot:item.vivaDate="{ item }">{{ formatDate(item.vivaDate) }}</template>
-      <!-- eslint-disable-next-line vue/no-v-html -->
       <template v-slot:item.action="{ item }">
         <v-icon small v-if="callToAction(item.status)" color="pink">mdi-circle</v-icon>
       </template>
@@ -134,7 +132,12 @@
                 <AssignExaminer v-if="item.status === 'submitted'" />
                 <SetVivaDate v-else-if="item.status === 'clearedByExaminer'" />
                 <SetVivaScore v-else-if="item.status === 'vivaDateSet'" />
-                <v-btn v-else @click="viewDetails(item)" color="primary">View Details</v-btn>
+                <v-btn
+                  v-else
+                  @click="viewDetails(item)"
+                  color="primary"
+                  :loading="detailLoading"
+                >View Details</v-btn>
               </div>
             </v-col>
           </v-row>
@@ -239,6 +242,12 @@ export default {
     this.$store.dispatch("fetchReports");
   },
   computed: {
+    tableLoading() {
+      return this.$store.getters.tableLoading;
+    },
+    detailLoading() {
+      return this.$store.getters.detailLoading;
+    },
     departments() {
       return this.$store.getters.departments;
     },
