@@ -66,6 +66,12 @@
               <span>&nbsp;Status</span>
             </v-btn>
           </v-list-item>
+          <v-list-item to="submit-report" class="my-6" v-if="user.role==='student'">
+            <v-btn text class="title text-capitalize">
+              <v-icon large>mdi-file</v-icon>
+              <span>&nbsp;Report</span>
+            </v-btn>
+          </v-list-item>
         </v-list-item-group>
       </v-list>
       <template v-slot:append>
