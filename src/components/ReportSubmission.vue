@@ -8,7 +8,13 @@
       <v-tab-item class="mt-3">
         <v-card :max-width="$vuetify.breakpoint.xs?'95vw':'70vw'" class="mx-auto pa-5">
           <h3 class="text-center">Create a report</h3>
-          <v-alert dismissible v-if="reportActionMessage" color="success">{{ reportActionMessage }}</v-alert>
+          <v-alert
+            dark
+            dismissible
+            v-if="displayReportActionMessage"
+            color="success"
+            class="text-center"
+          >{{ reportActionMessage }}</v-alert>
           <h5 class="pt-4 pb-2">
             <span class="primary--text">Note:</span> This is not your final report submission!
           </h5>
@@ -32,7 +38,7 @@
             </p>
           </v-form>
           <v-row justify="end" class="px-3 pt-2">
-            <v-btn @click="createReport" dark color="teal">submit</v-btn>
+            <v-btn @click="createReport" :loading="detailLoading" dark color="teal">submit</v-btn>
           </v-row>
         </v-card>
       </v-tab-item>
@@ -93,7 +99,7 @@
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn color="error" text @click="dialog = false">Cancel</v-btn>
-                  <v-btn color="success" text @click="checkReportExists">Submit</v-btn>
+                  <v-btn color="success" text @click="checkUploadedReport">Submit</v-btn>
                 </v-card-actions>
               </v-card>
             </v-dialog>
@@ -112,6 +118,7 @@ export default {
       report: null,
       reportTitle: "",
       reportAbstract: "",
+      displayReportActionMessage: false,
       tab: null,
       tabs: 2,
       dialog: false,
@@ -121,6 +128,7 @@ export default {
   },
   mounted() {
     this.fileSelected = false;
+    this.displayReportActionMessage = false;
     this.fileErrorMessage = [];
   },
   computed: {
@@ -129,6 +137,9 @@ export default {
     },
     reportActionMessage() {
       return this.$store.getters.reportActionMessage;
+    },
+    detailLoading() {
+      return this.$store.getters.detailLoading;
     },
   },
   methods: {
@@ -172,15 +183,17 @@ export default {
       }
       if (this.student.report.title === undefined) {
         this.$store.dispatch("createReport", newReport).then(() => {
+          this.displayReportActionMessage = true;
           this.$store.dispatch("fetchLoggedInStudentDetails");
         });
       } else {
         this.$store.dispatch("editReport", newReport).then(() => {
+          this.displayReportActionMessage = true;
           this.$store.dispatch("fetchLoggedInStudentDetails");
         });
       }
     },
-    checkReportExists() {
+    checkUploadedReport() {
       if (this.report) {
         this.fileSelected = false;
         this.fileErrorMessage = [];

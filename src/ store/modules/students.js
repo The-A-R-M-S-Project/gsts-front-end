@@ -125,11 +125,28 @@ const actions = {
     async createReport({
         commit
     }, data) {
+        commit("setDetailLoader", true)
         let accessToken = localStorage.getItem("jwt");
         axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-        await axiosInstance.post("/student/report").then(response => {
+        await axiosInstance.post("/student/report", data).then(response => {
             commit("addNewReport", response.data.message)
+            commit("setDetailLoader", false)
         }).catch(error => {
+            commit("setDetailLoader", false)
+            commit("setReportError", error.response.data.message)
+        })
+    },
+    async editReport({
+        commit
+    }, data) {
+        commit("setDetailLoader", true)
+        let accessToken = localStorage.getItem("jwt");
+        axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+        await axiosInstance.patch("/student/report", data).then(response => {
+            commit("addNewReport", response.data.message)
+            commit("setDetailLoader", false)
+        }).catch(error => {
+            commit("setDetailLoader", false)
             commit("setReportError", error.response.data.message)
         })
     },
