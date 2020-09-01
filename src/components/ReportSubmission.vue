@@ -8,6 +8,7 @@
       <v-tab-item class="mt-3">
         <v-card :max-width="$vuetify.breakpoint.xs?'95vw':'70vw'" class="mx-auto pa-5">
           <h3 class="text-center">Create a report</h3>
+          <v-alert dismissible v-if="reportActionMessage" color="success">{{ reportActionMessage }}</v-alert>
           <h5 class="pt-4 pb-2">
             <span class="primary--text">Note:</span> This is not your final report submission!
           </h5>
@@ -113,7 +114,6 @@ export default {
       reportAbstract: "",
       tab: null,
       tabs: 2,
-      text: "Lorem ipsum dolor",
       dialog: false,
       fileSelected: false,
       fileErrorMessage: [],
@@ -126,6 +126,9 @@ export default {
   computed: {
     student() {
       return this.$store.getters.student;
+    },
+    reportActionMessage() {
+      return this.$store.getters.reportActionMessage;
     },
   },
   methods: {
@@ -167,9 +170,15 @@ export default {
           title: this.reportTitle,
         };
       }
-      this.$store.dispatch("createReport", newReport).then(() => {
-        this.$store.dispatch("fetchLoggedInStudentDetails");
-      });
+      if (this.student.report.title === undefined) {
+        this.$store.dispatch("createReport", newReport).then(() => {
+          this.$store.dispatch("fetchLoggedInStudentDetails");
+        });
+      } else {
+        this.$store.dispatch("editReport", newReport).then(() => {
+          this.$store.dispatch("fetchLoggedInStudentDetails");
+        });
+      }
     },
     checkReportExists() {
       if (this.report) {

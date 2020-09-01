@@ -5,9 +5,11 @@ const state = {
     detailLoading: false,
     student: {},
     reports: [],
+    reportActionMessage: '',
     departments: [],
     assignedStudents: [],
     examinerStudentDetails: {},
+    studentReportError: null,
     reportsError: null,
     studentDetailsError: null,
     fetchAssignedStudentsError: null,
@@ -37,6 +39,12 @@ const mutations = {
     },
     setLoggedInStudentDetails(state, payload) {
         state.student = payload
+    },
+    addNewReport(state, payload) {
+        state.reportActionMessage = payload
+    },
+    setReportError(state, payload) {
+        state.studentReportError = payload
     },
     fetchStudentDetailsError() {
         state.studentDetailsError = payload
@@ -114,6 +122,17 @@ const actions = {
             commit("setOverlayLoader", false);
         })
     },
+    async createReport({
+        commit
+    }, data) {
+        let accessToken = localStorage.getItem("jwt");
+        axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+        await axiosInstance.post("/student/report").then(response => {
+            commit("addNewReport", response.data.message)
+        }).catch(error => {
+            commit("setReportError", error.response.data.message)
+        })
+    },
     setExaminerStudentDetails({
         commit
     }, data) {
@@ -136,6 +155,7 @@ const getters = {
     assignedStudents: (state) => state.assignedStudents,
     examinerStudentDetails: (state) => state.examinerStudentDetails,
     tableLoading: (state) => state.tableLoading,
-    detailLoading: (state) => state.detailLoading
+    detailLoading: (state) => state.detailLoading,
+    reportActionMessage: (state) => state.reportActionMessage
 }
 export default {state, mutations, actions, getters};
