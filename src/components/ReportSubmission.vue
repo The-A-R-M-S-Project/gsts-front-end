@@ -8,8 +8,13 @@
       <v-tab-item class="mt-3">
         <v-card :max-width="$vuetify.breakpoint.xs?'95vw':'70vw'" class="mx-auto pa-5">
           <h3 class="text-center">Create a report</h3>
-          <h5 class="py-4">
+          <h5 class="pt-4 pb-2">
             <span class="primary--text">Note:</span> This is not your final report submission!
+          </h5>
+          <h5 v-if="student.report" class="pb-2">
+            <v-icon class="mr-2" color="primary">mdi-alert-circle</v-icon>You've already created a report titled:
+            <i class="body-2">{{ student.report.title }}</i>
+            <br />You'll only be editing the existing title and abstract
           </h5>
           <v-form>
             <p>
