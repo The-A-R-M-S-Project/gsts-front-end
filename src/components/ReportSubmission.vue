@@ -46,7 +46,13 @@
               <span class="body-2">
                 <v-icon color="primary" class="mr-2">mdi-alert-circle</v-icon>This is field is optional
               </span>
-              <v-textarea outlined v-model="reportAbstract" label="Insert an abstract"></v-textarea>
+              <v-textarea
+                outlined
+                v-model="reportAbstract"
+                :rules="[abstractRules.before]"
+                label="Insert an abstract"
+                :hint="words"
+              ></v-textarea>
             </p>
           </v-form>
           <v-row justify="end" class="px-3 pt-2">
@@ -116,7 +122,8 @@
                 outlined
                 v-model="reportAbstract"
                 label="Insert an abstract"
-                :rules="required"
+                :rules="[abstractRules.before, abstractRules.after]"
+                :hint="words"
               ></v-textarea>
             </p>
             <p>
@@ -180,6 +187,12 @@ export default {
       dialog: false,
       fileSelected: false,
       fileErrorMessage: [],
+      abstractRules: {
+        before: (abstract) =>
+          this.countWords(abstract || "") < 100 ||
+          "Your abstract should be less than 100 words!",
+        after: (field) => !!field || "This field is required",
+      },
       required: [(field) => !!field || "This field is required"],
     };
   },
@@ -203,6 +216,9 @@ export default {
     },
     reportSubmitMessage() {
       return this.$store.getters.reportSubmitMessage;
+    },
+    words() {
+      return `Words: ${this.countWords(this.reportAbstract)}`;
     },
   },
   methods: {
@@ -286,6 +302,22 @@ export default {
         this.fileErrorMessage = "Please upload a file for your report";
       }
       this.dialog = false;
+    },
+    countWords(s) {
+      s = s.replace(/(^\s*)|(\s*$)/gi, "");
+      s = s.replace(/\s\s+/g, " ");
+      s = s.replace(/,/g, " ");
+      s = s.replace(/;/g, " ");
+      s = s.replace(/\//g, " ");
+      s = s.replace(/\\/g, " ");
+      s = s.replace(/{/g, " ");
+      s = s.replace(/}/g, " ");
+      s = s.replace(/\n/g, " ");
+      s = s.replace(/\./g, " ");
+      s = s.replace(/[[\]]/g, " ");
+      s = s.replace(/[ ]{2,}/gi, " ");
+      var countWordsBySpaces = s.split(" ").length;
+      return countWordsBySpaces;
     },
   },
 };
