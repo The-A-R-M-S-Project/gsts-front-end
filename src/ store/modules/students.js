@@ -3,13 +3,16 @@ import axiosInstance from "../axios_setup";
 const state = {
     tableLoading: false,
     detailLoading: false,
+    submitLoading: false,
     student: {},
     reports: [],
     reportActionMessage: '',
+    reportSubmitMessage: '',
     departments: [],
     assignedStudents: [],
     examinerStudentDetails: {},
     studentReportError: null,
+    reportSubmitError: null,
     reportsError: null,
     studentDetailsError: null,
     fetchAssignedStudentsError: null,
@@ -21,6 +24,9 @@ const mutations = {
     },
     setDetailLoader(state, payload) {
         state.detailLoading = payload
+    },
+    setSubmitLoader(state, payload) {
+        state.submitLoading = payload
     },
     studentDetails(state, payload) {
         state.student = payload
@@ -43,8 +49,14 @@ const mutations = {
     addNewReport(state, payload) {
         state.reportActionMessage = payload
     },
+    submitReport(state, payload) {
+        state.reportSubmitMessage = payload
+    },
     setReportError(state, payload) {
         state.studentReportError = payload
+    },
+    setReportSubmitError(state, payload) {
+        state.reportSubmitError = payload
     },
     fetchStudentDetailsError() {
         state.studentDetailsError = payload
@@ -73,6 +85,7 @@ const actions = {
         await axiosInstance.get(`/student/${
             data.student._id
         }`).then(response => {
+            console.log("student: ", response.data)
             commit("studentDetails", response.data)
             commit("setDetailLoader", false)
         }).catch(error => {
@@ -150,6 +163,20 @@ const actions = {
             commit("setReportError", error.response.data.message)
         })
     },
+    async submitFinalReport({
+        commit
+    }, data) {
+        commit("setSubmitLoader", true)
+        let accessToken = localStorage.getItem("jwt");
+        axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+        await axiosInstance.patch("/student/report/submit", data).then(response => {
+            commit("submitReport", response.data.message)
+            commit("setSubmitLoader", false)
+        }).catch(error => {
+            commit("setSubmitLoader", false)
+            commit("setReportSubmitError", error.response.data.message)
+        })
+    },
     setExaminerStudentDetails({
         commit
     }, data) {
@@ -173,6 +200,9 @@ const getters = {
     examinerStudentDetails: (state) => state.examinerStudentDetails,
     tableLoading: (state) => state.tableLoading,
     detailLoading: (state) => state.detailLoading,
-    reportActionMessage: (state) => state.reportActionMessage
+    submitLoading: (state) => state.submitLoading,
+    reportActionMessage: (state) => state.reportActionMessage,
+    reportSubmitMessage: (state) => state.reportSubmitMessage,
+    reportSubmitError: (state) => state.reportSubmitError
 }
 export default {state, mutations, actions, getters};

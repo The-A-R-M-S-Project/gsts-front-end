@@ -186,8 +186,10 @@ export default {
     };
   },
   created() {
-    this.e6 = this.progressEvents[`${this.student.report.status}`].step;
-    this.$store.dispatch("fetchStudentDepartment", this.student.school);
+    this.$store.dispatch("fetchLoggedInStudentDetails").then(() => {
+      this.e6 = this.progressEvents[`${this.student.report.status}`].step;
+      // this.$store.dispatch("fetchStudentDepartment", this.student.school);
+    });
   },
   computed: {
     user() {

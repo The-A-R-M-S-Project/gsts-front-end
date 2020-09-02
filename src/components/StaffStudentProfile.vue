@@ -13,23 +13,23 @@
         <span class="font-weight-bold">Contacts</span>
         : {{student.phoneNumber }}
       </div>
-      <div class="pa-1">
+      <!-- <div class="pa-1">
         <span class="font-weight-bold">School</span>
         : {{ school }}
-      </div>
-      <div class="pa-1">
+      </div>-->
+      <!-- <div class="pa-1">
         <span class="font-weight-bold">Department</span>
         : {{ department }}
-      </div>
+      </div>-->
 
-      <div class="pa-1">
+      <!-- <div class="pa-1">
         <span class="font-weight-bold">Programme</span>
         : {{student.program.name}}
       </div>
       <div class="pa-1">
         <span class="font-weight-bold">Year of Study</span>
         : {{ student.yearOfStudy }}
-      </div>
+      </div>-->
     </div>
   </div>
 </template>
@@ -41,14 +41,13 @@ export default {
     user() {
       return this.$store.getters.user;
     },
-    school() {
-      return this.user.role !== "student"
-        ? this.$store.getters.studentSchool
-        : null;
-    },
-    department() {
-      return this.$store.getters.department.name;
-    },
+    // school() {
+    //   return this.user.role !== "student" ? this.$store.getters.studentSchool
+    //     : null;
+    // },
+    // department() {
+    //   return this.$store.getters.department.name;
+    // },
     student() {
       return this.$store.getters.student;
     },
