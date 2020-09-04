@@ -100,6 +100,16 @@
               </div>
             </th>
           </tr>
+          <tr v-show="displayStudentTableFeedback">
+            <th :colspan="headers.length">
+              <v-alert
+                color="success"
+                dark
+                class="text-center"
+                dismissible
+              >You've assigned examiner, {{ assignedExaminer.firstName }} {{assignedExaminer.lastName}} to {{student.name}}'s report</v-alert>
+            </th>
+          </tr>
         </thead>
       </template>
 
@@ -231,6 +241,7 @@ export default {
         "vivaComplete",
       ],
       students: StudentData,
+      displayAssignExaminerMessage: false,
       selectedSchool: null,
       selectedDepartment: null,
     };
@@ -240,6 +251,9 @@ export default {
       this.$store.dispatch("fetchDepartments", this.user.school);
     }
     this.$store.dispatch("fetchReports");
+  },
+  mounted() {
+    this.$store.dispatch("setDisplayStudentTableFeedback", false);
   },
   computed: {
     tableLoading() {
@@ -257,6 +271,9 @@ export default {
     user() {
       return this.$store.getters.user;
     },
+    student() {
+      return this.$store.getters.student;
+    },
     filteredStudents() {
       return this.reports.filter((d) => {
         return Object.keys(this.filters).every((f) => {
@@ -266,6 +283,15 @@ export default {
     },
     reports() {
       return this.$store.getters.reports;
+    },
+    assignExaminerMessage() {
+      return this.$store.getters.assignExaminerMessage;
+    },
+    assignedExaminer() {
+      return this.$store.getters.assignedExaminer;
+    },
+    displayStudentTableFeedback() {
+      return this.$store.getters.displayStudentTableFeedback;
     },
   },
   methods: {

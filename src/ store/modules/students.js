@@ -4,11 +4,14 @@ const state = {
     tableLoading: false,
     detailLoading: false,
     submitLoading: false,
+    displayStudentTableFeedback: false,
     student: {},
     reports: [],
     examiners: [],
     reportActionMessage: '',
     reportSubmitMessage: '',
+    assignExaminerMessage: '',
+    assignedExaminer: {},
     departments: [],
     assignedStudents: [],
     examinerStudentDetails: {},
@@ -16,6 +19,7 @@ const state = {
     reportSubmitError: null,
     reportsError: null,
     studentDetailsError: null,
+    assignExaminerError: null,
     fetchAssignedStudentsError: null,
     fetchExaminersError: null,
     studentDashboardError: null
@@ -48,8 +52,14 @@ const mutations = {
     setLoggedInStudentDetails(state, payload) {
         state.student = payload
     },
+    setAssignedExaminer(state, payload) {
+        state.assignedExaminer = payload
+    },
     addNewReport(state, payload) {
         state.reportActionMessage = payload
+    },
+    assignExaminerStatus(state, payload) {
+        state.assignExaminerMessage = payload
     },
     submitReport(state, payload) {
         state.reportSubmitMessage = payload
@@ -62,6 +72,12 @@ const mutations = {
     },
     setReportSubmitError(state, payload) {
         state.reportSubmitError = payload
+    },
+    setAssignExaminerError(state, payload) {
+        state.assignExaminerError = payload
+    },
+    setDisplayStudentTableFeedback(state, payload) {
+        state.displayStudentTableFeedback = payload
     },
     fetchStudentDetailsError() {
         state.studentDetailsError = payload
@@ -193,10 +209,35 @@ const actions = {
             commit("fetchExaminerError", error.response.data.message)
         })
     },
+    async assignExaminer({
+        commit
+    }, data) {
+        commit("setSubmitLoader", true)
+        let accessToken = localStorage.getItem("jwt");
+        axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+        await axiosInstance.patch(`/staff/report/examiner/assign/${
+            data.studentReportID
+        }`, {examiner: data.examinerID}).then(response => {
+            console.log("Response: ", response.data.status)
+            commit("assignExaminerStatus", response.data.status)
+            commit("setAssignedExaminer", data.examiner)
+            commit("setDisplayStudentTableFeedback", true)
+            commit("setSubmitLoader", false)
+        }).catch(error => {
+            commit("setSubmitLoader", false)
+            console.log("Error: ", error.response)
+            commit("setAssignExaminerError", error.response.data.message)
+        })
+    },
     setExaminerStudentDetails({
         commit
     }, data) {
         commit("examinerStudentDetails", data)
+    },
+    setDisplayStudentTableFeedback({
+        commit
+    }, data) {
+        commit("setDisplayStudentTableFeedback", data)
     }
 }
 const getters = {
@@ -224,6 +265,9 @@ const getters = {
         return state.examiners.filter(staff => {
             return staff.role === "examiner"
         })
-    }
+    },
+    assignExaminerMessage: (state) => state.assignExaminerMessage,
+    assignedExaminer: (state) => state.assignedExaminer,
+    displayStudentTableFeedback: (state) => state.displayStudentTableFeedback
 }
 export default {state, mutations, actions, getters};
