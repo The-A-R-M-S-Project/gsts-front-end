@@ -85,7 +85,6 @@ const actions = {
         await axiosInstance.get(`/student/${
             data.student._id
         }`).then(response => {
-            console.log("student: ", response.data)
             commit("studentDetails", response.data)
             commit("setDetailLoader", false)
         }).catch(error => {

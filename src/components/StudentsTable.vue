@@ -335,7 +335,7 @@ export default {
       return items;
     },
     columnValueList(val) {
-      return this.students.map((d) => d[val]);
+      return this.reports.map((d) => d[val]);
     },
   },
   components: {
