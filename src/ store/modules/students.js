@@ -6,6 +6,7 @@ const state = {
     submitLoading: false,
     student: {},
     reports: [],
+    examiners: [],
     reportActionMessage: '',
     reportSubmitMessage: '',
     departments: [],
@@ -16,6 +17,7 @@ const state = {
     reportsError: null,
     studentDetailsError: null,
     fetchAssignedStudentsError: null,
+    fetchExaminersError: null,
     studentDashboardError: null
 }
 const mutations = {
@@ -52,6 +54,9 @@ const mutations = {
     submitReport(state, payload) {
         state.reportSubmitMessage = payload
     },
+    setExaminerList(state, payload) {
+        state.examiners = payload
+    },
     setReportError(state, payload) {
         state.studentReportError = payload
     },
@@ -75,6 +80,9 @@ const mutations = {
     },
     fetchStudentDashboardError(state, payload) {
         state.studentDashboardError = payload
+    },
+    fetchExaminerError(state, payload) {
+        state.fetchExaminersError = payload
     }
 }
 const actions = {
@@ -176,6 +184,15 @@ const actions = {
             commit("setReportSubmitError", error.response.data.message)
         })
     },
+    async fetchExaminers({commit}) {
+        let accessToken = localStorage.getItem("jwt");
+        axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+        await axiosInstance.get("/staff/").then(response => {
+            commit("setExaminerList", response.data)
+        }).catch(error => {
+            commit("fetchExaminerError", error.response.data.message)
+        })
+    },
     setExaminerStudentDetails({
         commit
     }, data) {
@@ -202,6 +219,11 @@ const getters = {
     submitLoading: (state) => state.submitLoading,
     reportActionMessage: (state) => state.reportActionMessage,
     reportSubmitMessage: (state) => state.reportSubmitMessage,
-    reportSubmitError: (state) => state.reportSubmitError
+    reportSubmitError: (state) => state.reportSubmitError,
+    examiners: (state) => {
+        return state.examiners.filter(staff => {
+            return staff.role === "examiner"
+        })
+    }
 }
 export default {state, mutations, actions, getters};

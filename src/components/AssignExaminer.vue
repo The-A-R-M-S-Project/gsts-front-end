@@ -12,7 +12,7 @@
           <v-autocomplete
             v-model="examiner"
             :items="examiners"
-            item-text="name"
+            item-text="lastName"
             hide-details
             label="Select an examiner"
             single-line
@@ -21,10 +21,28 @@
           ></v-autocomplete>
           <v-expand-transition>
             <v-list v-if="examiner" class="purple lighten-5">
-              <v-list-item v-for="(field, i) in fields" :key="i">
+              <v-list-item>
                 <v-list-item-content>
-                  <v-list-item-title v-text="field.value"></v-list-item-title>
-                  <v-list-item-subtitle v-text="field.key"></v-list-item-subtitle>
+                  <v-list-item-title>Name</v-list-item-title>
+                  <v-list-item-subtitle>{{ field.firstName }} {{ field.lastName }}</v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title>Email</v-list-item-title>
+                  <v-list-item-subtitle>{{ field.email }}</v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title>Phone</v-list-item-title>
+                  <v-list-item-subtitle>{{ field.phoneNumber }}</v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title>Students</v-list-item-title>
+                  <v-list-item-subtitle>{{ field.students.length }}</v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
             </v-list>
@@ -42,29 +60,30 @@
 </template>
 
 <script>
-import ExaminerData from "@/services/examiners-data-service.js";
 export default {
   name: "AssignExaminer",
   data() {
     return {
       dialog: false,
-      examiners: ExaminerData,
       examiner: null,
     };
+  },
+  created() {
+    this.$store.dispatch("fetchExaminers");
+  },
+  mounted() {
+    console.log("Examiners: ", this.examiners);
   },
   computed: {
     student() {
       return this.$store.getters.student;
     },
-    fields() {
-      if (!this.examiner) return [];
-
-      return Object.keys(this.examiner).map((key) => {
-        return {
-          key,
-          value: this.examiner[key] || "n/a",
-        };
-      });
+    field() {
+      if (!this.examiner) return {};
+      return this.examiner;
+    },
+    examiners() {
+      return this.$store.getters.examiners;
     },
   },
 };
