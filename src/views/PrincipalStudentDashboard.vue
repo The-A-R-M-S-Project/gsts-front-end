@@ -6,6 +6,9 @@
     <template v-else-if="user.role === 'dean'">
       <DeanNav class="d-none d-sm-block" />
     </template>
+    <template v-else-if="user.role === 'examiner'">
+      <ExaminerNav class="d-none d-sm-block" />
+    </template>
     <MobileDrawer />
     <div>
       <v-row no-gutters>
@@ -24,6 +27,7 @@
 <script>
 import Navigation from "@/components/Navbar.vue";
 import DeanNav from "@/components/DeanNav.vue";
+import ExaminerNav from "@/components/ExaminersNavbar.vue";
 import MobileDrawer from "@/components/MobileDrawer.vue";
 import StudentProgress from "@/components/StudentProgress.vue";
 import StudentsNotifications from "@/components/StudentsNotifications.vue";
@@ -55,6 +59,7 @@ export default {
   components: {
     Navigation,
     DeanNav,
+    ExaminerNav,
     MobileDrawer,
     StudentProgress,
     StudentsNotifications,

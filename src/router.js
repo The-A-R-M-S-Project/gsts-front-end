@@ -120,7 +120,8 @@ let router = new Router({
             meta: {
                 requiresAuth: true,
                 is_principal: true,
-                is_dean: true
+                is_dean: true,
+                is_examiner: true
             }
         }, {
             path: "/ECE-dashboard",
