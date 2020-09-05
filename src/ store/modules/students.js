@@ -218,14 +218,12 @@ const actions = {
         await axiosInstance.patch(`/staff/report/examiner/assign/${
             data.studentReportID
         }`, {examiner: data.examinerID}).then(response => {
-            console.log("Response: ", response.data.status)
             commit("assignExaminerStatus", response.data.status)
             commit("setAssignedExaminer", data.examiner)
             commit("setDisplayStudentTableFeedback", true)
             commit("setSubmitLoader", false)
         }).catch(error => {
             commit("setSubmitLoader", false)
-            console.log("Error: ", error.response)
             commit("setAssignExaminerError", error.response.data.message)
         })
     },
