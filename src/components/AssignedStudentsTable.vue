@@ -31,12 +31,26 @@
           icon="warning"
         >Your search for "{{ search }}" found no results.</v-alert>
       </template>
+      <template v-slot:header="{ props: { headers } }">
+        <thead v-show="displayStudentTableFeedback">
+          <tr>
+            <th :colspan="headers.length">
+              <v-alert
+                color="success"
+                dark
+                class="text-center mt-2"
+                dismissible
+              >You've acknowledged receipt of {{ receivedReportStudent }}'s report</v-alert>
+            </th>
+          </tr>
+        </thead>
+      </template>
       <template v-slot:item.status="{ item }">{{ progressEvents[`${item.status}`].message }}</template>
       <template v-slot:item.vivaDate="{ item }">{{ formatDate(item.vivaDate) }}</template>
       <template v-slot:expanded-item="{ headers, item }">
         <td :colspan="headers.length">
           <v-row align="center" justify="center" class="px-0">
-            <v-col cols="12" sm="9" md="10">
+            <v-col cols="12" sm="9">
               <v-progress-linear
                 :value="progressEvents[`${item.status}`].value"
                 :color="progressEvents[`${item.status}`].color"
@@ -45,12 +59,17 @@
                 <strong>{{progressEvents[`${item.status}`].value}}% ({{progressEvents[`${item.status}`].message}})</strong>
               </v-progress-linear>
             </v-col>
-            <v-col cols="12" sm="3" md="2">
+            <v-col cols="12" sm="3">
               <div class="text-center">
                 <div class="text-center" v-if="item.status === 'submitted'">
                   <v-dialog v-model="dialog" width="500">
                     <template v-slot:activator="{ on, attrs }">
-                      <v-btn v-bind="attrs" small v-on="on" color="primary">Receive report</v-btn>
+                      <v-btn
+                        v-bind="attrs"
+                        v-on="on"
+                        :loading="submitLoading"
+                        color="primary"
+                      >Receive report</v-btn>
                     </template>
 
                     <v-card>
@@ -60,14 +79,14 @@
                       <v-card-text class="py-3 px-6">
                         <p class="body-1">
                           By clicking the "Agree" button, you are acknowledging receipt of
-                          <strong>{{ examinerStudentDetails.name }}</strong>'s report.
+                          <strong>{{ receivedReportStudent }}</strong>'s report.
                         </p>
                       </v-card-text>
                       <v-divider></v-divider>
                       <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn color="error" text @click="dialog = false">Cancel</v-btn>
-                        <v-btn color="success" text @click="dialog = false">Agree</v-btn>
+                        <v-btn color="success" text @click="receiveReport">Agree</v-btn>
                       </v-card-actions>
                     </v-card>
                   </v-dialog>
@@ -75,7 +94,7 @@
                 <div class="text-center" v-else-if="item.status === 'withExaminer'">
                   <v-dialog v-model="dialog" width="500">
                     <template v-slot:activator="{ on, attrs }">
-                      <v-btn small v-bind="attrs" v-on="on" color="primary">Set score</v-btn>
+                      <v-btn v-bind="attrs" v-on="on" color="primary">Set score</v-btn>
                     </template>
 
                     <v-card>
@@ -83,7 +102,7 @@
                       <v-card-text class="py-3 px-6">
                         <p class="body-1">
                           Set a score for
-                          <strong>{{ student.student.name }}</strong>'s report.
+                          <strong>{{ examinerStudentDetails.name }}</strong>'s report.
                         </p>
                         <v-form ref="reportScore">
                           <v-text-field
@@ -120,6 +139,7 @@ export default {
     return {
       search: "",
       expanded: [],
+      receivedReportStudent: "",
       dialog: false,
       scoreRules: [
         (score) => !!score || "A score is required",
@@ -177,12 +197,21 @@ export default {
   created() {
     this.$store.dispatch("fetchAssignedStudents");
   },
+  mounted() {
+    this.$store.dispatch("setDisplayStudentTableFeedback", false);
+  },
   computed: {
     assignedStudents() {
       return this.$store.getters.assignedStudents;
     },
     examinerStudentDetails() {
       return this.$store.getters.examinerStudentDetails;
+    },
+    submitLoading() {
+      return this.$store.getters.submitLoading;
+    },
+    displayStudentTableFeedback() {
+      return this.$store.getters.displayStudentTableFeedback;
     },
   },
   methods: {
@@ -211,6 +240,17 @@ export default {
       if (this.$refs.reportScore.validate()) {
         this.dialog = false;
       }
+    },
+    receiveReport() {
+      this.receivedReportStudent = this.examinerStudentDetails.name;
+      this.$store
+        .dispatch("receiveReport", this.examinerStudentDetails.report)
+        .then(() => {
+          this.dialog = false;
+          this.$store.dispatch("fetchAssignedStudents").then(() => {
+            this.$parent.reload();
+          });
+        });
     },
   },
 };

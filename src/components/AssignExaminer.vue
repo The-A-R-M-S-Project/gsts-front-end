@@ -95,11 +95,15 @@ export default {
   methods: {
     assignExaminer() {
       if (this.$refs.selectExaminerForm.validate()) {
-        this.$store.dispatch("assignExaminer", {
-          examinerID: this.examiner._id,
-          studentReportID: this.student.report._id,
-          examiner: this.examiner,
-        });
+        this.$store
+          .dispatch("assignExaminer", {
+            examinerID: this.examiner._id,
+            studentReportID: this.student.report._id,
+            examiner: this.examiner,
+          })
+          .then(() => {
+            this.$store.dispatch("fetchReports");
+          });
       }
     },
   },

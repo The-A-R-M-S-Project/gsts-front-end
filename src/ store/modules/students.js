@@ -11,10 +11,12 @@ const state = {
     reportActionMessage: '',
     reportSubmitMessage: '',
     assignExaminerMessage: '',
+    receiveReportMessage: '',
     assignedExaminer: {},
     departments: [],
     assignedStudents: [],
     examinerStudentDetails: {},
+    receiveReportError: null,
     studentReportError: null,
     reportSubmitError: null,
     reportsError: null,
@@ -67,11 +69,17 @@ const mutations = {
     setExaminerList(state, payload) {
         state.examiners = payload
     },
+    receiveReportSuccess(state, payload) {
+        state.receiveReportMessage = payload
+    },
     setReportError(state, payload) {
         state.studentReportError = payload
     },
     setReportSubmitError(state, payload) {
         state.reportSubmitError = payload
+    },
+    setReceiveReportError(state, payload) {
+        state.receiveReportError = payload
     },
     setAssignExaminerError(state, payload) {
         state.assignExaminerError = payload
@@ -227,6 +235,21 @@ const actions = {
             commit("setAssignExaminerError", error.response.data.message)
         })
     },
+    async receiveReport({
+        commit
+    }, data) {
+        commit("setSubmitLoader", true)
+        let accessToken = localStorage.getItem("jwt");
+        axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+        await axiosInstance.patch(`/staff/report/receive/${data}`).then(response => {
+            commit("receiveReportSuccess", response.data.status)
+            commit("setDisplayStudentTableFeedback", true)
+            commit("setSubmitLoader", false)
+        }).catch(error => {
+            commit("setSubmitLoader", false)
+            commit("setReceiveReportError", error.response.data.message)
+        })
+    },
     setExaminerStudentDetails({
         commit
     }, data) {
@@ -266,6 +289,7 @@ const getters = {
     },
     assignExaminerMessage: (state) => state.assignExaminerMessage,
     assignedExaminer: (state) => state.assignedExaminer,
-    displayStudentTableFeedback: (state) => state.displayStudentTableFeedback
+    displayStudentTableFeedback: (state) => state.displayStudentTableFeedback,
+    receiveReportMessage: (state) => state.receiveReportMessage
 }
 export default {state, mutations, actions, getters};

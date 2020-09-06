@@ -75,6 +75,7 @@
       show-expand
       item-key="_id"
       :loading="tableLoading"
+      loader-height="1rem"
     >
       <template v-slot:header="{ props: { headers } }">
         <thead>
