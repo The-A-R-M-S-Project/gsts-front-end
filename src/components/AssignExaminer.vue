@@ -102,7 +102,9 @@ export default {
             examiner: this.examiner,
           })
           .then(() => {
-            this.$store.dispatch("fetchReports");
+            this.$store.dispatch("fetchReports").then(() => {
+              this.$parent.$forceUpdate();
+            });
           });
       }
     },

@@ -12,11 +12,15 @@ const state = {
     reportSubmitMessage: '',
     assignExaminerMessage: '',
     receiveReportMessage: '',
+    displayReceiveReportMessage: false,
+    clearReportMessage: '',
+    displayClearReportMessage: false,
     assignedExaminer: {},
     departments: [],
     assignedStudents: [],
     examinerStudentDetails: {},
     receiveReportError: null,
+    clearReportError: null,
     studentReportError: null,
     reportSubmitError: null,
     reportsError: null,
@@ -71,6 +75,11 @@ const mutations = {
     },
     receiveReportSuccess(state, payload) {
         state.receiveReportMessage = payload
+        state.displayReceiveReportMessage = true
+    },
+    clearReportSuccess(state, payload) {
+        state.clearReportMessage = payload
+        state.displayClearReportMessage = true
     },
     setReportError(state, payload) {
         state.studentReportError = payload
@@ -80,6 +89,9 @@ const mutations = {
     },
     setReceiveReportError(state, payload) {
         state.receiveReportError = payload
+    },
+    setClearReportError(state, payload) {
+        state.clearReportError = payload
     },
     setAssignExaminerError(state, payload) {
         state.assignExaminerError = payload
@@ -250,10 +262,29 @@ const actions = {
             commit("setReceiveReportError", error.response.data.message)
         })
     },
+    async clearStudentReport({
+        commit
+    }, data) {
+        commit("setSubmitLoader", true)
+        let accessToken = localStorage.getItem("jwt");
+        axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+        await axiosInstance.patch(`/staff/report/clear/${
+            data.report
+        }`, data.score).then(response => {
+            commit("clearReportSuccess", response.data.status)
+            commit("setDisplayStudentTableFeedback", true)
+            commit("setSubmitLoader", false)
+        }).catch(error => {
+            commit("setSubmitLoader", false)
+            commit("setClearReportError", error.response.data.message)
+        })
+    },
     setExaminerStudentDetails({
         commit
     }, data) {
         commit("examinerStudentDetails", data)
+        commit("studentDetails", data)
+
     },
     setDisplayStudentTableFeedback({
         commit
@@ -290,6 +321,7 @@ const getters = {
     assignExaminerMessage: (state) => state.assignExaminerMessage,
     assignedExaminer: (state) => state.assignedExaminer,
     displayStudentTableFeedback: (state) => state.displayStudentTableFeedback,
-    receiveReportMessage: (state) => state.receiveReportMessage
+    receiveReportMessage: (state) => state.displayReceiveReportMessage,
+    clearReportMessage: (state) => state.displayClearReportMessage
 }
 export default {state, mutations, actions, getters};

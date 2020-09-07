@@ -108,7 +108,7 @@
                 dark
                 class="text-center"
                 dismissible
-              >You've assigned examiner, {{ assignedExaminer.firstName }} {{assignedExaminer.lastName}} to {{student.name}}'s report</v-alert>
+              >You've assigned examiner {{ assignedExaminer.firstName }} {{assignedExaminer.lastName}} to {{student.name}}'s report</v-alert>
             </th>
           </tr>
         </thead>

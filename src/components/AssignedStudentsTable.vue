@@ -22,6 +22,7 @@
       :expanded="expanded"
       @click:row="itemClicked"
       show-expand
+      ref="assignedStudentsTable"
       item-key="_id"
     >
       <template v-slot:no-results>
@@ -36,11 +37,19 @@
           <tr>
             <th :colspan="headers.length">
               <v-alert
+                v-if="receiveReportMessage"
                 color="success"
                 dark
                 class="text-center mt-2"
                 dismissible
               >You've acknowledged receipt of {{ receivedReportStudent }}'s report</v-alert>
+              <v-alert
+                v-if="clearReportMessage"
+                color="success"
+                dark
+                class="text-center mt-2"
+                dismissible
+              >You've cleared {{ clearedReportStudent }}'s report.</v-alert>
             </th>
           </tr>
         </thead>
@@ -94,7 +103,12 @@
                 <div class="text-center" v-else-if="item.status === 'withExaminer'">
                   <v-dialog v-model="dialog" width="500">
                     <template v-slot:activator="{ on, attrs }">
-                      <v-btn v-bind="attrs" v-on="on" color="primary">Set score</v-btn>
+                      <v-btn
+                        v-bind="attrs"
+                        v-on="on"
+                        :loading="submitLoading"
+                        color="primary"
+                      >Set score</v-btn>
                     </template>
 
                     <v-card>
@@ -109,6 +123,7 @@
                             min="0"
                             max="100"
                             :rules="scoreRules"
+                            v-model="score"
                             label="Set score"
                             type="number"
                           ></v-text-field>
@@ -140,6 +155,8 @@ export default {
       search: "",
       expanded: [],
       receivedReportStudent: "",
+      clearedReportStudent: "",
+      score: null,
       dialog: false,
       scoreRules: [
         (score) => !!score || "A score is required",
@@ -213,6 +230,12 @@ export default {
     displayStudentTableFeedback() {
       return this.$store.getters.displayStudentTableFeedback;
     },
+    receiveReportMessage() {
+      return this.$store.getters.receiveReportMessage;
+    },
+    clearReportMessage() {
+      return this.$store.getters.clearReportMessage;
+    },
   },
   methods: {
     itemClicked(value) {
@@ -225,7 +248,7 @@ export default {
       this.$store.dispatch("setExaminerStudentDetails", value.student);
     },
     viewDetails(student) {
-      this.$store.dispatch("setExaminerStudentDetails", student).then(() => {
+      this.$store.dispatch("setStudentDetails", student).then(() => {
         this.$router.push("/student-progress");
       });
     },
@@ -236,11 +259,6 @@ export default {
         return newDate.replace(/ /g, " - ");
       } else return "Not set";
     },
-    setReportScore() {
-      if (this.$refs.reportScore.validate()) {
-        this.dialog = false;
-      }
-    },
     receiveReport() {
       this.receivedReportStudent = this.examinerStudentDetails.name;
       this.$store
@@ -248,9 +266,27 @@ export default {
         .then(() => {
           this.dialog = false;
           this.$store.dispatch("fetchAssignedStudents").then(() => {
-            this.$parent.reload();
+            this.$refs.assignedStudentsTable.$forceUpdate();
           });
         });
+    },
+    setReportScore() {
+      this.clearedReportStudent = this.examinerStudentDetails.name;
+      if (this.$refs.reportScore.validate()) {
+        this.$store
+          .dispatch("clearStudentReport", {
+            report: this.examinerStudentDetails.report,
+            score: {
+              examinerScore: this.score,
+            },
+          })
+          .then(() => {
+            this.dialog = false;
+            this.$store.dispatch("fetchAssignedStudents").then(() => {
+              this.$refs.assignedStudentsTable.$forceUpdate();
+            });
+          });
+      }
     },
   },
 };
