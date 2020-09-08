@@ -21,6 +21,7 @@
       :search="search"
       :expanded="expanded"
       @click:row="itemClicked"
+      :items-per-page="itemsPerPage"
       show-expand
       ref="assignedStudentsTable"
       item-key="_id"
@@ -155,6 +156,7 @@ export default {
       search: "",
       expanded: [],
       receivedReportStudent: "",
+      itemsPerPage: 6,
       clearedReportStudent: "",
       score: null,
       dialog: false,
