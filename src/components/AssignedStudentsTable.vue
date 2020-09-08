@@ -139,7 +139,12 @@
                     </v-card>
                   </v-dialog>
                 </div>
-                <v-btn v-else @click="viewDetails(item)" color="primary">View Details</v-btn>
+                <v-btn
+                  v-else
+                  @click="viewDetails(item)"
+                  :loading="detailLoading"
+                  color="primary"
+                >View Details</v-btn>
               </div>
             </v-col>
           </v-row>
@@ -228,6 +233,9 @@ export default {
     },
     submitLoading() {
       return this.$store.getters.submitLoading;
+    },
+    detailLoading() {
+      return this.$store.getters.detailLoading;
     },
     displayStudentTableFeedback() {
       return this.$store.getters.displayStudentTableFeedback;
