@@ -76,6 +76,7 @@
       item-key="_id"
       :loading="tableLoading"
       loader-height="1rem"
+      :key="studentsTableKey"
     >
       <template v-slot:header="{ props: { headers } }">
         <thead>
@@ -103,12 +104,7 @@
           </tr>
           <tr v-show="displayStudentTableFeedback">
             <th :colspan="headers.length">
-              <v-alert
-                color="success"
-                dark
-                class="text-center"
-                dismissible
-              >You've assigned examiner {{ assignedExaminer.firstName }} {{assignedExaminer.lastName}} to {{student.name}}'s report</v-alert>
+              <v-alert color="success" dark class="text-center" dismissible>{{studentsTableMessage}}</v-alert>
             </th>
           </tr>
         </thead>
@@ -293,6 +289,12 @@ export default {
     },
     displayStudentTableFeedback() {
       return this.$store.getters.displayStudentTableFeedback;
+    },
+    studentsTableMessage() {
+      return this.$store.getters.studentsTableMessage;
+    },
+    studentsTableKey() {
+      return this.$store.getters.studentsTableKey;
     },
   },
   methods: {

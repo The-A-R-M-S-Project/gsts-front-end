@@ -1,21 +1,41 @@
 <template>
   <div class="text-center">
-    <v-dialog v-model="dialog" width="500">
+    <v-dialog v-model="dialog" width="700">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn v-bind="attrs" v-on="on" color="primary">Set viva date</v-btn>
+        <v-btn v-bind="attrs" v-on="on" :loading="submitLoading" color="primary">Set viva date</v-btn>
       </template>
 
       <v-card>
         <v-card-title class="text-center headline purple white--text">Set viva date</v-card-title>
         <v-card-text class="py-3 px-6">
-          <p class="body-1">Sign viva date for {{student.student.name}}</p>
-          <v-date-picker v-model="picker" full-width color="purple" show-current type="date"></v-date-picker>
+          <p class="black--text body-1">Set viva date for {{student.name}}</p>
+          <v-alert
+            v-if="displayDateTimeError"
+            dark
+            class="text-center"
+            dismissible
+            color="error"
+          >Please select a date and time</v-alert>
+          <v-row>
+            <v-col>
+              <v-date-picker v-model="picker" full-width color="purple" show-current type="date"></v-date-picker>
+            </v-col>
+            <v-col>
+              <div class="text-center">
+                <v-time-picker
+                  v-model="time"
+                  color="purple"
+                  :width="$vuetify.breakpoint.xs?'230':'290'"
+                ></v-time-picker>
+              </div>
+            </v-col>
+          </v-row>
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="error" text @click="dialog = false">Cancel</v-btn>
-          <v-btn color="success" text @click="dialog = false">Save</v-btn>
+          <v-btn color="success" text @click="setVivaDate">Save</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -28,8 +48,13 @@ export default {
   data() {
     return {
       dialog: false,
-      picker: new Date().toISOString().substr(0, 10),
+      picker: null,
+      time: null,
+      displayDateTimeError: false,
     };
+  },
+  mounted() {
+    this.displayDateTimeError = false;
   },
   computed: {
     student() {
@@ -44,6 +69,31 @@ export default {
           value: this.examiner[key] || "n/a",
         };
       });
+    },
+    submitLoading() {
+      return this.$store.getters.submitLoading;
+    },
+  },
+  methods: {
+    setVivaDate() {
+      if (this.picker && this.time) {
+        let date = new Date(this.picker).toISOString().substring(0, 11);
+        let dateTime = `${date}${this.time}:00.000+03:00`;
+        this.$store
+          .dispatch("setVivaDate", {
+            reportID: this.student.report._id,
+            studentName: this.student.name,
+            vivaDate: { vivaDate: dateTime },
+          })
+          .then(() => {
+            this.$store.dispatch("fetchReports").then(() => {
+              this.$store.dispatch("setStudentsTableKey");
+            });
+          });
+        this.dialog = false;
+      } else {
+        this.displayDateTimeError = true;
+      }
     },
   },
 };

@@ -8,6 +8,8 @@ const state = {
     student: {},
     reports: [],
     examiners: [],
+    studentsTableMessage: '',
+    studentsTableKey: 0,
     reportActionMessage: '',
     reportSubmitMessage: '',
     assignExaminerMessage: '',
@@ -21,6 +23,7 @@ const state = {
     examinerStudentDetails: {},
     receiveReportError: null,
     clearReportError: null,
+    vivaDateError: null,
     studentReportError: null,
     reportSubmitError: null,
     reportsError: null,
@@ -77,6 +80,22 @@ const mutations = {
         state.receiveReportMessage = payload
         state.displayReceiveReportMessage = true
     },
+    setStudentsTableKey(state) {
+        state.studentsTableKey ++
+    },
+    setVivaDateSuccess(state, payload) {
+        let str = payload.res
+        let success = `${
+            str[0].toUpperCase()
+        }${
+            str.slice(1)
+        }`;
+        state.studentsTableMessage = `${
+            success
+        }. You've set a viva date for ${
+            payload.name
+        }`
+    },
     clearReportSuccess(state, payload) {
         state.clearReportMessage = payload
         state.displayClearReportMessage = true
@@ -86,6 +105,9 @@ const mutations = {
     },
     setReportSubmitError(state, payload) {
         state.reportSubmitError = payload
+    },
+    setVivaDateError(state, payload) {
+        state.vivaDateError = payload
     },
     setReceiveReportError(state, payload) {
         state.receiveReportError = payload
@@ -279,6 +301,26 @@ const actions = {
             commit("setClearReportError", error.response.data.message)
         })
     },
+    async setVivaDate({
+        commit
+    }, data) {
+        commit("setSubmitLoader", true)
+        let accessToken = localStorage.getItem("jwt");
+        axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+        await axiosInstance.patch(`/staff/report/vivadate/${
+            data.reportID
+        }`, data.vivaDate).then(response => {
+            commit("setVivaDateSuccess", {
+                res: response.data.status,
+                name: data.studentName
+            })
+            commit("setDisplayStudentTableFeedback", true)
+            commit("setSubmitLoader", false)
+        }).catch(error => {
+            commit("setSubmitLoader", false)
+            console.log("setVivaDateError", error.response.data.message)
+        })
+    },
     setExaminerStudentDetails({
         commit
     }, data) {
@@ -290,6 +332,9 @@ const actions = {
         commit
     }, data) {
         commit("setDisplayStudentTableFeedback", data)
+    },
+    setStudentsTableKey({commit}) {
+        commit("setStudentsTableKey")
     }
 }
 const getters = {
@@ -322,6 +367,8 @@ const getters = {
     assignedExaminer: (state) => state.assignedExaminer,
     displayStudentTableFeedback: (state) => state.displayStudentTableFeedback,
     receiveReportMessage: (state) => state.displayReceiveReportMessage,
-    clearReportMessage: (state) => state.displayClearReportMessage
+    clearReportMessage: (state) => state.displayClearReportMessage,
+    studentsTableMessage: (state) => state.studentsTableMessage,
+    studentsTableKey: (state) => state.studentsTableKey
 }
 export default {state, mutations, actions, getters};

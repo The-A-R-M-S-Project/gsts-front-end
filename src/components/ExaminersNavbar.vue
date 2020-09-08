@@ -98,6 +98,9 @@ export default {
     schoolName() {
       return this.$store.getters.schoolName;
     },
+    assignedStudents() {
+      return this.$store.getters.assignedStudents;
+    },
   },
   methods: {
     logOut() {
@@ -107,15 +110,15 @@ export default {
       });
     },
     checkForUpdates() {
-      for (let i = 0; i < this.students.length; i++) {
+      for (let i = 0; i < this.assignedStudents.length; i++) {
         if (
-          this.students[i].status === "submitted" ||
-          this.students[i].status === "withExaminer"
+          this.assignedStudents[i].status === "submitted" ||
+          this.assignedStudents[i].status === "withExaminer"
         ) {
-          break;
+          this.studentUpdates = true;
+          return;
         }
       }
-      this.studentUpdates = true;
     },
   },
 };

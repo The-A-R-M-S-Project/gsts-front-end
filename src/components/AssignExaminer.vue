@@ -103,9 +103,10 @@ export default {
           })
           .then(() => {
             this.$store.dispatch("fetchReports").then(() => {
-              this.$parent.$forceUpdate();
+              this.$store.dispatch("setStudentsTableKey");
             });
           });
+        this.dialog = false;
       }
     },
   },
