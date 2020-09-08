@@ -235,7 +235,7 @@ export default {
         "withExaminer",
         "clearedByExaminer",
         "vivaDateSet",
-        "vivaComplete",
+        "complete",
       ],
       students: StudentData,
       displayAssignExaminerMessage: false,

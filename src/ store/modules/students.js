@@ -24,6 +24,7 @@ const state = {
     receiveReportError: null,
     clearReportError: null,
     vivaDateError: null,
+    vivaScoreError: null,
     studentReportError: null,
     reportSubmitError: null,
     reportsError: null,
@@ -96,6 +97,19 @@ const mutations = {
             payload.name
         }`
     },
+    setVivaScoreSuccess(state, payload) {
+        let str = payload.res
+        let success = `${
+            str[0].toUpperCase()
+        }${
+            str.slice(1)
+        }`;
+        state.studentsTableMessage = `${
+            success
+        }. You've set a viva score for ${
+            payload.name
+        }`
+    },
     clearReportSuccess(state, payload) {
         state.clearReportMessage = payload
         state.displayClearReportMessage = true
@@ -108,6 +122,9 @@ const mutations = {
     },
     setVivaDateError(state, payload) {
         state.vivaDateError = payload
+    },
+    setVivaScoreError(state, payload) {
+        state.vivaScoreError = payload
     },
     setReceiveReportError(state, payload) {
         state.receiveReportError = payload
@@ -318,7 +335,27 @@ const actions = {
             commit("setSubmitLoader", false)
         }).catch(error => {
             commit("setSubmitLoader", false)
-            console.log("setVivaDateError", error.response.data.message)
+            commit("setVivaDateError", error.response.data.message)
+        })
+    },
+    async setVivaScore({
+        commit
+    }, data) {
+        commit("setSubmitLoader", true)
+        let accessToken = localStorage.getItem("jwt");
+        axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+        await axiosInstance.patch(`/staff/report/vivascore/${
+            data.reportID
+        }`, data.vivaScore).then(response => {
+            commit("setVivaScoreSuccess", {
+                res: response.data.status,
+                name: data.studentName
+            })
+            commit("setDisplayStudentTableFeedback", true)
+            commit("setSubmitLoader", false)
+        }).catch(error => {
+            commit("setSubmitLoader", false)
+            commit("setVivaScoreError", error.response.data.message)
         })
     },
     setExaminerStudentDetails({

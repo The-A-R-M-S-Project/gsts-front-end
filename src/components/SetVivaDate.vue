@@ -60,16 +60,6 @@ export default {
     student() {
       return this.$store.getters.student;
     },
-    fields() {
-      if (!this.examiner) return [];
-
-      return Object.keys(this.examiner).map((key) => {
-        return {
-          key,
-          value: this.examiner[key] || "n/a",
-        };
-      });
-    },
     submitLoading() {
       return this.$store.getters.submitLoading;
     },

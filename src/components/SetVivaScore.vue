@@ -2,7 +2,7 @@
   <div class="text-center">
     <v-dialog v-model="dialog" width="500">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn v-bind="attrs" v-on="on" color="primary">Set viva score</v-btn>
+        <v-btn v-bind="attrs" v-on="on" :loading="submitLoading" color="primary">Set viva score</v-btn>
       </template>
 
       <v-card>
@@ -10,7 +10,7 @@
         <v-card-text class="py-3 px-6">
           <p class="body-1">Set viva score for {{student.name}}</p>
           <v-form ref="vivaScore">
-            <v-text-field label="Set score" type="number"></v-text-field>
+            <v-text-field v-model="score" label="Set score" :rules="scoreRules" type="number"></v-text-field>
           </v-form>
         </v-card-text>
         <v-divider></v-divider>
@@ -30,7 +30,7 @@ export default {
   data() {
     return {
       dialog: false,
-      picker: new Date().toISOString().substr(0, 10),
+      score: null,
       scoreRules: [
         (score) => !!score || "A score is required",
         (score) => (score < 100 && score >= 0) || "Invalid score",
@@ -41,20 +41,24 @@ export default {
     student() {
       return this.$store.getters.student;
     },
-    fields() {
-      if (!this.examiner) return [];
-
-      return Object.keys(this.examiner).map((key) => {
-        return {
-          key,
-          value: this.examiner[key] || "n/a",
-        };
-      });
+    submitLoading() {
+      return this.$store.getters.submitLoading;
     },
   },
   methods: {
     setVivaScore() {
       if (this.$refs.vivaScore.validate()) {
+        this.$store
+          .dispatch("setVivaScore", {
+            reportID: this.student.report._id,
+            studentName: this.student.name,
+            vivaScore: { vivaScore: this.score },
+          })
+          .then(() => {
+            this.$store.dispatch("fetchReports").then(() => {
+              this.$store.dispatch("setStudentsTableKey");
+            });
+          });
         this.dialog = false;
       }
     },
