@@ -203,7 +203,7 @@ export default {
   },
   methods: {
     submitReport() {
-      this.$router.push("/submit-report");
+      this.$router.push("/student-dashboard/submit-report");
     },
     formatDate(timestamp) {
       let diff = Math.abs(new Date() - new Date(timestamp));
