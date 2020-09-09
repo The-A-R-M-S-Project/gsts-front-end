@@ -11,7 +11,7 @@
           <v-alert
             dark
             dismissible
-            v-if="student.report.status === 'submitted'"
+            v-if="student.report.status !== 'notSubmitted'"
             color="error"
             class="text-center"
           >Already submitted report!</v-alert>
@@ -37,6 +37,7 @@
                 outlined
                 v-model="reportTitle"
                 placeholder="Enter report title"
+                type="text"
                 :rules="required"
               ></v-text-field>
             </p>
@@ -54,10 +55,16 @@
                 :hint="words"
               ></v-textarea>
             </p>
+            <v-row justify="end" class="px-3 pt-2">
+              <v-btn
+                @click="createReport"
+                type="submit"
+                :loading="detailLoading"
+                dark
+                color="teal"
+              >submit</v-btn>
+            </v-row>
           </v-form>
-          <v-row justify="end" class="px-3 pt-2">
-            <v-btn @click="createReport" :loading="detailLoading" dark color="teal">submit</v-btn>
-          </v-row>
         </v-card>
       </v-tab-item>
 
@@ -68,7 +75,7 @@
           <v-alert
             dark
             dismissible
-            v-if="student.report.status === 'submitted'"
+            v-if="student.report.status !== 'notSubmitted'"
             color="error"
             class="text-center"
           >Already submitted report!</v-alert>
@@ -146,7 +153,13 @@
           <v-row justify="end" class="px-3 pt-2">
             <v-dialog v-model="dialog" width="500">
               <template v-slot:activator="{ on, attrs }">
-                <v-btn v-bind="attrs" v-on="on" dark :loading="submitLoading" color="teal">submit</v-btn>
+                <v-btn
+                  v-bind="attrs"
+                  v-on="on"
+                  dark
+                  :loading="submitReportLoading"
+                  color="teal"
+                >submit</v-btn>
               </template>
 
               <v-card>
@@ -180,6 +193,14 @@ export default {
       reportTitle: "",
       reportAbstract: "",
       reportMessage: "",
+      statuses: [
+        "notSubmitted",
+        "submitted",
+        "withExaminer",
+        "clearedByExaminer",
+        "vivaDateSet",
+        "vivaComplete",
+      ],
       displayReportActionMessage: false,
       displaySubmitReportMessage: false,
       tab: null,
@@ -211,8 +232,8 @@ export default {
     detailLoading() {
       return this.$store.getters.detailLoading;
     },
-    submitLoading() {
-      return this.$store.getters.submitLoading;
+    submitReportLoading() {
+      return this.$store.getters.submitReportLoading;
     },
     reportSubmitMessage() {
       return this.$store.getters.reportSubmitMessage;
@@ -249,7 +270,11 @@ export default {
       }
     },
     createReport() {
-      if (this.$refs.createReportForm.validate()) {
+      event.preventDefault();
+      if (
+        this.$refs.createReportForm.validate() &&
+        this.student.report.status === "notSubmitted"
+      ) {
         let newReport = {};
         if (this.reportAbstract.length > 0) {
           newReport = {
