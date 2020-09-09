@@ -81,7 +81,6 @@ const actions = {
         commit
     }, data) {
         commit("examinerStudentDetails", data)
-        commit("studentDetails", data)
     }
 }
 const getters = {

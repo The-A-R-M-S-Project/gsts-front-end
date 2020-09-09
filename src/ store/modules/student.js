@@ -1,14 +1,19 @@
 import axiosInstance from "../axios_setup";
 
 const state = {
+    student: {},
     reportActionMessage: '',
     reportSubmitMessage: '',
     studentReportError: null,
     reportSubmitError: null,
-    studentDashboardError: null
+    studentDashboardError: null,
+    submitReportLoading: false
 }
 const mutations = {
     setLoggedInStudentDetails(state, payload) {
+        state.student = payload
+    },
+    studentDetails(state, payload) {
         state.student = payload
     },
     addNewReport(state, payload) {
@@ -28,9 +33,26 @@ const mutations = {
     },
     fetchStudentDashboardError(state, payload) {
         state.studentDashboardError = payload
+    },
+    setReportSubmitLoader(state, payload) {
+        state.submitReportLoading = payload
     }
 }
 const actions = {
+    async setStudentDetails({
+        commit
+    }, data) {
+        commit("setDetailLoader", true)
+        await axiosInstance.get(`/student/${
+            data.student._id
+        }`).then(response => {
+            commit("studentDetails", response.data)
+            commit("setDetailLoader", false)
+        }).catch(error => {
+            commit("setDetailLoader", false)
+            commit("fetchStudentDetailsError", error.response.data.message)
+        })
+    },
     async fetchLoggedInStudentDetails({commit}) {
         let accessToken = localStorage.getItem("jwt");
         axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
@@ -39,8 +61,8 @@ const actions = {
             commit("setLoggedInStudentDetails", response.data)
             commit("setOverlayLoader", false);
         }).catch(error => {
-            commit("fetchStudentDashboardError", error.response.data.message)
             commit("setOverlayLoader", false);
+            commit("fetchStudentDashboardError", error.response.data.message)
         })
     },
     async createReport({
@@ -74,25 +96,26 @@ const actions = {
     async submitFinalReport({
         commit
     }, data) {
-        commit("setSubmitLoader", true)
+        commit("setReportSubmitLoader", true)
         let accessToken = localStorage.getItem("jwt");
         axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
         await axiosInstance.patch("/student/report/submit", data).then(response => {
             commit("submitReport", response.data.message)
-            commit("setSubmitLoader", false)
+            commit("setReportSubmitLoader", false)
         }).catch(error => {
-            commit("setSubmitLoader", false)
+            commit("setReportSubmitLoader", false)
             commit("setReportSubmitError", error.response.data.message)
         })
     }
 }
 const getters = {
+    student: (state) => state.student,
     studentSchool: (state) => {
         return state.schools.filter((school) => {
             return school._id === state.student.school;
         })[0].name;
     },
-    submitLoading: (state) => state.submitLoading,
+    submitReportLoading: (state) => state.submitReportLoading,
     reportActionMessage: (state) => state.reportActionMessage,
     reportSubmitMessage: (state) => state.reportSubmitMessage,
     reportSubmitError: (state) => state.reportSubmitError

@@ -10,8 +10,6 @@ const state = {
     examiners: [],
     fetchExaminersError: null,
     submitLoading: false,
-    assignExaminerMessage: '',
-    assignedExaminer: {},
     displayStudentTableFeedback: false,
     assignExaminerError: null,
     studentsTableMessage: '',
@@ -22,9 +20,6 @@ const state = {
 const mutations = {
     setDetailLoader(state, payload) {
         state.detailLoading = payload
-    },
-    studentDetails(state, payload) {
-        state.student = payload
     },
     fetchStudentDetailsError(state, payload) {
         state.studentDetailsError = payload
@@ -48,10 +43,17 @@ const mutations = {
         state.submitLoading = payload
     },
     assignExaminerSuccess(state, payload) {
-        state.assignExaminerMessage = payload
-    },
-    setAssignedExaminer(state, payload) {
-        state.assignedExaminer = payload
+        let str = payload.res
+        let success = `${
+            str[0].toUpperCase()
+        }${
+            str.slice(1)
+        }`;
+        state.studentsTableMessage = `${success}. You've assigned ${
+            payload.examiner
+        } to ${
+            payload.student
+        }'s report`
     },
     setDisplayStudentTableFeedback(state, payload) {
         state.displayStudentTableFeedback = payload
@@ -75,7 +77,7 @@ const mutations = {
     setVivaDateError(state, payload) {
         state.vivaDateError = payload
     },
-    setStudentsTableKey(state) {
+    changeStudentsTableKey(state) {
         state.studentsTableKey ++
     },
     setVivaScoreSuccess(state, payload) {
@@ -96,20 +98,6 @@ const mutations = {
     }
 }
 const actions = {
-    async setStudentDetails({
-        commit
-    }, data) {
-        commit("setDetailLoader", true)
-        await axiosInstance.get(`/student/${
-            data.student._id
-        }`).then(response => {
-            commit("studentDetails", response.data)
-            commit("setDetailLoader", false)
-        }).catch(error => {
-            commit("setDetailLoader", false)
-            commit("fetchStudentDetailsError", error.response.data.message)
-        })
-    },
     async fetchReports({commit}) {
         commit("setLoader", true)
         let accessToken = localStorage.getItem("jwt");
@@ -140,8 +128,11 @@ const actions = {
         await axiosInstance.patch(`/staff/report/examiner/assign/${
             data.studentReportID
         }`, {examiner: data.examinerID}).then(response => {
-            commit("assignExaminerSuccess", response.data.status)
-            commit("setAssignedExaminer", data.examiner)
+            commit("assignExaminerSuccess", {
+                res: response.data.status,
+                examiner: data.examinerName,
+                student: studentName
+            })
             commit("setDisplayStudentTableFeedback", true)
             commit("setSubmitLoader", false)
         }).catch(error => {
@@ -194,13 +185,12 @@ const actions = {
     }, data) {
         commit("setDisplayStudentTableFeedback", data)
     },
-    setStudentsTableKey({commit}) {
-        commit("setStudentsTableKey")
+    changeStudentsTableKey({commit}) {
+        commit("changeStudentsTableKey")
     }
 }
 const getters = {
     detailLoading: (state) => state.detailLoading,
-    student: (state) => state.student,
     tableLoading: (state) => state.tableLoading,
     reports: (state) => state.reports,
     examiners: (state) => {
