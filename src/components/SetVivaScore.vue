@@ -56,7 +56,7 @@ export default {
           })
           .then(() => {
             this.$store.dispatch("fetchReports").then(() => {
-              this.$store.dispatch("setStudentsTableKey");
+              this.$store.dispatch("changeStudentsTableKey");
             });
           });
         this.dialog = false;

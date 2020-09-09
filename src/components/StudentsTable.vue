@@ -235,7 +235,7 @@ export default {
         "withExaminer",
         "clearedByExaminer",
         "vivaDateSet",
-        "complete",
+        "vivaComplete",
       ],
       students: StudentData,
       displayAssignExaminerMessage: false,
@@ -280,12 +280,6 @@ export default {
     },
     reports() {
       return this.$store.getters.reports;
-    },
-    assignExaminerMessage() {
-      return this.$store.getters.assignExaminerMessage;
-    },
-    assignedExaminer() {
-      return this.$store.getters.assignedExaminer;
     },
     displayStudentTableFeedback() {
       return this.$store.getters.displayStudentTableFeedback;

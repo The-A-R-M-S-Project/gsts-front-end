@@ -95,15 +95,17 @@ export default {
   methods: {
     assignExaminer() {
       if (this.$refs.selectExaminerForm.validate()) {
+        let assignedExaminer = `${this.examiner.firstName} ${this.examiner.lastName}`;
         this.$store
           .dispatch("assignExaminer", {
             examinerID: this.examiner._id,
             studentReportID: this.student.report._id,
-            examiner: this.examiner,
+            examinerName: assignedExaminer,
+            studentName: this.student.name,
           })
           .then(() => {
             this.$store.dispatch("fetchReports").then(() => {
-              this.$store.dispatch("setStudentsTableKey");
+              this.$store.dispatch("changeStudentsTableKey");
             });
           });
         this.dialog = false;

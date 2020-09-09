@@ -131,7 +131,7 @@ const actions = {
             commit("assignExaminerSuccess", {
                 res: response.data.status,
                 examiner: data.examinerName,
-                student: studentName
+                student: data.studentName
             })
             commit("setDisplayStudentTableFeedback", true)
             commit("setSubmitLoader", false)
@@ -191,6 +191,7 @@ const actions = {
 }
 const getters = {
     detailLoading: (state) => state.detailLoading,
+    submitLoading: (state) => state.submitLoading,
     tableLoading: (state) => state.tableLoading,
     reports: (state) => state.reports,
     examiners: (state) => {
