@@ -2,7 +2,9 @@ import Vue from "vue";
 import Vuex from "vuex";
 import authentication from "./modules/authentication";
 import dashboard from "./modules/dashboard";
-import students from "./modules/students";
+import elevatedStaff from "./modules/elevatedStaff"
+import student from "./modules/student";
+import examiner from "./modules/examiner";
 import createPersistedState from "vuex-persistedstate";
 import SecureLS from "secure-ls";
 const ls = new SecureLS({isCompression: false});
@@ -13,7 +15,9 @@ export default new Vuex.Store({
     modules: {
         authentication,
         dashboard,
-        students
+        elevatedStaff,
+        student,
+        examiner
     },
     plugins: [
         createPersistedState(
