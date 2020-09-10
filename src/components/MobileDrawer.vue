@@ -3,6 +3,7 @@
     <v-app-bar color="purple" class="mobile-drawer d-block d-sm-none" dark>
       <v-toolbar-title>
         <v-btn
+          v-show="user.role !== 'dean'"
           text
           :to="user.role==='principal'?'/principal-dashboard':undefined"
           class="white--text font-weight-bold text-capitalize title px-0"
@@ -22,7 +23,7 @@
         <v-list-item-group active-class="deep-purple--text text--accent-4">
           <v-list-item
             class="my-6"
-            :to="user.role==='student'?'/student-dashboard/student-profile':'/under-construction'"
+            :to="user.role==='student'?'/student-dashboard/student-profile':`/${user.role}/profile`"
           >
             <v-btn text class="title text-capitalize">
               <v-icon large>mdi-account</v-icon>
