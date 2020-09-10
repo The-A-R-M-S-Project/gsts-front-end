@@ -37,12 +37,15 @@ const mutations = {
 }
 const actions = {
     async fetchAssignedStudents({commit}) {
+        commit("setOverlayLoader", true);
         let accessToken = localStorage.getItem("jwt");
         axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
         await axiosInstance.get("/staff/report/").then(response => {
             commit("setAssignedStudents", response.data.reports)
+            commit("setOverlayLoader", false);
         }).catch(error => {
             commit("fetchAssignedStudentsError", error.response.data.message)
+            commit("setOverlayLoader", false);
         })
     },
     async receiveReport({

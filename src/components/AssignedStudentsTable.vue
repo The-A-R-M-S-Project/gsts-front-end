@@ -57,6 +57,9 @@
       </template>
       <template v-slot:item.status="{ item }">{{ progressEvents[`${item.status}`].message }}</template>
       <template v-slot:item.vivaDate="{ item }">{{ formatDate(item.vivaDate) }}</template>
+      <template v-slot:item.action="{ item }">
+        <v-icon small v-if="callToAction(item.status)" color="pink">mdi-circle</v-icon>
+      </template>
       <template v-slot:expanded-item="{ headers, item }">
         <td :colspan="headers.length">
           <v-row align="center" justify="center" class="px-0">
@@ -171,6 +174,11 @@ export default {
       ],
       headers: [
         {
+          value: "action",
+          width: "1rem",
+          sortable: false,
+        },
+        {
           text: "STUDENT NAME",
           align: "left",
           sortable: false,
@@ -261,6 +269,10 @@ export default {
       this.$store.dispatch("setStudentDetails", student).then(() => {
         this.$router.push("/student-progress");
       });
+    },
+    callToAction(status) {
+      if (status === "submitted" || status === "withExaminer") return true;
+      else return false;
     },
     formatDate(date) {
       if (date) {
