@@ -237,6 +237,14 @@ export default {
         "vivaDateSet",
         "vivaComplete",
       ],
+      defaultSortOrder: {
+        submitted: 0,
+        clearedByExaminer: 1,
+        vivaDateSet: 2,
+        notSubmitted: 3,
+        withExaminer: 4,
+        vivaComplete: 5,
+      },
       students: StudentData,
       displayAssignExaminerMessage: false,
       selectedSchool: null,
@@ -279,7 +287,11 @@ export default {
       });
     },
     reports() {
-      return this.$store.getters.reports;
+      let reports = this.$store.getters.reports;
+      return reports.sort(
+        (a, b) =>
+          this.defaultSortOrder[a.status] - this.defaultSortOrder[b.status]
+      );
     },
     displayStudentTableFeedback() {
       return this.$store.getters.displayStudentTableFeedback;

@@ -192,6 +192,14 @@ export default {
         { text: "VIVA DATE", value: "vivaDate" },
         { value: "data-table-expand" },
       ],
+      defaultSortOrder: {
+        submitted: 0,
+        withExaminer: 1,
+        vivaDateSet: 2,
+        notSubmitted: 3,
+        clearedByExaminer: 4,
+        vivaComplete: 5,
+      },
       progressEvents: {
         notSubmitted: {
           value: 0,
@@ -234,7 +242,11 @@ export default {
   },
   computed: {
     assignedStudents() {
-      return this.$store.getters.assignedStudents;
+      let reports = this.$store.getters.assignedStudents;
+      return reports.sort(
+        (a, b) =>
+          this.defaultSortOrder[a.status] - this.defaultSortOrder[b.status]
+      );
     },
     examinerStudentDetails() {
       return this.$store.getters.examinerStudentDetails;
