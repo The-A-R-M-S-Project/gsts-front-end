@@ -21,7 +21,7 @@
         </v-col>
         <v-col md="auto" sm="3">
           <v-btn text class="title text-capitalize white--text" to="/students">
-            <v-badge v-if="studentUpdates" color="teal" dot>
+            <v-badge v-if="checkForUpdates" color="teal" dot>
               <span>Students</span>
             </v-badge>
             <span v-else>Students</span>
@@ -85,14 +85,10 @@ export default {
     return {
       loading: false,
       closeOnContentClick: true,
-      studentUpdates: false,
     };
   },
   created() {
     this.$store.dispatch("fetchSchoolDetails", this.user.school);
-  },
-  mounted() {
-    this.checkForUpdates();
   },
   computed: {
     isLoading() {
@@ -107,14 +103,6 @@ export default {
     schoolName() {
       return this.$store.getters.schoolName;
     },
-  },
-  methods: {
-    logOut() {
-      this.closeOnContentClick = false;
-      this.$store.dispatch("logout").then(() => {
-        this.$router.push("/");
-      });
-    },
     checkForUpdates() {
       for (let i = 0; i < this.reports.length; i++) {
         if (
@@ -122,10 +110,18 @@ export default {
           this.reports[i].status === "clearedByExaminer" ||
           this.reports[i].status === "vivaDateSet"
         ) {
-          break;
+          return true;
         }
       }
-      this.studentUpdates = true;
+      return false;
+    },
+  },
+  methods: {
+    logOut() {
+      this.closeOnContentClick = false;
+      this.$store.dispatch("logout").then(() => {
+        this.$router.push("/");
+      });
     },
   },
 };

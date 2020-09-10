@@ -10,7 +10,7 @@
           class="title font-weight-bold text-capitalize white--text"
           to="/examiner-dashboard"
         >
-          <v-badge v-if="studentUpdates" color="teal" dot>
+          <v-badge v-if="checkForUpdates" color="teal" dot>
             <span>Dashboard</span>
           </v-badge>
           <span v-else>Dashboard</span>
@@ -19,7 +19,7 @@
       <v-row justify="end" align="center">
         <v-col md="auto" class="d-sm-none d-md-flex">
           <v-btn text class="title text-capitalize white--text" to="/examiner-dashboard">
-            <v-badge v-if="studentUpdates" color="teal" dot>
+            <v-badge v-if="checkForUpdates" color="teal" dot>
               <span>Dashboard</span>
             </v-badge>
             <span v-else>Dashboard</span>
@@ -74,19 +74,13 @@
   </nav>
 </template>
 <script>
-import StudentData from "@/services/student-events.js";
 export default {
   name: "examiner-navbar",
   data() {
     return {
       loading: false,
       closeOnContentClick: true,
-      students: StudentData,
-      studentUpdates: false,
     };
-  },
-  mounted() {
-    this.checkForUpdates();
   },
   computed: {
     isLoading() {
@@ -101,6 +95,17 @@ export default {
     assignedStudents() {
       return this.$store.getters.assignedStudents;
     },
+    checkForUpdates() {
+      for (let i = 0; i < this.assignedStudents.length; i++) {
+        if (
+          this.assignedStudents[i].status === "submitted" ||
+          this.assignedStudents[i].status === "withExaminer"
+        ) {
+          return true;
+        }
+      }
+      return false;
+    },
   },
   methods: {
     logOut() {
@@ -108,17 +113,6 @@ export default {
       this.$store.dispatch("logout").then(() => {
         this.$router.push("/");
       });
-    },
-    checkForUpdates() {
-      for (let i = 0; i < this.assignedStudents.length; i++) {
-        if (
-          this.assignedStudents[i].status === "submitted" ||
-          this.assignedStudents[i].status === "withExaminer"
-        ) {
-          this.studentUpdates = true;
-          return;
-        }
-      }
     },
   },
 };

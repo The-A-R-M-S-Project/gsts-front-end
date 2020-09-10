@@ -37,7 +37,7 @@
           >
             <v-btn text class="title text-capitalize">
               <v-icon large>mdi-account-group</v-icon>
-              <v-badge v-if="studentUpdates" color="pink" dot>
+              <v-badge v-if="checkForUpdates" color="pink" dot>
                 <span>&nbsp;Students</span>
               </v-badge>
               <span v-else>&nbsp;Students</span>
@@ -49,7 +49,7 @@
           <v-list-item class="my-6" to="/examiner-dashboard" v-if="user.role==='examiner'">
             <v-btn text class="title text-capitalize">
               <v-icon large>mdi-desktop-mac-dashboard</v-icon>
-              <v-badge v-if="studentUpdates" color="pink" dot>
+              <v-badge v-if="checkForUpdates" color="pink" dot>
                 <span>&nbsp;Dashboard</span>
               </v-badge>
               <span v-else>&nbsp;Dashboard</span>
@@ -89,14 +89,12 @@
 
 <script>
 import SelectSchool from "@/components/SelectSchool.vue";
-
 export default {
   name: "mobile-drawer",
   data() {
     return {
       drawer: false,
       loading: false,
-      studentUpdates: false,
     };
   },
   computed: {
@@ -109,9 +107,27 @@ export default {
     reports() {
       return this.$store.getters.reports;
     },
-  },
-  mounted() {
-    this.checkForUpdates();
+    assignedStudents() {
+      return this.$store.getters.assignedStudents;
+    },
+    checkForUpdates() {
+      let reports = [];
+      if (this.user.role === "examiner") {
+        reports = this.assignedStudents;
+      } else {
+        reports = this.reports;
+      }
+      for (let i = 0; i < reports.length; i++) {
+        if (
+          reports[i].status === "submitted" ||
+          reports[i].status === "clearedByExaminer" ||
+          reports[i].status === "vivaDateSet"
+        ) {
+          return true;
+        }
+      }
+      return false;
+    },
   },
   methods: {
     logOut() {
@@ -119,20 +135,6 @@ export default {
       this.$store.dispatch("logout").then(() => {
         this.$router.push("/");
       });
-    },
-    checkForUpdates() {
-      for (let i = 0; i < this.reports.length; i++) {
-        if (
-          this.reports[i].status === "submitted" ||
-          this.reports[i].status === "clearedByExaminer" ||
-          this.reports[i].status === "vivaDateSet"
-        ) {
-          this.studentUpdates = true;
-          break;
-        } else {
-          this.studentUpdates = false;
-        }
-      }
     },
   },
   components: {
