@@ -276,16 +276,19 @@ export default {
         this.student.report.status === "notSubmitted"
       ) {
         let newReport = {};
-        if (this.reportAbstract.length > 0) {
-          newReport = {
-            title: this.reportTitle,
-            abstract: this.reportAbstract,
-          };
-        } else {
-          newReport = {
-            title: this.reportTitle,
-          };
-        }
+        // if (this.reportAbstract.length > 0) {
+        //   newReport = {
+        //     title: this.reportTitle,
+        //     abstract: this.reportAbstract,
+        //   };
+        // } else {
+        //   newReport = {
+        //     title: this.reportTitle,
+        //   };
+        // }
+        newReport = {
+          title: this.reportTitle,
+        };
         if (this.student.report.title === undefined) {
           this.$store.dispatch("createReport", newReport).then(() => {
             this.displayReportActionMessage = true;
