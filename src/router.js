@@ -17,7 +17,7 @@ import DeanDashboard from "./views/DeanDashboard.vue";
 import ExaminerDashboard from "./views/ExaminerDashboard.vue";
 import StudentActivity from './views/StudentActivity.vue'
 import StudentProfile from "./views/StudentProfile.vue";
-import ElevatedStaffProfile from "./views/ElevatedStaffProfile.vue"
+import StaffProfile from "./views/StaffProfile.vue"
 import StudentSubmission from "./views/StudentSubmission.vue"
 import ExpiredSession from "./views/ExpiredSession.vue";
 import UnderConstruction from "./views/UnderConstruction.vue";
@@ -127,7 +127,7 @@ let router = new Router({
         }, {
             path: "/:role/profile",
             name: "elevated-staff-profile",
-            component: ElevatedStaffProfile,
+            component: StaffProfile,
             meta: {
                 requiresAuth: true,
                 is_principal: true,

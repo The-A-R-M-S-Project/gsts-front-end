@@ -52,7 +52,7 @@
             <v-list>
               <v-list-item>
                 <v-list-item-title>
-                  <v-btn text class="text-capitalize" to="/under-construction">
+                  <v-btn text class="text-capitalize" :to="`/${user.role}/profile`">
                     <v-icon>mdi-account</v-icon>
                     <span>&nbsp;Profile</span>
                   </v-btn>
