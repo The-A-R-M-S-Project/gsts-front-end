@@ -2,11 +2,8 @@ import axiosInstance from "../axios_setup";
 const state = {
     assignedStudents: [],
     fetchAssignedStudentsError: null,
-    receiveReportMessage: '',
-    displayReceiveReportMessage: false,
+    assignedStudentsTableMessage: '',
     receiveReportError: null,
-    clearReportMessage: '',
-    displayClearReportMessage: false,
     clearReportError: null,
     examinerStudentDetails: {}
 }
@@ -18,15 +15,29 @@ const mutations = {
         state.fetchAssignedStudentsError = payload
     },
     receiveReportSuccess(state, payload) {
-        state.receiveReportMessage = payload
-        state.displayReceiveReportMessage = true
+        let str = payload.res
+        let success = `${
+            str[0].toUpperCase()
+        }${
+            str.slice(1)
+        }`;
+        state.assignedStudentsTableMessage = `${success}. You've acknowledged receipt of ${
+            payload.student
+        }'s report`
     },
     setReceiveReportError(state, payload) {
         state.receiveReportError = payload
     },
     clearReportSuccess(state, payload) {
-        state.clearReportMessage = payload
-        state.displayClearReportMessage = true
+        let str = payload.res
+        let success = `${
+            str[0].toUpperCase()
+        }${
+            str.slice(1)
+        }`;
+        state.assignedStudentsTableMessage = `${success}. You've cleared ${
+            payload.student
+        }'s report`
     },
     setClearReportError(state, payload) {
         state.clearReportError = payload
@@ -54,8 +65,13 @@ const actions = {
         commit("setSubmitLoader", true)
         let accessToken = localStorage.getItem("jwt");
         axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-        await axiosInstance.patch(`/staff/report/receive/${data}`).then(response => {
-            commit("receiveReportSuccess", response.data.status)
+        await axiosInstance.patch(`/staff/report/receive/${
+            data.report
+        }`).then(response => {
+            commit("receiveReportSuccess", {
+                res: response.data.status,
+                student: data.studentName
+            })
             commit("setDisplayStudentTableFeedback", true)
             commit("setSubmitLoader", false)
         }).catch(error => {
@@ -72,7 +88,10 @@ const actions = {
         await axiosInstance.patch(`/staff/report/clear/${
             data.report
         }`, data.score).then(response => {
-            commit("clearReportSuccess", response.data.status)
+            commit("clearReportSuccess", {
+                res: response.data.status,
+                student: data.studentName
+            })
             commit("setDisplayStudentTableFeedback", true)
             commit("setSubmitLoader", false)
         }).catch(error => {
@@ -88,8 +107,7 @@ const actions = {
 }
 const getters = {
     assignedStudents: (state) => state.assignedStudents,
-    receiveReportMessage: (state) => state.displayReceiveReportMessage,
-    clearReportMessage: (state) => state.displayClearReportMessage,
+    assignedStudentsTableMessage: (state) => state.assignedStudentsTableMessage,
     examinerStudentDetails: (state) => state.examinerStudentDetails
 }
 

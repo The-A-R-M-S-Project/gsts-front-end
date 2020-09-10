@@ -25,6 +25,7 @@
       show-expand
       ref="assignedStudentsTable"
       item-key="_id"
+      :key="assignedStudentsTableKey"
     >
       <template v-slot:no-results>
         <v-alert
@@ -38,19 +39,11 @@
           <tr>
             <th :colspan="headers.length">
               <v-alert
-                v-if="receiveReportMessage"
                 color="success"
                 dark
                 class="text-center mt-2"
                 dismissible
-              >You've acknowledged receipt of {{ receivedReportStudent }}'s report</v-alert>
-              <v-alert
-                v-if="clearReportMessage"
-                color="success"
-                dark
-                class="text-center mt-2"
-                dismissible
-              >You've cleared {{ clearedReportStudent }}'s report.</v-alert>
+              >{{ assignedStudentsTableMessage }}</v-alert>
             </th>
           </tr>
         </thead>
@@ -92,7 +85,7 @@
                       <v-card-text class="py-3 px-6">
                         <p class="body-1">
                           By clicking the "Agree" button, you are acknowledging receipt of
-                          <strong>{{ receivedReportStudent }}</strong>'s report.
+                          <strong>{{ examinerStudentDetails.name }}</strong>'s report.
                         </p>
                       </v-card-text>
                       <v-divider></v-divider>
@@ -163,9 +156,8 @@ export default {
     return {
       search: "",
       expanded: [],
-      receivedReportStudent: "",
       itemsPerPage: 6,
-      clearedReportStudent: "",
+      assignedStudentsTableKey: 0,
       score: null,
       dialog: false,
       scoreRules: [
@@ -260,11 +252,8 @@ export default {
     displayStudentTableFeedback() {
       return this.$store.getters.displayStudentTableFeedback;
     },
-    receiveReportMessage() {
-      return this.$store.getters.receiveReportMessage;
-    },
-    clearReportMessage() {
-      return this.$store.getters.clearReportMessage;
+    assignedStudentsTableMessage() {
+      return this.$store.getters.assignedStudentsTableMessage;
     },
   },
   methods: {
@@ -294,18 +283,19 @@ export default {
       } else return "Not set";
     },
     receiveReport() {
-      this.receivedReportStudent = this.examinerStudentDetails.name;
       this.$store
-        .dispatch("receiveReport", this.examinerStudentDetails.report)
+        .dispatch("receiveReport", {
+          report: this.examinerStudentDetails.report,
+          studentName: this.examinerStudentDetails.name,
+        })
         .then(() => {
           this.dialog = false;
           this.$store.dispatch("fetchAssignedStudents").then(() => {
-            this.$refs.assignedStudentsTable.$forceUpdate();
+            this.assignedStudentsTableKey++;
           });
         });
     },
     setReportScore() {
-      this.clearedReportStudent = this.examinerStudentDetails.name;
       if (this.$refs.reportScore.validate()) {
         this.$store
           .dispatch("clearStudentReport", {
@@ -313,11 +303,12 @@ export default {
             score: {
               examinerScore: this.score,
             },
+            studentName: this.examinerStudentDetails.name,
           })
           .then(() => {
             this.dialog = false;
             this.$store.dispatch("fetchAssignedStudents").then(() => {
-              this.$refs.assignedStudentsTable.$forceUpdate();
+              this.assignedStudentsTableKey++;
             });
           });
       }
