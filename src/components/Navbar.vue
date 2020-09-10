@@ -70,14 +70,12 @@
 </template>
 <script>
 import SelectSchool from "./SelectSchool.vue";
-import StudentData from "@/services/student-events.js";
 export default {
   name: "menu-bar",
   data() {
     return {
       loading: false,
       closeOnContentClick: true,
-      students: StudentData,
       studentUpdates: false,
     };
   },

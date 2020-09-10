@@ -89,7 +89,6 @@
 
 <script>
 import SelectSchool from "@/components/SelectSchool.vue";
-import StudentData from "@/services/student-events.js";
 
 export default {
   name: "mobile-drawer",
@@ -97,7 +96,6 @@ export default {
     return {
       drawer: false,
       loading: false,
-      students: StudentData,
       studentUpdates: false,
     };
   },

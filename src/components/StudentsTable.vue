@@ -155,8 +155,6 @@
 </template>
 
 <script>
-import StudentData from "@/services/student-events.js";
-import DepartmentService from "@/services/departments-service.js";
 import AssignExaminer from "@/components/AssignExaminer.vue";
 import SetVivaDate from "@/components/SetVivaDate.vue";
 import SetVivaScore from "@/components/SetVivaScore.vue";
@@ -245,7 +243,6 @@ export default {
         withExaminer: 4,
         vivaComplete: 5,
       },
-      students: StudentData,
       displayAssignExaminerMessage: false,
       selectedSchool: null,
       selectedDepartment: null,

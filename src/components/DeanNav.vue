@@ -79,14 +79,12 @@
   </nav>
 </template>
 <script>
-import StudentData from "@/services/student-events.js";
 export default {
   name: "dean-navbar",
   data() {
     return {
       loading: false,
       closeOnContentClick: true,
-      students: StudentData,
       studentUpdates: false,
     };
   },
@@ -103,6 +101,9 @@ export default {
     user() {
       return this.$store.getters.user;
     },
+    reports() {
+      return this.$store.getters.reports;
+    },
     schoolName() {
       return this.$store.getters.schoolName;
     },
@@ -115,11 +116,11 @@ export default {
       });
     },
     checkForUpdates() {
-      for (let i = 0; i < this.students.length; i++) {
+      for (let i = 0; i < this.reports.length; i++) {
         if (
-          this.students[i].status === "submitted" ||
-          this.students[i].status === "clearedByExaminer" ||
-          this.students[i].status === "vivaDateSet"
+          this.reports[i].status === "submitted" ||
+          this.reports[i].status === "clearedByExaminer" ||
+          this.reports[i].status === "vivaDateSet"
         ) {
           break;
         }
