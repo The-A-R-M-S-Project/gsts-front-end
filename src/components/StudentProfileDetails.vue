@@ -9,8 +9,10 @@
               <v-avatar color="orange" size="162">
                 <v-img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John">
                   <template v-slot:placeholder>
-                    <v-row class="fill-height ma-0" align="center" justify="center">
-                      <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                    <v-row align="center" justify="center">
+                      <v-col>
+                        <v-icon large>mdi-account</v-icon>
+                      </v-col>
                     </v-row>
                   </template>
                 </v-img>
@@ -32,17 +34,20 @@
                       <v-col>
                         <div class="pa-1">
                           <span class="font-weight-bold">Name</span>
-                          : Student Name
+                          : {{user.name}}
                         </div>
 
-                        <div class="pa-1">
-                          <span class="font-weight-bold">Gender</span> : Male
+                        <div class="pa-1 text-capitalize">
+                          <span class="font-weight-bold">Role</span>
+                          : {{user.role}}
                         </div>
                         <div class="pa-1">
-                          <span class="font-weight-bold">Email</span> : Student@cedat.mak.ac.ug
+                          <span class="font-weight-bold">Email</span>
+                          : {{user.email}}
                         </div>
                         <div class="pa-1">
-                          <span class="font-weight-bold">Contacts</span> : +256701000000
+                          <span class="font-weight-bold">Contacts</span>
+                          : {{user.phoneNumber}}
                         </div>
                       </v-col>
                     </v-row>
@@ -74,7 +79,8 @@
                           <span class="font-weight-bold">Year of Study</span> : I
                         </div>
                         <div class="pa-1">
-                          <span class="font-weight-bold">Report Status</span> : With Examiner
+                          <span class="font-weight-bold">Report Status</span>
+                          : {{ progressEvents[`${student.report.status}`].message}}
                         </div>
                       </v-col>
                     </v-row>
@@ -91,5 +97,49 @@
 <script>
 export default {
   name: "student-profile",
+  data() {
+    return {
+      progressEvents: {
+        notSubmitted: {
+          value: 0,
+          message: "Not submitted",
+          color: "grey",
+        },
+        submitted: {
+          value: 17,
+          message: "Submitted",
+          color: "deep-orange darken-2",
+        },
+        withExaminer: {
+          value: 39,
+          message: "With examiner",
+          color: "orange",
+        },
+        clearedByExaminer: {
+          value: 56,
+          message: "Cleared by examiner",
+          color: "amber",
+        },
+        vivaDateSet: {
+          value: 73,
+          message: "Viva date set",
+          color: "yellow darken-1",
+        },
+        vivaComplete: {
+          value: 100,
+          message: "Viva complete",
+          color: "green lighten-2",
+        },
+      },
+    };
+  },
+  computed: {
+    user() {
+      return this.$store.getters.user;
+    },
+    student() {
+      return this.$store.getters.student;
+    },
+  },
 };
 </script>
