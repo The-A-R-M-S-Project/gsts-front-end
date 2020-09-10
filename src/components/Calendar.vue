@@ -1,16 +1,15 @@
 <template>
   <v-row class="pa-3 pb-5">
     <v-card class="mt-3 mx-auto">
-      <v-sheet class="v-sheet--offset mx-auto" color="cyan" max-width="calc(100% - 32px)" dark>
-        <v-date-picker
-          v-model="date"
-          full-width
-          :events="eventDatesArr"
-          event-color="teal"
-          color="purple"
-          :landscape="!$vuetify.breakpoint.xs?true:false"
-        ></v-date-picker>
-      </v-sheet>
+      <v-date-picker
+        v-model="date"
+        full-width
+        :events="arrayEvents"
+        dark
+        event-color="orange"
+        color="purple"
+        :landscape="!$vuetify.breakpoint.xs?true:false"
+      ></v-date-picker>
       <v-list three-line>
         <v-subheader>This Month</v-subheader>
         <template v-for="(event, index) in events">
@@ -45,72 +44,71 @@
 </template>
 
 <script>
-import CalendarEvents from "@/services/calendar-events-service.js";
-
 export default {
   data: () => ({
     date: new Date().toISOString().substr(0, 10),
     selectedDate: "",
-    eventDatesArr: null,
+    arrayEvents: null,
     eventDetails: {},
     events: [
       {
         day: "Wed",
         date: "3",
         title: "Presentation for mechanical engineering students",
-        location: "Cedat conference hall"
+        location: "Cedat conference hall",
       },
       {
         day: "Mon",
         date: "8",
         title: "Presentation for civil engineering students",
-        location: "Cedat conference hall"
+        location: "Cedat conference hall",
       },
       {
         day: "Fri",
         date: "19",
         title: "Viva",
-        location: "Cedat conference hall"
+        location: "Cedat conference hall",
       },
       {
         day: "Tue",
         date: "23",
         title: "Presentation for electrical engineering students",
-        location: "Cedat conference hall"
+        location: "Cedat conference hall",
       },
       {
         day: "Mon",
         date: "29",
         title: "Presentation for computer engineering students",
-        location: "Cedat conference hall"
-      }
-    ]
+        location: "Cedat conference hall",
+      },
+    ],
   }),
 
   methods: {
-    clickedEvent: function(event) {
+    clickedEvent: function (event) {
       this.eventDetails = event;
     },
-    clearEvent: function() {
+    clearEvent: function () {
       this.eventDetails = {};
-    }
+    },
   },
 
   computed: {
-    // events: function() {
-    //   return CalendarEvents.getEventsByDate(this.date);
-    // },
-    eventBody: function() {
+    eventBody: function () {
       return this.eventDetails;
-    }
+    },
   },
-
   mounted() {
-    this.eventDatesArr = CalendarEvents.eventDates;
+    this.arrayEvents = [...Array(6)].map(() => {
+      const day = Math.floor(Math.random() * 30);
+      const d = new Date();
+      d.setDate(day);
+      return d.toISOString().substr(0, 10);
+    });
   },
   updated() {
     this.selectedDate = this.date;
-  }
+  },
 };
 </script>
 <style>
