@@ -44,7 +44,7 @@
               <div class="text-center">
                 <v-btn
                   v-for="icon in icons"
-                  :key="icon"
+                  :key="icon.name"
                   :href="icon.link"
                   class="mx-2 text-center"
                   dark
