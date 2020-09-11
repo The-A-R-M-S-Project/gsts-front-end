@@ -28,9 +28,6 @@ export default {
   },
   methods: {
     createChart(chartId, chartData) {
-      let keys = this.reportStatus.map((obj) => {
-        return Object.keys(obj);
-      });
       let values = this.reportStatus.map((obj) => {
         return Object.values(obj);
       });
@@ -91,14 +88,25 @@ export default {
         document.documentElement.clientWidth || 0,
         window.innerWidth || 0
       );
+      let keys = this.reportStatus.map((obj) => {
+        return Object.keys(obj);
+      });
+      let shortNames = {
+        "Geomatics and Land Management": "GLM",
+        "Architecture and Physical planning": "APP",
+        "Construction Economics and Management": "CEM",
+        "Electrical and Computer Engineering": "ECE",
+        "Mechanical Engineering": "ME",
+        "Civil and Environmental Engineering": "CEE",
+      };
       if (vw < 960) {
-        return ["ECE", "ME", "CEE"];
-      } else {
         return [
-          "Electrical and Computer Engineering",
-          "Mechanical Engineering",
-          "Civil and Environmental Engineering",
+          shortNames[`${keys[0][0]}`],
+          shortNames[`${keys[1][0]}`],
+          shortNames[`${keys[2][0]}`],
         ];
+      } else {
+        return [keys[0][0], keys[1][0], keys[2][0]];
       }
     },
   },
