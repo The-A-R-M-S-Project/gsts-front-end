@@ -1,29 +1,10 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Login from "./views/Login.vue";
-import ForgotStaffPass from "./views/ForgotStaffPass.vue";
-import ForgotStudentPass from "./views/ForgotStudentPass.vue";
-import ResetPassword from "./views/ResetPassword.vue";
-import Register from "./views/Register.vue";
-import Students from "./views/Students.vue";
-import Examiners from "./views/Examiners.vue";
-import ExaminersDetails from "./views/ExaminerDetails.vue";
-import ECEDashboard from "./views/ECEDashboard.vue";
-import FADashboard from "./views/FADashboard.vue";
-import PrincipalDashboard from "./views/PrincipalDashboard";
-import PrincipalStudentDashboard from "./views/PrincipalStudentDashboard.vue"
-import StudentDashboard from "./views/StudentDashboard.vue";
-import DeanDashboard from "./views/DeanDashboard.vue";
-import ExaminerDashboard from "./views/ExaminerDashboard.vue";
-import StudentActivity from './views/StudentActivity.vue'
-import StudentProfile from "./views/StudentProfile.vue";
-import StaffProfile from "./views/StaffProfile.vue"
-import StudentSubmission from "./views/StudentSubmission.vue"
-import ExpiredSession from "./views/ExpiredSession.vue";
-import UnderConstruction from "./views/UnderConstruction.vue";
-import PageNotFound from "./components/PageNotFound.vue";
 
 Vue.use(Router);
+function lazyLoad(view) {
+    return() => import (`@/views/${view}.vue`)
+}
 
 let router = new Router({
     mode: "history",
@@ -31,7 +12,7 @@ let router = new Router({
         {
             path: "/",
             name: "login",
-            component: Login,
+            component: lazyLoad('Login'),
             meta: {
                 guest: true
             }
@@ -39,7 +20,7 @@ let router = new Router({
         {
             path: "/forgot-staff-password",
             name: "forgot-staff-password",
-            component: ForgotStaffPass,
+            component: lazyLoad('ForgotStaffPass'),
             meta: {
                 guest: true
             }
@@ -47,7 +28,7 @@ let router = new Router({
         {
             path: "/forgot-student-password",
             name: "forgot-student-password",
-            component: ForgotStudentPass,
+            component: lazyLoad('ForgotStudentPass'),
             meta: {
                 guest: true
             }
@@ -55,21 +36,21 @@ let router = new Router({
         {
             path: "/:role/secret/edit",
             name: "reset-password",
-            component: ResetPassword,
+            component: lazyLoad('ResetPassword'),
             meta: {
                 guest: true
             }
         }, {
             path: "/register",
             name: "register",
-            component: Register,
+            component: lazyLoad('Register'),
             meta: {
                 guest: true
             }
         }, {
             path: "/student-dashboard",
             name: "student-dashboard",
-            component: StudentDashboard,
+            component: lazyLoad('StudentDashboard'),
             redirect: "/student-dashboard/report-status",
             meta: {
                 requiresAuth: true,
@@ -79,21 +60,21 @@ let router = new Router({
                 {
                     path: "submit-report",
                     name: "submit-report",
-                    component: StudentSubmission
+                    component: lazyLoad('StudentSubmission')
                 }, {
                     path: "report-status",
                     name: "report-status",
-                    component: StudentActivity
+                    component: lazyLoad('StudentActivity')
                 }, {
                     path: "student-profile",
                     name: "studentProfile",
-                    component: StudentProfile
+                    component: lazyLoad('StudentProfile')
                 },
             ]
         },, {
             path: "/examiner-dashboard",
             name: "examiner-dashboard",
-            component: ExaminerDashboard,
+            component: lazyLoad('ExaminerDashboard'),
             meta: {
                 requiresAuth: true,
                 is_examiner: true
@@ -101,7 +82,7 @@ let router = new Router({
         }, {
             path: "/dean-dashboard",
             name: "dean-dashboard",
-            component: DeanDashboard,
+            component: lazyLoad('DeanDashboard'),
             meta: {
                 requiresAuth: true,
                 is_dean: true
@@ -109,7 +90,7 @@ let router = new Router({
         }, {
             path: "/principal-dashboard",
             name: "principal-dashboard",
-            component: PrincipalDashboard,
+            component: lazyLoad('PrincipalDashboard'),
             meta: {
                 requiresAuth: true,
                 is_principal: true
@@ -117,7 +98,7 @@ let router = new Router({
         }, {
             path: "/student-progress",
             name: "student-progress",
-            component: PrincipalStudentDashboard,
+            component: lazyLoad('PrincipalStudentDashboard'),
             meta: {
                 requiresAuth: true,
                 is_principal: true,
@@ -127,7 +108,7 @@ let router = new Router({
         }, {
             path: "/:role/profile",
             name: "elevated-staff-profile",
-            component: StaffProfile,
+            component: lazyLoad('StaffProfile'),
             meta: {
                 requiresAuth: true,
                 is_principal: true,
@@ -136,7 +117,7 @@ let router = new Router({
         }, {
             path: "/ECE-dashboard",
             name: "ece-dashboard",
-            component: ECEDashboard,
+            component: lazyLoad('ECEDashboard'),
             meta: {
                 requiresAuth: true,
                 is_principal: true
@@ -144,7 +125,7 @@ let router = new Router({
         }, {
             path: "/BE-dashboard",
             name: "be-dashboard",
-            component: ECEDashboard,
+            component: lazyLoad('ECEDashboard'),
             meta: {
                 requiresAuth: true,
                 is_principal: true
@@ -152,7 +133,7 @@ let router = new Router({
         }, {
             path: "/FA-dashboard",
             name: "fa-dashboard",
-            component: FADashboard,
+            component: lazyLoad('FADashboard'),
             meta: {
                 requiresAuth: true,
                 is_principal: true
@@ -160,7 +141,7 @@ let router = new Router({
         }, {
             path: "/students",
             name: "students",
-            component: Students,
+            component: lazyLoad('Students'),
             meta: {
                 requiresAuth: true,
                 is_principal: true,
@@ -169,16 +150,7 @@ let router = new Router({
         }, {
             path: "/examiners",
             name: "examiners",
-            component: Examiners,
-            meta: {
-                requiresAuth: true,
-                is_principal: true,
-                is_dean: true
-            }
-        }, {
-            path: "/examinersdetails",
-            name: "examinersDetails",
-            component: ExaminersDetails,
+            component: lazyLoad('Examiners'),
             meta: {
                 requiresAuth: true,
                 is_principal: true,
@@ -187,17 +159,17 @@ let router = new Router({
         }, {
             path: "/expired-session",
             name: "expired-session",
-            component: ExpiredSession,
+            component: lazyLoad('ExpiredSession'),
             meta: {
                 requiresAuth: true
             }
         }, {
             path: "/under-construction",
             name: "under-construction",
-            component: UnderConstruction
+            component: lazyLoad('UnderConstruction')
         }, {
             path: "*",
-            component: PageNotFound
+            component: lazyLoad('PageNotFound')
         },
     ]
 });
