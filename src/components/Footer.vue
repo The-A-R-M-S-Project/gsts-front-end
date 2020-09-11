@@ -11,13 +11,13 @@
           </v-col>
           <v-col cols="12" md="4">
             <v-row align="start" justify="center">
-              <v-btn text dark>Makerere University</v-btn>
+              <v-btn text target="_blank" href="https://www.mak.ac.ug/" dark>Makerere University</v-btn>
             </v-row>
             <v-row align="start" justify="center">
-              <v-btn text dark>CEDAT</v-btn>
+              <v-btn text target="_blank" href="https://cedat.mak.ac.ug/" dark>CEDAT</v-btn>
             </v-row>
             <v-row align="start" justify="center">
-              <v-btn text dark>Intranet</v-btn>
+              <v-btn text target="_blank" href="https://intranet.mak.ac.ug/" dark>Intranet</v-btn>
             </v-row>
           </v-col>
           <v-col cols="12" md="4">
@@ -42,8 +42,16 @@
               <v-divider dark class="mx-auto"></v-divider>
               <div class="footer-text mt-2 text-center white--text">Follow us</div>
               <div class="text-center">
-                <v-btn v-for="icon in icons" :key="icon" class="mx-2 text-center" dark icon>
-                  <v-icon size="24px">{{ icon }}</v-icon>
+                <v-btn
+                  v-for="icon in icons"
+                  :key="icon"
+                  :href="icon.link"
+                  class="mx-2 text-center"
+                  dark
+                  icon
+                  target="_blank"
+                >
+                  <v-icon size="24px">{{ icon.name }}</v-icon>
                 </v-btn>
               </div>
             </v-col>
@@ -64,7 +72,15 @@ export default {
   name: "gsts-footer",
   data() {
     return {
-      icons: ["mdi-facebook", "mdi-twitter", "mdi-linkedin", "mdi-google-plus"],
+      icons: [
+        { name: "mdi-facebook", link: "https://www.facebook.com/Makerere" },
+        { name: "mdi-twitter", link: "https://twitter.com/MakerereU" },
+        {
+          name: "mdi-linkedin",
+          link: "https://www.linkedin.com/school/makerere/",
+        },
+        { name: "mdi-google-plus", link: "https://google.com/+MakAcUgKampala" },
+      ],
     };
   },
 };
