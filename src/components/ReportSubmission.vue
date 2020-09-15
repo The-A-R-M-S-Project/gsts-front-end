@@ -193,14 +193,6 @@ export default {
       reportTitle: "",
       reportAbstract: "",
       reportMessage: "",
-      statuses: [
-        "notSubmitted",
-        "submitted",
-        "withExaminer",
-        "clearedByExaminer",
-        "vivaDateSet",
-        "vivaComplete",
-      ],
       displayReportActionMessage: false,
       displaySubmitReportMessage: false,
       tab: null,
@@ -273,7 +265,8 @@ export default {
       event.preventDefault();
       if (
         this.$refs.createReportForm.validate() &&
-        this.student.report.status === "notSubmitted"
+        (this.student.report.status === "notSubmitted" ||
+          this.student.report === undefined)
       ) {
         let newReport = {};
         // if (this.reportAbstract.length > 0) {
@@ -289,17 +282,11 @@ export default {
         newReport = {
           title: this.reportTitle,
         };
-        if (this.student.report.title === undefined) {
-          this.$store.dispatch("createReport", newReport).then(() => {
-            this.displayReportActionMessage = true;
-            this.$store.dispatch("fetchLoggedInStudentDetails");
-          });
-        } else {
-          this.$store.dispatch("editReport", newReport).then(() => {
-            this.displayReportActionMessage = true;
-            this.$store.dispatch("fetchLoggedInStudentDetails");
-          });
-        }
+
+        this.$store.dispatch("editReport", newReport).then(() => {
+          this.displayReportActionMessage = true;
+          this.$store.dispatch("fetchLoggedInStudentDetails");
+        });
       }
     },
     submitReport() {

@@ -188,7 +188,9 @@ export default {
   created() {
     if (this.user.role === "student") {
       this.$store.dispatch("fetchLoggedInStudentDetails").then(() => {
-        this.e6 = this.progressEvents[`${this.student.report.status}`].step;
+        if (this.student.report !== undefined) {
+          this.e6 = this.progressEvents[`${this.student.report.status}`].step;
+        }
       });
     }
     this.e6 = this.progressEvents[`${this.student.report.status}`].step;

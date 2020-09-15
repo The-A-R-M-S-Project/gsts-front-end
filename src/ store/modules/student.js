@@ -7,7 +7,8 @@ const state = {
     studentReportError: null,
     reportSubmitError: null,
     studentDashboardError: null,
-    submitReportLoading: false
+    submitReportLoading: false,
+    reportSectionKey: 0
 }
 const mutations = {
     setLoggedInStudentDetails(state, payload) {
@@ -36,6 +37,9 @@ const mutations = {
     },
     setReportSubmitLoader(state, payload) {
         state.submitReportLoading = payload
+    },
+    changeReportSectionKey(state) {
+        state.reportSectionKey ++
     }
 }
 const actions = {
@@ -73,6 +77,7 @@ const actions = {
         axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
         await axiosInstance.post("/student/report", data).then(response => {
             commit("addNewReport", response.data.message)
+            commit("changeReportSectionKey")
             commit("setDetailLoader", false)
         }).catch(error => {
             commit("setDetailLoader", false)
