@@ -4,7 +4,24 @@
     <MobileDrawer />
     <OverlayLoader />
     <div :class="{'progress': !$vuetify.breakpoint.xs}">
-      <v-row no-gutters>
+      <v-row v-if="student.report === undefined" align="center" justify="center">
+        <v-col class="text-center">
+          <span class="grey--text display-1 no-report text-center">
+            <v-icon large color="purple">mdi-lock-open</v-icon>&nbsp; Unlock your dashboard.
+            <br />
+            <span class="title">
+              Click
+              <span
+                class="yellow--text text--darken-3"
+                style="cursor: pointer"
+                @click="submitReport"
+              >here</span>
+              to create a new report
+            </span>
+          </span>
+        </v-col>
+      </v-row>
+      <v-row v-else no-gutters>
         <v-col cols="12" lg="9">
           <StudentProgress class="mb-6" />
         </v-col>
@@ -42,6 +59,11 @@ export default {
   created() {
     this.$store.dispatch("fetchLoggedInStudentDetails");
   },
+  computed: {
+    student() {
+      return this.$store.getters.student;
+    },
+  },
   methods: {
     submitReport() {
       this.$router.push("submit-report");
@@ -61,5 +83,12 @@ export default {
 <style>
 .progress .v-btn--example {
   margin: 0 1rem 2rem 2rem;
+}
+#no-report-found {
+  text-align: center;
+}
+.no-report {
+  display: inline-block;
+  margin: 40vh auto 40vh auto;
 }
 </style>
