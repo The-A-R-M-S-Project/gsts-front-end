@@ -5,7 +5,7 @@
         <v-card max-width="90%" class="elevation-24">
           <v-row no-gutters>
             <v-col md="5">
-              <v-container class="text-center" fill-height overlayed>
+              <v-container class="text-center overlayed" fill-height>
                 <v-row>
                   <v-col class="px-4 py-2">
                     <h1 class="display-3 font-weight-light">Welcome</h1>
@@ -272,7 +272,9 @@ export default {
       lastName: "",
       email: "",
       emailRules: [
-        (emailField) => /.+@+/.test(emailField) || "Please enter a valid email",
+        (emailField) =>
+          /.+@cedat\.mak\.ac\.ug/.test(emailField) ||
+          "Please enter a valid email",
       ],
       password: "",
       passwordRules: (len) => [
@@ -349,5 +351,25 @@ export default {
     margin: auto;
     font-weight: bold;
   }
+}
+.overlayed {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+    url("~@/assets/img/login-2.jpg");
+  position: relative;
+  color: white;
+  background-position: center;
+}
+.auth-pages {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  height: 100%;
+  width: 100%;
+  padding: 12px;
+  margin-right: auto;
+  margin-left: auto;
 }
 </style>
