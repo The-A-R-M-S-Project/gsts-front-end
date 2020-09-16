@@ -232,6 +232,13 @@ export default {
   mounted() {
     this.$store.dispatch("setDisplayStudentTableFeedback", false);
   },
+  updated() {
+    if (this.displayStudentTableFeedback) {
+      setTimeout(() => {
+        this.$store.dispatch("setDisplayStudentTableFeedback", false);
+      }, 15000);
+    }
+  },
   computed: {
     assignedStudents() {
       let reports = this.$store.getters.assignedStudents;

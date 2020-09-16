@@ -257,6 +257,13 @@ export default {
   mounted() {
     this.$store.dispatch("setDisplayStudentTableFeedback", false);
   },
+  updated() {
+    if (this.displayStudentTableFeedback) {
+      setTimeout(() => {
+        this.$store.dispatch("setDisplayStudentTableFeedback", false);
+      }, 10000);
+    }
+  },
   computed: {
     tableLoading() {
       return this.$store.getters.tableLoading;
