@@ -1,8 +1,8 @@
 import axiosInstance from "../axios_setup"
 
 const state = {
-    detailLoading: false,
     student: {},
+    selectedStudent: {},
     studentDetailsError: null,
     tableLoading: false,
     reports: [],
@@ -18,11 +18,11 @@ const state = {
     vivaScoreError: null
 }
 const mutations = {
-    setDetailLoader(state, payload) {
-        state.detailLoading = payload
-    },
     fetchStudentDetailsError(state, payload) {
         state.studentDetailsError = payload
+    },
+    setSelectedStudent(state, payload) {
+        state.selectedStudent = payload
     },
     setLoader(state, payload) {
         state.tableLoading = payload
@@ -180,6 +180,11 @@ const actions = {
             commit("setVivaScoreError", error.response.data.message)
         })
     },
+    setSelectedStudent({
+        commit
+    }, data) {
+        commit("setSelectedStudent", data)
+    },
     setDisplayStudentTableFeedback({
         commit
     }, data) {
@@ -190,9 +195,9 @@ const actions = {
     }
 }
 const getters = {
-    detailLoading: (state) => state.detailLoading,
     submitLoading: (state) => state.submitLoading,
     tableLoading: (state) => state.tableLoading,
+    selectedStudent: (state) => state.selectedStudent,
     reports: (state) => state.reports,
     examiners: (state) => {
         return state.examiners.filter(staff => {

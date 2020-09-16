@@ -2,6 +2,7 @@ import axiosInstance from "../axios_setup";
 
 const state = {
     student: {},
+    detailLoading: false,
     reportActionMessage: '',
     reportSubmitMessage: '',
     studentReportError: null,
@@ -11,6 +12,9 @@ const state = {
     reportSectionKey: 0
 }
 const mutations = {
+    setDetailLoader(state, payload) {
+        state.detailLoading = payload
+    },
     setLoggedInStudentDetails(state, payload) {
         state.student = payload
     },
@@ -115,6 +119,7 @@ const actions = {
 }
 const getters = {
     student: (state) => state.student,
+    detailLoading: (state) => state.detailLoading,
     studentSchool: (state) => {
         return state.schools.filter((school) => {
             return school._id === state.student.school;

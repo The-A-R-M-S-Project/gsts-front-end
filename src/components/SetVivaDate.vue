@@ -57,8 +57,8 @@ export default {
     this.displayDateTimeError = false;
   },
   computed: {
-    student() {
-      return this.$store.getters.student;
+    selectedStudent() {
+      return this.$store.getters.selectedStudent;
     },
     submitLoading() {
       return this.$store.getters.submitLoading;
@@ -71,8 +71,8 @@ export default {
         let dateTime = `${date}${this.time}:00.000+03:00`;
         this.$store
           .dispatch("setVivaDate", {
-            reportID: this.student.report._id,
-            studentName: this.student.name,
+            reportID: this.selectedStudent._id,
+            studentName: this.selectedStudent.student.name,
             vivaDate: { vivaDate: dateTime },
           })
           .then(() => {

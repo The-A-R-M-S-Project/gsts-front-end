@@ -70,12 +70,13 @@
       :items="filteredStudents"
       :search="search"
       :custom-sort="sortStudentsByProcess"
-      :expanded="expanded"
+      :expanded.sync="expanded"
       @click:row="itemClicked"
       show-expand
+      @item-expanded="itemExpanded"
       item-key="_id"
       :loading="tableLoading"
-      loader-height="1rem"
+      :loader-height="tableLoaderHeight"
       :key="studentsTableKey"
     >
       <template v-slot:header="{ props: { headers } }">
@@ -162,6 +163,7 @@ export default {
   data() {
     return {
       search: "",
+      tableLoaderHeight: 8,
       filters: {
         status: [],
       },
@@ -318,7 +320,10 @@ export default {
       } else {
         this.expanded.splice(index, 1);
       }
-      this.$store.dispatch("setStudentDetails", value);
+      this.$store.dispatch("setSelectedStudent", value);
+    },
+    itemExpanded(value) {
+      this.$store.dispatch("setSelectedStudent", value.item);
     },
     viewDetails(student) {
       this.$store.dispatch("setStudentDetails", student).then(() => {

@@ -8,7 +8,7 @@
       <v-card>
         <v-card-title class="text-center headline purple white--text">Assign an examiner</v-card-title>
         <v-card-text class="py-3 px-6">
-          <p class="body-1">Assign an examiner to {{student.name}}</p>
+          <p class="body-1">Assign an examiner to {{selectedStudent.student.name}}</p>
           <v-form ref="selectExaminerForm">
             <v-autocomplete
               v-model="examiner"
@@ -76,10 +76,9 @@ export default {
   created() {
     this.$store.dispatch("fetchExaminers");
   },
-
   computed: {
-    student() {
-      return this.$store.getters.student;
+    selectedStudent() {
+      return this.$store.getters.selectedStudent;
     },
     field() {
       if (!this.examiner) return {};
@@ -99,9 +98,9 @@ export default {
         this.$store
           .dispatch("assignExaminer", {
             examinerID: this.examiner._id,
-            studentReportID: this.student.report._id,
+            studentReportID: this.selectedStudent._id,
             examinerName: assignedExaminer,
-            studentName: this.student.name,
+            studentName: this.selectedStudent.student.name,
           })
           .then(() => {
             this.$store.dispatch("fetchReports").then(() => {

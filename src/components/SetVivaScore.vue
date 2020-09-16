@@ -38,8 +38,8 @@ export default {
     };
   },
   computed: {
-    student() {
-      return this.$store.getters.student;
+    selectedStudent() {
+      return this.$store.getters.selectedStudent;
     },
     submitLoading() {
       return this.$store.getters.submitLoading;
@@ -50,8 +50,8 @@ export default {
       if (this.$refs.vivaScore.validate()) {
         this.$store
           .dispatch("setVivaScore", {
-            reportID: this.student.report._id,
-            studentName: this.student.name,
+            reportID: this.selectedStudent._id,
+            studentName: this.selectedStudent.student.name,
             vivaScore: { vivaScore: this.score },
           })
           .then(() => {

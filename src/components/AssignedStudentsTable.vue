@@ -22,6 +22,7 @@
       :expanded="expanded"
       @click:row="itemClicked"
       :items-per-page="itemsPerPage"
+      @item-expanded="itemExpanded"
       show-expand
       ref="assignedStudentsTable"
       item-key="_id"
@@ -272,6 +273,9 @@ export default {
         this.expanded.splice(index, 1);
       }
       this.$store.dispatch("setExaminerStudentDetails", value.student);
+    },
+    itemExpanded(value) {
+      this.$store.dispatch("setExaminerStudentDetails", value.item.student);
     },
     viewDetails(student) {
       this.$store.dispatch("setStudentDetails", student).then(() => {
