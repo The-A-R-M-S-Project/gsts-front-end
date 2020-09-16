@@ -106,6 +106,14 @@ let router = new Router({
                 is_examiner: true
             }
         }, {
+            path: "/student-report",
+            name: "student-report",
+            component: lazyLoad('ExaminerStudentReport'),
+            meta: {
+                requiresAuth: true,
+                is_examiner: true
+            }
+        }, {
             path: "/:role/profile",
             name: "elevated-staff-profile",
             component: lazyLoad('StaffProfile'),

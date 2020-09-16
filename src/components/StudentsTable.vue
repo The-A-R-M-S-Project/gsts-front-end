@@ -191,7 +191,7 @@ export default {
         },
         {
           text: "PROGRAM",
-          value: "program",
+          value: "student.program.name",
         },
         { text: "STATUS", value: "status" },
         { text: "VIVA DATE", value: "vivaDate" },

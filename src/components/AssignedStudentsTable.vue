@@ -99,42 +99,11 @@
                   </v-dialog>
                 </div>
                 <div class="text-center" v-else-if="item.status === 'withExaminer'">
-                  <v-dialog v-model="dialog" width="500">
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-btn
-                        v-bind="attrs"
-                        v-on="on"
-                        :loading="submitLoading"
-                        color="primary"
-                      >Set score</v-btn>
-                    </template>
-
-                    <v-card>
-                      <v-card-title class="text-center headline purple white--text">Set a score</v-card-title>
-                      <v-card-text class="py-3 px-6">
-                        <p class="body-1">
-                          Set a score for
-                          <strong>{{ examinerStudentDetails.name }}</strong>'s report.
-                        </p>
-                        <v-form ref="reportScore">
-                          <v-text-field
-                            min="0"
-                            max="100"
-                            :rules="scoreRules"
-                            v-model="score"
-                            label="Set score"
-                            type="number"
-                          ></v-text-field>
-                        </v-form>
-                      </v-card-text>
-                      <v-divider></v-divider>
-                      <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn color="error" text @click="dialog = false">Cancel</v-btn>
-                        <v-btn color="success" text @click="setReportScore">Save</v-btn>
-                      </v-card-actions>
-                    </v-card>
-                  </v-dialog>
+                  <v-btn
+                    @click="viewReport(item)"
+                    :loading="detailLoading"
+                    color="primary"
+                  >Set score</v-btn>
                 </div>
                 <v-btn
                   v-else
@@ -159,12 +128,7 @@ export default {
       expanded: [],
       itemsPerPage: 6,
       assignedStudentsTableKey: 0,
-      score: null,
       dialog: false,
-      scoreRules: [
-        (score) => !!score || "A score is required",
-        (score) => (score < 100 && score >= 0) || "Invalid score",
-      ],
       headers: [
         {
           value: "action",
@@ -179,7 +143,7 @@ export default {
         },
         {
           text: "PROGRAM",
-          value: "program",
+          value: "student.program.name",
         },
         { text: "STATUS", value: "status" },
         { text: "VIVA DATE", value: "vivaDate" },
@@ -282,6 +246,11 @@ export default {
         this.$router.push("/student-progress");
       });
     },
+    viewReport(student) {
+      this.$store.dispatch("setStudentDetails", student).then(() => {
+        this.$router.push("/student-report");
+      });
+    },
     callToAction(status) {
       if (status === "submitted" || status === "withExaminer") return true;
       else return false;
@@ -305,24 +274,6 @@ export default {
             this.assignedStudentsTableKey++;
           });
         });
-    },
-    setReportScore() {
-      if (this.$refs.reportScore.validate()) {
-        this.$store
-          .dispatch("clearStudentReport", {
-            report: this.examinerStudentDetails.report,
-            score: {
-              examinerScore: this.score,
-            },
-            studentName: this.examinerStudentDetails.name,
-          })
-          .then(() => {
-            this.dialog = false;
-            this.$store.dispatch("fetchAssignedStudents").then(() => {
-              this.assignedStudentsTableKey++;
-            });
-          });
-      }
     },
   },
 };
