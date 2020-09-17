@@ -8,7 +8,7 @@
       <v-card>
         <v-card-title class="text-center headline purple white--text">Set viva date</v-card-title>
         <v-card-text class="py-3 px-6">
-          <p class="black--text body-1">Set viva date for {{student.name}}</p>
+          <p class="black--text body-1">Set viva date for {{selectedStudent.student.name}}</p>
           <v-alert
             v-if="displayDateTimeError"
             dark

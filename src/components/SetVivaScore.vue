@@ -8,7 +8,7 @@
       <v-card>
         <v-card-title class="text-center headline purple white--text">Set viva score</v-card-title>
         <v-card-text class="py-3 px-6">
-          <p class="body-1">Set viva score for {{student.name}}</p>
+          <p class="body-1">Set viva score for {{selectedStudent.student.name}}</p>
           <v-form ref="vivaScore">
             <v-text-field v-model="score" label="Set score" :rules="scoreRules" type="number"></v-text-field>
           </v-form>
