@@ -66,6 +66,18 @@
                       height="28"
                       color="purple"
                     ></v-text-field>
+                    <v-autocomplete
+                      v-model="program"
+                      :items="programs"
+                      item-text="name"
+                      prepend-inner-icon="mdi-school"
+                      label="Select your program"
+                      single-line
+                      height="28"
+                      :rules="nameRules"
+                      return-object
+                      color="purple"
+                    ></v-autocomplete>
                     <v-text-field
                       v-model="phoneNumber"
                       label="Phone Number e.g +2567... or 07..."
@@ -200,6 +212,18 @@
             height="2rem"
             color="purple"
           ></v-text-field>
+          <v-autocomplete
+            v-model="program"
+            :items="programs"
+            item-text="name"
+            hide-details
+            prepend-inner-icon="mdi-school"
+            label="Select your program"
+            single-line
+            :rules="nameRules"
+            return-object
+            color="purple"
+          ></v-autocomplete>
           <v-text-field
             v-model="phoneNumber"
             label="Phone Number e.g +2567... or 07..."
@@ -265,6 +289,7 @@ export default {
   data() {
     return {
       firstName: "",
+      program: "",
       showPassword: false,
       showConfirm: false,
       loading: false,
@@ -297,6 +322,26 @@ export default {
       ],
     };
   },
+  created() {
+    this.$store.dispatch("fetchPrograms");
+  },
+  computed: {
+    programs() {
+      return this.$store.getters.programs;
+    },
+    isLogged() {
+      return this.$store.getters.isLoggedIn;
+    },
+    user() {
+      return this.$store.getters.user;
+    },
+    isLoading() {
+      return this.$store.getters.isLoading;
+    },
+    signupError() {
+      return this.$store.getters.signupError;
+    },
+  },
   methods: {
     register() {
       event.preventDefault();
@@ -306,6 +351,7 @@ export default {
             firstName: this.firstName,
             lastName: this.lastName,
             email: this.email,
+            program: this.program._id,
             password: this.password,
             passwordConfirm: this.passwordConfirm,
             phoneNumber: this.phoneNumber,
@@ -326,19 +372,8 @@ export default {
           });
       }
     },
-  },
-  computed: {
-    isLogged() {
-      return this.$store.getters.isLoggedIn;
-    },
-    user() {
-      return this.$store.getters.user;
-    },
-    isLoading() {
-      return this.$store.getters.isLoading;
-    },
-    signupError() {
-      return this.$store.getters.signupError;
+    showProgram() {
+      console.log(this.program);
     },
   },
 };
