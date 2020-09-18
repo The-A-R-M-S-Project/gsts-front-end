@@ -32,20 +32,20 @@
                   <v-card-text class="pa-3">
                     <v-row>
                       <v-col>
-                        <div class="pa-1">
+                        <div class="px-1 py-2">
                           <span class="font-weight-bold">Name</span>
                           : {{user.lastName}} {{user.firstName}}
                         </div>
 
-                        <div class="pa-1 text-capitalize">
+                        <div class="px-1 py-2 text-capitalize">
                           <span class="font-weight-bold">Role</span>
                           : {{user.role}}
                         </div>
-                        <div class="pa-1">
+                        <div class="px-1 py-2">
                           <span class="font-weight-bold">Email</span>
                           : {{user.email}}
                         </div>
-                        <div class="pa-1">
+                        <div class="px-1 py-2">
                           <span class="font-weight-bold">Contacts</span>
                           : {{user.phoneNumber}}
                         </div>
@@ -56,7 +56,11 @@
               </v-col>
 
               <v-col cols="12" md="6">
-                <v-card elevation="24" class="purple--text">
+                <v-card
+                  elevation="24"
+                  class="purple--text"
+                  :height="($vuetify.breakpoint.xs || $vuetify.breakpoint.sm)?undefined:'29vh'"
+                >
                   <div class="text-xs-center">
                     <h3 class="py-2 px-4 text-center text-sm-left">Academic Details</h3>
                   </div>
@@ -64,17 +68,17 @@
                   <v-card-text class="pa-3">
                     <v-row>
                       <v-col>
-                        <div class="pa-1">
+                        <div class="px-1 py-2">
                           <span class="font-weight-bold">College</span> : College of Engineering, Design, Art and Technology (CEDAT)
                         </div>
-                        <div class="pa-1">
+                        <div class="px-1 py-2">
                           <span class="font-weight-bold">School</span> : School of Engineering
                         </div>
-                        <div class="pa-1">
+                        <div class="px-1 py-2">
                           <span class="font-weight-bold">Department</span>
                           : Electrical and Computer Engineering
                         </div>
-                        <div class="pa-1">
+                        <div class="px-1 py-2">
                           <span class="font-weight-bold">Office</span> : Room 306
                         </div>
                       </v-col>
