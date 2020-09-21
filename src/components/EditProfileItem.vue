@@ -7,9 +7,30 @@
         </v-card-title>
         <v-card-text>
           <v-form ref="editProfileForm">
-            <v-text-field v-if="profileItemTag === 'name'" label="Name"></v-text-field>
-            <v-text-field v-if="profileItemTag === 'email'" label="Email"></v-text-field>
-            <v-text-field v-if="profileItemTag === 'phone'" label="Phone"></v-text-field>
+            <v-text-field
+              v-if="profileItemTag === 'name'"
+              v-model="firstname"
+              :rules="nameRules"
+              label="First name"
+            ></v-text-field>
+            <v-text-field
+              v-if="profileItemTag === 'name'"
+              v-model="lastname"
+              :rules="nameRules"
+              label="Last name"
+            ></v-text-field>
+            <v-text-field
+              v-if="profileItemTag === 'email'"
+              v-model="email"
+              :rules="emailRules"
+              label="Email"
+            ></v-text-field>
+            <v-text-field
+              v-if="profileItemTag === 'phone'"
+              v-model="phoneNumber"
+              :rules="phoneNumberRules(10)"
+              label="Phone"
+            ></v-text-field>
           </v-form>
         </v-card-text>
         <v-card-actions>
@@ -25,6 +46,28 @@
 <script>
 export default {
   name: "edit-profile-item",
+  data() {
+    return {
+      email: "",
+      emailRules: [
+        (email) => !!email || "E-mail is required",
+        (email) =>
+          /.+@cedat\.mak\.ac\.ug/.test(email) || "Please enter a valid email",
+      ],
+      firstname: "",
+      lastname: "",
+      nameRules: [(name) => !!name || "This field is required"],
+      phoneNumber: "",
+      phoneNumberRules: (len) => [
+        (phoneNumberField) =>
+          (phoneNumberField || "").length === 10 ||
+          `Phone number must be ${len} digits`,
+        (number) => !!number || "Phone number is required",
+        (number) =>
+          /(?=^07)(?=\d{10})/.test(number) || "The phone number is not valid",
+      ],
+    };
+  },
   computed: {
     profileItemTag() {
       return this.$store.getters.profileItemTag;
