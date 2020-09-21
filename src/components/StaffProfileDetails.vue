@@ -5,18 +5,31 @@
       <v-card class="pa-3">
         <v-row>
           <v-col cols="12">
-            <v-row justify="center" align="center">
-              <v-avatar color="orange" size="162">
-                <v-img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John">
-                  <template v-slot:placeholder>
-                    <v-row align="center" justify="center">
-                      <v-col>
-                        <v-icon large>mdi-account</v-icon>
-                      </v-col>
-                    </v-row>
-                  </template>
-                </v-img>
-              </v-avatar>
+            <v-row justify="center" align="center" no-gutters>
+              <v-col :cols="$vuetify.breakpoint.xs?9:7">
+                <div class="text-right">
+                  <v-avatar color="orange" size="162">
+                    <v-img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John">
+                      <template v-slot:placeholder>
+                        <v-row align="center" justify="center">
+                          <v-col>
+                            <v-icon large>mdi-account</v-icon>
+                          </v-col>
+                        </v-row>
+                      </template>
+                    </v-img>
+                  </v-avatar>
+                </div>
+              </v-col>
+              <v-col :cols="$vuetify.breakpoint.xs?3:5" class="pl-2">
+                <v-file-input
+                  label="Profile picture upload"
+                  v-model="profilePic"
+                  accept="image/*"
+                  hide-input
+                  prepend-icon="mdi-pencil"
+                ></v-file-input>
+              </v-col>
             </v-row>
           </v-col>
           <v-col cols="12">
@@ -32,22 +45,31 @@
                   <v-card-text class="pa-3">
                     <v-row>
                       <v-col>
-                        <div class="px-1 py-2">
+                        <div class="px-1">
                           <span class="font-weight-bold">Name</span>
                           : {{user.lastName}} {{user.firstName}}
+                          <v-btn icon>
+                            <v-icon>mdi-pencil</v-icon>
+                          </v-btn>
                         </div>
 
-                        <div class="px-1 py-2 text-capitalize">
+                        <div class="px-1 py-2">
                           <span class="font-weight-bold">Role</span>
                           : {{user.role}}
                         </div>
-                        <div class="px-1 py-2">
+                        <div class="px-1">
                           <span class="font-weight-bold">Email</span>
                           : {{user.email}}
+                          <v-btn icon>
+                            <v-icon>mdi-pencil</v-icon>
+                          </v-btn>
                         </div>
-                        <div class="px-1 py-2">
+                        <div class="px-1">
                           <span class="font-weight-bold">Contacts</span>
                           : {{user.phoneNumber}}
+                          <v-btn icon>
+                            <v-icon>mdi-pencil</v-icon>
+                          </v-btn>
                         </div>
                       </v-col>
                     </v-row>
@@ -96,6 +118,11 @@
 <script>
 export default {
   name: "elevated-staff-profile-details",
+  data() {
+    return {
+      profilePic: null,
+    };
+  },
   computed: {
     user() {
       return this.$store.getters.user;
