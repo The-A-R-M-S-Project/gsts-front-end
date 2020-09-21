@@ -15,7 +15,9 @@ const state = {
     studentsTableMessage: '',
     vivaDateError: null,
     studentsTableKey: 0,
-    vivaScoreError: null
+    vivaScoreError: null,
+    profileItemTag: null,
+    editProfile: false
 }
 const mutations = {
     fetchStudentDetailsError(state, payload) {
@@ -95,6 +97,12 @@ const mutations = {
     },
     setVivaScoreError(state, payload) {
         state.vivaScoreError = payload
+    },
+    setProfileItemTag(state, payload) {
+        state.profileItemTag = payload
+    },
+    setProfileEdit(state, payload) {
+        state.editProfile = payload
     }
 }
 const actions = {
@@ -192,7 +200,20 @@ const actions = {
     },
     changeStudentsTableKey({commit}) {
         commit("changeStudentsTableKey")
-    }
+    },
+    setProfileItemTag({
+        commit
+    }, data) {
+        commit("setProfileItemTag", data)
+        commit("setProfileEdit", true)
+    },
+    showProfileEditor({
+        commit
+    }, payload) {
+        commit("setProfileEdit", payload)
+    },
+    // filterBySchool({commit}) {},
+    // filterByDepartment({commit}) {}
 }
 const getters = {
     submitLoading: (state) => state.submitLoading,
@@ -208,7 +229,9 @@ const getters = {
     assignedExaminer: (state) => state.assignedExaminer,
     displayStudentTableFeedback: (state) => state.displayStudentTableFeedback,
     studentsTableMessage: (state) => state.studentsTableMessage,
-    studentsTableKey: (state) => state.studentsTableKey
+    studentsTableKey: (state) => state.studentsTableKey,
+    profileItemTag: (state) => state.profileItemTag,
+    editProfile: (state) => state.editProfile
 }
 
 export default {state, mutations, actions, getters}

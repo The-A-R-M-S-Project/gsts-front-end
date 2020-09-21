@@ -5,6 +5,7 @@
     <ExaminersNavbar v-if="user.role === 'examiner'" class="d-none d-sm-block" />
     <MobileDrawer />
     <StaffProfileDetails />
+    <EditProfileItem />
     <Footer />
   </div>
 </template>
@@ -15,6 +16,7 @@ import DeanNav from "@/components/DeanNav.vue";
 import ExaminersNavbar from "@/components/ExaminersNavbar.vue";
 import MobileDrawer from "@/components/MobileDrawer.vue";
 import StaffProfileDetails from "@/components/StaffProfileDetails.vue";
+import EditProfileItem from "@/components/EditProfileItem.vue";
 import Footer from "@/components/Footer.vue";
 
 export default {
@@ -30,6 +32,7 @@ export default {
     ExaminersNavbar,
     MobileDrawer,
     StaffProfileDetails,
+    EditProfileItem,
     Footer,
   },
 };

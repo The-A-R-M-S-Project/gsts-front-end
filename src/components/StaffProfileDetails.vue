@@ -48,7 +48,7 @@
                         <div class="px-1">
                           <span class="font-weight-bold">Name</span>
                           : {{user.lastName}} {{user.firstName}}
-                          <v-btn icon>
+                          <v-btn @click="changeProfileItem('name')" icon>
                             <v-icon>mdi-pencil</v-icon>
                           </v-btn>
                         </div>
@@ -60,14 +60,14 @@
                         <div class="px-1">
                           <span class="font-weight-bold">Email</span>
                           : {{user.email}}
-                          <v-btn icon>
+                          <v-btn @click="changeProfileItem('email')" icon>
                             <v-icon>mdi-pencil</v-icon>
                           </v-btn>
                         </div>
                         <div class="px-1">
                           <span class="font-weight-bold">Contacts</span>
                           : {{user.phoneNumber}}
-                          <v-btn icon>
+                          <v-btn @click="changeProfileItem('phone')" icon>
                             <v-icon>mdi-pencil</v-icon>
                           </v-btn>
                         </div>
@@ -126,6 +126,11 @@ export default {
   computed: {
     user() {
       return this.$store.getters.user;
+    },
+  },
+  methods: {
+    changeProfileItem(tag) {
+      this.$store.dispatch("setProfileItemTag", tag);
     },
   },
 };
