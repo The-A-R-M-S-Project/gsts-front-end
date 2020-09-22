@@ -84,6 +84,9 @@ export default {
     profileEditLoader() {
       return this.$store.getters.profileEditLoader;
     },
+    user() {
+      return this.$store.getters.user;
+    },
   },
   methods: {
     closeProfileEditor() {
@@ -106,14 +109,24 @@ export default {
           profileEditObject = {
             phoneNumber: this.phoneNumber,
           };
+
         this.$store
-          .dispatch("editProfileDetails", profileEditObject)
+          .dispatch("editProfileDetails", {
+            item: profileEditObject,
+            role: this.setUserRole(),
+          })
           .then(() => {
             this.$store.dispatch("showProfileEditor", false).then(() => {
-              this.$store.dispatch("fetchLoggedInStaff");
+              if (this.setUserRole() === "staff")
+                this.$store.dispatch("fetchLoggedInStaff");
+              else this.$store.dispatch("fetchLoggedInStudentDetails");
             });
           });
       }
+    },
+    setUserRole() {
+      if (this.user.role === "student") return "student";
+      else return "staff";
     },
   },
 };

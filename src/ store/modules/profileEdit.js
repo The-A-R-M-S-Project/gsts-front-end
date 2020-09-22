@@ -39,7 +39,9 @@ const actions = {
         commit("setProfileEditLoader", true)
         let accessToken = localStorage.getItem("jwt");
         axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-        await axiosInstance.patch("/staff/updateMe", data).then(response => {
+        await axiosInstance.patch(`/${
+            data.role
+        }/updateMe`, data.item).then(response => {
             commit("profileEditSucess", response.data.status)
             commit("setProfileEditLoader", false)
             commit("displayProfileEditMessage", true)

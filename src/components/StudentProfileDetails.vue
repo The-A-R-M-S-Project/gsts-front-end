@@ -3,51 +3,76 @@
     <div class="display-1 text-center font-weight-medium mb-4">Profile</div>
     <div class="grey lighten-3">
       <v-card class="pa-3">
+        <v-alert
+          v-if="displayProfileEditMessage"
+          dark
+          color="success"
+          class="text-center"
+          dismissible
+        >{{ profileEditMessage }}</v-alert>
         <v-row>
           <v-col cols="12">
-            <v-row justify="center" align="center">
-              <v-avatar color="orange" size="162">
-                <v-img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John">
-                  <template v-slot:placeholder>
-                    <v-row align="center" justify="center">
-                      <v-col>
-                        <v-icon large>mdi-account</v-icon>
-                      </v-col>
-                    </v-row>
-                  </template>
-                </v-img>
-              </v-avatar>
+            <v-row justify="center" align="center" no-gutters>
+              <v-col :cols="$vuetify.breakpoint.xs?9:7">
+                <div class="text-right">
+                  <v-avatar color="orange" size="162">
+                    <v-img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John">
+                      <template v-slot:placeholder>
+                        <v-row align="center" justify="center">
+                          <v-col>
+                            <v-icon large>mdi-account</v-icon>
+                          </v-col>
+                        </v-row>
+                      </template>
+                    </v-img>
+                  </v-avatar>
+                </div>
+              </v-col>
+              <v-col :cols="$vuetify.breakpoint.xs?3:5" class="pl-2">
+                <v-file-input
+                  label="Profile picture upload"
+                  v-model="profilePic"
+                  accept="image/*"
+                  hide-input
+                  prepend-icon="mdi-pencil"
+                ></v-file-input>
+              </v-col>
             </v-row>
           </v-col>
           <v-col cols="12">
             <v-row>
               <v-col cols="12" md="6">
-                <v-card
-                  :height="($vuetify.breakpoint.xs || $vuetify.breakpoint.sm)?undefined:'29vh'"
-                  elevation="24"
-                  class="teal--text"
-                >
+                <v-card elevation="24" class="teal--text">
                   <h3 class="py-2 px-4 text-center text-sm-left">Personal Details</h3>
                   <v-divider light></v-divider>
                   <v-card-text class="pa-3">
                     <v-row>
                       <v-col>
-                        <div class="pa-1">
+                        <div class="px-1">
                           <span class="font-weight-bold">Name</span>
-                          : {{user.name}}
+                          : {{student.name}}
+                          <v-btn @click="changeProfileItem('name')" icon>
+                            <v-icon>mdi-pencil</v-icon>
+                          </v-btn>
                         </div>
 
-                        <div class="pa-1 text-capitalize">
+                        <div class="px-1 py-2 text-capitalize">
                           <span class="font-weight-bold">Role</span>
-                          : {{user.role}}
+                          : {{student.role}}
                         </div>
-                        <div class="pa-1">
+                        <div class="px-1">
                           <span class="font-weight-bold">Email</span>
-                          : {{user.email}}
+                          : {{student.email}}
+                          <v-btn @click="changeProfileItem('email')" icon>
+                            <v-icon>mdi-pencil</v-icon>
+                          </v-btn>
                         </div>
-                        <div class="pa-1">
+                        <div class="px-1">
                           <span class="font-weight-bold">Contacts</span>
-                          : {{user.phoneNumber}}
+                          : {{student.phoneNumber}}
+                          <v-btn @click="changeProfileItem('phone')" icon>
+                            <v-icon>mdi-pencil</v-icon>
+                          </v-btn>
                         </div>
                       </v-col>
                     </v-row>
@@ -64,21 +89,16 @@
                   <v-card-text class="pa-3">
                     <v-row>
                       <v-col>
-                        <div class="pa-1">
-                          <span class="font-weight-bold">Department</span>
-                          : Electrical and Computer Engineering
-                        </div>
-
-                        <div class="pa-1">
+                        <div class="px-1 py-2">
                           <span class="font-weight-bold">Programme</span> : Master of Science in telecom engineering
                         </div>
-                        <div class="pa-1">
+                        <div class="px-1 py-2">
                           <span class="font-weight-bold">Registraion Number</span> : 19/U/168/PS
                         </div>
-                        <div class="pa-1">
+                        <div class="px-1 py-2">
                           <span class="font-weight-bold">Year of Study</span> : I
                         </div>
-                        <div class="pa-1">
+                        <div class="px-1 py-2">
                           <span class="font-weight-bold">Report Status</span>
                           : {{ progressEvents[`${student.report.status}`].message}}
                         </div>
@@ -99,6 +119,7 @@ export default {
   name: "student-profile",
   data() {
     return {
+      profilePic: null,
       progressEvents: {
         notSubmitted: {
           value: 0,
@@ -133,12 +154,23 @@ export default {
       },
     };
   },
+  created() {
+    this.$store.dispatch("displayProfileEditMessage", false);
+  },
   computed: {
-    user() {
-      return this.$store.getters.user;
-    },
     student() {
       return this.$store.getters.student;
+    },
+    profileEditMessage() {
+      return this.$store.getters.profileEditMessage;
+    },
+    displayProfileEditMessage() {
+      return this.$store.getters.displayProfileEditMessage;
+    },
+  },
+  methods: {
+    changeProfileItem(tag) {
+      this.$store.dispatch("setProfileItemTag", tag);
     },
   },
 };

@@ -54,14 +54,14 @@
                       <v-col>
                         <div class="px-1">
                           <span class="font-weight-bold">Name</span>
-                          : {{user.firstName}} {{user.lastName}}
+                          : {{user.lastName}} {{user.firstName}}
                           <v-btn @click="changeProfileItem('name')" icon>
                             <v-icon>mdi-pencil</v-icon>
                           </v-btn>
                         </div>
 
                         <div class="px-1 py-2">
-                          <span class="font-weight-bold">Role</span>
+                          <span class="font-weight-bold text-capitalize">Role</span>
                           : {{user.role}}
                         </div>
                         <div class="px-1">

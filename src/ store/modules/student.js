@@ -16,6 +16,7 @@ const mutations = {
         state.detailLoading = payload
     },
     setLoggedInStudentDetails(state, payload) {
+        state.user = payload
         state.student = payload
     },
     studentDetails(state, payload) {
