@@ -5,19 +5,19 @@
         <v-card-title>
           <span class="headline">Edit Profile</span>
         </v-card-title>
-        <v-card-text>
-          <v-form ref="editProfileForm">
+        <v-form ref="editProfileForm" class="px-3">
+          <v-card-text>
+            <v-text-field
+              v-if="profileItemTag === 'name'"
+              v-model="lastname"
+              :rules="nameRules"
+              label="Surname"
+            ></v-text-field>
             <v-text-field
               v-if="profileItemTag === 'name'"
               v-model="firstname"
               :rules="nameRules"
               label="First name"
-            ></v-text-field>
-            <v-text-field
-              v-if="profileItemTag === 'name'"
-              v-model="lastname"
-              :rules="nameRules"
-              label="Last name"
             ></v-text-field>
             <v-text-field
               v-if="profileItemTag === 'email'"
@@ -29,15 +29,21 @@
               v-if="profileItemTag === 'phone'"
               v-model="phoneNumber"
               :rules="phoneNumberRules(10)"
-              label="Phone"
+              label="Phone (07........)"
             ></v-text-field>
-          </v-form>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="closeProfileEditor">Close</v-btn>
-          <v-btn color="success" text @click="closeProfileEditor">Save</v-btn>
-        </v-card-actions>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="closeProfileEditor">Close</v-btn>
+            <v-btn
+              color="success"
+              type="submit"
+              text
+              :loading="profileEditLoader"
+              @click="changeProfileDetails"
+            >Save</v-btn>
+          </v-card-actions>
+        </v-form>
       </v-card>
     </v-dialog>
   </v-row>
@@ -75,10 +81,39 @@ export default {
     editProfile() {
       return this.$store.getters.editProfile;
     },
+    profileEditLoader() {
+      return this.$store.getters.profileEditLoader;
+    },
   },
   methods: {
     closeProfileEditor() {
       this.$store.dispatch("showProfileEditor", false);
+    },
+    changeProfileDetails() {
+      event.preventDefault();
+      if (this.$refs.editProfileForm.validate()) {
+        let profileEditObject = {};
+        if (this.profileItemTag === "name")
+          profileEditObject = {
+            firstName: this.firstname,
+            lastName: this.lastname,
+          };
+        else if (this.profileItemTag === "email")
+          profileEditObject = {
+            email: this.email,
+          };
+        else if (this.profileItemTag === "phone")
+          profileEditObject = {
+            phoneNumber: this.phoneNumber,
+          };
+        this.$store
+          .dispatch("editProfileDetails", profileEditObject)
+          .then(() => {
+            this.$store.dispatch("showProfileEditor", false).then(() => {
+              this.$store.dispatch("fetchLoggedInStaff");
+            });
+          });
+      }
     },
   },
 };

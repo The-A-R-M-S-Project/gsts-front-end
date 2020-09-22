@@ -14,7 +14,8 @@ const state = {
     resetEmail: null,
     isLoggedIn: false,
     logoutError: null,
-    user: {}
+    user: {},
+    loggedInUserError: null
 };
 const mutations = {
     setPrograms(state, payload) {
@@ -58,6 +59,9 @@ const mutations = {
     },
     resetPasswordError(state, error) {
         state.resetPasswordError = error;
+    },
+    fetchLoggedInUserError(state, error) {
+        state.loggedInUserError = error
     }
 };
 const actions = {
@@ -145,6 +149,15 @@ const actions = {
             commit("isLoading", false);
             commit("SignupError", error.response.data.message);
         });
+    },
+    async fetchLoggedInStaff({commit}) {
+        let accessToken = localStorage.getItem("jwt");
+        axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+        await axiosInstance.get("/staff/me").then(response => {
+            commit("SetUser", response.data);
+        }).catch((error) => {
+            commit("fetchLoggedInUserError", error.response.data.message)
+        })
     },
     async logout({commit}) {
         commit("isLoading", true);

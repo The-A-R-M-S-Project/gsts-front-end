@@ -3,6 +3,13 @@
     <div class="display-1 text-center font-weight-medium mb-4">Profile</div>
     <div class="grey lighten-3">
       <v-card class="pa-3">
+        <v-alert
+          v-if="displayProfileEditMessage"
+          dark
+          color="success"
+          class="text-center"
+          dismissible
+        >{{ profileEditMessage }}</v-alert>
         <v-row>
           <v-col cols="12">
             <v-row justify="center" align="center" no-gutters>
@@ -47,7 +54,7 @@
                       <v-col>
                         <div class="px-1">
                           <span class="font-weight-bold">Name</span>
-                          : {{user.lastName}} {{user.firstName}}
+                          : {{user.firstName}} {{user.lastName}}
                           <v-btn @click="changeProfileItem('name')" icon>
                             <v-icon>mdi-pencil</v-icon>
                           </v-btn>
@@ -123,9 +130,18 @@ export default {
       profilePic: null,
     };
   },
+  created() {
+    this.$store.dispatch("displayProfileEditMessage", false);
+  },
   computed: {
     user() {
       return this.$store.getters.user;
+    },
+    profileEditMessage() {
+      return this.$store.getters.profileEditMessage;
+    },
+    displayProfileEditMessage() {
+      return this.$store.getters.displayProfileEditMessage;
     },
   },
   methods: {
