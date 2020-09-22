@@ -80,8 +80,8 @@
                     ></v-autocomplete>
                     <v-text-field
                       v-model="phoneNumber"
-                      label="Phone Number e.g +2567... or 07..."
-                      :rules="phoneNumberRules"
+                      label="Phone Number (07........)"
+                      :rules="phoneNumberRules(10)"
                       required
                       prepend-inner-icon="mdi-phone"
                       height="28"
@@ -226,8 +226,8 @@
           ></v-autocomplete>
           <v-text-field
             v-model="phoneNumber"
-            label="Phone Number e.g +2567... or 07..."
-            :rules="phoneNumberRules"
+            label="Phone Number (07........)"
+            :rules="phoneNumberRules(10)"
             required
             prepend-inner-icon="mdi-phone"
             class="mt-5 styled-input normal-text"
@@ -315,10 +315,13 @@ export default {
       nameRules: [(name) => !!name || "This field is required"],
       valid: true,
       phoneNumber: "",
-      phoneNumberRules: [
+      phoneNumberRules: (len) => [
         (phoneNumberField) =>
-          /^(\+2567)[0-9]{8}|^(07)[0-9]{8}/.test(phoneNumberField) ||
-          "Please enter a valid phone Number",
+          (phoneNumberField || "").length === 10 ||
+          `Phone number must be ${len} digits`,
+        (number) => !!number || "Phone number is required",
+        (number) =>
+          /(?=^07)(?=\d{10})/.test(number) || "The phone number is not valid",
       ],
     };
   },
