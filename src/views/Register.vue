@@ -297,9 +297,9 @@ export default {
       lastName: "",
       email: "",
       emailRules: [
-        (emailField) =>
-          /.+@cedat\.mak\.ac\.ug/.test(emailField) ||
-          "Please enter a valid email",
+        (email) => !!email || "E-mail is required",
+        (email) =>
+          /.+@cedat\.mak\.ac\.ug/.test(email) || "Please enter a valid email",
       ],
       password: "",
       passwordRules: (len) => [

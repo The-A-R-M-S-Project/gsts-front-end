@@ -80,10 +80,11 @@ export default {
       displayForgotStaffPasswordError: false,
       email: "",
       emailRules: [
-        emailField =>
-          /.+@+/.test(emailField) || "Please enter a valid college email"
+        (email) => !!email || "E-mail is required",
+        (email) =>
+          /.+@cedat\.mak\.ac\.ug/.test(email) || "Please enter a valid email",
       ],
-      required: [field => !!field || "This field is required"]
+      required: [(field) => !!field || "This field is required"],
     };
   },
   methods: {
@@ -91,7 +92,7 @@ export default {
       event.preventDefault();
       if (this.$refs.forgotStaffPasswordForm.validate()) {
         let resetEmail = {
-          email: this.email
+          email: this.email,
         };
         this.$store.dispatch("requestStaffResetLink", resetEmail).then(() => {
           if (this.forgotStaffPasswordError) {
@@ -99,7 +100,7 @@ export default {
           }
         });
       }
-    }
+    },
   },
   computed: {
     isLoading() {
@@ -107,7 +108,7 @@ export default {
     },
     forgotStaffPasswordError() {
       return this.$store.getters.forgotStaffPasswordError;
-    }
-  }
+    },
+  },
 };
 </script>

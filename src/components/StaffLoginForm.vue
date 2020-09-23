@@ -93,8 +93,9 @@ export default {
     displayLoginError: false,
     email: "",
     emailRules: [
-      (emailField) =>
-        /.+@+/.test(emailField) || "Please enter a valid college email",
+      (email) => !!email || "E-mail is required",
+      (email) =>
+        /.+@cedat\.mak\.ac\.ug/.test(email) || "Please enter a valid email",
     ],
     password: "",
     passwordRules: (len) => [
