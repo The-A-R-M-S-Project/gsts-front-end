@@ -49,9 +49,9 @@
           </tr>
         </thead>
       </template>
-      <template v-slot:item.status="{ item }">{{ progressEvents[`${item.status}`].message }}</template>
-      <template v-slot:item.vivaDate="{ item }">{{ formatDate(item.vivaDate) }}</template>
-      <template v-slot:item.action="{ item }">
+      <template v-slot:[getItemStatus]="{ item }">{{ progressEvents[`${item.status}`].message }}</template>
+      <template v-slot:[getItemVivaDate]="{ item }">{{ formatDate(item.vivaDate) }}</template>
+      <template v-slot:[getItemAction]="{ item }">
         <v-icon small v-if="callToAction(item.status)" color="pink">mdi-circle</v-icon>
       </template>
       <template v-slot:expanded-item="{ headers, item }">
@@ -226,6 +226,15 @@ export default {
     },
     assignedStudentsTableMessage() {
       return this.$store.getters.assignedStudentsTableMessage;
+    },
+    getItemStatus() {
+      return `item.status`;
+    },
+    getItemVivaDate() {
+      return `item.vivaDate`;
+    },
+    getItemAction() {
+      return `item.action`;
     },
   },
   methods: {

@@ -33,7 +33,8 @@
               light
               hide-details
               single-line
-              v-model="selectedDepartment"
+              @input="filterByDepartment"
+              v-model="selectedDepartments"
             ></v-select>
           </v-col>
         </template>
@@ -50,7 +51,7 @@
               light
               hide-details
               single-line
-              v-model="selectedDepartment"
+              v-model="selectedDepartments"
             ></v-select>
           </v-col>
         </template>
@@ -118,9 +119,9 @@
           icon="warning"
         >Your search for "{{ search }}" found no results.</v-alert>
       </template>
-      <template v-slot:item.status="{ item }">{{ progressEvents[`${item.status}`].message }}</template>
-      <template v-slot:item.vivaDate="{ item }">{{ formatDate(item.vivaDate) }}</template>
-      <template v-slot:item.action="{ item }">
+      <template v-slot:[getItemStatus]="{ item }">{{ progressEvents[`${item.status}`].message }}</template>
+      <template v-slot:[getItemVivaDate]="{ item }">{{ formatDate(item.vivaDate) }}</template>
+      <template v-slot:[getItemAction]="{ item }">
         <v-icon small v-if="callToAction(item.status)" color="pink">mdi-circle</v-icon>
       </template>
       <template v-slot:expanded-item="{ headers, item }">
@@ -247,7 +248,7 @@ export default {
       },
       displayAssignExaminerMessage: false,
       selectedSchool: null,
-      selectedDepartment: null,
+      selectedDepartments: null,
     };
   },
   created() {
@@ -308,10 +309,27 @@ export default {
     studentsTableKey() {
       return this.$store.getters.studentsTableKey;
     },
+    getItemStatus() {
+      return `item.status`;
+    },
+    getItemVivaDate() {
+      return `item.vivaDate`;
+    },
+    getItemAction() {
+      return `item.action`;
+    },
   },
   methods: {
     fetchDepartments() {
       this.$store.dispatch("fetchDepartments", this.selectedSchool._id);
+      // this.$store.dispatch("filterBySchool", this.selectedSchool._id);
+      // let students = this.reports.filter((report) => {
+      //   report.student["department"].school === this.selectedSchool._id;
+      // });
+      console.log("Filtered students: ", this.reports);
+    },
+    filterByDepartment() {
+      // this.$store.dispatch("filterByDepartment", this.selectedSchool._id);
     },
     itemClicked(value) {
       const index = this.expanded.indexOf(value);
