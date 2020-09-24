@@ -10,10 +10,16 @@
                   <v-col class="px-4 py-2">
                     <h1 class="display-3 font-weight-light">Welcome</h1>
                     <p class="mt-5 mb-4">
-                      To keep track of your report please
-                      login with your personal information
+                      To keep track of your report please login with your
+                      personal information
                     </p>
-                    <v-btn rounded large depressed to="/" class="register__login-btn grey">
+                    <v-btn
+                      rounded
+                      large
+                      depressed
+                      to="/"
+                      class="register__login-btn grey"
+                    >
                       <v-icon>mdi-subdirectory-arrow-right</v-icon>
                       <span>&nbsp;Login</span>
                     </v-btn>
@@ -30,13 +36,14 @@
                     type="error"
                     dismissible
                     class="mx-7 mt-2 error-alert text-center"
-                  >{{signupError}}</v-alert>
+                    >{{ signupError }}</v-alert
+                  >
                   <v-container class="container px-8 text-center">
                     <v-row>
                       <v-col>
                         <v-text-field
-                          v-model="firstName"
-                          label="First name"
+                          v-model="lastName"
+                          label="Surname"
                           :rules="nameRules"
                           prepend-inner-icon="mdi-account"
                           height="28"
@@ -44,11 +51,10 @@
                           required
                         ></v-text-field>
                       </v-col>
-
                       <v-col>
                         <v-text-field
-                          v-model="lastName"
-                          label="Last name"
+                          v-model="firstName"
+                          label="First name"
                           :rules="nameRules"
                           prepend-inner-icon="mdi-account"
                           height="28"
@@ -92,19 +98,9 @@
                       :rules="passwordRules(8)"
                       label="Password"
                       required
-                      :append-icon="
-                                                showPassword
-                                                    ? 'mdi-eye'
-                                                    : 'mdi-eye-off'
-                                            "
-                      :type="
-                                                showPassword
-                                                    ? 'text'
-                                                    : 'password'
-                                            "
-                      @click:append="
-                                                showPassword = !showPassword
-                                            "
+                      :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                      :type="showPassword ? 'text' : 'password'"
+                      @click:append="showPassword = !showPassword"
                       prepend-inner-icon="mdi-lock"
                       height="28"
                       color="purple"
@@ -114,19 +110,9 @@
                       label="Confirm Password"
                       :rules="passwordConfirmRules"
                       required
-                      :append-icon="
-                                                showConfirm
-                                                    ? 'mdi-eye'
-                                                    : 'mdi-eye-off'
-                                            "
-                      :type="
-                                                showConfirm
-                                                    ? 'text'
-                                                    : 'password'
-                                            "
-                      @click:append="
-                                                showConfirm = !showConfirm
-                                            "
+                      :append-icon="showConfirm ? 'mdi-eye' : 'mdi-eye-off'"
+                      :type="showConfirm ? 'text' : 'password'"
+                      @click:append="showConfirm = !showConfirm"
                       prepend-inner-icon="mdi-lock"
                       height="28"
                       color="purple"
@@ -173,9 +159,22 @@
           type="error"
           dismissible
           class="mx-3 mt-2 mobile-error button-text text-center"
-        >{{ signupError }}</v-alert>
+          >{{ signupError }}</v-alert
+        >
         <v-container class="text-center">
           <v-row no-gutters>
+            <v-col cols="12" xs="12">
+              <v-text-field
+                v-model="lastName"
+                label="Surname"
+                :rules="nameRules"
+                prepend-inner-icon="mdi-account"
+                class="mt-5 styled-input normal-text"
+                height="2rem"
+                color="purple"
+                required
+              ></v-text-field>
+            </v-col>
             <v-col cols="12" xs="12">
               <v-text-field
                 v-model="firstName"
@@ -184,19 +183,6 @@
                 prepend-inner-icon="mdi-account"
                 height="2rem"
                 class="styled-input normal-text"
-                color="purple"
-                required
-              ></v-text-field>
-            </v-col>
-
-            <v-col cols="12" xs="12">
-              <v-text-field
-                v-model="lastName"
-                label="Last name"
-                :rules="nameRules"
-                prepend-inner-icon="mdi-account"
-                class="mt-5 styled-input normal-text"
-                height="2rem"
                 color="purple"
                 required
               ></v-text-field>
