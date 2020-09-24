@@ -6,17 +6,21 @@
         <v-alert
           v-if="displayProfileEditMessage"
           dark
-          color="success"
+          :color="profileEditMessage.includes('Success') ? 'success' : 'error'"
           class="text-center"
           dismissible
-        >{{ profileEditMessage }}</v-alert>
+          >{{ profileEditMessage }}</v-alert
+        >
         <v-row>
           <v-col cols="12">
             <v-row justify="center" align="center" no-gutters>
-              <v-col :cols="$vuetify.breakpoint.xs?9:7">
+              <v-col :cols="$vuetify.breakpoint.xs ? 9 : 7">
                 <div class="text-right">
                   <v-avatar color="orange" size="162">
-                    <v-img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John">
+                    <v-img
+                      src="https://cdn.vuetifyjs.com/images/john.jpg"
+                      alt="John"
+                    >
                       <template v-slot:placeholder>
                         <v-row align="center" justify="center">
                           <v-col>
@@ -28,7 +32,7 @@
                   </v-avatar>
                 </div>
               </v-col>
-              <v-col :cols="$vuetify.breakpoint.xs?3:5" class="pl-2">
+              <v-col :cols="$vuetify.breakpoint.xs ? 3 : 5" class="pl-2">
                 <v-file-input
                   label="Profile picture upload"
                   v-model="profilePic"
@@ -43,14 +47,16 @@
             <v-row>
               <v-col cols="12" md="6">
                 <v-card elevation="24" class="teal--text">
-                  <h3 class="py-2 px-4 text-center text-sm-left">Personal Details</h3>
+                  <h3 class="py-2 px-4 text-center text-sm-left">
+                    Personal Details
+                  </h3>
                   <v-divider light></v-divider>
                   <v-card-text class="pa-3">
                     <v-row>
                       <v-col>
                         <div class="px-1">
                           <span class="font-weight-bold">Name</span>
-                          : {{student.name}}
+                          : {{ student.lastName }} {{ student.firstName }}
                           <v-btn @click="changeProfileItem('name')" icon>
                             <v-icon>mdi-pencil</v-icon>
                           </v-btn>
@@ -58,18 +64,18 @@
 
                         <div class="px-1 py-2 text-capitalize">
                           <span class="font-weight-bold">Role</span>
-                          : {{student.role}}
+                          : {{ student.role }}
                         </div>
                         <div class="px-1">
                           <span class="font-weight-bold">Email</span>
-                          : {{student.email}}
+                          : {{ student.email }}
                           <v-btn @click="changeProfileItem('email')" icon>
                             <v-icon>mdi-pencil</v-icon>
                           </v-btn>
                         </div>
                         <div class="px-1">
                           <span class="font-weight-bold">Contacts</span>
-                          : {{student.phoneNumber}}
+                          : {{ student.phoneNumber }}
                           <v-btn @click="changeProfileItem('phone')" icon>
                             <v-icon>mdi-pencil</v-icon>
                           </v-btn>
@@ -83,24 +89,34 @@
               <v-col cols="12" md="6">
                 <v-card elevation="24" class="purple--text">
                   <div class="text-xs-center">
-                    <h3 class="py-2 px-4 text-center text-sm-left">Academic Details</h3>
+                    <h3 class="py-2 px-4 text-center text-sm-left">
+                      Academic Details
+                    </h3>
                   </div>
                   <v-divider light></v-divider>
                   <v-card-text class="pa-3">
                     <v-row>
                       <v-col>
                         <div class="px-1 py-2">
-                          <span class="font-weight-bold">Programme</span> : Master of Science in telecom engineering
+                          <span class="font-weight-bold">Programme</span> :
+                          Master of Science in telecom engineering
                         </div>
                         <div class="px-1 py-2">
-                          <span class="font-weight-bold">Registraion Number</span> : 19/U/168/PS
+                          <span class="font-weight-bold"
+                            >Registraion Number</span
+                          >
+                          : 19/U/168/PS
                         </div>
                         <div class="px-1 py-2">
-                          <span class="font-weight-bold">Year of Study</span> : I
+                          <span class="font-weight-bold">Year of Study</span> :
+                          I
                         </div>
                         <div class="px-1 py-2">
                           <span class="font-weight-bold">Report Status</span>
-                          : {{ progressEvents[`${student.report.status}`].message}}
+                          :
+                          {{
+                            progressEvents[`${student.report.status}`].message
+                          }}
                         </div>
                       </v-col>
                     </v-row>
@@ -156,6 +172,13 @@ export default {
   },
   created() {
     this.$store.dispatch("displayProfileEditMessage", false);
+  },
+  updated() {
+    if (this.displayProfileEditMessage) {
+      setTimeout(() => {
+        this.$store.dispatch("displayProfileEditMessage", false);
+      }, 10000);
+    }
   },
   computed: {
     student() {

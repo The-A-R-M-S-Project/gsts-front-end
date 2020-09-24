@@ -1,5 +1,4 @@
 import axiosInstance from "../axios_setup"
-
 const state = {
     profileItemTag: null,
     editProfile: false,
@@ -19,14 +18,20 @@ const mutations = {
     },
     profileEditSucess(state, payload) {
         let success = `${
-            payload[0].toUpperCase()
+            payload.res[0].toUpperCase()
         }${
-            payload.slice(1)
+            payload.res.slice(1)
         }`;
-        state.profileEditMessage = `${success}. Your profile has been updated`
+        state.profileEditMessage = `${success}. Your ${
+            payload.tag
+        } has been updated`
     },
     profileEditFailure(state, payload) {
-        state.profileEditMessage = payload
+        if (payload.err.includes("Duplicate")) {
+            state.profileEditMessage = `Failed. That ${
+                payload.tag
+            } already exists!`
+        }
     },
     displayProfileEditMessage(state, payload) {
         state.displayProfileEditMessage = payload
@@ -42,12 +47,19 @@ const actions = {
         await axiosInstance.patch(`/${
             data.role
         }/updateMe`, data.item).then(response => {
-            commit("profileEditSucess", response.data.status)
+            commit("profileEditSucess", {
+                res: response.data.status,
+                tag: data.tag
+            })
             commit("setProfileEditLoader", false)
             commit("displayProfileEditMessage", true)
         }).catch(error => {
             commit("setProfileEditLoader", false)
-            commit("profileEditFailure", error.response.data.message)
+            commit("profileEditFailure", {
+                err: error.response.data.message,
+                tag: data.tag
+            })
+            commit("displayProfileEditMessage", true)
         })
     },
     setProfileItemTag({
@@ -74,5 +86,4 @@ const getters = {
     profileEditMessage: (state) => state.profileEditMessage,
     displayProfileEditMessage: (state) => state.displayProfileEditMessage
 }
-
 export default {state, mutations, actions, getters}

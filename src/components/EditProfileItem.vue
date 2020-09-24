@@ -34,14 +34,17 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="closeProfileEditor">Close</v-btn>
+            <v-btn color="blue darken-1" text @click="closeProfileEditor"
+              >Close</v-btn
+            >
             <v-btn
               color="success"
               type="submit"
               text
               :loading="profileEditLoader"
               @click="changeProfileDetails"
-            >Save</v-btn>
+              >Save</v-btn
+            >
           </v-card-actions>
         </v-form>
       </v-card>
@@ -114,6 +117,7 @@ export default {
           .dispatch("editProfileDetails", {
             item: profileEditObject,
             role: this.setUserRole(),
+            tag: this.profileItemTag,
           })
           .then(() => {
             this.$store.dispatch("showProfileEditor", false).then(() => {
