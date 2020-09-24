@@ -11,7 +11,15 @@
       </div>
       <div class="pa-1">
         <span class="font-weight-bold">Contacts</span>
-        : {{student.phoneNumber }}
+        : {{ student.phoneNumber }}
+      </div>
+      <div class="pa-1">
+        <span class="font-weight-bold">Programme</span>
+        : {{ student.program.name }}
+      </div>
+      <div v-if="student.report" class="pa-1">
+        <span class="font-weight-bold">Report</span>
+        : {{ student.report.title }}
       </div>
       <!-- <div class="pa-1">
         <span class="font-weight-bold">School</span>
@@ -20,15 +28,6 @@
       <!-- <div class="pa-1">
         <span class="font-weight-bold">Department</span>
         : {{ department }}
-      </div>-->
-
-      <!-- <div class="pa-1">
-        <span class="font-weight-bold">Programme</span>
-        : {{student.program.name}}
-      </div>
-      <div class="pa-1">
-        <span class="font-weight-bold">Year of Study</span>
-        : {{ student.yearOfStudy }}
       </div>-->
     </div>
   </div>

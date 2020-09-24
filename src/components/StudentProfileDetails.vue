@@ -111,12 +111,16 @@
                           <span class="font-weight-bold">Year of Study</span> :
                           I
                         </div>
-                        <div class="px-1 py-2">
+                        <div v-if="student.report" class="px-1 py-2">
                           <span class="font-weight-bold">Report Status</span>
                           :
                           {{
                             progressEvents[`${student.report.status}`].message
                           }}
+                        </div>
+                        <div v-else class="px-1 py-2">
+                          <span class="font-weight-bold">Report Status</span>
+                          : Not submitted
                         </div>
                       </v-col>
                     </v-row>

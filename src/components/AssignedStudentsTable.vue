@@ -1,7 +1,9 @@
 <template>
   <v-card color="blue">
     <v-card-title>
-      <span class="mx-auto font-weight-bold headline white--text">Assigned Students</span>
+      <span class="mx-auto font-weight-bold headline white--text"
+        >Assigned Students</span
+      >
     </v-card-title>
     <v-card-subtitle class="py-1">
       <v-row>
@@ -29,11 +31,9 @@
       :key="assignedStudentsTableKey"
     >
       <template v-slot:no-results>
-        <v-alert
-          :value="true"
-          color="error"
-          icon="warning"
-        >Your search for "{{ search }}" found no results.</v-alert>
+        <v-alert :value="true" color="error" icon="warning"
+          >Your search for "{{ search }}" found no results.</v-alert
+        >
       </template>
       <template v-slot:header="{ props: { headers } }">
         <thead v-show="displayStudentTableFeedback">
@@ -44,15 +44,22 @@
                 dark
                 class="text-center mt-2"
                 dismissible
-              >{{ assignedStudentsTableMessage }}</v-alert>
+                >{{ assignedStudentsTableMessage }}</v-alert
+              >
             </th>
           </tr>
         </thead>
       </template>
-      <template v-slot:[getItemStatus]="{ item }">{{ progressEvents[`${item.status}`].message }}</template>
-      <template v-slot:[getItemVivaDate]="{ item }">{{ formatDate(item.vivaDate) }}</template>
+      <template v-slot:[getItemStatus]="{ item }">{{
+        progressEvents[`${item.status}`].message
+      }}</template>
+      <template v-slot:[getItemVivaDate]="{ item }">{{
+        formatDate(item.vivaDate)
+      }}</template>
       <template v-slot:[getItemAction]="{ item }">
-        <v-icon small v-if="callToAction(item.status)" color="pink">mdi-circle</v-icon>
+        <v-icon small v-if="callToAction(item.status)" color="pink"
+          >mdi-circle</v-icon
+        >
       </template>
       <template v-slot:expanded-item="{ headers, item }">
         <td :colspan="headers.length">
@@ -63,7 +70,11 @@
                 :color="progressEvents[`${item.status}`].color"
                 height="25"
               >
-                <strong>{{progressEvents[`${item.status}`].value}}% ({{progressEvents[`${item.status}`].message}})</strong>
+                <strong
+                  >{{ progressEvents[`${item.status}`].value }}% ({{
+                    progressEvents[`${item.status}`].message
+                  }})</strong
+                >
               </v-progress-linear>
             </v-col>
             <v-col cols="12" sm="3">
@@ -71,46 +82,59 @@
                 <div class="text-center" v-if="item.status === 'submitted'">
                   <v-dialog v-model="dialog" width="500">
                     <template v-slot:activator="{ on, attrs }">
-                      <v-btn
-                        v-bind="attrs"
-                        v-on="on"
-                        :loading="submitLoading"
-                        color="primary"
-                      >Receive report</v-btn>
+                      <v-btn v-bind="attrs" v-on="on" color="primary"
+                        >Receive report</v-btn
+                      >
                     </template>
 
                     <v-card>
                       <v-card-title
                         class="text-center headline purple white--text"
-                      >Acknowledge Receipt</v-card-title>
+                        >Acknowledge Receipt</v-card-title
+                      >
                       <v-card-text class="py-3 px-6">
                         <p class="body-1">
-                          By clicking the "Agree" button, you are acknowledging receipt of
-                          <strong>{{ examinerStudentDetails.name }}</strong>'s report.
+                          By clicking the "Agree" button, you are acknowledging
+                          receipt of
+                          <strong>{{ examinerStudentDetails.name }}</strong
+                          >'s report.
                         </p>
                       </v-card-text>
                       <v-divider></v-divider>
                       <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn color="error" text @click="dialog = false">Cancel</v-btn>
-                        <v-btn color="success" text @click="receiveReport">Agree</v-btn>
+                        <v-btn color="error" text @click="dialog = false"
+                          >Cancel</v-btn
+                        >
+                        <v-btn
+                          :loading="submitLoading"
+                          color="success"
+                          text
+                          @click="receiveReport"
+                          >Agree</v-btn
+                        >
                       </v-card-actions>
                     </v-card>
                   </v-dialog>
                 </div>
-                <div class="text-center" v-else-if="item.status === 'withExaminer'">
+                <div
+                  class="text-center"
+                  v-else-if="item.status === 'withExaminer'"
+                >
                   <v-btn
                     @click="viewReport(item)"
                     :loading="detailLoading"
                     color="primary"
-                  >Set score</v-btn>
+                    >Set score</v-btn
+                  >
                 </div>
                 <v-btn
                   v-else
                   @click="viewDetails(item)"
                   :loading="detailLoading"
                   color="primary"
-                >View Details</v-btn>
+                  >View Details</v-btn
+                >
               </div>
             </v-col>
           </v-row>
@@ -268,7 +292,7 @@ export default {
       if (date) {
         let newFormat = new Date(date);
         let newDate = `${newFormat}`.substring(4, 15);
-        return newDate.replace(/ /g, " - ");
+        return newDate.replace(/ /g, "-");
       } else return "Not set";
     },
     receiveReport() {

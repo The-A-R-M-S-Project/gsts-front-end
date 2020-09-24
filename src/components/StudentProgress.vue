@@ -17,9 +17,11 @@
                 :color="progressEvents[`${student.report.status}`].color"
                 class="my-3"
               >
-                {{ progressEvents[`${student.report.status}`].value }}%
-                <br />
-                {{ progressEvents[`${student.report.status}`].message }}
+                <span class="black--text">
+                  {{ progressEvents[`${student.report.status}`].value }}%
+                  <br />
+                  {{ progressEvents[`${student.report.status}`].message }}
+                </span>
               </v-progress-circular>
             </div>
           </v-col>
