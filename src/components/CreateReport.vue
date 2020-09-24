@@ -1,16 +1,23 @@
 <template>
   <div class="py-5">
-    <div class="display-1 text-center font-weight-medium mb-4">Create a report</div>
-    <v-card :max-width="$vuetify.breakpoint.xs?'95vw':'70vw'" class="mx-auto pa-5">
+    <div class="display-1 text-center font-weight-medium mb-4">
+      Create a report
+    </div>
+    <v-card
+      :max-width="$vuetify.breakpoint.xs ? '95vw' : '70vw'"
+      class="mx-auto pa-5"
+    >
       <v-alert
         dark
         dismissible
         v-if="displayReportActionMessage"
         color="success"
         class="text-center"
-      >{{ reportActionMessage }}</v-alert>
+        >{{ reportActionMessage }}</v-alert
+      >
       <h5 class="pt-4 pb-2">
-        <span class="primary--text">Note:</span> This is not your final report submission!
+        <span class="primary--text">Note:</span> This is not your final report
+        submission!
       </h5>
       <v-form ref="createReportForm">
         <p>
@@ -27,7 +34,8 @@
           <span class="body-1 font-weight-bold">Abstract:</span>
           <br />
           <span class="body-2">
-            <v-icon color="primary" class="mr-2">mdi-alert-circle</v-icon>This is field is optional
+            <v-icon color="primary" class="mr-2">mdi-alert-circle</v-icon>This
+            is field is optional
           </span>
           <v-textarea
             outlined
@@ -44,7 +52,8 @@
             :loading="detailLoading"
             dark
             color="teal"
-          >submit</v-btn>
+            >submit</v-btn
+          >
         </v-row>
       </v-form>
     </v-card>
@@ -81,14 +90,21 @@ export default {
   methods: {
     createReport() {
       event.preventDefault();
-      this.$store
-        .dispatch("createReport", {
+      let newReport = {};
+      if (this.reportAbstract.length > 0) {
+        newReport = {
           title: this.reportTitle,
-        })
-        .then(() => {
-          this.displayReportActionMessage = true;
-          this.$store.dispatch("fetchLoggedInStudentDetails");
-        });
+          abstract: this.reportAbstract,
+        };
+      } else {
+        newReport = {
+          title: this.reportTitle,
+        };
+      }
+      this.$store.dispatch("createReport", newReport).then(() => {
+        this.displayReportActionMessage = true;
+        this.$store.dispatch("fetchLoggedInStudentDetails");
+      });
     },
     countWords(s) {
       s = s.replace(/(^\s*)|(\s*$)/gi, "");
