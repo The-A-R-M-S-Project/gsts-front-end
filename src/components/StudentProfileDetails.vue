@@ -99,7 +99,7 @@
                       <v-col>
                         <div class="px-1 py-2">
                           <span class="font-weight-bold">Programme</span> :
-                          Master of Science in telecom engineering
+                          {{ student.program.name }}
                         </div>
                         <div class="px-1 py-2">
                           <span class="font-weight-bold"
