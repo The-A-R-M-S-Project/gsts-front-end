@@ -4,7 +4,8 @@
       v-model="displayLoginError"
       type="error"
       dismissible
-      class="mx-7 mt-2 error-alert"
+      class="mx-7 mt-2 text-center"
+      :class="{ 'button-text mobile-error': $vuetify.breakpoint.xs, 'error-alert': !$vuetify.breakpoint.xs }"
     >{{ loginError }}</v-alert>
     <v-form ref="studentLoginForm" v-model="valid" class="login-form" name="login">
       <v-container>
@@ -12,17 +13,27 @@
           v-model="email"
           :rules="emailRules"
           label="College Email"
+          placeholder="example@cedat.mak.ac.ug"
+          clearable
           prepend-inner-icon="mdi-account"
-          class="px-7"
+          :class="{
+                        'pt-5 px-2 styled-input normal-text':
+                            $vuetify.breakpoint.xs,
+                        'px-7': !$vuetify.breakpoint.xs,
+                    }"
           type="email"
           color="purple"
           required
         ></v-text-field>
         <v-text-field
           v-model="password"
-          label="password"
+          label="Password"
           prepend-inner-icon="mdi-lock"
-          class="px-7"
+          :class="{
+                        'pt-5 px-2 styled-input normal-text':
+                            $vuetify.breakpoint.xs,
+                        'px-7': !$vuetify.breakpoint.xs,
+                    }"
           :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
           :type="show ? 'text' : 'password'"
           @click:append="show = !show"
@@ -32,6 +43,7 @@
         <p
           id="forgot-staff-password"
           class="text-center purple--text"
+          :class="{ 'pt-1 pb-4 normal-text': $vuetify.breakpoint.xs }"
           @click="forgotStudentPassword"
         >Forgot password?</p>
         <div class="px-5 text-center">
@@ -42,11 +54,26 @@
             ripple
             width="400"
             :loading="isLoading"
-            class="yellow font-weight-bold"
+            class="yellow font-weight-bold d-none d-sm-inline-block"
             type="submit"
             v-on:click="login"
           >
             <v-icon>mdi-subdirectory-arrow-right</v-icon>
+            <span>&nbsp;Login</span>
+          </v-btn>
+          <v-btn
+            rounded
+            large
+            depressed
+            :loading="isLoading"
+            ripple
+            width="100%"
+            height="3rem"
+            class="yellow font-weight-bold mb-4 button-text d-flex d-sm-none"
+            type="submit"
+            @click="login"
+          >
+            <v-icon size="2rem">mdi-subdirectory-arrow-right</v-icon>
             <span>&nbsp;Login</span>
           </v-btn>
         </div>
@@ -64,16 +91,17 @@ export default {
     loading: false,
     email: "",
     emailRules: [
-      emailField =>
-        /.+@+/.test(emailField) || "Please enter a valid college email"
+      (email) => !!email || "E-mail is required",
+      (email) =>
+        /.+@cedat\.mak\.ac\.ug/.test(email) || "Please enter a valid email",
     ],
     password: "",
-    passwordRules: len => [
-      passwordField =>
+    passwordRules: (len) => [
+      (passwordField) =>
         (passwordField || "").length >= len ||
-        `Invalid character length, required ${len}`
+        `Invalid character length, required ${len}`,
     ],
-    required: [field => !!field || "This field is required"]
+    required: [(field) => !!field || "This field is required"],
   }),
   methods: {
     login() {
@@ -84,8 +112,8 @@ export default {
             user: "student",
             credentials: {
               email: this.email,
-              password: this.password
-            }
+              password: this.password,
+            },
           })
           .then(() => {
             if (this.isLogged) {
@@ -94,21 +122,21 @@ export default {
               } else {
                 const user = this.user;
                 this.$router.push({
-                  name: `${user.role}-dashboard`
+                  name: `${user.role}-dashboard`,
                 });
               }
             } else {
               this.displayLoginError = true;
             }
           })
-          .catch(error => {
+          .catch((error) => {
             console.log("Generic message", error);
           });
       }
     },
     forgotStudentPassword() {
       this.$router.push("/forgot-student-password");
-    }
+    },
   },
   computed: {
     isLogged() {
@@ -122,7 +150,7 @@ export default {
     },
     loginError() {
       return this.$store.getters.loginError;
-    }
-  }
+    },
+  },
 };
 </script>

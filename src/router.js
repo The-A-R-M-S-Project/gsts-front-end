@@ -1,28 +1,10 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Login from "./views/Login.vue";
-import ForgotStaffPass from "./views/ForgotStaffPass.vue";
-import ForgotStudentPass from "./views/ForgotStudentPass.vue";
-import ResetPassword from "./views/ResetPassword.vue";
-import Register from "./views/Register.vue";
-import Students from "./views/Students.vue";
-import StudentDetails from "./views/AdminStudentView.vue";
-import Examiners from "./views/Examiners.vue";
-import ExaminersDetails from "./views/ExaminerDetails.vue";
-import ECEDashboard from "./views/ECEDashboard.vue";
-import BEDashbaord from "./views/BEDashboard.vue";
-import FADashboard from "./views/FADashboard.vue";
-import PrincipalDashboard from "./views/PrincipalDashboard";
-import StudentDashboard from "./views/StudentDashboard.vue";
-import DeanDashboard from "./views/DeanDashboard.vue";
-import ExaminerDashboard from "./views/ExaminerDashboard.vue";
-import ReportStatus from "./components/StudentTimeline.vue";
-import StudentProfile from "./components/StudentProfile.vue";
-import ExpiredSession from "./views/ExpiredSession.vue";
-import UnderConstruction from "./views/UnderConstruction.vue";
-import PageNotFound from "./components/PageNotFound.vue";
 
 Vue.use(Router);
+function lazyLoad(view) {
+    return() => import (`@/views/${view}.vue`)
+}
 
 let router = new Router({
     mode: "history",
@@ -30,203 +12,193 @@ let router = new Router({
         {
             path: "/",
             name: "login",
-            component: Login,
+            component: lazyLoad('Login'),
             meta: {
-                guest: true,
-            },
+                guest: true
+            }
         },
         {
             path: "/forgot-staff-password",
             name: "forgot-staff-password",
-            component: ForgotStaffPass,
+            component: lazyLoad('ForgotStaffPass'),
             meta: {
-                guest: true,
-            },
+                guest: true
+            }
         },
         {
             path: "/forgot-student-password",
             name: "forgot-student-password",
-            component: ForgotStudentPass,
+            component: lazyLoad('ForgotStudentPass'),
             meta: {
-                guest: true,
-            },
+                guest: true
+            }
         },
         {
             path: "/:role/secret/edit",
             name: "reset-password",
-            component: ResetPassword,
+            component: lazyLoad('ResetPassword'),
             meta: {
-                guest: true,
-            },
-        },
-        {
+                guest: true
+            }
+        }, {
             path: "/register",
             name: "register",
-            component: Register,
+            component: lazyLoad('Register'),
             meta: {
-                guest: true,
-            },
-        },
-        {
+                guest: true
+            }
+        }, {
             path: "/student-dashboard",
             name: "student-dashboard",
+            component: lazyLoad('StudentDashboard'),
             redirect: "/student-dashboard/report-status",
-            component: StudentDashboard,
             meta: {
                 requiresAuth: true,
-                is_student: true,
+                is_student: true
             },
             children: [
                 {
+                    path: "submit-report",
+                    name: "submit-report",
+                    component: lazyLoad('StudentSubmission')
+                }, {
                     path: "report-status",
                     name: "report-status",
-                    component: ReportStatus,
-                },
-                {
+                    component: lazyLoad('StudentActivity')
+                }, {
                     path: "student-profile",
                     name: "studentProfile",
-                    component: StudentProfile,
+                    component: lazyLoad('StudentProfile')
                 },
-            ],
-        },
-        {
+            ]
+        },, {
             path: "/examiner-dashboard",
             name: "examiner-dashboard",
-            component: ExaminerDashboard,
+            component: lazyLoad('ExaminerDashboard'),
             meta: {
                 requiresAuth: true,
-                is_examiner: true,
-            },
-        },
-        {
+                is_examiner: true
+            }
+        }, {
             path: "/dean-dashboard",
             name: "dean-dashboard",
-            component: DeanDashboard,
+            component: lazyLoad('DeanDashboard'),
             meta: {
                 requiresAuth: true,
-                is_dean: true,
-            },
-        },
-        {
+                is_dean: true
+            }
+        }, {
             path: "/principal-dashboard",
             name: "principal-dashboard",
-            component: PrincipalDashboard,
+            component: lazyLoad('PrincipalDashboard'),
+            meta: {
+                requiresAuth: true,
+                is_principal: true
+            }
+        }, {
+            path: "/student-progress",
+            name: "student-progress",
+            component: lazyLoad('PrincipalStudentDashboard'),
             meta: {
                 requiresAuth: true,
                 is_principal: true,
-            },
-        },
-        {
+                is_dean: true,
+                is_examiner: true
+            }
+        }, {
+            path: "/student-report",
+            name: "student-report",
+            component: lazyLoad('ExaminerStudentReport'),
+            meta: {
+                requiresAuth: true,
+                is_examiner: true
+            }
+        }, {
+            path: "/:role/profile",
+            name: "elevated-staff-profile",
+            component: lazyLoad('StaffProfile'),
+            meta: {
+                requiresAuth: true,
+                is_principal: true,
+                is_dean: true
+            }
+        }, {
             path: "/ECE-dashboard",
             name: "ece-dashboard",
-            component: ECEDashboard,
+            component: lazyLoad('ECEDashboard'),
             meta: {
                 requiresAuth: true,
-                is_principal: true,
-            },
-        },
-        {
+                is_principal: true
+            }
+        }, {
             path: "/BE-dashboard",
             name: "be-dashboard",
-            component: BEDashbaord,
+            component: lazyLoad('ECEDashboard'),
             meta: {
                 requiresAuth: true,
-                is_principal: true,
-            },
-        },
-        {
+                is_principal: true
+            }
+        }, {
             path: "/FA-dashboard",
             name: "fa-dashboard",
-            component: FADashboard,
+            component: lazyLoad('FADashboard'),
             meta: {
                 requiresAuth: true,
-                is_principal: true,
-            },
-        },
-        {
+                is_principal: true
+            }
+        }, {
             path: "/students",
             name: "students",
-            component: Students,
+            component: lazyLoad('Students'),
             meta: {
                 requiresAuth: true,
                 is_principal: true,
-                is_dean: true,
-            },
-        },
-        {
-            path: "/student_view",
-            name: "studentview",
-            component: StudentDetails,
-            meta: {
-                requiresAuth: true,
-                is_principal: true,
-                is_dean: true,
-            },
-        },
-        {
+                is_dean: true
+            }
+        }, {
             path: "/examiners",
             name: "examiners",
-            component: Examiners,
+            component: lazyLoad('Examiners'),
             meta: {
                 requiresAuth: true,
                 is_principal: true,
-                is_dean: true,
-            },
-        },
-        {
-            path: "/examinersdetails",
-            name: "examinersDetails",
-            component: ExaminersDetails,
-            meta: {
-                requiresAuth: true,
-                is_principal: true,
-                is_dean: true,
-            },
-        },
-        {
+                is_dean: true
+            }
+        }, {
             path: "/expired-session",
             name: "expired-session",
-            component: ExpiredSession,
+            component: lazyLoad('ExpiredSession'),
             meta: {
-                requiresAuth: true,
-            },
-        },
-        {
+                requiresAuth: true
+            }
+        }, {
             path: "/under-construction",
             name: "under-construction",
-            component: UnderConstruction,
+            component: lazyLoad('UnderConstruction')
+        }, {
+            path: "*",
+            component: lazyLoad('PageNotFound')
         },
-        { path: "*", component: PageNotFound },
-    ],
+    ]
 });
 router.beforeEach((to, from, next) => {
     if (to.matched.some((record) => record.meta.requiresAuth)) {
         if (localStorage.getItem("jwt") == null) {
             next({
                 path: "/",
-                params: { continue: to.fullPath },
+                params: {
+                    continue: to.fullPath
+                }
             });
         } else {
             let user = JSON.parse(localStorage.getItem("user"));
-            if (
-                to.matched.some((record) => record.meta.is_principal) &&
-                user.role === "principal"
-            ) {
+            if (to.matched.some((record) => record.meta.is_principal) && user.role === "principal") {
                 next();
-            } else if (
-                to.matched.some((record) => record.meta.is_dean) &&
-                user.role === "dean"
-            ) {
+            } else if (to.matched.some((record) => record.meta.is_dean) && user.role === "dean") {
                 next();
-            } else if (
-                to.matched.some((record) => record.meta.is_student) &&
-                user.role === "student"
-            ) {
+            } else if (to.matched.some((record) => record.meta.is_student) && user.role === "student") {
                 next();
-            } else if (
-                to.matched.some((record) => record.meta.is_examiner) &&
-                user.role === "examiner"
-            ) {
+            } else if (to.matched.some((record) => record.meta.is_examiner) && user.role === "examiner") {
                 next();
             } else {
                 next();
@@ -238,9 +210,7 @@ router.beforeEach((to, from, next) => {
             next();
         } else {
             const userRole = JSON.parse(localStorage.getItem("user")).role;
-            next({
-                name: `${userRole}-dashboard`,
-            });
+            next({name: `${userRole}-dashboard`});
         }
     } else {
         next();
