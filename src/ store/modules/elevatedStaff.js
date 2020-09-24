@@ -193,8 +193,22 @@ const actions = {
     changeStudentsTableKey({commit}) {
         commit("changeStudentsTableKey")
     },
-    // filterBySchool({commit}) {},
-    // filterByDepartment({commit}) {}
+    filterBySchool({
+        commit
+    }, data) {
+        let students = data.reports.filter(report => {
+            return(report.student["department"].school == data.id);
+        })
+        commit("setReports", students)
+    },
+    filterByDepartment({
+        commit
+    }, data) {
+        let students = data.reports.filter(report => {
+            return(report.student["department"]._id == data.id);
+        })
+        commit("setReports", students)
+    }
 }
 const getters = {
     submitLoading: (state) => state.submitLoading,

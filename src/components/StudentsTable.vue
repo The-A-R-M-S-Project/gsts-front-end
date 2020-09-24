@@ -6,7 +6,14 @@
     <v-card-subtitle class="py-1">
       <v-row>
         <template v-if="user.role === 'principal'">
-          <v-col cols="12" xs="12" sm="6" md="4" class="text-xs-left" align-self="center">
+          <v-col
+            cols="12"
+            xs="12"
+            sm="6"
+            md="4"
+            class="text-xs-left"
+            align-self="center"
+          >
             <v-select
               label="Select a school"
               :items="schools"
@@ -21,10 +28,20 @@
               v-model="selectedSchool"
             ></v-select>
           </v-col>
-          <v-col cols="12" xs="12" sm="6" md="4" class="text-xs-left" align-self="center">
+          <v-col
+            cols="12"
+            xs="12"
+            sm="6"
+            md="4"
+            class="text-xs-left"
+            align-self="center"
+          >
             <v-select
               label="Filter by department"
-              :class="{'select-department': (!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm)}"
+              :class="{
+                'select-department':
+                  !$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm,
+              }"
               :items="departments"
               item-text="name"
               return-object
@@ -33,8 +50,7 @@
               light
               hide-details
               single-line
-              @input="filterByDepartment"
-              v-model="selectedDepartments"
+              v-model="selectedDepartment"
             ></v-select>
           </v-col>
         </template>
@@ -42,7 +58,10 @@
           <v-col xs="12" sm="6" md="8" class="text-xs-left" align-self="center">
             <v-select
               label="Filter by department"
-              :class="{'dean-select-department': (!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm)}"
+              :class="{
+                'dean-select-department':
+                  !$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm,
+              }"
               :items="departments"
               item-text="name"
               return-object
@@ -51,12 +70,12 @@
               light
               hide-details
               single-line
-              v-model="selectedDepartments"
+              v-model="selectedDepartment"
             ></v-select>
           </v-col>
         </template>
 
-        <v-col cols="12" xs="12" :sm="user.role==='dean'?'6':'12'" md="4">
+        <v-col cols="12" xs="12" :sm="user.role === 'dean' ? '6' : '12'" md="4">
           <v-text-field
             v-model="search"
             append-icon="search"
@@ -83,7 +102,7 @@
       <template v-slot:header="{ props: { headers } }">
         <thead>
           <tr>
-            <th :colspan="headers.length">
+            <th :colspan="headers.length - 1">
               <div v-if="filters.hasOwnProperty('status')">
                 <v-select
                   flat
@@ -96,33 +115,50 @@
                   :items="columnValueList('status')"
                   v-model="filters['status']"
                 >
-                  <template v-slot:item="{item}">{{ progressEvents[`${item}`].message }}</template>
-                  <template
-                    v-slot:selection="{item}"
-                  >{{ progressEvents[`${item}`].message }}, &nbsp;</template>
+                  <template v-slot:item="{ item }">{{
+                    progressEvents[`${item}`].message
+                  }}</template>
+                  <template v-slot:selection="{ item }"
+                    >{{ progressEvents[`${item}`].message }}, &nbsp;</template
+                  >
                 </v-select>
               </div>
+            </th>
+            <th>
+              <v-row align="center" justify="center">
+                <v-col>
+                  <v-btn @click="fetchReports" icon>
+                    <v-icon>mdi-replay</v-icon>
+                  </v-btn>
+                </v-col>
+              </v-row>
             </th>
           </tr>
           <tr v-show="displayStudentTableFeedback">
             <th :colspan="headers.length">
-              <v-alert color="success" dark class="text-center" dismissible>{{studentsTableMessage}}</v-alert>
+              <v-alert color="success" dark class="text-center" dismissible>{{
+                studentsTableMessage
+              }}</v-alert>
             </th>
           </tr>
         </thead>
       </template>
 
       <template v-slot:no-results>
-        <v-alert
-          :value="true"
-          color="error"
-          icon="warning"
-        >Your search for "{{ search }}" found no results.</v-alert>
+        <v-alert :value="true" color="error" icon="warning"
+          >Your search for "{{ search }}" found no results.</v-alert
+        >
       </template>
-      <template v-slot:[getItemStatus]="{ item }">{{ progressEvents[`${item.status}`].message }}</template>
-      <template v-slot:[getItemVivaDate]="{ item }">{{ formatDate(item.vivaDate) }}</template>
+      <template v-slot:[getItemStatus]="{ item }">{{
+        progressEvents[`${item.status}`].message
+      }}</template>
+      <template v-slot:[getItemVivaDate]="{ item }">{{
+        formatDate(item.vivaDate)
+      }}</template>
       <template v-slot:[getItemAction]="{ item }">
-        <v-icon small v-if="callToAction(item.status)" color="pink">mdi-circle</v-icon>
+        <v-icon small v-if="callToAction(item.status)" color="pink"
+          >mdi-circle</v-icon
+        >
       </template>
       <template v-slot:expanded-item="{ headers, item }">
         <td :colspan="headers.length">
@@ -133,7 +169,11 @@
                 :color="progressEvents[`${item.status}`].color"
                 height="25"
               >
-                <strong>{{progressEvents[`${item.status}`].value}}% ({{progressEvents[`${item.status}`].message}})</strong>
+                <strong
+                  >{{ progressEvents[`${item.status}`].value }}% ({{
+                    progressEvents[`${item.status}`].message
+                  }})</strong
+                >
               </v-progress-linear>
             </v-col>
             <v-col cols="12" sm="3" md="2">
@@ -146,7 +186,8 @@
                   @click="viewDetails(item)"
                   color="primary"
                   :loading="detailLoading"
-                >View Details</v-btn>
+                  >View Details</v-btn
+                >
               </div>
             </v-col>
           </v-row>
@@ -248,7 +289,7 @@ export default {
       },
       displayAssignExaminerMessage: false,
       selectedSchool: null,
-      selectedDepartments: null,
+      selectedDepartment: null,
     };
   },
   created() {
@@ -295,6 +336,18 @@ export default {
     },
     reports() {
       let reports = this.$store.getters.reports;
+      if (this.selectedSchool) {
+        reports = reports.filter((report) => {
+          return report.student["department"].school == this.selectedSchool._id;
+        });
+      }
+      if (this.selectedDepartment) {
+        reports = reports.filter((report) => {
+          return (
+            report.student["department"]._id == this.selectedDepartment._id
+          );
+        });
+      }
       return reports.sort(
         (a, b) =>
           this.defaultSortOrder[a.status] - this.defaultSortOrder[b.status]
@@ -320,16 +373,14 @@ export default {
     },
   },
   methods: {
+    fetchReports() {
+      this.$store.dispatch("fetchReports").then(() => {
+        this.selectedDepartment = null;
+        this.selectedSchool = null;
+      });
+    },
     fetchDepartments() {
       this.$store.dispatch("fetchDepartments", this.selectedSchool._id);
-      // this.$store.dispatch("filterBySchool", this.selectedSchool._id);
-      // let students = this.reports.filter((report) => {
-      //   report.student["department"].school === this.selectedSchool._id;
-      // });
-      console.log("Filtered students: ", this.reports);
-    },
-    filterByDepartment() {
-      // this.$store.dispatch("filterByDepartment", this.selectedSchool._id);
     },
     itemClicked(value) {
       const index = this.expanded.indexOf(value);
