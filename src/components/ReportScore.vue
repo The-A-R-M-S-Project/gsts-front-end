@@ -7,12 +7,32 @@
             >Assigned students</v-card-title
           >
         </v-row>
-        <v-card-text>
-          <div class="text-center">
-            <p class="display-4 blue--text font-weight-medium">
-              {{ assignedStudents.length }}
-            </p>
-          </div>
+        <v-card-text class="pt-0">
+          <v-row align="center" justify="center" no-gutters>
+            <v-col cols="5" sm="3">
+              <div class="text-center">
+                <p class="display-4 blue--text font-weight-medium">
+                  {{ assignedStudents.length }}
+                </p>
+              </div>
+            </v-col>
+            <v-col cols="7" sm="9">
+              <v-row no-gutters>
+                <v-col
+                  class="py-1"
+                  cols="12"
+                  sm="6"
+                  v-for="(student, i) in studentsPerLevel"
+                  :key="i"
+                >
+                  <v-icon :color="student.color" class="px-2"
+                    >mdi-circle</v-icon
+                  >
+                  <span>{{ student.level }} ({{ student.number }})</span>
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
         </v-card-text>
       </v-card>
     </v-col>
@@ -87,6 +107,52 @@ export default {
         return this.statusOrder.indexOf(report.status) > 2;
       });
       return clearedReports.length;
+    },
+    studentsPerLevel() {
+      let eventualResult = [];
+      let studentsPerLevel = this.assignedStudents.reduce((result, report) => {
+        let key = report.status;
+        let newReport = {
+          _id: report._id,
+        };
+        if (result[key]) result[key].push(newReport);
+        else result[key] = [newReport];
+        return result;
+      }, {});
+      let statuses = {
+        notSubmitted: {
+          message: "Not submitted",
+          color: "grey",
+        },
+        submitted: {
+          message: "Submitted",
+          color: "deep-orange darken-2",
+        },
+        withExaminer: {
+          message: "With examiner",
+          color: "orange",
+        },
+        clearedByExaminer: {
+          message: "Cleared by examiner",
+          color: "amber",
+        },
+        vivaDateSet: {
+          message: "Viva date set",
+          color: "yellow darken-1",
+        },
+        vivaComplete: {
+          message: "Viva complete",
+          color: "green lighten-2",
+        },
+      };
+      for (const [key, value] of Object.entries(studentsPerLevel)) {
+        eventualResult.push({
+          level: statuses[`${key}`].message,
+          number: value.length,
+          color: statuses[`${key}`].color,
+        });
+      }
+      return eventualResult;
     },
   },
   methods: {
