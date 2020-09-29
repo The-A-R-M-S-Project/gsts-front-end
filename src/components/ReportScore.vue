@@ -51,11 +51,6 @@ export default {
   name: "report-score",
   data() {
     return {
-      markedReports: "45",
-      unmarkedReports: "15",
-      total: "",
-      reportsReceived: "60",
-      studentsAssigned: "78",
       chartData: {
         type: "doughnut",
         options: chartOptions,
@@ -84,38 +79,51 @@ export default {
       });
       return receivedReports.length;
     },
+    clearedReports() {
+      let receivedReports = this.assignedStudents.filter((report) => {
+        return this.statusOrder.indexOf(report.status) > 1;
+      });
+      let clearedReports = receivedReports.filter((report) => {
+        return this.statusOrder.indexOf(report.status) > 2;
+      });
+      return clearedReports.length;
+    },
   },
   methods: {
     createChart(chartId, chartData) {
       const ctx = document.getElementById(chartId);
       let chartConfig = {};
-      let unreceivedReport =
+      let unreceivedReports =
         this.assignedStudents.length - this.receivedReports;
+      let unclearedReports = this.receivedReports - this.clearedReports;
       if (chartId === "markingDonutChart") {
         chartConfig = {
           datasets: [
             {
               label: "Marking",
-              data: [37, 23],
+              data: [this.clearedReports, unclearedReports],
               backgroundColor: ["teal", "#E91E63"],
               borderWidth: [0, 0, 0, 0],
             },
           ],
-          labels: ["Cleared (37)", "Uncleared (23)"],
+          labels: [
+            `Cleared (${this.clearedReports})`,
+            `Uncleared (${unclearedReports})`,
+          ],
         };
       } else {
         chartConfig = {
           datasets: [
             {
               label: "Received reports",
-              data: [this.receivedReports, unreceivedReport],
+              data: [this.receivedReports, unreceivedReports],
               backgroundColor: ["teal", "#E91E63"],
               borderWidth: [0, 0, 0, 0],
             },
           ],
           labels: [
             `Received (${this.receivedReports})`,
-            `Not received (${unreceivedReport})`,
+            `Not received (${unreceivedReports})`,
           ],
         };
       }
@@ -124,11 +132,6 @@ export default {
         data: chartConfig,
         options: chartData.options,
       });
-    },
-    totalReports() {
-      return (this.total = String(
-        parseInt(this.markedReports) + parseInt(this.unmarkedReports)
-      ));
     },
   },
 };
