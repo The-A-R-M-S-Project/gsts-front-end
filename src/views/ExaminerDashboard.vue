@@ -9,7 +9,7 @@
           <StudentReportTable />
         </v-col>
         <v-col cols="12" lg="5">
-          <ReportScore />
+          <ReportScore :key="examinerStatisticsKey" />
         </v-col>
       </v-row>
     </v-container>
@@ -27,6 +27,11 @@ import Footer from "@/components/Footer.vue";
 
 export default {
   name: "examinerDetails",
+  computed: {
+    examinerStatisticsKey() {
+      return this.$store.getters.examinerStatisticsKey;
+    },
+  },
   components: {
     Navigation,
     MobileDrawer,

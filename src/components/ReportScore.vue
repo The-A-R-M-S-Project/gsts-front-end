@@ -9,7 +9,9 @@
         </v-row>
         <v-card-text>
           <div class="text-center">
-            <p class="display-4 blue--text font-weight-medium">60</p>
+            <p class="display-4 blue--text font-weight-medium">
+              {{ assignedStudents.length }}
+            </p>
           </div>
         </v-card-text>
       </v-card>
@@ -58,16 +60,37 @@ export default {
         type: "doughnut",
         options: chartOptions,
       },
+      statusOrder: [
+        "notSubmitted",
+        "submitted",
+        "withExaminer",
+        "clearedByExaminer",
+        "vivaDateSet",
+        "vivaComplete",
+      ],
     };
   },
   mounted() {
     this.createChart("markingDonutChart", this.chartData);
     this.createChart("receivedDonutChart", this.chartData);
   },
+  computed: {
+    assignedStudents() {
+      return this.$store.getters.assignedStudents;
+    },
+    receivedReports() {
+      let receivedReports = this.assignedStudents.filter((report) => {
+        return this.statusOrder.indexOf(report.status) > 1;
+      });
+      return receivedReports.length;
+    },
+  },
   methods: {
     createChart(chartId, chartData) {
       const ctx = document.getElementById(chartId);
       let chartConfig = {};
+      let unreceivedReport =
+        this.assignedStudents.length - this.receivedReports;
       if (chartId === "markingDonutChart") {
         chartConfig = {
           datasets: [
@@ -85,12 +108,15 @@ export default {
           datasets: [
             {
               label: "Received reports",
-              data: [60, 15],
+              data: [this.receivedReports, unreceivedReport],
               backgroundColor: ["teal", "#E91E63"],
               borderWidth: [0, 0, 0, 0],
             },
           ],
-          labels: ["Received (60)", "Not received (15)"],
+          labels: [
+            `Received (${this.receivedReports})`,
+            `Not received (${unreceivedReport})`,
+          ],
         };
       }
       const myChart = new Chart(ctx, {

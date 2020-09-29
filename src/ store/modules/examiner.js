@@ -5,7 +5,8 @@ const state = {
     assignedStudentsTableMessage: '',
     receiveReportError: null,
     clearReportError: null,
-    examinerStudentDetails: {}
+    examinerStudentDetails: {},
+    examinerStatisticsKey: 0
 }
 const mutations = {
     setAssignedStudents(state, payload) {
@@ -44,6 +45,9 @@ const mutations = {
     },
     examinerStudentDetails(state, payload) {
         state.examinerStudentDetails = payload
+    },
+    changeExaminerStatisticsKey(state) {
+        state.examinerStatisticsKey ++
     }
 }
 const actions = {
@@ -53,6 +57,7 @@ const actions = {
         axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
         await axiosInstance.get("/staff/report/").then(response => {
             commit("setAssignedStudents", response.data.reports)
+            commit("changeExaminerStatisticsKey")
             commit("setOverlayLoader", false);
         }).catch(error => {
             commit("fetchAssignedStudentsError", error.response.data.message)
@@ -73,6 +78,7 @@ const actions = {
                 student: data.studentName
             })
             commit("setDisplayStudentTableFeedback", true)
+            commit("changeExaminerStatisticsKey")
             commit("setSubmitLoader", false)
         }).catch(error => {
             commit("setSubmitLoader", false)
@@ -93,6 +99,7 @@ const actions = {
                 student: data.studentName
             })
             commit("setDisplayStudentTableFeedback", true)
+            commit("changeExaminerStatisticsKey")
             commit("setSubmitLoader", false)
         }).catch(error => {
             commit("setSubmitLoader", false)
@@ -108,7 +115,8 @@ const actions = {
 const getters = {
     assignedStudents: (state) => state.assignedStudents,
     assignedStudentsTableMessage: (state) => state.assignedStudentsTableMessage,
-    examinerStudentDetails: (state) => state.examinerStudentDetails
+    examinerStudentDetails: (state) => state.examinerStudentDetails,
+    examinerStatisticsKey: (state) => state.examinerStatisticsKey
 }
 
 export default {state, mutations, actions, getters};
