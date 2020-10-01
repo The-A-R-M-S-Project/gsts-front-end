@@ -128,7 +128,7 @@
               <v-row align="center" justify="center">
                 <v-col>
                   <v-btn @click="fetchReports" icon>
-                    <v-icon>mdi-replay</v-icon>
+                    <v-icon color="primary">mdi-replay</v-icon>
                   </v-btn>
                 </v-col>
               </v-row>
