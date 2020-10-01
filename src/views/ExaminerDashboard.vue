@@ -5,11 +5,11 @@
     <MobileDrawer />
     <v-container fluid>
       <v-row>
-        <v-col cols="12" lg="7">
-          <StudentReportTable />
-        </v-col>
-        <v-col cols="12" lg="5">
+        <v-col cols="12" lg="4" order="2" order-sm="1">
           <ReportScore :key="examinerStatisticsKey" />
+        </v-col>
+        <v-col cols="12" lg="8" order="1" order-sm="2">
+          <StudentReportTable />
         </v-col>
       </v-row>
     </v-container>

@@ -17,20 +17,9 @@
               </div>
             </v-col>
             <v-col cols="7" sm="9">
-              <v-row no-gutters>
-                <v-col
-                  class="py-1"
-                  cols="12"
-                  sm="6"
-                  v-for="(student, i) in studentsPerLevel"
-                  :key="i"
-                >
-                  <v-icon :color="student.color" class="px-2"
-                    >mdi-circle</v-icon
-                  >
-                  <span>{{ student.level }} ({{ student.number }})</span>
-                </v-col>
-              </v-row>
+              <div class="text-xs-center marking-chart">
+                <canvas id="levelsChart"></canvas>
+              </div>
             </v-col>
           </v-row>
         </v-card-text>
@@ -73,7 +62,6 @@ export default {
     return {
       chartData: {
         type: "doughnut",
-        options: chartOptions,
       },
       statusOrder: [
         "notSubmitted",
@@ -86,8 +74,9 @@ export default {
     };
   },
   mounted() {
-    this.createChart("markingDonutChart", this.chartData);
-    this.createChart("receivedDonutChart", this.chartData);
+    this.createDoughnutChart("markingDonutChart", this.chartData);
+    this.createDoughnutChart("receivedDonutChart", this.chartData);
+    this.createDoughnutChart("levelsChart", this.chartData);
   },
   computed: {
     assignedStudents() {
@@ -126,23 +115,23 @@ export default {
         },
         submitted: {
           message: "Submitted",
-          color: "deep-orange darken-2",
+          color: "#E64A19",
         },
         withExaminer: {
           message: "With examiner",
-          color: "orange",
+          color: "#FF9800",
         },
         clearedByExaminer: {
           message: "Cleared by examiner",
-          color: "amber",
+          color: "#FFC107",
         },
         vivaDateSet: {
           message: "Viva date set",
-          color: "yellow darken-1",
+          color: "#FDD835",
         },
         vivaComplete: {
           message: "Viva complete",
-          color: "green lighten-2",
+          color: "#81C784",
         },
       };
       for (const [key, value] of Object.entries(studentsPerLevel)) {
@@ -156,7 +145,7 @@ export default {
     },
   },
   methods: {
-    createChart(chartId, chartData) {
+    createDoughnutChart(chartId, chartData) {
       const ctx = document.getElementById(chartId);
       let chartConfig = {};
       let unreceivedReports =
@@ -172,12 +161,9 @@ export default {
               borderWidth: [0, 0, 0, 0],
             },
           ],
-          labels: [
-            `Cleared (${this.clearedReports})`,
-            `Uncleared (${unclearedReports})`,
-          ],
+          labels: ["Cleared", "Uncleared"],
         };
-      } else {
+      } else if (chartId === "receivedDonutChart") {
         chartConfig = {
           datasets: [
             {
@@ -187,30 +173,48 @@ export default {
               borderWidth: [0, 0, 0, 0],
             },
           ],
-          labels: [
-            `Received (${this.receivedReports})`,
-            `Not received (${unreceivedReports})`,
+          labels: ["Received", "Not received"],
+        };
+      } else {
+        let dataPoints = [];
+        let colors = [];
+        let levels = [];
+        this.studentsPerLevel.forEach((report) => {
+          dataPoints.push(report.number);
+          colors.push(report.color);
+          levels.push(report.level);
+        });
+        chartConfig = {
+          datasets: [
+            {
+              label: "Students per level",
+              data: dataPoints,
+              backgroundColor: colors,
+              borderWidth: [0, 0, 0, 0],
+            },
           ],
+          labels: levels,
         };
       }
       const myChart = new Chart(ctx, {
         type: chartData.type,
         data: chartConfig,
-        options: chartData.options,
+        options: {
+          maintainAspectRatio: false,
+          legend: {
+            position: "bottom",
+            labels: {
+              fontColor: "black",
+              fontSize: 14,
+              fontFamily: "Roboto",
+              padding: 8,
+            },
+          },
+          cutoutPercentage: chartId === "levelsChart" ? 0 : 70,
+        },
       });
     },
   },
-};
-const chartOptions = {
-  maintainAspectRatio: false,
-  legend: {
-    position: "bottom",
-    labels: {
-      fontColor: "black",
-      fontSize: 15,
-    },
-  },
-  cutoutPercentage: 70,
 };
 </script>
 <style>
