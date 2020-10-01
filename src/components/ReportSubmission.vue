@@ -102,7 +102,7 @@
             class="text-center"
             >{{ reportSubmitMessage }}</v-alert
           >
-          <p>
+          <p class="pt-3">
             <span class="body-1 font-weight-light">Title:</span>
             <span v-if="student.report.title"
               >&nbsp;{{ student.report.title }}</span
