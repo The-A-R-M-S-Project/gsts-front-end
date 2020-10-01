@@ -23,7 +23,6 @@
       :search="search"
       :expanded="expanded"
       @click:row="itemClicked"
-      :items-per-page="itemsPerPage"
       @item-expanded="itemExpanded"
       show-expand
       ref="assignedStudentsTable"
@@ -150,7 +149,6 @@ export default {
     return {
       search: "",
       expanded: [],
-      itemsPerPage: 6,
       assignedStudentsTableKey: 0,
       dialog: false,
       headers: [
