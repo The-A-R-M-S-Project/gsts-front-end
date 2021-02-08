@@ -171,6 +171,7 @@
                 :show-size="1000"
                 truncate-length="100"
                 prepend-icon="mdi-file-document"
+                accept=".doc,.docx,.pdf"
               ></v-file-input>
             </p>
           </v-form>
