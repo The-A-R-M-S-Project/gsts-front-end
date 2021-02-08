@@ -312,7 +312,8 @@ export default {
       else finalAbstract = this.reportAbstract;
       if (
         this.$refs.submitReportForm.validate() &&
-        this.student.report.status === "notSubmitted"
+        this.student.report.status === "notSubmitted" &&
+        this.checkUploadedReport()
       ) {
         this.$store
           .dispatch("submitFinalReport", {
@@ -335,9 +336,9 @@ export default {
       } else {
         this.fileSelected = true;
         this.fileErrorMessage = "Please upload your file report";
+        this.dialog = false;
         return false;
       }
-      this.dialog = false;
     },
     countWords(s) {
       s = s.replace(/(^\s*)|(\s*$)/gi, "");
