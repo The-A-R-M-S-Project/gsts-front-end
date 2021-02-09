@@ -144,6 +144,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -213,8 +214,8 @@ export default {
       },
     };
   },
-  created() {
-    this.$store.dispatch("fetchAssignedStudents");
+  async created() {
+    await this.$store.dispatch("fetchAssignedStudents");
   },
   mounted() {
     this.$store.dispatch("setDisplayStudentTableFeedback", false);
@@ -227,27 +228,19 @@ export default {
     }
   },
   computed: {
+    ...mapGetters([
+      "examinerStudentDetails",
+      "submitLoading",
+      "detailLoading",
+      "displayStudentTableFeedback",
+      "assignedStudentsTableMessage",
+    ]),
     assignedStudents() {
       let reports = this.$store.getters.assignedStudents;
       return reports.sort(
         (a, b) =>
           this.defaultSortOrder[a.status] - this.defaultSortOrder[b.status]
       );
-    },
-    examinerStudentDetails() {
-      return this.$store.getters.examinerStudentDetails;
-    },
-    submitLoading() {
-      return this.$store.getters.submitLoading;
-    },
-    detailLoading() {
-      return this.$store.getters.detailLoading;
-    },
-    displayStudentTableFeedback() {
-      return this.$store.getters.displayStudentTableFeedback;
-    },
-    assignedStudentsTableMessage() {
-      return this.$store.getters.assignedStudentsTableMessage;
     },
     getItemStatus() {
       return `item.status`;
@@ -272,15 +265,14 @@ export default {
     itemExpanded(value) {
       this.$store.dispatch("setExaminerStudentDetails", value.item.student);
     },
-    viewDetails(student) {
-      this.$store.dispatch("setStudentDetails", student).then(() => {
-        this.$router.push("/student-progress");
-      });
+    async viewDetails(student) {
+      await this.$store.dispatch("setStudentDetails", student);
+      this.$router.push("/student-progress");
     },
-    viewReport(student) {
-      this.$store.dispatch("setStudentDetails", student).then(() => {
-        this.$router.push("/student-report");
-      });
+    async viewReport(student) {
+      await this.$store.dispatch("setStudentDetails", student);
+      await this.$store.dispatch("fetchStudentReport", student);
+      this.$router.push("/student-report");
     },
     callToAction(status) {
       if (status === "submitted" || status === "withExaminer") return true;
@@ -293,18 +285,14 @@ export default {
         return newDate.replace(/ /g, "-");
       } else return "Not set";
     },
-    receiveReport() {
-      this.$store
-        .dispatch("receiveReport", {
-          report: this.examinerStudentDetails.report,
-          studentName: this.examinerStudentDetails.name,
-        })
-        .then(() => {
-          this.dialog = false;
-          this.$store.dispatch("fetchAssignedStudents").then(() => {
-            this.assignedStudentsTableKey++;
-          });
-        });
+    async receiveReport() {
+      await this.$store.dispatch("receiveReport", {
+        report: this.examinerStudentDetails.report,
+        studentName: this.examinerStudentDetails.name,
+      });
+      this.dialog = false;
+      await this.$store.dispatch("fetchAssignedStudents");
+      this.assignedStudentsTableKey++;
     },
   },
 };

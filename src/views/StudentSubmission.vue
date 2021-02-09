@@ -13,16 +13,12 @@ import ReportSubmission from "@/components/ReportSubmission.vue";
 import CreateReport from "@/components/CreateReport.vue";
 import MobileDrawer from "@/components/MobileDrawer.vue";
 import Footer from "@/components/Footer.vue";
+import { mapGetters } from "vuex";
 
 export default {
   name: "student-submission",
   computed: {
-    student() {
-      return this.$store.getters.student;
-    },
-    reportSectionKey() {
-      return this.$store.getters.reportSectionKey;
-    },
+    ...mapGetters(["student", "reportSectionKey"]),
   },
   components: {
     Navigation,

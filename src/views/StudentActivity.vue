@@ -6,7 +6,8 @@
     <v-row v-if="student.report === undefined" align="center" justify="center">
       <v-col class="text-center">
         <span class="grey--text display-1 no-report text-center">
-          <v-icon large color="purple">mdi-lock-open</v-icon>&nbsp; Unlock your dashboard.
+          <v-icon large color="purple">mdi-lock-open</v-icon>&nbsp; Unlock your
+          dashboard.
           <br />
           <span class="title">
             Click
@@ -14,13 +15,14 @@
               class="yellow--text text--darken-3"
               style="cursor: pointer"
               @click="submitReport"
-            >here</span>
+              >here</span
+            >
             to create a new report
           </span>
         </span>
       </v-col>
     </v-row>
-    <div v-else :class="{'progress': !$vuetify.breakpoint.xs}">
+    <div v-else :class="{ progress: !$vuetify.breakpoint.xs }">
       <v-row no-gutters>
         <v-col cols="12" lg="9">
           <StudentProgress class="mb-6" />
@@ -54,15 +56,16 @@ import OverlayLoader from "@/components/OverlayLoader.vue";
 import StudentProgress from "@/components/StudentProgress.vue";
 import StudentsNotifications from "@/components/StudentsNotifications.vue";
 import Footer from "@/components/Footer.vue";
+import { mapGetters } from "vuex";
+
 export default {
   name: "student-dashboard",
-  created() {
-    this.$store.dispatch("fetchLoggedInStudentDetails");
+  async created() {
+    await this.$store.dispatch("fetchLoggedInStudentDetails");
+    await this.$store.dispatch("fetchStudentReport");
   },
   computed: {
-    student() {
-      return this.$store.getters.student;
-    },
+    ...mapGetters(["student"]),
   },
   methods: {
     submitReport() {

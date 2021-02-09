@@ -16,7 +16,7 @@
           <v-alert
             dark
             dismissible
-            v-if="student.report.status !== 'notSubmitted'"
+            v-if="student.report && student.report.status !== 'notSubmitted'"
             color="error"
             class="text-center"
             >Already submitted report!</v-alert
@@ -84,6 +84,7 @@
         <v-card
           :max-width="$vuetify.breakpoint.xs ? '95vw' : '70vw'"
           class="mx-auto pa-5"
+          v-if="student.report"
         >
           <h3 class="text-center">Submit final report</h3>
           <v-alert
@@ -220,6 +221,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "report-submission",
   data() {
@@ -244,27 +247,20 @@ export default {
       required: [(field) => !!field || "This field is required"],
     };
   },
-  mounted() {
+  async mounted() {
     this.fileSelected = false;
     this.fileErrorMessage = [];
-    this.$store.dispatch("fetchLoggedInStudentDetails");
+    await this.$store.dispatch("fetchLoggedInStudentDetails");
+    await this.$store.dispatch("fetchStudentReport");
   },
   computed: {
-    student() {
-      return this.$store.getters.student;
-    },
-    reportActionMessage() {
-      return this.$store.getters.reportActionMessage;
-    },
-    detailLoading() {
-      return this.$store.getters.detailLoading;
-    },
-    submitReportLoading() {
-      return this.$store.getters.submitReportLoading;
-    },
-    reportSubmitMessage() {
-      return this.$store.getters.reportSubmitMessage;
-    },
+    ...mapGetters([
+      "student",
+      "reportActionMessage",
+      "detailLoading",
+      "submitReportLoading",
+      "reportSubmitMessage",
+    ]),
     words() {
       return `Words: ${this.countWords(this.reportAbstract)}`;
     },
@@ -281,7 +277,7 @@ export default {
         }
       )}, ${new String(monthDay).substring(4, 15).replace(/ /g, "-")}`;
     },
-    editReport() {
+    async editReport() {
       event.preventDefault();
       if (
         this.$refs.editReportForm.validate() &&
@@ -299,13 +295,13 @@ export default {
             title: this.reportTitle,
           };
         }
-        this.$store.dispatch("editReport", newReport).then(() => {
-          this.displayReportActionMessage = true;
-          this.$store.dispatch("fetchLoggedInStudentDetails");
-        });
+        await this.$store.dispatch("editReport", newReport);
+        this.displayReportActionMessage = true;
+        await this.$store.dispatch("fetchLoggedInStudentDetails");
+        await this.$store.dispatch("fetchStudentReport");
       }
     },
-    submitReport() {
+    async submitReport() {
       let finalAbstract = {};
       if (this.student.report.abstract)
         finalAbstract = this.student.report.abstract;
@@ -315,16 +311,15 @@ export default {
         this.student.report.status === "notSubmitted" &&
         this.checkUploadedReport()
       ) {
-        this.$store
-          .dispatch("submitFinalReport", {
-            title: this.student.report.title,
-            abstract: finalAbstract,
-          })
-          .then(() => {
-            if (this.reportSubmitMessage) {
-              this.displaySubmitReportMessage = true;
-            }
-          });
+        let formData = new FormData();
+        formData.append("report", this.report);
+        formData.append("title", this.student.report.title);
+        formData.append("abstract", finalAbstract);
+        formData.append("status", "submitted");
+        await this.$store.dispatch("submitFinalReport", formData);
+        if (this.reportSubmitMessage) {
+          this.displaySubmitReportMessage = true;
+        }
       }
       this.dialog = false;
     },

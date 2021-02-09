@@ -88,7 +88,7 @@ export default {
     },
   },
   methods: {
-    createReport() {
+    async createReport() {
       event.preventDefault();
       let newReport = {};
       if (this.reportAbstract.length > 0) {
@@ -101,10 +101,10 @@ export default {
           title: this.reportTitle,
         };
       }
-      this.$store.dispatch("createReport", newReport).then(() => {
-        this.displayReportActionMessage = true;
-        this.$store.dispatch("fetchLoggedInStudentDetails");
-      });
+      await this.$store.dispatch("createReport", newReport);
+      this.displayReportActionMessage = true;
+      await this.$store.dispatch("fetchLoggedInStudentDetails");
+      await this.$store.dispatch("fetchStudentReport");
     },
     countWords(s) {
       s = s.replace(/(^\s*)|(\s*$)/gi, "");

@@ -8,7 +8,7 @@
       <v-col cols="12" md="4">
         <v-row>
           <v-col>
-            <div class="text-center">
+            <div v-if="student.report" class="text-center">
               <v-progress-circular
                 :rotate="-90"
                 size="250"
@@ -168,6 +168,7 @@
 <script>
 import LoadingDots from "@/components/LoadingDots.vue";
 import StaffStudentProfile from "@/components/StaffStudentProfile.vue";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -213,23 +214,18 @@ export default {
       },
     };
   },
-  created() {
+  async created() {
     if (this.user.role === "student") {
-      this.$store.dispatch("fetchLoggedInStudentDetails").then(() => {
-        if (this.student.report !== undefined) {
-          this.e6 = this.progressEvents[`${this.student.report.status}`].step;
-        }
-      });
+      await this.$store.dispatch("fetchLoggedInStudentDetails");
+      await this.$store.dispatch("fetchStudentReport");
+      if (this.student.report !== undefined) {
+        this.e6 = this.progressEvents[`${this.student.report.status}`].step;
+      }
     }
-    this.e6 = this.progressEvents[`${this.student.report.status}`].step;
+    // this.e6 = this.progressEvents[`${this.student.report.status}`].step;
   },
   computed: {
-    user() {
-      return this.$store.getters.user;
-    },
-    student() {
-      return this.$store.getters.student;
-    },
+    ...mapGetters(["user", "student"]),
   },
   methods: {
     submitReport() {
