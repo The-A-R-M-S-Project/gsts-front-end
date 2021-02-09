@@ -133,19 +133,32 @@
             <span class="body-1 font-weight-light">Due Date:</span>
             <span class="subheading">&nbsp;-</span>
           </p>
+          <p v-if="studentReport.status === 'submitted'">
+            <span class="body-1 font-weight-light">Submitted report:</span>
+            <span class="subheading"
+              >&nbsp;
+              <a :href="studentReport.reportURL" target="_blank">
+                {{ studentReport.title }}
+              </a>
+            </span>
+          </p>
           <p class="mb-10">
             <span
               v-if="studentReport.status === 'submitted'"
               class="body-1 font-weight-light"
               >Submitted:</span
             >
-            <span v-else-if="studentReport" class="body-1 font-weight-light"
+            <span
+              v-else-if="studentReport === 'notSubmitted'"
+              class="body-1 font-weight-light"
               >Created:</span
             >
             <span v-if="studentReport.status === 'submitted'"
               >&nbsp;{{ formatDate(studentReport.submittedAt) }}</span
             >
-            <span v-else-if="studentReport" class="subheading"
+            <span
+              v-else-if="studentReport === 'notSubmitted'"
+              class="subheading"
               >&nbsp; {{ formatDate(studentReport.createdAt) }}</span
             >
           </p>

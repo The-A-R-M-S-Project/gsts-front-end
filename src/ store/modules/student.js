@@ -133,13 +133,15 @@ const actions = {
         commit("setReportSubmitLoader", true)
         let accessToken = localStorage.getItem("jwt");
         axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-        await axiosInstance.patch("/report/submit", data).then(response => {
+        try {
+            let response = await axiosInstance.patch("/report/submit", data)
             commit("submitReport", response.data.message);
+            commit("setStudentReport", response.data.report);
             commit("setReportSubmitLoader", false)
-        }).catch(error => {
+        } catch (error) {
             commit("setReportSubmitLoader", false);
             commit("setReportSubmitError", error.response.data.message)
-        })
+        }
     }
 };
 const getters = {
