@@ -16,7 +16,9 @@
           <v-alert
             dark
             dismissible
-            v-if="student.report && student.report.status !== 'notSubmitted'"
+            v-if="
+              studentReport.title && studentReport.status !== 'notSubmitted'
+            "
             color="error"
             class="text-center"
             >Already submitted report!</v-alert
@@ -33,10 +35,10 @@
             <span class="primary--text">Note:</span> This is not your final
             report submission!
           </h5>
-          <h5 v-if="student.report" class="pb-2">
+          <h5 v-if="studentReport" class="pb-2">
             <v-icon class="mr-2" color="primary">mdi-alert-circle</v-icon>You've
             already created a report titled:
-            <i class="body-2">{{ student.report.title }}</i>
+            <i class="body-2">{{ studentReport.title }}</i>
             <br />You'll only be editing the existing title and abstract
           </h5>
           <v-form ref="editReportForm">
@@ -84,13 +86,13 @@
         <v-card
           :max-width="$vuetify.breakpoint.xs ? '95vw' : '70vw'"
           class="mx-auto pa-5"
-          v-if="student.report"
+          v-if="studentReport.title"
         >
           <h3 class="text-center">Submit final report</h3>
           <v-alert
             dark
             dismissible
-            v-if="student.report.status !== 'notSubmitted'"
+            v-if="studentReport.status !== 'notSubmitted'"
             color="error"
             class="text-center"
             >Already submitted report!</v-alert
@@ -105,24 +107,24 @@
           >
           <p class="pt-3">
             <span class="body-1 font-weight-light">Title:</span>
-            <span v-if="student.report.title"
-              >&nbsp;{{ student.report.title }}</span
+            <span v-if="studentReport.title"
+              >&nbsp;{{ studentReport.title }}</span
             >
             <span v-else>&nbsp;-</span>
           </p>
           <p>
             <span class="body-1 font-weight-light">Abstract:</span>
-            <span v-if="student.report.abstract"
-              >&nbsp;<i class="body-2">{{ student.report.abstract }}</i></span
+            <span v-if="studentReport.abstract"
+              >&nbsp;<i class="body-2">{{ studentReport.abstract }}</i></span
             >
             <span v-else>&nbsp;-</span>
           </p>
           <p>
             <span class="body-1 font-weight-light">Upload status:</span>
-            <span v-if="student.report.status === 'submitted'"
+            <span v-if="studentReport.status === 'submitted'"
               >&nbsp; Reported submitted</span
             >
-            <span v-else-if="student.report.title" class="subheading"
+            <span v-else-if="studentReport.title" class="subheading"
               >&nbsp; Report created</span
             >
             <span v-else>&nbsp;Report not created</span>
@@ -133,25 +135,25 @@
           </p>
           <p class="mb-10">
             <span
-              v-if="student.report.status === 'submitted'"
+              v-if="studentReport.status === 'submitted'"
               class="body-1 font-weight-light"
               >Submitted:</span
             >
-            <span v-else-if="student.report" class="body-1 font-weight-light"
+            <span v-else-if="studentReport" class="body-1 font-weight-light"
               >Created:</span
             >
-            <span v-if="student.report.status === 'submitted'"
-              >&nbsp;{{ formatDate(student.report.submittedAt) }}</span
+            <span v-if="studentReport.status === 'submitted'"
+              >&nbsp;{{ formatDate(studentReport.submittedAt) }}</span
             >
-            <span v-else-if="student.report" class="subheading"
-              >&nbsp; {{ formatDate(student.report.createdAt) }}</span
+            <span v-else-if="studentReport" class="subheading"
+              >&nbsp; {{ formatDate(studentReport.createdAt) }}</span
             >
           </p>
           <v-form ref="submitReportForm">
-            <p v-show="!student.report.abstract">
+            <p v-show="!studentReport.abstract">
               <span class="body-1 font-weight-bold">Abstract:</span>
               <v-textarea
-                v-if="!student.report.abstract"
+                v-if="!studentReport.abstract"
                 outlined
                 v-model="reportAbstract"
                 label="Insert an abstract"
@@ -251,11 +253,11 @@ export default {
     this.fileSelected = false;
     this.fileErrorMessage = [];
     await this.$store.dispatch("fetchLoggedInStudentDetails");
-    await this.$store.dispatch("fetchStudentReport");
   },
   computed: {
     ...mapGetters([
       "student",
+      "studentReport",
       "reportActionMessage",
       "detailLoading",
       "submitReportLoading",
@@ -281,8 +283,8 @@ export default {
       event.preventDefault();
       if (
         this.$refs.editReportForm.validate() &&
-        (this.student.report.status === "notSubmitted" ||
-          this.student.report === undefined)
+        (this.studentReport.status === "notSubmitted" ||
+          this.studentReport === {})
       ) {
         let newReport = {};
         if (this.reportAbstract.length > 0) {
@@ -298,22 +300,21 @@ export default {
         await this.$store.dispatch("editReport", newReport);
         this.displayReportActionMessage = true;
         await this.$store.dispatch("fetchLoggedInStudentDetails");
-        await this.$store.dispatch("fetchStudentReport");
       }
     },
     async submitReport() {
       let finalAbstract = {};
-      if (this.student.report.abstract)
-        finalAbstract = this.student.report.abstract;
+      if (this.studentReport.abstract)
+        finalAbstract = this.studentReport.abstract;
       else finalAbstract = this.reportAbstract;
       if (
         this.$refs.submitReportForm.validate() &&
-        this.student.report.status === "notSubmitted" &&
+        this.studentReport.status === "notSubmitted" &&
         this.checkUploadedReport()
       ) {
         let formData = new FormData();
         formData.append("report", this.report);
-        formData.append("title", this.student.report.title);
+        formData.append("title", this.studentReport.title);
         formData.append("abstract", finalAbstract);
         formData.append("status", "submitted");
         await this.$store.dispatch("submitFinalReport", formData);

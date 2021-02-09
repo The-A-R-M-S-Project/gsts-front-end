@@ -8,19 +8,19 @@
       <v-col cols="12" md="4">
         <v-row>
           <v-col>
-            <div v-if="student.report" class="text-center">
+            <div v-if="studentReport" class="text-center">
               <v-progress-circular
                 :rotate="-90"
                 size="250"
                 width="20"
-                :value="progressEvents[`${student.report.status}`].value"
-                :color="progressEvents[`${student.report.status}`].color"
+                :value="progressEvents[`${studentReport.status}`].value"
+                :color="progressEvents[`${studentReport.status}`].color"
                 class="my-3"
               >
                 <span class="black--text">
-                  {{ progressEvents[`${student.report.status}`].value }}%
+                  {{ progressEvents[`${studentReport.status}`].value }}%
                   <br />
-                  {{ progressEvents[`${student.report.status}`].message }}
+                  {{ progressEvents[`${studentReport.status}`].message }}
                 </span>
               </v-progress-circular>
             </div>
@@ -39,7 +39,7 @@
             <div class="v-stepper__content">
               <div class="body-1 mb-1">Your report has been submitted.</div>
               <div class="caption mt-3 font-weight-light">
-                {{ formatDate(student.report.submittedAt) }}
+                {{ formatDate(studentReport.submittedAt) }}
               </div>
             </div>
           </template>
@@ -62,7 +62,7 @@
                 Your examiner has acknowledged receipt of your report
               </div>
               <div class="caption mt-3 font-weight-light">
-                {{ formatDate(student.report.receivedAt) }}
+                {{ formatDate(studentReport.receivedAt) }}
               </div>
             </div>
           </template>
@@ -89,15 +89,15 @@
                 <span class="subtitle-1">
                   <strong>
                     <u
-                      >{{ student.report.examinerScore }}% ({{
-                        student.report.examinerGrade
+                      >{{ studentReport.examinerScore }}% ({{
+                        studentReport.examinerGrade
                       }})</u
                     >
                   </strong>
                 </span>
               </div>
               <div class="caption mt-3 font-weight-light">
-                {{ formatDate(student.report.examinerScoreDate) }}
+                {{ formatDate(studentReport.examinerScoreDate) }}
               </div>
             </div>
           </template>
@@ -119,7 +119,7 @@
               <div class="body-1 mb-1">
                 Your viva examination date has been set to
                 <span class="headline text-color blue--text">{{
-                  formatDate(student.report.vivaDate)
+                  formatDate(studentReport.vivaDate)
                 }}</span>
               </div>
               <div class="body-2">
@@ -127,7 +127,7 @@
               </div>
               <!-- This is supposed to be the date when the viva date was set by principal/dean -->
               <div class="caption mt-3 font-weight-light">
-                {{ formatDate(student.report.examinerScoreDate) }}
+                {{ formatDate(studentReport.examinerScoreDate) }}
               </div>
             </div>
           </template>
@@ -150,12 +150,12 @@
                 You scored
                 <span class="subtitle-1">
                   <strong>
-                    <u>{{ student.report.vivaScore }}%</u>
+                    <u>{{ studentReport.vivaScore }}%</u>
                   </strong>
                 </span>
               </div>
               <div class="caption mt-3 font-weight-light">
-                {{ formatDate(student.report.vivaScoreDate) }}
+                {{ formatDate(studentReport.vivaScoreDate) }}
               </div>
             </div>
           </template>
@@ -217,15 +217,14 @@ export default {
   async created() {
     if (this.user.role === "student") {
       await this.$store.dispatch("fetchLoggedInStudentDetails");
-      await this.$store.dispatch("fetchStudentReport");
-      if (this.student.report !== undefined) {
-        this.e6 = this.progressEvents[`${this.student.report.status}`].step;
+      if (this.studentReport.title) {
+        this.e6 = this.progressEvents[`${this.studentReport.status}`].step;
       }
     }
-    // this.e6 = this.progressEvents[`${this.student.report.status}`].step;
+    // this.e6 = this.progressEvents[`${this.studentReport.status}`].step;
   },
   computed: {
-    ...mapGetters(["user", "student"]),
+    ...mapGetters(["user", "student", "studentReport"]),
   },
   methods: {
     submitReport() {

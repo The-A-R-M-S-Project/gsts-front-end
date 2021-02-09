@@ -3,7 +3,7 @@
     <Navigation class="d-none d-sm-block" />
     <MobileDrawer />
     <OverlayLoader />
-    <v-row v-if="student.report === undefined" align="center" justify="center">
+    <v-row v-if="!studentReport.title" align="center" justify="center">
       <v-col class="text-center">
         <span class="grey--text display-1 no-report text-center">
           <v-icon large color="purple">mdi-lock-open</v-icon>&nbsp; Unlock your
@@ -62,10 +62,9 @@ export default {
   name: "student-dashboard",
   async created() {
     await this.$store.dispatch("fetchLoggedInStudentDetails");
-    await this.$store.dispatch("fetchStudentReport");
   },
   computed: {
-    ...mapGetters(["student"]),
+    ...mapGetters(["student", "studentReport"]),
   },
   methods: {
     submitReport() {

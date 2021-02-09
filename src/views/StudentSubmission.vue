@@ -2,7 +2,7 @@
   <div class="mx-auto" :key="reportSectionKey">
     <Navigation class="d-none d-sm-block" />
     <MobileDrawer />
-    <CreateReport v-if="student.report === undefined" />
+    <CreateReport v-if="studentReport.title === undefined" />
     <ReportSubmission v-else />
     <Footer />
   </div>
@@ -17,8 +17,11 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "student-submission",
+  // mounted() {
+  //   console.log(this.studentReport.title);
+  // },
   computed: {
-    ...mapGetters(["student", "reportSectionKey"]),
+    ...mapGetters(["student", "reportSectionKey", "studentReport"]),
   },
   components: {
     Navigation,

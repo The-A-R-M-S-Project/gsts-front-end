@@ -104,7 +104,6 @@ export default {
       await this.$store.dispatch("createReport", newReport);
       this.displayReportActionMessage = true;
       await this.$store.dispatch("fetchLoggedInStudentDetails");
-      await this.$store.dispatch("fetchStudentReport");
     },
     countWords(s) {
       s = s.replace(/(^\s*)|(\s*$)/gi, "");

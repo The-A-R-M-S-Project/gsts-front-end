@@ -2,6 +2,7 @@ import axiosInstance from "../axios_setup";
 
 const state = {
     student: {},
+    studentReport: {},
     detailLoading: false,
     reportActionMessage: '',
     reportSubmitMessage: '',
@@ -20,7 +21,7 @@ const mutations = {
         state.student = payload
     },
     setStudentReport(state, payload) {
-        state.student.report = payload
+        state.studentReport = payload
     },
     studentDetails(state, payload) {
         state.student = payload
@@ -84,27 +85,16 @@ const actions = {
         let accessToken = localStorage.getItem("jwt");
         axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
         commit("setOverlayLoader", true);
-        await axiosInstance.get("/student/me").then(response => {
-            commit("setLoggedInStudentDetails", response.data);
-            commit("setOverlayLoader", false);
-        }).catch(error => {
-            commit("setOverlayLoader", false);
-            commit("fetchStudentDashboardError", error.response.data.message)
-        })
-    },
-    async fetchStudentReport({commit}) {
-        let accessToken = localStorage.getItem("jwt");
-        axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-        commit("setOverlayLoader", true);
         try {
-            let response = await axiosInstance.get("/report/student")
+            let response = await axiosInstance.get("/student/me")
+            commit("setLoggedInStudentDetails", response.data);
+            response = await axiosInstance.get("/report/student")
             commit("setStudentReport", response.data);
             commit("setOverlayLoader", false);
         } catch (error) {
             commit("setOverlayLoader", false);
             commit("fetchStudentDashboardError", error.response.data.message)
         }
-
     },
     async createReport({
         commit
@@ -112,14 +102,15 @@ const actions = {
         commit("setDetailLoader", true)
         let accessToken = localStorage.getItem("jwt");
         axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-        await axiosInstance.post("/report", data).then(response => {
+        try {
+            let response = await axiosInstance.post("/report", data)
             commit("addNewReport", response.data.message);
             commit("changeReportSectionKey");
             commit("setDetailLoader", false)
-        }).catch(error => {
+        } catch (error) {
             commit("setDetailLoader", false);
             commit("setReportError", error.response.data.message)
-        })
+        }
     },
     async editReport({
         commit
@@ -127,13 +118,14 @@ const actions = {
         commit("setDetailLoader", true)
         let accessToken = localStorage.getItem("jwt");
         axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-        await axiosInstance.patch("/report/student", data).then(response => {
+        try {
+            let response = await axiosInstance.patch("/report/student", data)
             commit("addNewReport", response.data.message);
             commit("setDetailLoader", false)
-        }).catch(error => {
+        } catch (error) {
             commit("setDetailLoader", false);
             commit("setReportError", error.response.data.message)
-        })
+        }
     },
     async submitFinalReport({
         commit
@@ -152,6 +144,7 @@ const actions = {
 };
 const getters = {
     student: (state) => state.student,
+    studentReport: (state) => state.studentReport,
     detailLoading: (state) => state.detailLoading,
     studentSchool: (state) => {
         return state.schools.filter((school) => {
