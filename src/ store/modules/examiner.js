@@ -55,14 +55,15 @@ const actions = {
         commit("setOverlayLoader", true);
         let accessToken = localStorage.getItem("jwt");
         axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-        await axiosInstance.get("/staff/report/").then(response => {
+        try {
+            let response = await axiosInstance.get("/report/staff")
             commit("setAssignedStudents", response.data.reports)
             commit("changeExaminerStatisticsKey")
             commit("setOverlayLoader", false);
-        }).catch(error => {
-            commit("fetchAssignedStudentsError", error.response.data.message)
+        } catch (error) {
             commit("setOverlayLoader", false);
-        })
+            commit("fetchAssignedStudentsError", error.response.data.message)
+        }
     },
     async receiveReport({
         commit
@@ -70,7 +71,7 @@ const actions = {
         commit("setSubmitLoader", true)
         let accessToken = localStorage.getItem("jwt");
         axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-        await axiosInstance.patch(`/staff/report/receive/${
+        await axiosInstance.patch(`/report/staff/receive/${
             data.report
         }`).then(response => {
             commit("receiveReportSuccess", {
@@ -91,9 +92,10 @@ const actions = {
         commit("setSubmitLoader", true)
         let accessToken = localStorage.getItem("jwt");
         axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-        await axiosInstance.patch(`/staff/report/clear/${
-            data.report
-        }`, data.score).then(response => {
+        try {
+            let response = await axiosInstance.patch(`/report/staff/clear/${
+                data.report
+            }`, data.score)
             commit("clearReportSuccess", {
                 res: response.data.status,
                 student: data.studentName
@@ -101,10 +103,10 @@ const actions = {
             commit("setDisplayStudentTableFeedback", true)
             commit("changeExaminerStatisticsKey")
             commit("setSubmitLoader", false)
-        }).catch(error => {
+        } catch (error) {
             commit("setSubmitLoader", false)
             commit("setClearReportError", error.response.data.message)
-        })
+        }
     },
     setExaminerStudentDetails({
         commit

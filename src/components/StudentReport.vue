@@ -12,13 +12,17 @@
                 :rotate="-90"
                 size="250"
                 width="20"
-                :value="progressEvents[`${student.report.status}`].value"
-                :color="progressEvents[`${student.report.status}`].color"
+                :value="
+                  progressEvents[`${examinerStudentDetails.status}`].value
+                "
+                :color="
+                  progressEvents[`${examinerStudentDetails.status}`].color
+                "
                 class="my-3"
               >
-                {{ progressEvents[`${student.report.status}`].value }}%
+                {{ progressEvents[`${examinerStudentDetails.status}`].value }}%
                 <br />
-                {{ progressEvents[`${student.report.status}`].message }}
+                {{ progressEvents[`${examinerStudentDetails.status}`].message }}
               </v-progress-circular>
             </div>
           </v-col>
@@ -27,15 +31,15 @@
               <div class="text-left body-2 mx-auto">
                 <div class="pa-1">
                   <span class="font-weight-bold">Name</span>
-                  : {{ student.name }}
+                  : {{ examinerStudentDetails.student.name }}
                 </div>
                 <div class="pa-1">
                   <span class="font-weight-bold">Email</span>
-                  : {{ student.email }}
+                  : {{ examinerStudentDetails.student.email }}
                 </div>
                 <div class="pa-1">
                   <span class="font-weight-bold">Contacts</span>
-                  : {{ student.phoneNumber }}
+                  : {{ examinerStudentDetails.student.phoneNumber }}
                 </div>
               </div>
             </div>
@@ -53,7 +57,7 @@
                   <v-card-text class="py-3 px-6">
                     <p class="body-1">
                       Set a score for
-                      <strong>{{ student.name }}</strong
+                      <strong>{{ examinerStudentDetails.student.name }}</strong
                       >'s report.
                     </p>
                     <v-form ref="reportScore">
@@ -85,7 +89,15 @@
               </v-dialog>
             </div>
             <div class="my-6" :class="{ 'px-6': $vuetify.breakpoint.xs }">
-              <v-btn color="teal" dark>Download report</v-btn>
+              <v-btn
+                color="teal"
+                dark
+                link
+                :href="examinerStudentDetails.reportURL"
+                target="_blank"
+              >
+                View report
+              </v-btn>
             </div>
           </v-col>
         </v-row>
@@ -99,13 +111,13 @@
           <div class="py-1 px-sm-12">
             <span class="font-weight-bold body-2">Title</span>
             :
-            <span class="subheading">{{ student.report.title }}</span>
+            <span class="subheading">{{ examinerStudentDetails.title }}</span>
           </div>
           <div class="py-1 px-sm-12">
             <span class="font-weight-bold body-2">Abstract</span>
             :
             <i class="subheading">
-              {{ student.report.abstract }}
+              {{ examinerStudentDetails.abstract }}
             </i>
           </div>
         </div>
@@ -115,6 +127,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "examiner-student-report",
   data() {
@@ -160,30 +174,21 @@ export default {
     };
   },
   computed: {
-    student() {
-      return this.$store.getters.student;
-    },
-    submitLoading() {
-      return this.$store.getters.submitLoading;
-    },
+    ...mapGetters(["examinerStudentDetails", "submitLoading"]),
   },
   methods: {
-    setReportScore() {
+    async setReportScore() {
       if (this.$refs.reportScore.validate()) {
-        this.$store
-          .dispatch("clearStudentReport", {
-            report: this.student.report._id,
-            score: {
-              examinerScore: this.score,
-            },
-            studentName: this.student.name,
-          })
-          .then(() => {
-            this.dialog = false;
-            this.$store.dispatch("fetchAssignedStudents").then(() => {
-              this.$router.push("/examiner-dashboard");
-            });
-          });
+        await this.$store.dispatch("clearStudentReport", {
+          report: this.examinerStudentDetails._id,
+          score: {
+            examinerScore: this.score,
+          },
+          studentName: this.examinerStudentDetails.student.name,
+        });
+        this.dialog = false;
+        await this.$store.dispatch("fetchAssignedStudents");
+        this.$router.push("/examiner-dashboard");
       }
     },
   },

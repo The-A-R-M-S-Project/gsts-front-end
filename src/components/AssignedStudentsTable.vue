@@ -260,18 +260,17 @@ export default {
       } else {
         this.expanded.splice(index, 1);
       }
-      this.$store.dispatch("setExaminerStudentDetails", value.student);
+      this.$store.dispatch("setExaminerStudentDetails", value);
     },
     itemExpanded(value) {
-      this.$store.dispatch("setExaminerStudentDetails", value.item.student);
+      this.$store.dispatch("setExaminerStudentDetails", value.item);
     },
     async viewDetails(student) {
       await this.$store.dispatch("setStudentDetails", student);
       this.$router.push("/student-progress");
     },
-    async viewReport(student) {
-      await this.$store.dispatch("setStudentDetails", student);
-      await this.$store.dispatch("fetchStudentReport", student);
+    async viewReport(report) {
+      await this.$store.dispatch("setExaminerStudentDetails", report);
       this.$router.push("/student-report");
     },
     callToAction(status) {
@@ -287,8 +286,8 @@ export default {
     },
     async receiveReport() {
       await this.$store.dispatch("receiveReport", {
-        report: this.examinerStudentDetails.report,
-        studentName: this.examinerStudentDetails.name,
+        report: this.examinerStudentDetails._id,
+        studentName: this.examinerStudentDetails.student.name,
       });
       this.dialog = false;
       await this.$store.dispatch("fetchAssignedStudents");
