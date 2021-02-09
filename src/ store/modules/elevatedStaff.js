@@ -125,7 +125,7 @@ const actions = {
         commit("setSubmitLoader", true)
         let accessToken = localStorage.getItem("jwt");
         axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-        await axiosInstance.patch(`/staff/report/examiner/assign/${
+        await axiosInstance.patch(`/report/staff/examiner/assign/${
             data.studentReportID
         }`, {examiner: data.examinerID}).then(response => {
             commit("assignExaminerSuccess", {
