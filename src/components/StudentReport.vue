@@ -103,25 +103,61 @@
         </v-row>
       </v-col>
     </v-row>
-    <v-row>
-      <div class="pa-3">
-        <h3 class="text-center text-underline">Details</h3>
-        <hr class="mx-auto divider" />
-        <div class="px-3 text-left mx-auto">
-          <div class="py-1 px-sm-12">
-            <span class="font-weight-bold body-2">Title</span>
-            :
-            <span class="subheading">{{ examinerStudentDetails.title }}</span>
-          </div>
-          <div class="py-1 px-sm-12">
-            <span class="font-weight-bold body-2">Abstract</span>
-            :
-            <i class="subheading">
-              {{ examinerStudentDetails.abstract }}
-            </i>
+    <v-row class="mb-6">
+      <v-col cols="12" sm="7">
+        <div class="pa-3">
+          <h3 class="text-center text-underline">Details</h3>
+          <hr class="mx-auto divider" />
+          <div class="px-3 text-left mx-auto">
+            <div class="py-1 px-sm-12">
+              <span class="font-weight-bold body-2">Title</span>
+              :
+              <span class="subheading">{{ examinerStudentDetails.title }}</span>
+            </div>
+            <div class="py-1 px-sm-12">
+              <span class="font-weight-bold body-2">Abstract</span>
+              :
+              <i class="subheading">
+                {{ examinerStudentDetails.abstract }}
+              </i>
+            </div>
           </div>
         </div>
-      </div>
+      </v-col>
+      <v-col cols="12" sm="5" class="px-12">
+        <div class="text-center">
+          <h3 class="text-center text-underline">Comments</h3>
+          <hr class="mx-auto divider" />
+        </div>
+        <v-row
+          v-for="comment in reportComments"
+          :key="comment"
+          align="center"
+          justify="center"
+        >
+          <v-col>
+            <p>
+              <span>
+                <v-icon color="primary"> mdi-circle </v-icon>
+              </span>
+              {{ comment }}
+            </p>
+          </v-col>
+        </v-row>
+        <div class="text-center">
+          <v-form ref="createCommentForm">
+            <v-textarea
+              outlined
+              v-model="comment"
+              label="Create a comment"
+              :rules="commentRules"
+            ></v-textarea>
+          </v-form>
+          <v-btn color="teal" dark @click="createComment()">
+            add comment
+          </v-btn>
+        </div>
+      </v-col>
     </v-row>
   </div>
 </template>
@@ -135,6 +171,8 @@ export default {
     return {
       dialog: false,
       score: null,
+      comment: "",
+      commentRules: [(comment) => !!comment || "Please write a comment!"],
       scoreRules: [
         (score) => !!score || "A score is required",
         (score) => (score < 100 && score >= 0) || "Invalid score",
@@ -174,7 +212,11 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["examinerStudentDetails", "submitLoading"]),
+    ...mapGetters([
+      "examinerStudentDetails",
+      "submitLoading",
+      "reportComments",
+    ]),
   },
   methods: {
     async setReportScore() {
@@ -192,12 +234,17 @@ export default {
       }
     },
   },
+  createComment() {
+    if (this.$refs.createCommentForm.validate()) {
+    }
+  },
 };
 </script>
 
 <style>
 .divider {
-  width: 4rem;
+  width: 6rem;
   border: 2px solid black;
+  margin-bottom: 1rem;
 }
 </style>

@@ -220,11 +220,12 @@ export default {
       if (this.studentReport.title) {
         this.e6 = this.progressEvents[`${this.studentReport.status}`].step;
       }
+    } else {
+      this.e6 = this.progressEvents[`${this.studentReport.status}`].step;
     }
-    // this.e6 = this.progressEvents[`${this.studentReport.status}`].step;
   },
   computed: {
-    ...mapGetters(["user", "student", "studentReport"]),
+    ...mapGetters(["user", "studentReport"]),
   },
   methods: {
     submitReport() {

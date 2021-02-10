@@ -266,11 +266,12 @@ export default {
       this.$store.dispatch("setExaminerStudentDetails", value.item);
     },
     async viewDetails(student) {
-      await this.$store.dispatch("setStudentDetails", student);
+      this.$store.dispatch("setStaffStudentDetails", student);
       this.$router.push("/student-progress");
     },
     async viewReport(report) {
       await this.$store.dispatch("setExaminerStudentDetails", report);
+      await this.$store.dispatch("fetchReportComments", report._id);
       this.$router.push("/student-report");
     },
     callToAction(status) {

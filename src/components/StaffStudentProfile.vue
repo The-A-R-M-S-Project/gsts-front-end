@@ -3,23 +3,23 @@
     <div class="px-3 text-left body-2 mx-auto">
       <div class="pa-1">
         <span class="font-weight-bold">Name</span>
-        : {{ student.name }}
+        : {{ studentReport.student.name }}
       </div>
       <div class="pa-1">
         <span class="font-weight-bold">Email</span>
-        : {{ student.email }}
+        : {{ studentReport.student.email }}
       </div>
       <div class="pa-1">
         <span class="font-weight-bold">Contacts</span>
-        : {{ student.phoneNumber }}
+        : {{ studentReport.student.phoneNumber }}
       </div>
       <div class="pa-1">
         <span class="font-weight-bold">Programme</span>
-        : {{ student.program.name }}
+        : {{ studentReport.student.program.name }}
       </div>
-      <div v-if="student.report" class="pa-1">
+      <div class="pa-1">
         <span class="font-weight-bold">Report</span>
-        : {{ student.report.title }}
+        : {{ studentReport.title }}
       </div>
       <!-- <div class="pa-1">
         <span class="font-weight-bold">School</span>
@@ -34,12 +34,15 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "staff-student-profile",
   computed: {
-    user() {
-      return this.$store.getters.user;
-    },
+    ...mapGetters(["studentReport"]),
+    // user() {
+    //   return this.$store.getters.user;
+    // },
     // school() {
     //   return this.user.role !== "student" ? this.$store.getters.studentSchool
     //     : null;
@@ -47,9 +50,6 @@ export default {
     // department() {
     //   return this.$store.getters.department.name;
     // },
-    student() {
-      return this.$store.getters.student;
-    },
   },
 };
 </script>

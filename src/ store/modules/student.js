@@ -10,7 +10,8 @@ const state = {
     reportSubmitError: null,
     studentDashboardError: null,
     submitReportLoading: false,
-    reportSectionKey: 0
+    reportSectionKey: 0,
+    reportComments: null
 };
 const mutations = {
     setDetailLoader(state, payload) {
@@ -49,6 +50,9 @@ const mutations = {
     },
     changeReportSectionKey(state) {
         state.reportSectionKey ++
+    },
+    setReportComments(state, payload) {
+        state.reportComments = payload
     }
 };
 const actions = {
@@ -142,6 +146,24 @@ const actions = {
             commit("setReportSubmitLoader", false);
             commit("setReportSubmitError", error.response.data.message)
         }
+    },
+    async fetchReportComments({
+        commit
+    }, data) {
+        let accessToken = localStorage.getItem("jwt");
+        axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+        try {
+            let response = await axiosInstance.get(`/comment/report/${data}`)
+            let comments = response.data.comments.map(comment => comment.text)
+            commit("setReportComments", comments)
+        } catch (error) {
+            commit("setReportComments", [error.response.data.message])
+        }
+    },
+    setStaffStudentDetails({
+        commit
+    }, data) {
+        commit("setStudentReport", data);
     }
 };
 const getters = {
@@ -157,6 +179,7 @@ const getters = {
     reportActionMessage: (state) => state.reportActionMessage,
     reportSubmitMessage: (state) => state.reportSubmitMessage,
     reportSubmitError: (state) => state.reportSubmitError,
-    reportSectionKey: (state) => state.reportSectionKey
+    reportSectionKey: (state) => state.reportSectionKey,
+    reportComments: (state) => state.reportComments
 };
 export default {state, mutations, actions, getters};
