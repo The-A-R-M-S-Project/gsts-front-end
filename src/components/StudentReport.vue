@@ -138,7 +138,15 @@
         >
           <v-col>
             <v-row no-gutters align="center" justify="space-between">
-              <p>
+              <p
+                v-if="
+                  comment.text === 'No comments have been made on this report'
+                "
+                class="grey--text"
+              >
+                {{ comment.text }}
+              </p>
+              <p v-else>
                 <span>
                   <v-icon color="primary"> mdi-circle </v-icon>
                 </span>
