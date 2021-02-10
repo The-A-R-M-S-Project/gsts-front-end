@@ -56,6 +56,9 @@ const mutations = {
         state.reportComments = payload
     },
     addReportComment(state, payload) {
+        if (state.reportComments[0].text === 'No comments have been made on this report') {
+            state.reportComments.pop()
+        }
         state.reportComments.push(payload)
     },
     setCreateCommentError(state, payload) {
@@ -178,7 +181,7 @@ const actions = {
             let response = await axiosInstance.post(`/comment/report/${
                 data.report
             }`, data.comment)
-            commit("addReportComment", response.data.comment.text)
+            commit("addReportComment", response.data.comment)
             commit("setDetailLoader", false)
         } catch (error) {
             commit("setDetailLoader", false)

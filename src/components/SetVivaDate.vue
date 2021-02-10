@@ -2,30 +2,43 @@
   <div class="text-center">
     <v-dialog v-model="dialog" width="700">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn v-bind="attrs" v-on="on" :loading="submitLoading" color="primary">Set viva date</v-btn>
+        <v-btn v-bind="attrs" v-on="on" :loading="submitLoading" color="primary"
+          >Set viva date</v-btn
+        >
       </template>
 
       <v-card>
-        <v-card-title class="text-center headline purple white--text">Set viva date</v-card-title>
+        <v-card-title class="text-center headline purple white--text"
+          >Set viva date</v-card-title
+        >
         <v-card-text class="py-3 px-6">
-          <p class="black--text body-1">Set viva date for {{selectedStudent.student.name}}</p>
+          <p class="black--text body-1">
+            Set viva date for {{ selectedStudent.student.name }}
+          </p>
           <v-alert
             v-if="displayDateTimeError"
             dark
             class="text-center"
             dismissible
             color="error"
-          >Please select a date and time</v-alert>
+            >Please select a date and time</v-alert
+          >
           <v-row>
             <v-col>
-              <v-date-picker v-model="picker" full-width color="purple" show-current type="date"></v-date-picker>
+              <v-date-picker
+                v-model="picker"
+                full-width
+                color="purple"
+                show-current
+                type="date"
+              ></v-date-picker>
             </v-col>
             <v-col>
               <div class="text-center">
                 <v-time-picker
                   v-model="time"
                   color="purple"
-                  :width="$vuetify.breakpoint.xs?'230':'290'"
+                  :width="$vuetify.breakpoint.xs ? '230' : '290'"
                 ></v-time-picker>
               </div>
             </v-col>
@@ -43,6 +56,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "SetVivaDate",
   data() {
@@ -57,12 +72,7 @@ export default {
     this.displayDateTimeError = false;
   },
   computed: {
-    selectedStudent() {
-      return this.$store.getters.selectedStudent;
-    },
-    submitLoading() {
-      return this.$store.getters.submitLoading;
-    },
+    ...mapGetters(["selectedStudent", "submitLoading"]),
   },
   methods: {
     setVivaDate() {

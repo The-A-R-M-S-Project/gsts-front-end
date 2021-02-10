@@ -146,7 +146,7 @@ const actions = {
         commit("setSubmitLoader", true)
         let accessToken = localStorage.getItem("jwt");
         axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-        await axiosInstance.patch(`/staff/report/vivadate/${
+        await axiosInstance.patch(`/viva/staff/vivadate/${
             data.reportID
         }`, data.vivaDate).then(response => {
             commit("setVivaDateSuccess", {
@@ -166,7 +166,7 @@ const actions = {
         commit("setSubmitLoader", true)
         let accessToken = localStorage.getItem("jwt");
         axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-        await axiosInstance.patch(`/staff/report/vivascore/${
+        await axiosInstance.patch(`/viva/staff/vivascore/${
             data.reportID
         }`, data.vivaScore).then(response => {
             commit("setVivaScoreSuccess", {

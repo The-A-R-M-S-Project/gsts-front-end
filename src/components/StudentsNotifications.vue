@@ -27,7 +27,9 @@
               ></v-list-item-subtitle>
             </v-list-item-content>
 
-            <v-list-item-action>
+            <v-list-item-action
+              v-if="item.title !== 'No comments have been made on this report'"
+            >
               <v-list-item-action-text
                 v-text="item.action"
               ></v-list-item-action-text>
@@ -71,21 +73,23 @@ export default {
     }
   },
   mounted() {
-    let comments = this.reportComments;
-    comments.sort((a, b) => {
-      return new Date(b.createdAt) - new Date(a.createdAt);
-    });
-    comments = this.reportComments.map((comment) => {
-      return {
-        id: comment._id,
-        action: this.formatDate(comment.createdAt).date,
-        time: this.formatDate(comment.createdAt).time,
-        tag: "red",
-        headline: "Report comment",
-        title: comment.text,
-      };
-    });
-    this.notifications.push(...comments);
+    if (this.reportComments.length > 0) {
+      let comments = this.reportComments;
+      comments.sort((a, b) => {
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      });
+      comments = this.reportComments.map((comment) => {
+        return {
+          id: comment._id,
+          action: this.formatDate(comment.createdAt).date,
+          time: this.formatDate(comment.createdAt).time,
+          tag: "red",
+          headline: "Report comment",
+          title: comment.text,
+        };
+      });
+      this.notifications.push(...comments);
+    }
   },
   computed: {
     ...mapGetters(["studentReport", "reportComments"]),
