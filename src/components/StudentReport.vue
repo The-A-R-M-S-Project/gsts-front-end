@@ -134,6 +134,7 @@
           :key="comment"
           align="center"
           justify="center"
+          no-gutters
         >
           <v-col>
             <p>
@@ -153,7 +154,12 @@
               :rules="commentRules"
             ></v-textarea>
           </v-form>
-          <v-btn color="teal" dark @click="createComment()">
+          <v-btn
+            color="teal"
+            dark
+            @click="createComment()"
+            :loading="detailLoading"
+          >
             add comment
           </v-btn>
         </div>
@@ -216,6 +222,7 @@ export default {
       "examinerStudentDetails",
       "submitLoading",
       "reportComments",
+      "detailLoading",
     ]),
   },
   methods: {
@@ -233,10 +240,15 @@ export default {
         this.$router.push("/examiner-dashboard");
       }
     },
-  },
-  createComment() {
-    if (this.$refs.createCommentForm.validate()) {
-    }
+    async createComment() {
+      if (this.$refs.createCommentForm.validate()) {
+        await this.$store.dispatch("createComment", {
+          report: this.examinerStudentDetails._id,
+          comment: { text: this.comment },
+        });
+        this.$router.go();
+      }
+    },
   },
 };
 </script>
