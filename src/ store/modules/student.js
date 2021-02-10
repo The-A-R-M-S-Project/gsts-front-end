@@ -70,7 +70,6 @@ const actions = {
         await axiosInstance.get(`/student/${
             data.student._id
         }`).then(response => {
-            console.log("Response", response.data)
             commit("studentDetails", response.data);
             commit("setDetailLoader", false)
         }).catch(error => {
@@ -161,10 +160,12 @@ const actions = {
         axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
         try {
             let response = await axiosInstance.get(`/comment/report/${data}`)
-            let comments = response.data.comments.map(comment => comment.text)
-            commit("setReportComments", comments)
+            // let comments = response.data.comments.map(comment => comment.text)
+            commit("setReportComments", response.data.comments)
         } catch (error) {
-            commit("setReportComments", [error.response.data.message])
+            commit("setReportComments", [{
+                    text: error.response.data.message
+                }])
         }
     },
     async createComment({

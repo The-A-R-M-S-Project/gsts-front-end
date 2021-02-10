@@ -221,6 +221,10 @@ export default {
         this.e6 = this.progressEvents[`${this.studentReport.status}`].step;
       }
     } else {
+      await this.$store.dispatch(
+        "setStudentDetails",
+        this.studentReport.student._id
+      );
       this.e6 = this.progressEvents[`${this.studentReport.status}`].step;
     }
   },

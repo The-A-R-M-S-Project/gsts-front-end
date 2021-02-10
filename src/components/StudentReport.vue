@@ -131,18 +131,25 @@
         </div>
         <v-row
           v-for="comment in reportComments"
-          :key="comment"
+          :key="comment._id"
           align="center"
           justify="center"
           no-gutters
         >
           <v-col>
-            <p>
-              <span>
-                <v-icon color="primary"> mdi-circle </v-icon>
-              </span>
-              {{ comment }}
-            </p>
+            <v-row no-gutters align="center" justify="space-between">
+              <p>
+                <span>
+                  <v-icon color="primary"> mdi-circle </v-icon>
+                </span>
+                {{ comment.text }}
+                (
+                <span class="body-2 grey--text">
+                  {{ formatDate(comment.createdAt) }}
+                </span>
+                )
+              </p>
+            </v-row>
           </v-col>
         </v-row>
         <div class="text-center">
@@ -248,6 +255,17 @@ export default {
         });
         this.$router.go();
       }
+    },
+    formatDate(timestamp) {
+      let monthDay = new Date(timestamp);
+      return `${monthDay.toLocaleTimeString(
+        {},
+        {
+          hour12: true,
+          hour: "numeric",
+          minute: "numeric",
+        }
+      )}, ${new String(monthDay).substring(4, 15).replace(/ /g, "-")}`;
     },
   },
 };
