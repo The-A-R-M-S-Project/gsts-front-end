@@ -66,10 +66,13 @@ export default {
       statusOrder: [
         "notSubmitted",
         "submitted",
-        "withExaminer",
-        "clearedByExaminer",
+        "assignedToExaminers",
+        "receivedByExaminers",
+        "clearedByExaminers",
         "vivaDateSet",
         "vivaComplete",
+        "pendingRevision",
+        "complete",
       ],
     };
   },
@@ -80,7 +83,10 @@ export default {
   },
   computed: {
     assignedStudents() {
-      return this.$store.getters.assignedStudents;
+      let reports = this.$store.getters.assignedStudents;
+      return reports.map((assignedStudent) => {
+        return assignedStudent.report;
+      });
     },
     receivedReports() {
       let receivedReports = this.assignedStudents.filter((report) => {
@@ -111,26 +117,38 @@ export default {
       let statuses = {
         notSubmitted: {
           message: "Not submitted",
-          color: "grey",
+          color: "#9E9E9E",
         },
         submitted: {
           message: "Submitted",
+          color: "#2196F3",
+        },
+        assignedToExaminers: {
+          message: "Assigned to examiners",
           color: "#E64A19",
         },
-        withExaminer: {
-          message: "With examiner",
-          color: "#FF9800",
+        receivedByExaminers: {
+          message: "Received by examiners",
+          color: "#F4511E",
         },
-        clearedByExaminer: {
-          message: "Cleared by examiner",
-          color: "#FFC107",
+        clearedByExaminers: {
+          message: "Cleared by examiners",
+          color: "#FF9800",
         },
         vivaDateSet: {
           message: "Viva date set",
-          color: "#FDD835",
+          color: "#E91E63",
         },
         vivaComplete: {
           message: "Viva complete",
+          color: "#FFC107",
+        },
+        pendingRevision: {
+          message: "Pending revision",
+          color: "#FDD835",
+        },
+        complete: {
+          message: "Pending revision",
           color: "#81C784",
         },
       };
