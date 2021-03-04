@@ -102,22 +102,24 @@ const actions = {
         commit("setLoader", true)
         let accessToken = localStorage.getItem("jwt");
         axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-        await axiosInstance.get('/report').then(response => {
+        try {
+            let response = await axiosInstance.get('/report')
             commit("setReports", response.data)
             commit("setLoader", false)
-        }).catch(error => {
+        } catch (error) {
             commit("setLoader", false)
             commit("fetchReportsError", error.response.data.message)
-        })
+        }
     },
     async fetchExaminers({commit}) {
         let accessToken = localStorage.getItem("jwt");
         axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-        await axiosInstance.get("/staff/").then(response => {
+        try {
+            let response = await axiosInstance.get("/staff/")
             commit("setExaminerList", response.data)
-        }).catch(error => {
+        } catch (error) {
             commit("fetchExaminerError", error.response.data.message)
-        })
+        }
     },
     async assignExaminer({
         commit
@@ -151,19 +153,20 @@ const actions = {
         commit("setSubmitLoader", true)
         let accessToken = localStorage.getItem("jwt");
         axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-        await axiosInstance.patch(`/viva/staff/vivadate/${
-            data.reportID
-        }`, data.vivaDate).then(response => {
+        try {
+            let response = await axiosInstance.patch(`/viva/staff/vivadate/${
+                data.reportID
+            }`, data.vivaDate)
             commit("setVivaDateSuccess", {
                 res: response.data.status,
                 name: data.studentName
             })
             commit("setDisplayStudentTableFeedback", true)
             commit("setSubmitLoader", false)
-        }).catch(error => {
+        } catch (error) {
             commit("setSubmitLoader", false)
             commit("setVivaDateError", error.response.data.message)
-        })
+        }
     },
     async setVivaScore({
         commit
@@ -171,19 +174,20 @@ const actions = {
         commit("setSubmitLoader", true)
         let accessToken = localStorage.getItem("jwt");
         axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-        await axiosInstance.patch(`/viva/staff/vivascore/${
-            data.reportID
-        }`, data.vivaScore).then(response => {
+        try {
+            let response = await axiosInstance.patch(`/viva/staff/vivascore/${
+                data.reportID
+            }`, data.vivaScore)
             commit("setVivaScoreSuccess", {
                 res: response.data.status,
                 name: data.studentName
             })
             commit("setDisplayStudentTableFeedback", true)
             commit("setSubmitLoader", false)
-        }).catch(error => {
+        } catch (error) {
             commit("setSubmitLoader", false)
             commit("setVivaScoreError", error.response.data.message)
-        })
+        }
     },
     setSelectedStudent({
         commit
