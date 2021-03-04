@@ -10,10 +10,6 @@ import store from "./ store/store";
 Vue.use(vuetify)
 
 Vue.prototype.$http = Axios;
-const token = localStorage.getItem("access");
-if (token) {
-    Vue.prototype.$http.defaults.headers.common["Authorization"] = `bearer ${token}`;
-}
 
 axiosInstance.interceptors.response.use((response) => {
     if (response.status === 200 || response.status === 201) {
@@ -22,7 +18,7 @@ axiosInstance.interceptors.response.use((response) => {
         return Promise.reject(response);
     }
 }, (error) => {
-    if (error.response.data.message == "Your token has expired! Please log in again.") {
+    if (error.response.data.message === "Your token has expired! Please log in again." || error.response.data.message === "You are not logged in! Please log in to get access.") {
         router.push("/expired-session");
     } else {
         return Promise.reject(error);
