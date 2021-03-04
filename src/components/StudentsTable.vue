@@ -181,7 +181,10 @@
             </v-col>
             <v-col cols="12" sm="3" md="2">
               <v-row
-                v-if="item.status === 'submitted'"
+                v-if="
+                  item.status === 'submitted' ||
+                  item.status === 'assignedToExaminers'
+                "
                 align="center"
                 justify="center"
                 no-gutters
@@ -349,7 +352,7 @@ export default {
           message: "Assigned to examiners",
           color: "deep-orange darken-2",
         },
-        recievedByExaminers: {
+        receivedByExaminers: {
           value: 34,
           message: "Received by examiners",
           color: "deep-orange darken-1",
@@ -384,7 +387,7 @@ export default {
         "notSubmitted",
         "submitted",
         "assignedToExaminers",
-        "recievedByExaminers",
+        "receivedByExaminers",
         "clearedByExaminers",
         "vivaDateSet",
         "vivaComplete",
@@ -404,7 +407,7 @@ export default {
         pendingRevision: 3,
         notSubmitted: 4,
         assignedToExaminers: 5,
-        recievedByExaminers: 6,
+        receivedByExaminers: 6,
         withExaminer: 7,
         vivaComplete: 8,
         complete: 9,
