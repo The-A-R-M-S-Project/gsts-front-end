@@ -54,12 +54,12 @@
           </v-stepper-content>
 
           <v-stepper-step color="teal" :complete="e6 > 2" step="2"
-            >Report received by examiner</v-stepper-step
+            >Report received by examiners</v-stepper-step
           >
           <template v-if="e6 > 2">
             <div class="v-stepper__content">
               <div class="body-1">
-                Your examiner has acknowledged receipt of your report
+                The examiners have acknowledged receipt of your report
               </div>
               <div class="caption mt-3 font-weight-light">
                 {{ formatDate(studentReport.receivedAt) }}
@@ -69,10 +69,10 @@
           <v-stepper-content step="2">
             <template v-if="e6 === 2">
               <div class="body-1 mb-1">
-                Waiting for the examiner to acknowledge receipt of your report
+                Waiting for examiners to acknowledge receipt of your report
                 <LoadingDots />
               </div>
-              <div class="body-2">You'll be notified as soon as he does</div>
+              <div class="body-2">You'll be notified as soon as they does</div>
             </template>
           </v-stepper-content>
 
@@ -182,34 +182,52 @@ export default {
           step: 1,
         },
         submitted: {
-          value: 17,
+          value: 11,
           message: "Submitted",
-          color: "deep-orange darken-2",
+          color: "deep-orange darken-3",
           step: 2,
         },
-        withExaminer: {
-          value: 39,
-          message: "With examiner",
-          color: "orange",
+        assignedToExaminers: {
+          value: 11,
+          message: "Submitted",
+          color: "deep-orange darken-3",
+          step: 2,
+        },
+        receivedByExaminers: {
+          value: 34,
+          message: "Received by examiners",
+          color: "deep-orange darken-1",
           step: 3,
         },
-        clearedByExaminer: {
-          value: 56,
-          message: "Cleared by examiner",
-          color: "amber",
-          step: 4,
-        },
-        vivaDateSet: {
-          value: 73,
-          message: "Viva date set",
-          color: "yellow darken-1",
+        clearedByExaminers: {
+          value: 45,
+          message: "Cleared by examiners",
+          color: "orange",
           step: 5,
         },
-        vivaComplete: {
-          value: 100,
-          message: "Viva complete",
-          color: "green lighten-2",
+        vivaDateSet: {
+          value: 56,
+          message: "Viva date set",
+          color: "pink",
           step: 6,
+        },
+        vivaComplete: {
+          value: 67,
+          message: "Viva complete",
+          color: "amber",
+          step: 7,
+        },
+        pendingRevision: {
+          value: 78,
+          message: "Pending revision",
+          color: "yellow darken-1",
+          step: 8,
+        },
+        complete: {
+          value: 100,
+          message: "Pending revision",
+          color: "green lighten-2",
+          step: 9,
         },
       },
     };
@@ -222,9 +240,10 @@ export default {
       }
     } else {
       await this.$store.dispatch(
-        "setStudentDetails",
-        this.studentReport.student._id
+        "fetchSpecificStudentReport",
+        this.studentReport
       );
+      await this.$store.dispatch("setStudentDetails", this.studentReport);
       this.e6 = this.progressEvents[`${this.studentReport.status}`].step;
     }
   },
