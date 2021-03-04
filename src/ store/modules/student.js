@@ -11,7 +11,7 @@ const state = {
     studentDashboardError: null,
     submitReportLoading: false,
     reportSectionKey: 0,
-    reportComments: null,
+    reportComments: [],
     createCommentError: null
 };
 const mutations = {
@@ -40,7 +40,7 @@ const mutations = {
     setReportSubmitError(state, payload) {
         state.reportSubmitError = payload
     },
-    fetchStudentDetailsError() {
+    fetchStudentDetailsError(payload) {
         state.studentDetailsError = payload
     },
     fetchStudentDashboardError(state, payload) {
@@ -84,15 +84,19 @@ const actions = {
         commit
     }, data) {
         commit("setDetailLoader", true);
-        await axiosInstance.get(`/report/${
-            data.student._id
-        }`).then(response => {
+        let accessToken = localStorage.getItem("jwt");
+        axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+        try {
+            let response = await axiosInstance.get(`/report/${
+                data.student._id
+            }`)
             commit("setStudentReport", response.data);
             commit("setDetailLoader", false)
-        }).catch(error => {
+        } catch (error) {
             commit("setDetailLoader", false);
+            console.log(error.response)
             commit("fetchStudentDetailsError", error.response.data.message)
-        })
+        }
     },
     async fetchLoggedInStudentDetails({commit}) {
         let accessToken = localStorage.getItem("jwt");
