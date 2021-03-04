@@ -19,7 +19,7 @@
             v-if="
               studentReport.title && studentReport.status !== 'notSubmitted'
             "
-            color="error"
+            color="warning"
             class="text-center"
             >Already submitted report!</v-alert
           >
@@ -33,7 +33,8 @@
           >
           <h5 class="pt-4 pb-2">
             <span class="primary--text">Note:</span> This is not your final
-            report submission!
+            report submission! After creating a report title, you will be able
+            to make a final submission.
           </h5>
           <h5 v-if="studentReport" class="pb-2">
             <v-icon class="mr-2" color="primary">mdi-alert-circle</v-icon>You've
@@ -93,7 +94,7 @@
             dark
             dismissible
             v-if="studentReport.status !== 'notSubmitted'"
-            color="error"
+            color="warning"
             class="text-center"
             >Already submitted report!</v-alert
           >
@@ -212,8 +213,9 @@
                   <p class="body-1">
                     <v-icon color="primary" class="mr-2"
                       >mdi-alert-circle</v-icon
-                    >Once you submit this report, you cannot edit your
-                    submission or re-submit
+                    >This is your final submission. Unless a resubmssion is
+                    requested of you, you will not be able to edit your
+                    submission until after your viva examination.
                   </p>
                 </v-card-text>
                 <v-divider></v-divider>
@@ -266,6 +268,10 @@ export default {
     this.fileSelected = false;
     this.fileErrorMessage = [];
     await this.$store.dispatch("fetchLoggedInStudentDetails");
+    this.reportTitle = this.studentReport.title;
+    this.reportAbstract = this.studentReport.abstract
+      ? this.studentReport.abstract
+      : "";
   },
   computed: {
     ...mapGetters([
