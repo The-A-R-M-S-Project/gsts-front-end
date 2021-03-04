@@ -10,14 +10,15 @@
           dashboard.
           <br />
           <span class="title">
-            Click
+            To start the submission process, click
             <span
               class="yellow--text text--darken-3"
               style="cursor: pointer"
               @click="submitReport"
               >here</span
             >
-            to create a new report
+            to <br />
+            create a report title and abstract
           </span>
         </span>
       </v-col>
