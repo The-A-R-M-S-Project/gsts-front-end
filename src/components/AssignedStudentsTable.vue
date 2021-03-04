@@ -50,13 +50,13 @@
         </thead>
       </template>
       <template v-slot:[getItemStatus]="{ item }">{{
-        progressEvents[`${item.status}`].message
+        progressEvents[`${item.report.status}`].message
       }}</template>
       <template v-slot:[getItemVivaDate]="{ item }">{{
-        formatDate(item.vivaDate)
+        formatDate(item.report.vivaDate)
       }}</template>
       <template v-slot:[getItemAction]="{ item }">
-        <v-icon small v-if="callToAction(item.status)" color="pink"
+        <v-icon small v-if="callToAction(item.report.status)" color="pink"
           >mdi-circle</v-icon
         >
       </template>
@@ -65,75 +65,164 @@
           <v-row align="center" justify="center" class="px-0">
             <v-col cols="12" sm="9">
               <v-progress-linear
-                :value="progressEvents[`${item.status}`].value"
-                :color="progressEvents[`${item.status}`].color"
+                :value="progressEvents[`${item.report.status}`].value"
+                :color="progressEvents[`${item.report.status}`].color"
                 height="25"
               >
                 <strong
-                  >{{ progressEvents[`${item.status}`].value }}% ({{
-                    progressEvents[`${item.status}`].message
+                  >{{ progressEvents[`${item.report.status}`].value }}% ({{
+                    progressEvents[`${item.report.status}`].message
                   }})</strong
                 >
               </v-progress-linear>
             </v-col>
             <v-col cols="12" sm="3">
               <div class="text-center">
-                <div class="text-center" v-if="item.status === 'submitted'">
-                  <v-dialog v-model="dialog" width="500">
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-btn v-bind="attrs" v-on="on" color="primary"
-                        >Receive report</v-btn
-                      >
-                    </template>
-
-                    <v-card>
-                      <v-card-title
-                        class="text-center headline purple white--text"
-                        >Acknowledge Receipt</v-card-title
-                      >
-                      <v-card-text class="py-3 px-6">
-                        <p class="body-1">
-                          By clicking the "Agree" button, you are acknowledging
-                          receipt of
-                          <strong>{{ examinerStudentDetails.name }}</strong
-                          >'s report.
-                        </p>
-                      </v-card-text>
-                      <v-divider></v-divider>
-                      <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn color="error" text @click="dialog = false"
-                          >Cancel</v-btn
-                        >
-                        <v-btn
-                          :loading="submitLoading"
-                          color="success"
-                          text
-                          @click="receiveReport"
-                          >Agree</v-btn
-                        >
-                      </v-card-actions>
-                    </v-card>
-                  </v-dialog>
-                </div>
                 <div
                   class="text-center"
-                  v-else-if="item.status === 'withExaminer'"
+                  v-if="
+                    item.report.status === 'submitted' ||
+                    item.report.status === 'assignedToExaminers' ||
+                    item.report.status === 'receivedByExaminers'
+                  "
                 >
+                  <div
+                    v-if="item.status === 'assignedToExaminer'"
+                    class="text-center"
+                  >
+                    <div class="text-center">
+                      <v-dialog v-model="previewReportDialog" width="700">
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-btn v-bind="attrs" v-on="on" color="primary"
+                            >Preview report</v-btn
+                          >
+                        </template>
+                        <v-card>
+                          <v-card-title
+                            class="text-center headline purple white--text"
+                            >Previewing {{ item.report.student.name }}'s
+                            report</v-card-title
+                          >
+                          <v-card-text class="py-3 px-6">
+                            <p class="body-1">
+                              <strong>Title:</strong> {{ item.report.title }}
+                            </p>
+                            <p class="body-1">
+                              <strong>Abstract:</strong>
+                              {{ item.report.abstract }}
+                            </p>
+                            <p>
+                              <v-icon color="primary"
+                                >mdi-information-outline</v-icon
+                              >
+                              By cliking <i>Agree</i>, you accept to assess the
+                              student's report. Otherwise, clicking
+                              <i>Reject</i> will allow for another examiner to
+                              be assigned to this report.
+                            </p>
+                            <div class="text-center">
+                              <v-btn
+                                color="error"
+                                text
+                                @click="previewReportDialog = false"
+                                >Reject</v-btn
+                              >
+                              <v-dialog
+                                v-model="receiveReportDialog"
+                                width="500"
+                              >
+                                <template v-slot:activator="{ on, attrs }">
+                                  <v-btn
+                                    color="success"
+                                    text
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    >Agree</v-btn
+                                  >
+                                </template>
+
+                                <v-card>
+                                  <v-card-title
+                                    class="text-center headline purple white--text"
+                                    >Acknowledge Receipt</v-card-title
+                                  >
+                                  <v-card-text class="py-3 px-6">
+                                    <p class="body-1">
+                                      By clicking the "Agree" button, you are
+                                      acknowledging receipt of
+                                      <strong>{{
+                                        examinerStudentDetails.student.name
+                                      }}</strong
+                                      >'s report.
+                                    </p>
+                                  </v-card-text>
+                                  <v-divider></v-divider>
+                                  <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <v-btn
+                                      color="error"
+                                      text
+                                      @click="receiveReportDialog = false"
+                                      >Cancel</v-btn
+                                    >
+                                    <v-btn
+                                      :loading="submitLoading"
+                                      color="success"
+                                      text
+                                      @click="receiveReport"
+                                      >Agree</v-btn
+                                    >
+                                  </v-card-actions>
+                                </v-card>
+                              </v-dialog>
+                            </div>
+                          </v-card-text>
+                          <v-divider></v-divider>
+                          <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn
+                              color="primary"
+                              text
+                              @click="previewReportDialog = false"
+                              >Close</v-btn
+                            >
+                          </v-card-actions>
+                        </v-card>
+                      </v-dialog>
+                    </div>
+                  </div>
+                  <div v-else-if="item.status === 'withExaminer'">
+                    <v-btn
+                      @click="viewReport(item)"
+                      :loading="detailLoading"
+                      color="primary"
+                      small
+                      >Assess report</v-btn
+                    >
+                  </div>
+                  <div
+                    v-else-if="
+                      item.status === 'rejectedByExaminer' ||
+                      item.status === 'clearedByExaminer'
+                    "
+                  >
+                    <v-btn
+                      @click="viewDetails(item)"
+                      :loading="detailLoading"
+                      color="primary"
+                      >View Details</v-btn
+                    >
+                  </div>
+                </div>
+
+                <div v-else>
                   <v-btn
-                    @click="viewReport(item)"
+                    @click="viewDetails(item)"
                     :loading="detailLoading"
                     color="primary"
-                    >Set score</v-btn
+                    >View Details</v-btn
                   >
                 </div>
-                <v-btn
-                  v-else
-                  @click="viewDetails(item)"
-                  :loading="detailLoading"
-                  color="primary"
-                  >View Details</v-btn
-                >
               </div>
             </v-col>
           </v-row>
@@ -151,7 +240,8 @@ export default {
       search: "",
       expanded: [],
       assignedStudentsTableKey: 0,
-      dialog: false,
+      receiveReportDialog: false,
+      previewReportDialog: false,
       headers: [
         {
           value: "action",
@@ -162,23 +252,27 @@ export default {
           text: "STUDENT NAME",
           align: "left",
           sortable: false,
-          value: "student.name",
+          value: "report.student.name",
         },
         {
           text: "PROGRAM",
-          value: "student.program.name",
+          value: "report.student.program.name",
         },
-        { text: "STATUS", value: "status" },
+        { text: "STATUS", value: "report.status" },
         { text: "VIVA DATE", value: "vivaDate" },
         { value: "data-table-expand" },
       ],
       defaultSortOrder: {
         submitted: 0,
-        withExaminer: 1,
+        clearedByExaminers: 1,
         vivaDateSet: 2,
-        notSubmitted: 3,
-        clearedByExaminer: 4,
-        vivaComplete: 5,
+        pendingRevision: 3,
+        notSubmitted: 4,
+        assignedToExaminers: 5,
+        receivedByExaminers: 6,
+        withExaminer: 7,
+        vivaComplete: 8,
+        complete: 9,
       },
       progressEvents: {
         notSubmitted: {
@@ -187,28 +281,43 @@ export default {
           color: "grey",
         },
         submitted: {
-          value: 17,
+          value: 11,
           message: "Submitted",
+          color: "deep-orange darken-3",
+        },
+        assignedToExaminers: {
+          value: 23,
+          message: "Assigned to examiners",
           color: "deep-orange darken-2",
         },
-        withExaminer: {
-          value: 39,
-          message: "With examiner",
+        receivedByExaminers: {
+          value: 34,
+          message: "Received by examiners",
+          color: "deep-orange darken-1",
+        },
+        clearedByExaminers: {
+          value: 45,
+          message: "Cleared by examiners",
           color: "orange",
         },
-        clearedByExaminer: {
-          value: 56,
-          message: "Cleared by examiner",
-          color: "amber",
-        },
         vivaDateSet: {
-          value: 73,
+          value: 56,
           message: "Viva date set",
-          color: "yellow darken-1",
+          color: "pink",
         },
         vivaComplete: {
-          value: 100,
+          value: 67,
           message: "Viva complete",
+          color: "amber",
+        },
+        pendingRevision: {
+          value: 78,
+          message: "Pending revision",
+          color: "yellow darken-1",
+        },
+        complete: {
+          value: 100,
+          message: "Pending revision",
           color: "green lighten-2",
         },
       },
@@ -239,17 +348,18 @@ export default {
       let reports = this.$store.getters.assignedStudents;
       return reports.sort(
         (a, b) =>
-          this.defaultSortOrder[a.status] - this.defaultSortOrder[b.status]
+          this.defaultSortOrder[a.report.status] -
+          this.defaultSortOrder[b.report.status]
       );
     },
     getItemStatus() {
-      return `item.status`;
+      return `item.report.status`;
     },
     getItemVivaDate() {
-      return `item.vivaDate`;
+      return `item.report.vivaDate`;
     },
     getItemAction() {
-      return `item.action`;
+      return `item.report.action`;
     },
   },
   methods: {
@@ -260,22 +370,24 @@ export default {
       } else {
         this.expanded.splice(index, 1);
       }
-      this.$store.dispatch("setExaminerStudentDetails", value);
+      this.$store.dispatch("setExaminerStudentDetails", value.report);
     },
     itemExpanded(value) {
-      this.$store.dispatch("setExaminerStudentDetails", value.item);
+      this.$store.dispatch("setExaminerStudentDetails", value.item.report);
+      console.log("Examiner student details", this.examinerStudentDetails);
     },
     async viewDetails(student) {
-      this.$store.dispatch("setStaffStudentDetails", student);
+      this.$store.dispatch("setStaffStudentDetails", student.report);
       this.$router.push("/student-progress");
     },
     async viewReport(report) {
-      await this.$store.dispatch("setExaminerStudentDetails", report);
-      await this.$store.dispatch("fetchReportComments", report._id);
+      await this.$store.dispatch("setExaminerStudentDetails", report.report);
+      await this.$store.dispatch("fetchReportComments", report.report._id);
       this.$router.push("/student-report");
     },
     callToAction(status) {
-      if (status === "submitted" || status === "withExaminer") return true;
+      if (status === "submitted" || status === "assignedToExaminers" || status)
+        return true;
       else return false;
     },
     formatDate(date) {
