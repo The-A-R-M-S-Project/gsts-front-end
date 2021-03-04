@@ -149,6 +149,9 @@
           >Your search for "{{ search }}" found no results.</v-alert
         >
       </template>
+      <template v-slot:[getItemName]="{ item }"
+        >{{ item.student.firstName }} {{ item.student.lastName }}
+      </template>
       <template v-slot:[getItemStatus]="{ item }">{{
         progressEvents[`${item.status}`].message
       }}</template>
@@ -177,18 +180,107 @@
               </v-progress-linear>
             </v-col>
             <v-col cols="12" sm="3" md="2">
-              <div class="text-center">
-                <AssignExaminer v-if="item.status === 'submitted'" />
-                <SetVivaDate v-else-if="item.status === 'clearedByExaminer'" />
-                <SetVivaScore v-else-if="item.status === 'vivaDateSet'" />
-                <v-btn
-                  v-else
-                  @click="viewDetails(item)"
-                  color="primary"
-                  :loading="detailLoading"
-                  >View Details</v-btn
-                >
-              </div>
+              <v-row
+                v-if="item.status === 'submitted'"
+                align="center"
+                justify="center"
+                no-gutters
+              >
+                <v-col>
+                  <v-dialog v-model="previewReportDialog" width="700">
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn v-bind="attrs" v-on="on" color="primary"
+                        >Preview report</v-btn
+                      >
+                    </template>
+                    <v-card>
+                      <v-card-title
+                        class="text-center headline purple white--text"
+                        >Previewing {{ item.student.firstName }}
+                        {{ item.student.lastName }}'s report</v-card-title
+                      >
+                      <v-card-text class="py-3 px-6">
+                        <p class="body-1">
+                          <strong>Title:</strong> {{ item.title }}
+                        </p>
+                        <p class="body-1">
+                          <strong>Abstract:</strong> {{ item.abstract }}
+                        </p>
+                        <p class="body-1">
+                          <strong>Currently assigned examiners</strong>
+                          <span v-if="item.examiners.length === 0"
+                            >&nbsp;None
+                          </span>
+                          <span v-else>
+                            <v-row>
+                              <v-col
+                                v-for="(examiner, index) in item.examiners"
+                                :key="index"
+                              >
+                                <div>
+                                  <span class="font-weight-bold">Name:</span>
+                                  {{ examiner.examiner.lastName }}
+                                  {{ examiner.examiner.firstName }}
+                                </div>
+                                <div class="text-capitalize">
+                                  <span class="font-weight-bold"> Type: </span>
+                                  {{ examiner.examinerType }}
+                                </div>
+                                <div>
+                                  <span class="font-weight-bold">
+                                    Status:
+                                  </span>
+                                  {{ examinerStatus[examiner.status] }}
+                                </div>
+                              </v-col>
+                            </v-row>
+                          </span>
+                        </p>
+
+                        <div class="text-center">
+                          <AssignExaminer />
+                        </div>
+                      </v-card-text>
+                      <v-divider></v-divider>
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn
+                          color="primary"
+                          text
+                          @click="previewReportDialog = false"
+                          >Close</v-btn
+                        >
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
+                </v-col>
+              </v-row>
+              <v-row
+                v-else-if="item.status === 'clearedByExaminer'"
+                align="center"
+                justify="center"
+                no-gutters
+              >
+                <SetVivaDate />
+              </v-row>
+              <v-row
+                v-else-if="item.status === 'vivaDateSet'"
+                align="center"
+                justify="center"
+                no-gutters
+              >
+                <SetVivaScore />
+              </v-row>
+              <v-row v-else align="center" justify="center" no-gutters>
+                <div class="text-center">
+                  <v-btn
+                    @click="viewDetails(item)"
+                    color="primary"
+                    :loading="detailLoading"
+                    >View Details</v-btn
+                  >
+                </div>
+              </v-row>
             </v-col>
           </v-row>
         </td>
@@ -201,11 +293,13 @@
 import AssignExaminer from "@/components/AssignExaminer.vue";
 import SetVivaDate from "@/components/SetVivaDate.vue";
 import SetVivaScore from "@/components/SetVivaScore.vue";
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
       search: "",
       tableLoaderHeight: 8,
+      previewReportDialog: false,
       filters: {
         status: [],
       },
@@ -229,7 +323,7 @@ export default {
           text: "STUDENT NAME",
           align: "left",
           sortable: false,
-          value: "student.name",
+          value: "student.firstName",
         },
         {
           text: "PROGRAM",
@@ -246,46 +340,74 @@ export default {
           color: "grey",
         },
         submitted: {
-          value: 17,
+          value: 11,
           message: "Submitted",
+          color: "deep-orange darken-3",
+        },
+        assignedToExaminers: {
+          value: 23,
+          message: "Assigned to examiners",
           color: "deep-orange darken-2",
         },
-        withExaminer: {
-          value: 39,
-          message: "With examiner",
+        recievedByExaminers: {
+          value: 34,
+          message: "Received by examiners",
+          color: "deep-orange darken-1",
+        },
+        clearedByExaminers: {
+          value: 45,
+          message: "Cleared by examiners",
           color: "orange",
         },
-        clearedByExaminer: {
-          value: 56,
-          message: "Cleared by examiner",
-          color: "amber",
-        },
         vivaDateSet: {
-          value: 73,
+          value: 56,
           message: "Viva date set",
-          color: "yellow darken-1",
+          color: "pink",
         },
         vivaComplete: {
-          value: 100,
+          value: 67,
           message: "Viva complete",
+          color: "amber",
+        },
+        pendingRevision: {
+          value: 78,
+          message: "Pending revision",
+          color: "yellow darken-1",
+        },
+        complete: {
+          value: 100,
+          message: "Pending revision",
           color: "green lighten-2",
         },
       },
       sortOrder: [
         "notSubmitted",
         "submitted",
-        "withExaminer",
-        "clearedByExaminer",
+        "assignedToExaminers",
+        "recievedByExaminers",
+        "clearedByExaminers",
         "vivaDateSet",
         "vivaComplete",
+        "pendingRevision",
+        "complete",
       ],
+      examinerStatus: {
+        assignedToExaminer: "Pending reply",
+        withExaminer: "Accepted",
+        rejectedByExaminer: "Rejected",
+        clearedByExaminer: "Report cleared",
+      },
       defaultSortOrder: {
         submitted: 0,
-        clearedByExaminer: 1,
+        clearedByExaminers: 1,
         vivaDateSet: 2,
-        notSubmitted: 3,
-        withExaminer: 4,
-        vivaComplete: 5,
+        pendingRevision: 3,
+        notSubmitted: 4,
+        assignedToExaminers: 5,
+        recievedByExaminers: 6,
+        withExaminer: 7,
+        vivaComplete: 8,
+        complete: 9,
       },
       displayAssignExaminerMessage: false,
       selectedSchool: null,
@@ -309,24 +431,18 @@ export default {
     }
   },
   computed: {
-    tableLoading() {
-      return this.$store.getters.tableLoading;
-    },
-    detailLoading() {
-      return this.$store.getters.detailLoading;
-    },
-    departments() {
-      return this.$store.getters.departments;
-    },
-    schools() {
-      return this.$store.getters.schools;
-    },
-    user() {
-      return this.$store.getters.user;
-    },
-    student() {
-      return this.$store.getters.student;
-    },
+    ...mapGetters([
+      "tableLoading",
+      "detailLoading",
+      "departments",
+      "schools",
+      "user",
+      "student",
+      "displayStudentTableFeedback",
+      "studentsTableMessage",
+      "studentsTableKey",
+      "examiners",
+    ]),
     filteredStudents() {
       return this.reports.filter((d) => {
         return Object.keys(this.filters).every((f) => {
@@ -353,14 +469,8 @@ export default {
           this.defaultSortOrder[a.status] - this.defaultSortOrder[b.status]
       );
     },
-    displayStudentTableFeedback() {
-      return this.$store.getters.displayStudentTableFeedback;
-    },
-    studentsTableMessage() {
-      return this.$store.getters.studentsTableMessage;
-    },
-    studentsTableKey() {
-      return this.$store.getters.studentsTableKey;
+    getItemName() {
+      return `item.student.firstName`;
     },
     getItemStatus() {
       return `item.status`;
@@ -383,6 +493,7 @@ export default {
       this.$store.dispatch("fetchDepartments", this.selectedSchool._id);
     },
     itemClicked(value) {
+      console.log("Selected student: ", value);
       const index = this.expanded.indexOf(value);
       if (index === -1) {
         this.expanded.push(value);
@@ -394,10 +505,10 @@ export default {
     itemExpanded(value) {
       this.$store.dispatch("setSelectedStudent", value.item);
     },
-    viewDetails(student) {
-      this.$store.dispatch("setStudentDetails", student).then(() => {
-        this.$router.push("/student-progress");
-      });
+    async viewDetails(student) {
+      await this.$store.dispatch("fetchSpecificStudentReport", student);
+      await this.$store.dispatch("setStudentDetails", student);
+      this.$router.push("/student-progress");
     },
     formatDate(date) {
       if (date) {

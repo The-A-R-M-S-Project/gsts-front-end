@@ -125,9 +125,13 @@ const actions = {
         commit("setSubmitLoader", true)
         let accessToken = localStorage.getItem("jwt");
         axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-        await axiosInstance.patch(`/report/staff/examiner/assign/${
-            data.studentReportID
-        }`, {examiner: data.examinerID}).then(response => {
+        try {
+            let response = await axiosInstance.patch(`/report/staff/examiner/assign/${
+                data.studentReportID
+            }`, {
+                examiner: data.examinerID,
+                examinerType: data.examinerType
+            })
             commit("assignExaminerSuccess", {
                 res: response.data.status,
                 examiner: data.examinerName,
@@ -135,10 +139,11 @@ const actions = {
             })
             commit("setDisplayStudentTableFeedback", true)
             commit("setSubmitLoader", false)
-        }).catch(error => {
+        } catch (error) {
             commit("setSubmitLoader", false)
+            console.log(error)
             commit("setAssignExaminerError", error.response.data.message)
-        })
+        }
     },
     async setVivaDate({
         commit
