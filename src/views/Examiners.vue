@@ -17,17 +17,6 @@ import MobileDrawer from "@/components/MobileDrawer.vue";
 import Footer from "@/components/Footer.vue";
 export default {
   name: "examiners",
-  data() {
-    return {
-      drawer: false,
-      loading: false,
-    };
-  },
-  computed: {
-    isLoading() {
-      return this.$store.getters.isLoading;
-    },
-  },
   components: {
     DeanNav,
     MobileDrawer,
