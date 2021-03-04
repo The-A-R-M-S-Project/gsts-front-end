@@ -3,7 +3,7 @@
     <div class="px-3 text-left body-2 mx-auto">
       <div class="pa-1">
         <span class="font-weight-bold">Name</span>
-        : {{ student.name }}
+        : {{ student.firstName }} {{ student.lastName }}
       </div>
       <div class="pa-1">
         <span class="font-weight-bold">Email</span>
