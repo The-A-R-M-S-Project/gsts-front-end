@@ -6,7 +6,8 @@
           text
           to="/principal-dashboard"
           class="white--text font-weight-bold text-capitalize title"
-        >GSTS</v-btn>
+          >GSTS</v-btn
+        >
       </v-toolbar-title>
       <v-row justify="end" align="center">
         <v-col md="4" sm="5">
@@ -30,9 +31,17 @@
             transition="slide-y-transition"
           >
             <template v-slot:activator="{ on, attrs }">
-              <v-btn icon v-on="on" v-bind="attrs" :class="{'pr-5': $vuetify.breakpoint.sm}">
+              <v-btn
+                icon
+                v-on="on"
+                v-bind="attrs"
+                :class="{ 'pr-5': $vuetify.breakpoint.sm }"
+              >
                 <v-avatar size="48">
-                  <v-img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John">
+                  <v-img
+                    src="https://cdn.vuetifyjs.com/images/john.jpg"
+                    alt="John"
+                  >
                     <template v-slot:placeholder>
                       <v-row align="center" justify="center">
                         <v-col>
@@ -47,7 +56,11 @@
             <v-list>
               <v-list-item>
                 <v-list-item-title>
-                  <v-btn text class="text-capitalize" :to="`/${user.role}/profile`">
+                  <v-btn
+                    text
+                    class="text-capitalize"
+                    :to="`/${user.role}/profile`"
+                  >
                     <v-icon>mdi-account</v-icon>
                     <span>&nbsp;Profile</span>
                   </v-btn>
@@ -55,7 +68,12 @@
               </v-list-item>
               <v-list-item>
                 <v-list-item-title>
-                  <v-btn text :loading="isLoading" class="text-capitalize" @click="logOut">
+                  <v-btn
+                    text
+                    :loading="isLoading"
+                    class="text-capitalize"
+                    @click="logOut"
+                  >
                     <v-icon>mdi-power</v-icon>
                     <span>&nbsp;Sign out</span>
                   </v-btn>
@@ -102,11 +120,10 @@ export default {
     },
   },
   methods: {
-    logOut() {
+    async logOut() {
       this.closeOnContentClick = false;
-      this.$store.dispatch("logout").then(() => {
-        this.$router.push("/");
-      });
+      await this.$store.dispatch("logout");
+      this.$router.push("/");
     },
   },
   components: {

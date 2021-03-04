@@ -1,8 +1,8 @@
 <template>
   <div id="page-not-found">
     <span class="grey--text display-1 emptyPane text-center custom-font-family">
-      <v-icon large color="purple">mdi-exclamation-thick</v-icon>&nbsp;
-      Your session expired
+      <v-icon large color="purple">mdi-exclamation-thick</v-icon>&nbsp; Your
+      session expired
       <br />
       <span class="title custom-font-family">
         Please sign in again
@@ -13,7 +13,8 @@
           tile
           class="text-lowercase title"
           @click="returnToApp"
-        >here</v-btn>
+          >here</v-btn
+        >
       </span>
     </span>
   </div>
@@ -25,15 +26,14 @@ export default {
   computed: {
     isLoading() {
       return this.$store.getters.isLoading;
-    }
+    },
   },
   methods: {
-    returnToApp() {
-      this.$store.dispatch("logout").then(() => {
-        this.$router.push("/");
-      });
-    }
-  }
+    async returnToApp() {
+      await this.$store.dispatch("logout");
+      this.$router.push("/");
+    },
+  },
 };
 </script>
 

@@ -9,7 +9,9 @@
           <v-col sm="12" md="4" class="pb-3">
             <v-card color="teal" class="mx-auto" max-width="90vw">
               <v-card-text class="pa-1">
-                <h2 class="text-center custom-font-family headline white--text">Viva Status</h2>
+                <h2 class="text-center custom-font-family headline white--text">
+                  Viva Status
+                </h2>
                 <div class="text-center mt-4 mb-3">
                   <VivaStatus />
                 </div>
@@ -19,7 +21,9 @@
           <v-col xs="12" md="8" class="pb-3">
             <v-card class="mx-auto" max-width="90vw">
               <v-card-text class="pa-1">
-                <h2 class="text-center custom-font-family headline">Report Status</h2>
+                <h2 class="text-center custom-font-family headline">
+                  Report Status
+                </h2>
               </v-card-text>
               <ReportStatus />
             </v-card>
@@ -29,7 +33,9 @@
           <v-col xs="12" md="6" class="pb-3 pr-2">
             <v-card class="mx-auto" max-width="90vw">
               <v-card-text class="pa-1">
-                <h2 class="text-center custom-font-family headline">Performance</h2>
+                <h2 class="text-center custom-font-family headline">
+                  Performance
+                </h2>
                 <PerfomanceChart />
               </v-card-text>
             </v-card>
@@ -37,7 +43,9 @@
           <v-col sm="12" md="6" class="pb-3 pl-2" grow>
             <v-card class="mx-auto" max-width="90vw">
               <v-card-text class="pa-1">
-                <h2 class="text-center custom-font-family headline">Upcoming deadlines</h2>
+                <h2 class="text-center custom-font-family headline">
+                  Upcoming deadlines
+                </h2>
                 <Calendar />
               </v-card-text>
             </v-card>
@@ -72,14 +80,7 @@ export default {
       return this.$store.getters.isLoading;
     },
   },
-  methods: {
-    logOut() {
-      this.closeOnContentClick = false;
-      this.$store.dispatch("logout").then(() => {
-        this.$router.push("/");
-      });
-    },
-  },
+
   components: {
     Navigation,
     MobileDrawer,

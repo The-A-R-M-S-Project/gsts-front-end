@@ -67,27 +67,8 @@ import Calendar from "@/components/Calendar.vue";
 import Footer from "@/components/Footer.vue";
 export default {
   name: "dean-dashboard",
-  data() {
-    return {
-      drawer: false,
-      loading: false,
-    };
-  },
-  computed: {
-    isLoading() {
-      return this.$store.getters.isLoading;
-    },
-  },
-  created() {
-    this.$store.dispatch("fetchDeanDashboardStats");
-  },
-  methods: {
-    logOut() {
-      this.closeOnContentClick = false;
-      this.$store.dispatch("logout").then(() => {
-        this.$router.push("/");
-      });
-    },
+  async created() {
+    await this.$store.dispatch("fetchDeanDashboardStats");
   },
   components: {
     DeanNav,

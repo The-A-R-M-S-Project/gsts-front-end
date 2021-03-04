@@ -6,24 +6,40 @@
     <v-container fluid class="pt-5">
       <v-row class="px-4">
         <v-row>
-          <v-col sm="12" md="4" class="pb-3" :class="{'pr-2': !$vuetify.breakpoint.xs}">
+          <v-col
+            sm="12"
+            md="4"
+            class="pb-3"
+            :class="{ 'pr-2': !$vuetify.breakpoint.xs }"
+          >
             <v-card color="teal" max-width="90vw" class="mx-auto">
               <v-card-text class="pa-1">
-                <h2 class="text-center custom-font-family headline white--text">Viva Status</h2>
+                <h2 class="text-center custom-font-family headline white--text">
+                  Viva Status
+                </h2>
                 <div class="text-center mt-4 mb-3">
                   <VivaStatus />
                 </div>
               </v-card-text>
             </v-card>
           </v-col>
-          <v-col xs="12" md="8" class="pb-3" :class="{'pl-2': !$vuetify.breakpoint.xs}">
+          <v-col
+            xs="12"
+            md="8"
+            class="pb-3"
+            :class="{ 'pl-2': !$vuetify.breakpoint.xs }"
+          >
             <v-card max-width="90vw" class="mx-auto">
               <v-card-text class="pa-1">
-                <h2 class="text-center custom-font-family headline">Report Status</h2>
+                <h2 class="text-center custom-font-family headline">
+                  Report Status
+                </h2>
               </v-card-text>
               <div
                 class="responsive-report"
-                :class="$vuetify.breakpoint.xs?'mobile-report':'desktop-report'"
+                :class="
+                  $vuetify.breakpoint.xs ? 'mobile-report' : 'desktop-report'
+                "
               >
                 <canvas id="fineArtReports"></canvas>
               </div>
@@ -31,15 +47,26 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col xs="12" md="6" class="pb-3" :class="{'pr-2': !$vuetify.breakpoint.xs}">
+          <v-col
+            xs="12"
+            md="6"
+            class="pb-3"
+            :class="{ 'pr-2': !$vuetify.breakpoint.xs }"
+          >
             <v-card max-width="90vw" class="mx-auto">
               <v-card-text class="pa-1">
-                <h2 class="text-center custom-font-family headline">Performance</h2>
+                <h2 class="text-center custom-font-family headline">
+                  Performance
+                </h2>
                 <v-row class="px-2">
                   <v-col sm="12" md="12">
                     <div
                       class="responsive-performance"
-                      :class="$vuetify.breakpoint.xs?'mobile-performance':'desktop-performance'"
+                      :class="
+                        $vuetify.breakpoint.xs
+                          ? 'mobile-performance'
+                          : 'desktop-performance'
+                      "
                     >
                       <canvas id="fineArtPerformance"></canvas>
                     </div>
@@ -48,10 +75,17 @@
               </v-card-text>
             </v-card>
           </v-col>
-          <v-col sm="12" md="6" class="pb-3" :class="{'pl-2': !$vuetify.breakpoint.xs}">
+          <v-col
+            sm="12"
+            md="6"
+            class="pb-3"
+            :class="{ 'pl-2': !$vuetify.breakpoint.xs }"
+          >
             <v-card max-width="90vw" class="mx-auto">
               <v-card-text>
-                <h2 class="text-center custom-font-family headline">Upcoming deadlines</h2>
+                <h2 class="text-center custom-font-family headline">
+                  Upcoming deadlines
+                </h2>
               </v-card-text>
               <Calendar />
             </v-card>
@@ -106,12 +140,6 @@ export default {
     },
   },
   methods: {
-    logOut() {
-      this.closeOnContentClick = false;
-      this.$store.dispatch("logout").then(() => {
-        this.$router.push("/");
-      });
-    },
     createReportChart(chartID, chartData) {
       let keys = this.reportStatus.map((obj) => {
         return Object.keys(obj);

@@ -28,14 +28,6 @@ export default {
       return this.$store.getters.isLoading;
     },
   },
-  methods: {
-    logOut() {
-      this.closeOnContentClick = false;
-      this.$store.dispatch("logout").then(() => {
-        this.$router.push("/");
-      });
-    },
-  },
   components: {
     DeanNav,
     MobileDrawer,

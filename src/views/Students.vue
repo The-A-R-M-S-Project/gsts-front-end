@@ -21,30 +21,12 @@ import StudentsTable from "@/components/StudentsTable.vue";
 import Navigation from "@/components/Navbar.vue";
 import DeanNav from "@/components/DeanNav.vue";
 import MobileDrawer from "@/components/MobileDrawer.vue";
+import { mapGetters } from "vuex";
 import Footer from "@/components/Footer.vue";
 
 export default {
-  data() {
-    return {
-      drawer: false,
-      loading: false,
-    };
-  },
   computed: {
-    isLoading() {
-      return this.$store.getters.isLoading;
-    },
-    user() {
-      return this.$store.getters.user;
-    },
-  },
-  methods: {
-    logOut() {
-      this.closeOnContentClick = false;
-      this.$store.dispatch("logout").then(() => {
-        this.$router.push("/");
-      });
-    },
+    ...mapGetters(["user"]),
   },
   components: {
     StudentsTable,

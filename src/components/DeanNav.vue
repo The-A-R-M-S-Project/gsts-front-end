@@ -3,13 +3,15 @@
     <v-toolbar color="purple" class="white--text">
       <v-toolbar-title
         class="white--text font-weight-bold text-capitalize title d-sm-none d-md-flex"
-      >GSTS</v-toolbar-title>
+        >GSTS</v-toolbar-title
+      >
       <v-toolbar-title class="d-none d-sm-flex d-md-none">
         <v-btn
           text
           class="title font-weight-bold text-capitalize white--text px-0"
           href="/dean-dashboard"
-        >{{ schoolName }}</v-btn>
+          >{{ schoolName }}</v-btn
+        >
       </v-toolbar-title>
       <v-row justify="end" align="center">
         <v-col md="auto" class="d-sm-none d-md-flex">
@@ -17,7 +19,8 @@
             text
             class="title text-capitalize white--text"
             href="/dean-dashboard"
-          >{{ schoolName }}</v-btn>
+            >{{ schoolName }}</v-btn
+          >
         </v-col>
         <v-col md="auto" sm="3">
           <v-btn text class="title text-capitalize white--text" to="/students">
@@ -28,7 +31,9 @@
           </v-btn>
         </v-col>
         <v-col md="auto" sm="4">
-          <v-btn text class="title text-capitalize white--text" to="/examiners">Examiners</v-btn>
+          <v-btn text class="title text-capitalize white--text" to="/examiners"
+            >Examiners</v-btn
+          >
         </v-col>
         <v-col md="auto" sm="2">
           <v-menu
@@ -42,7 +47,10 @@
             <template v-slot:activator="{ on, attrs }">
               <v-btn icon v-on="on" v-bind="attrs">
                 <v-avatar size="48">
-                  <v-img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John">
+                  <v-img
+                    src="https://cdn.vuetifyjs.com/images/john.jpg"
+                    alt="John"
+                  >
                     <template v-slot:placeholder>
                       <v-row align="center" justify="center">
                         <v-col>
@@ -57,7 +65,11 @@
             <v-list>
               <v-list-item>
                 <v-list-item-title>
-                  <v-btn text class="text-capitalize" :to="`/${user.role}/profile`">
+                  <v-btn
+                    text
+                    class="text-capitalize"
+                    :to="`/${user.role}/profile`"
+                  >
                     <v-icon>mdi-account</v-icon>
                     <span>&nbsp;Profile</span>
                   </v-btn>
@@ -65,7 +77,12 @@
               </v-list-item>
               <v-list-item>
                 <v-list-item-title>
-                  <v-btn text :loading="isLoading" class="text-capitalize" @click="logOut">
+                  <v-btn
+                    text
+                    :loading="isLoading"
+                    class="text-capitalize"
+                    @click="logOut"
+                  >
                     <v-icon>mdi-power</v-icon>
                     <span>&nbsp;Sign out</span>
                   </v-btn>
@@ -117,11 +134,10 @@ export default {
     },
   },
   methods: {
-    logOut() {
+    async logOut() {
       this.closeOnContentClick = false;
-      this.$store.dispatch("logout").then(() => {
-        this.$router.push("/");
-      });
+      await this.$store.dispatch("logout");
+      this.$router.push("/");
     },
   },
 };
