@@ -45,7 +45,6 @@
               :rules="examinerRules"
               color="purple"
               class="mt-6"
-              @input="showType"
             ></v-select>
           </v-form>
 

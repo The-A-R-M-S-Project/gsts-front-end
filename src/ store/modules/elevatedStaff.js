@@ -15,7 +15,63 @@ const state = {
     studentsTableMessage: '',
     vivaDateError: null,
     studentsTableKey: 0,
-    vivaScoreError: null
+    vivaScoreError: null,
+    progressEvents: {
+        notSubmitted: {
+            value: 0,
+            message: "Not submitted",
+            color: "grey",
+            step: 1
+        },
+        submitted: {
+            value: 11,
+            message: "Submitted",
+            color: "deep-orange darken-3",
+            step: 2
+        },
+        assignedToExaminers: {
+            value: 23,
+            message: "Assigned to examiners",
+            color: "deep-orange darken-2",
+            step: 2
+        },
+        receivedByExaminers: {
+            value: 34,
+            message: "Received by examiners",
+            color: "deep-orange darken-1",
+            step: 3
+        },
+        clearedByExaminers: {
+            value: 45,
+            message: "Cleared by examiners",
+            color: "orange",
+            step: 4
+        },
+        vivaDateSet: {
+            value: 56,
+            message: "Viva date set",
+            color: "pink",
+            step: 5
+        },
+        vivaComplete: {
+            value: 67,
+            message: "Viva complete",
+            color: "amber",
+            step: 6
+        },
+        pendingRevision: {
+            value: 78,
+            message: "Pending revision",
+            color: "yellow darken-1",
+            step: 6
+        },
+        complete: {
+            value: 100,
+            message: "Pending revision",
+            color: "green lighten-2",
+            step: 7
+        }
+    }
 }
 const mutations = {
     fetchStudentDetailsError(state, payload) {
@@ -222,6 +278,7 @@ const actions = {
 const getters = {
     submitLoading: (state) => state.submitLoading,
     tableLoading: (state) => state.tableLoading,
+    progressEvents: (state) => state.progressEvents,
     selectedStudent: (state) => state.selectedStudent,
     reports: (state) => state.reports,
     examiners: (state) => {

@@ -336,53 +336,6 @@ export default {
         { text: "VIVA DATE", value: "vivaDate" },
         { value: "data-table-expand" },
       ],
-      progressEvents: {
-        notSubmitted: {
-          value: 0,
-          message: "Not submitted",
-          color: "grey",
-        },
-        submitted: {
-          value: 11,
-          message: "Submitted",
-          color: "deep-orange darken-3",
-        },
-        assignedToExaminers: {
-          value: 23,
-          message: "Assigned to examiners",
-          color: "deep-orange darken-2",
-        },
-        receivedByExaminers: {
-          value: 34,
-          message: "Received by examiners",
-          color: "deep-orange darken-1",
-        },
-        clearedByExaminers: {
-          value: 45,
-          message: "Cleared by examiners",
-          color: "orange",
-        },
-        vivaDateSet: {
-          value: 56,
-          message: "Viva date set",
-          color: "pink",
-        },
-        vivaComplete: {
-          value: 67,
-          message: "Viva complete",
-          color: "amber",
-        },
-        pendingRevision: {
-          value: 78,
-          message: "Pending revision",
-          color: "yellow darken-1",
-        },
-        complete: {
-          value: 100,
-          message: "Pending revision",
-          color: "green lighten-2",
-        },
-      },
       sortOrder: [
         "notSubmitted",
         "submitted",
@@ -435,6 +388,7 @@ export default {
   },
   computed: {
     ...mapGetters([
+      "progressEvents",
       "tableLoading",
       "detailLoading",
       "departments",
@@ -506,6 +460,7 @@ export default {
       this.$store.dispatch("setSelectedStudent", value);
     },
     itemExpanded(value) {
+      console.log(value.item);
       this.$store.dispatch("setSelectedStudent", value.item);
     },
     async viewDetails(student) {

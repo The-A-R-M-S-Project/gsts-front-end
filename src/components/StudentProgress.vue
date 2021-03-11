@@ -72,7 +72,7 @@
                 Waiting for examiners to acknowledge receipt of your report
                 <LoadingDots />
               </div>
-              <div class="body-2">You'll be notified as soon as they does</div>
+              <div class="body-2">You'll be notified as soon as they do</div>
             </template>
           </v-stepper-content>
 
@@ -159,6 +159,34 @@
               </div>
             </div>
           </template>
+          <v-stepper-step color="teal" :complete="e6 > 6" step="6"
+            >Final submission</v-stepper-step
+          >
+          <template v-if="e6 > 6">
+            <div class="v-stepper__content">
+              <div class="body-1 mb-1">
+                Congratulations! You've successfully made your final report
+                submission!
+              </div>
+              <div class="body-2">
+                You can now view your report assessment details. Check out your
+                notifications.
+              </div>
+              <div class="caption mt-3 font-weight-light">
+                {{ formatDate(studentReport.vivaScoreDate) }}
+              </div>
+            </div>
+          </template>
+          <v-stepper-content step="6">
+            <template v-if="e6 === 6">
+              <div class="body-1 mb-1">Please make your final submission</div>
+              <div v-show="user.role === 'student'" class="body-2">
+                In case you haven't made your final submission, click
+                <a @click="submitReport">here</a>.
+                <span>Do not forget to include your compliance report.</span>
+              </div>
+            </template>
+          </v-stepper-content>
         </v-stepper>
       </v-col>
     </v-row>
@@ -174,62 +202,6 @@ export default {
   data() {
     return {
       e6: null,
-      progressEvents: {
-        notSubmitted: {
-          value: 0,
-          message: "Not submitted",
-          color: "grey",
-          step: 1,
-        },
-        submitted: {
-          value: 11,
-          message: "Submitted",
-          color: "deep-orange darken-3",
-          step: 2,
-        },
-        assignedToExaminers: {
-          value: 11,
-          message: "Submitted",
-          color: "deep-orange darken-3",
-          step: 2,
-        },
-        receivedByExaminers: {
-          value: 34,
-          message: "Received by examiners",
-          color: "deep-orange darken-1",
-          step: 3,
-        },
-        clearedByExaminers: {
-          value: 45,
-          message: "Cleared by examiners",
-          color: "orange",
-          step: 5,
-        },
-        vivaDateSet: {
-          value: 56,
-          message: "Viva date set",
-          color: "pink",
-          step: 6,
-        },
-        vivaComplete: {
-          value: 67,
-          message: "Viva complete",
-          color: "amber",
-          step: 7,
-        },
-        pendingRevision: {
-          value: 78,
-          message: "Pending revision",
-          color: "yellow darken-1",
-          step: 8,
-        },
-        complete: {
-          value: 100,
-          message: "Pending revision",
-          color: "green lighten-2",
-          step: 9,
-        },
-      },
     };
   },
   async created() {
@@ -248,7 +220,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["user", "studentReport"]),
+    ...mapGetters(["progressEvents", "user", "studentReport"]),
   },
   methods: {
     submitReport() {

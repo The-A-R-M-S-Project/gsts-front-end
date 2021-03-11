@@ -134,44 +134,15 @@
     </div>
   </v-container>
 </template>
+
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "student-profile",
   data() {
     return {
       profilePic: null,
-      progressEvents: {
-        notSubmitted: {
-          value: 0,
-          message: "Not submitted",
-          color: "grey",
-        },
-        submitted: {
-          value: 17,
-          message: "Submitted",
-          color: "deep-orange darken-2",
-        },
-        withExaminer: {
-          value: 39,
-          message: "With examiner",
-          color: "orange",
-        },
-        clearedByExaminer: {
-          value: 56,
-          message: "Cleared by examiner",
-          color: "amber",
-        },
-        vivaDateSet: {
-          value: 73,
-          message: "Viva date set",
-          color: "yellow darken-1",
-        },
-        vivaComplete: {
-          value: 100,
-          message: "Viva complete",
-          color: "green lighten-2",
-        },
-      },
     };
   },
   created() {
@@ -185,15 +156,12 @@ export default {
     }
   },
   computed: {
-    student() {
-      return this.$store.getters.student;
-    },
-    profileEditMessage() {
-      return this.$store.getters.profileEditMessage;
-    },
-    displayProfileEditMessage() {
-      return this.$store.getters.displayProfileEditMessage;
-    },
+    ...mapGetters([
+      "progressEvents",
+      "student",
+      "profileEditMessage",
+      "displayProfileEditMessage",
+    ]),
   },
   methods: {
     changeProfileItem(tag) {
