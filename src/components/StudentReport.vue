@@ -3,8 +3,8 @@
     <div class="display-1 text-center font-weight-medium mb-4">
       Student report
     </div>
-    <v-row justify="center" align="start">
-      <v-col>
+    <v-row align="center" justify="center">
+      <v-col cols="12">
         <v-row no-gutters>
           <v-col>
             <div class="text-center">
@@ -34,97 +34,205 @@
                   : {{ examinerStudentDetails.student.name }}
                 </div>
                 <div class="pa-1">
-                  <span class="font-weight-bold">Email</span>
-                  : {{ examinerStudentDetails.student.email }}
+                  <span class="font-weight-bold">Title</span>
+                  : {{ examinerStudentDetails.title }}
                 </div>
                 <div class="pa-1">
-                  <span class="font-weight-bold">Contacts</span>
-                  : {{ examinerStudentDetails.student.phoneNumber }}
+                  <span class="font-weight-bold">Abstract</span>
+                  : {{ examinerStudentDetails.abstract }}
+                </div>
+                <div class="pa-1">
+                  <span class="font-weight-bold">File:</span>
+                  <span class="subheading">
+                    <a :href="examinerStudentDetails.reportURL" target="_blank">
+                      {{ examinerStudentDetails.title }}
+                    </a>
+                  </span>
                 </div>
               </div>
-            </div>
-            <div class="my-6" :class="{ 'px-6': $vuetify.breakpoint.xs }">
-              <v-dialog v-model="dialog" width="500">
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn color="primary" dark v-bind="attrs" v-on="on"
-                    >Set score</v-btn
-                  >
-                </template>
-                <v-card>
-                  <v-card-title class="text-center headline purple white--text"
-                    >Set a score</v-card-title
-                  >
-                  <v-card-text class="py-3 px-6">
-                    <p class="body-1">
-                      Set a score for
-                      <strong>{{ examinerStudentDetails.student.name }}</strong
-                      >'s report.
-                    </p>
-                    <v-form ref="reportScore">
-                      <v-text-field
-                        min="0"
-                        max="100"
-                        :rules="scoreRules"
-                        v-model="score"
-                        label="Set score"
-                        type="number"
-                      ></v-text-field>
-                    </v-form>
-                  </v-card-text>
-                  <v-divider></v-divider>
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn color="error" text @click="dialog = false"
-                      >Cancel</v-btn
-                    >
-                    <v-btn
-                      :loading="submitLoading"
-                      color="success"
-                      text
-                      @click="setReportScore"
-                      >Save</v-btn
-                    >
-                  </v-card-actions>
-                </v-card>
-              </v-dialog>
-            </div>
-            <div class="my-6" :class="{ 'px-6': $vuetify.breakpoint.xs }">
-              <v-btn
-                color="teal"
-                dark
-                link
-                :href="examinerStudentDetails.reportURL"
-                target="_blank"
-              >
-                View report
-              </v-btn>
             </div>
           </v-col>
         </v-row>
       </v-col>
-    </v-row>
-    <v-row class="mb-6">
-      <v-col cols="12" sm="7">
+      <v-col cols="12">
         <div class="pa-3">
-          <h3 class="text-center text-underline">Details</h3>
-          <hr class="mx-auto divider" />
-          <div class="px-3 text-left mx-auto">
-            <div class="py-1 px-sm-12">
-              <span class="font-weight-bold body-2">Title</span>
-              :
-              <span class="subheading">{{ examinerStudentDetails.title }}</span>
-            </div>
-            <div class="py-1 px-sm-12">
-              <span class="font-weight-bold body-2">Abstract</span>
-              :
-              <i class="subheading">
-                {{ examinerStudentDetails.abstract }}
-              </i>
-            </div>
-          </div>
+          <v-row align="center" justify="center" no-gutters>
+            <v-col cols="12">
+              <h3 class="text-center text-underline">Assessment</h3>
+              <hr class="mx-auto divider" />
+            </v-col>
+            <v-col cols="12">
+              <v-row align="center" justify="center" no-gutters>
+                <v-col cols="12">
+                  <div class="center-radio-group">
+                    <v-radio-group v-model="assessmentType" row>
+                      <v-radio
+                        class="py-2"
+                        label="Fill assessment form"
+                        value="fill"
+                      ></v-radio>
+                      <v-radio
+                        class="py-2"
+                        label="Upload assessment form"
+                        value="upload"
+                      ></v-radio>
+                    </v-radio-group>
+                  </div>
+                </v-col>
+                <v-col v-if="assessmentType === 'fill'" cols="12">
+                  <v-card class="mx-auto pa-3" width="700">
+                    <v-card-title class="text-center">
+                      Fill assessment form
+                    </v-card-title>
+                    <v-card-text>
+                      <v-form ref="filledAssessmentForm">
+                        <v-row align="center" justify="center">
+                          <v-col cols="12" sm="6">
+                            <v-text-field
+                              v-model="background"
+                              label="Background"
+                              hint="Max (5pts)"
+                              type="number"
+                              :rules="fieldScoreRules(5)"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col cols="12" sm="6">
+                            <v-text-field
+                              v-model="problemStatement"
+                              type="number"
+                              hint="Max (5pts)"
+                              label="Problem Statement"
+                              :rules="fieldScoreRules(5)"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col cols="12" sm="6">
+                            <v-text-field
+                              v-model="researchMethods"
+                              type="number"
+                              hint="Max (20pts)"
+                              label="Research Methods"
+                              :rules="fieldScoreRules(20)"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col cols="12" sm="6">
+                            <v-text-field
+                              v-model="results"
+                              type="number"
+                              label="Results"
+                              hint="Max (15pts)"
+                              :rules="fieldScoreRules(15)"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col cols="12" sm="6">
+                            <v-text-field
+                              v-model="discussions"
+                              type="number"
+                              label="Discussions"
+                              hint="Max (10pts)"
+                              :rules="fieldScoreRules(10)"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col cols="12" sm="6">
+                            <v-text-field
+                              v-model="conclusions"
+                              type="number"
+                              label="Conclusions"
+                              hint="Max (5pts)"
+                              :rules="fieldScoreRules(5)"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col cols="12" sm="6">
+                            <v-text-field
+                              v-model="recommendations"
+                              type="number"
+                              label="Recommendations"
+                              hint="Max (5pts)"
+                              :rules="fieldScoreRules(5)"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col cols="12" sm="6">
+                            <v-text-field
+                              v-model="originality"
+                              type="number"
+                              label="Originality of Contribution"
+                              hint="Max (15pts)"
+                              :rules="fieldScoreRules(15)"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col cols="12" sm="6">
+                            <v-text-field
+                              v-model="literatureCitation"
+                              type="number"
+                              label="Literature Citation"
+                              hint="Max (10pts)"
+                              :rules="fieldScoreRules(10)"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col cols="12" sm="6">
+                            <v-text-field
+                              v-model="overallPresentation"
+                              type="number"
+                              label="Overall Presentation"
+                              hint="Max (10pts)"
+                              :rules="fieldScoreRules(10)"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col cols="12">
+                            <div
+                              class="title font-weight-regular black--text pb-2"
+                            >
+                              Comments (if any)
+                            </div>
+                            <quill-editor
+                              class="quill"
+                              v-model="corrections"
+                              :content="corrections"
+                              tabindex="-1"
+                            ></quill-editor>
+                          </v-col>
+                        </v-row>
+                      </v-form>
+                    </v-card-text>
+                  </v-card>
+                </v-col>
+                <v-col v-else-if="assessmentType === 'upload'" cols="12">
+                  <v-card class="mx-auto pa-3" width="700">
+                    <v-card-title> Upload assessment form </v-card-title>
+                    <v-form ref="uploadedAssessmentForm">
+                      <p class="py-3">
+                        <v-file-input
+                          label="File input"
+                          placeholder="Click here to upload your scanned assessment form"
+                          outlined
+                          counter
+                          v-model="assessmentForm"
+                          :error="fileSelected"
+                          :error-messages="fileErrorMessage"
+                          :show-size="1000"
+                          truncate-length="100"
+                          prepend-icon="mdi-file-document"
+                          accept=".png,.jpg,.pdf,.jpeg"
+                        ></v-file-input>
+                      </p>
+                      <p class="px-12">
+                        <v-text-field
+                          min="0"
+                          max="100"
+                          :rules="scoreRules"
+                          v-model="score"
+                          label="Set final score"
+                          type="number"
+                        ></v-text-field>
+                      </p>
+                    </v-form>
+                  </v-card>
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
         </div>
       </v-col>
-      <v-col cols="12" sm="5" class="px-12">
+      <!-- <v-col cols="12" class="px-sm-12 mx-sm-12">
         <div class="text-center">
           <h3 class="text-center text-underline">Comments</h3>
           <hr class="mx-auto divider" />
@@ -160,23 +268,156 @@
             </v-row>
           </v-col>
         </v-row>
-        <div class="text-center">
-          <v-form ref="createCommentForm">
-            <v-textarea
-              outlined
-              v-model="comment"
-              label="Create a comment"
-              :rules="commentRules"
-            ></v-textarea>
-          </v-form>
+        <v-row align="center" justify="center" no-gutters>
+          <v-col cols="12" sm="9">
+            <div class="text-center">
+              <v-form ref="createCommentForm">
+                <v-textarea
+                  outlined
+                  v-model="comment"
+                  label="Create a comment"
+                  :rules="commentRules"
+                ></v-textarea>
+              </v-form>
+            </div>
+          </v-col>
+          <v-col cols="12" sm="3">
+            <div class="text-center">
+              <v-btn
+                color="teal"
+                dark
+                @click="createComment()"
+                :loading="detailLoading"
+              >
+                add comment
+              </v-btn>
+            </div>
+          </v-col>
+        </v-row>
+      </v-col> -->
+      <v-col cols="12">
+        <div class="text-center pb-12">
           <v-btn
-            color="teal"
-            dark
-            @click="createComment()"
-            :loading="detailLoading"
+            :disabled="assessmentType === null"
+            color="primary"
+            @click="checkAssessmentForms"
           >
-            add comment
+            submit assessment
           </v-btn>
+          <v-dialog v-model="submitDialog" width="500">
+            <v-card>
+              <v-card-title class="headline"> Are you sure? </v-card-title>
+
+              <v-card-text>
+                <div v-if="assessmentType === 'fill'" class="text-center">
+                  <p>
+                    <span class="body-1 font-weight-light">Background:</span>
+                    <span>&nbsp;{{ background }}</span>
+                  </p>
+                  <p>
+                    <span class="body-1 font-weight-light"
+                      >Problem statement:</span
+                    >
+                    <span>&nbsp;{{ problemStatement }}</span>
+                  </p>
+                  <p>
+                    <span class="body-1 font-weight-light"
+                      >Research methods:</span
+                    >
+                    <span>&nbsp;{{ researchMethods }}</span>
+                  </p>
+                  <p>
+                    <span class="body-1 font-weight-light">Results:</span>
+                    <span>&nbsp;{{ results }}</span>
+                  </p>
+                  <p>
+                    <span class="body-1 font-weight-light">Discussions:</span>
+                    <span>&nbsp;{{ discussions }}</span>
+                  </p>
+                  <p>
+                    <span class="body-1 font-weight-light">Conclusions:</span>
+                    <span>&nbsp;{{ conclusions }}</span>
+                  </p>
+                  <p>
+                    <span class="body-1 font-weight-light"
+                      >Recommendations:</span
+                    >
+                    <span>&nbsp;{{ recommendations }}</span>
+                  </p>
+                  <p>
+                    <span class="body-1 font-weight-light"
+                      >Originality of contribution:</span
+                    >
+                    <span>&nbsp;{{ originality }}</span>
+                  </p>
+                  <p>
+                    <span class="body-1 font-weight-light"
+                      >Literature citation:</span
+                    >
+                    <span>&nbsp;{{ literatureCitation }}</span>
+                  </p>
+                  <p>
+                    <span class="body-1 font-weight-light"
+                      >Overall presentation:</span
+                    >
+                    <span>&nbsp;{{ overallPresentation }}</span>
+                  </p>
+                  <p>
+                    <span
+                      class="body-1 font-weight-light text-decoration-underline"
+                      >Corrections</span
+                    >
+                  </p>
+                  <p v-html="corrections"></p>
+                  <p>
+                    <span class="body-1 font-weight-light"
+                      >Total score (calculated from the total of all the above
+                      fields):</span
+                    >
+                    <span class="headline font-weight-bold">{{
+                      totalScore
+                    }}</span>
+                  </p>
+                </div>
+                <div
+                  v-else-if="assessmentType === 'upload'"
+                  class="text-center"
+                >
+                  <p>
+                    <span class="body-1 font-weight-light"
+                      >Scanned assessment file:</span
+                    >
+                    <span v-if="assessmentForm"
+                      >&nbsp;{{ assessmentForm.name }}</span
+                    >
+                  </p>
+                  <p>
+                    <span class="body-1 font-weight-light">Final score:</span>
+                    <span class="headline font-weight-bold"
+                      >&nbsp;{{ score }}</span
+                    >
+                  </p>
+                </div>
+              </v-card-text>
+
+              <v-divider></v-divider>
+
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="primary" text @click="submitDialog = false">
+                  cancel
+                </v-btn>
+                <v-btn
+                  color="success"
+                  text
+                  @click="submitAssessment"
+                  :loading="detailLoading"
+                >
+                  submit
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
         </div>
       </v-col>
     </v-row>
@@ -185,85 +426,138 @@
 
 <script>
 import { mapGetters } from "vuex";
+import "quill/dist/quill.core.css";
+import "quill/dist/quill.snow.css";
+import "quill/dist/quill.bubble.css";
+import { quillEditor } from "vue-quill-editor";
 
 export default {
   name: "examiner-student-report",
   data() {
     return {
-      dialog: false,
+      submitDialog: false,
+      // comment: "",
+      // commentRules: [(comment) => !!comment || "Please write a comment!"],
+      assessmentType: null,
+      assessmentForm: null,
+      fileSelected: false,
+      fileErrorMessage: [],
       score: null,
-      comment: "",
-      commentRules: [(comment) => !!comment || "Please write a comment!"],
       scoreRules: [
         (score) => !!score || "A score is required",
         (score) => (score < 100 && score >= 0) || "Invalid score",
       ],
-      progressEvents: {
-        notSubmitted: {
-          value: 0,
-          message: "Not submitted",
-          color: "grey",
-        },
-        submitted: {
-          value: 17,
-          message: "Submitted",
-          color: "deep-orange darken-2",
-        },
-        withExaminer: {
-          value: 39,
-          message: "With examiner",
-          color: "orange",
-        },
-        clearedByExaminer: {
-          value: 56,
-          message: "Cleared by examiner",
-          color: "amber",
-        },
-        vivaDateSet: {
-          value: 73,
-          message: "Viva date set",
-          color: "yellow darken-1",
-        },
-        vivaComplete: {
-          value: 100,
-          message: "Viva complete",
-          color: "green lighten-2",
-        },
-      },
+      fieldScoreRules: (maxGrade) => [
+        (fieldScore) =>
+          (fieldScore <= maxGrade && fieldScore >= 0) || "Invalid score!",
+        (fieldScore) => !!fieldScore || "A score for this field is required!",
+      ],
+      required: [(field) => !!field || "This field is required!"],
+      background: null,
+      problemStatement: null,
+      researchMethods: null,
+      results: null,
+      discussions: null,
+      conclusions: null,
+      recommendations: null,
+      originality: null,
+      literatureCitation: null,
+      overallPresentation: null,
+      corrections: null,
+      assessmentFormFields: [],
+      totalScore: 0,
     };
+  },
+  created() {
+    this.fileSelected = false;
+    this.fileErrorMessage = [];
   },
   computed: {
     ...mapGetters([
+      "progressEvents",
       "examinerStudentDetails",
       "submitLoading",
-      "reportComments",
+      // "reportComments",
       "detailLoading",
     ]),
   },
   methods: {
-    async setReportScore() {
-      if (this.$refs.reportScore.validate()) {
-        await this.$store.dispatch("clearStudentReport", {
-          report: this.examinerStudentDetails._id,
-          score: {
-            examinerScore: this.score,
-          },
-          studentName: this.examinerStudentDetails.student.name,
-        });
-        this.dialog = false;
-        await this.$store.dispatch("fetchAssignedStudents");
-        this.$router.push("/examiner-dashboard");
+    checkUploadedAssessmentForm() {
+      if (this.assessmentForm) {
+        this.fileSelected = false;
+        this.fileErrorMessage = [];
+        return true;
+      } else {
+        this.fileSelected = true;
+        this.fileErrorMessage = "Please upload your scanned assessment form";
+        return false;
       }
     },
-    async createComment() {
-      if (this.$refs.createCommentForm.validate()) {
-        await this.$store.dispatch("createComment", {
-          report: this.examinerStudentDetails._id,
-          comment: { text: this.comment },
-        });
-        this.$router.go();
+    checkAssessmentForms() {
+      if (!!this.assessmentType) {
+        if (
+          (this.assessmentType === "fill" &&
+            this.$refs.filledAssessmentForm.validate()) ||
+          (this.assessmentType === "upload" &&
+            this.$refs.uploadedAssessmentForm.validate() &&
+            this.checkUploadedAssessmentForm())
+        ) {
+          this.totalScore =
+            parseInt(this.background) +
+            parseInt(this.problemStatement) +
+            parseInt(this.researchMethods) +
+            parseInt(this.results) +
+            parseInt(this.discussions) +
+            parseInt(this.conclusions) +
+            parseInt(this.recommendations) +
+            parseInt(this.originality) +
+            parseInt(this.literatureCitation) +
+            parseInt(this.overallPresentation);
+          this.submitDialog = true;
+        }
       }
     },
+    async submitAssessment() {
+      let finalAssessment;
+      if (this.assessmentType === "fill") {
+        finalAssessment = {
+          background: this.background,
+          problemStatement: this.problemStatement,
+          researchMethods: this.researchMethods,
+          results: this.results,
+          discussions: this.discussions,
+          conclusions: this.conclusions,
+          recommendations: this.recommendations,
+          originality_of_Contribution: this.originality,
+          literature_Citation: this.literatureCitation,
+          overall_Presentation: this.overallPresentation,
+          corrections: this.corrections,
+          examinerScore: totalScore,
+        };
+      } else if (this.assessmentType === "upload") {
+        let formData = new FormData();
+        formData.append("examinerScore", this.score);
+        formData.append("scannedAsssesmentform", this.assessmentForm);
+        finalAssessment = formData;
+      }
+      console.log(this.examinerStudentDetails);
+      await this.$store.dispatch("clearStudentReport", {
+        report: this.examinerStudentDetails._id,
+        assessment: finalAssessment,
+        studentName: this.examinerStudentDetails.student.name,
+      });
+      await this.$store.dispatch("fetchAssignedStudents");
+      this.$router.push("/examiner-dashboard");
+    },
+    // async createComment() {
+    //   if (this.$refs.createCommentForm.validate()) {
+    //     await this.$store.dispatch("createComment", {
+    //       report: this.examinerStudentDetails._id,
+    //       comment: { text: this.comment },
+    //     });
+    //     this.$router.go();
+    //   }
+    // },
     formatDate(timestamp) {
       let monthDay = new Date(timestamp);
       return `${monthDay.toLocaleTimeString(
@@ -276,6 +570,9 @@ export default {
       )}, ${new String(monthDay).substring(4, 15).replace(/ /g, "-")}`;
     },
   },
+  components: {
+    quillEditor,
+  },
 };
 </script>
 
@@ -284,5 +581,9 @@ export default {
   width: 6rem;
   border: 2px solid black;
   margin-bottom: 1rem;
+}
+.center-radio-group {
+  margin-left: 35%;
+  margin-right: 35%;
 }
 </style>
