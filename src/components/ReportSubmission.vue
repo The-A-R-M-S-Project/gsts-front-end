@@ -128,7 +128,7 @@
             <span class="body-1 font-weight-light">Due Date:</span>
             <span class="subheading">&nbsp;-</span>
           </p>
-          <p v-if="studentReport.status === 'submitted'">
+          <p v-if="studentReport.submittedAt">
             <span class="body-1 font-weight-light">Submitted report:</span>
             <span class="subheading"
               >&nbsp;
