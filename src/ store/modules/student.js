@@ -10,9 +10,7 @@ const state = {
     reportSubmitError: null,
     studentDashboardError: null,
     submitReportLoading: false,
-    reportSectionKey: 0,
-    reportComments: [],
-    createCommentError: null
+    reportSectionKey: 0
 };
 const mutations = {
     setDetailLoader(state, payload) {
@@ -51,18 +49,6 @@ const mutations = {
     },
     changeReportSectionKey(state) {
         state.reportSectionKey ++
-    },
-    setReportComments(state, payload) {
-        state.reportComments = payload
-    },
-    addReportComment(state, payload) {
-        if (state.reportComments[0].text === 'No comments have been made on this report') {
-            state.reportComments.pop()
-        }
-        state.reportComments.push(payload)
-    },
-    setCreateCommentError(state, payload) {
-        state.createCommentError = payload
     }
 };
 const actions = {
@@ -160,38 +146,6 @@ const actions = {
             commit("setReportSubmitError", error.response.data.message)
         }
     },
-    async fetchReportComments({
-        commit
-    }, data) {
-        let accessToken = localStorage.getItem("jwt");
-        axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-        try {
-            let response = await axiosInstance.get(`/comment/report/${data}`)
-            // let comments = response.data.comments.map(comment => comment.text)
-            commit("setReportComments", response.data.comments)
-        } catch (error) {
-            commit("setReportComments", [{
-                    text: error.response.data.message
-                }])
-        }
-    },
-    async createComment({
-        commit
-    }, data) {
-        let accessToken = localStorage.getItem("jwt");
-        axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-        commit("setDetailLoader", true)
-        try {
-            let response = await axiosInstance.post(`/comment/report/${
-                data.report
-            }`, data.comment)
-            commit("addReportComment", response.data.comment)
-            commit("setDetailLoader", false)
-        } catch (error) {
-            commit("setDetailLoader", false)
-            commit("setCreateCommentError", error.response.data.message)
-        }
-    },
     setStaffStudentDetails({
         commit
     }, data) {
@@ -211,7 +165,6 @@ const getters = {
     reportActionMessage: (state) => state.reportActionMessage,
     reportSubmitMessage: (state) => state.reportSubmitMessage,
     reportSubmitError: (state) => state.reportSubmitError,
-    reportSectionKey: (state) => state.reportSectionKey,
-    reportComments: (state) => state.reportComments
+    reportSectionKey: (state) => state.reportSectionKey
 };
 export default {state, mutations, actions, getters};

@@ -13,7 +13,17 @@
     <div>
       <v-row no-gutters>
         <v-col cols="12" lg="9">
-          <StudentProgress class="mb-6" />
+          <v-row align="center" justify="center" no-gutters>
+            <v-col cols="12">
+              <StudentProgress class="mb-6" />
+            </v-col>
+            <v-col
+              v-if="user.role === 'principal' || user.role === 'dean'"
+              cols="12"
+            >
+              <Resubmission />
+            </v-col>
+          </v-row>
         </v-col>
         <v-col cols="12" lg="3">
           <StudentsNotifications />
@@ -30,8 +40,10 @@ import DeanNav from "@/components/DeanNav.vue";
 import ExaminerNav from "@/components/ExaminersNavbar.vue";
 import MobileDrawer from "@/components/MobileDrawer.vue";
 import StudentProgress from "@/components/StudentProgress.vue";
+import Resubmission from "@/components/Resubmission.vue";
 import StudentsNotifications from "@/components/StudentsNotifications.vue";
 import Footer from "@/components/Footer.vue";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -41,12 +53,7 @@ export default {
     };
   },
   computed: {
-    isLoading() {
-      return this.$store.getters.isLoading;
-    },
-    user() {
-      return this.$store.getters.user;
-    },
+    ...mapGetters(["isLoading", "user", "studentReport"]),
   },
   components: {
     Navigation,
@@ -54,6 +61,7 @@ export default {
     ExaminerNav,
     MobileDrawer,
     StudentProgress,
+    Resubmission,
     StudentsNotifications,
     Footer,
   },

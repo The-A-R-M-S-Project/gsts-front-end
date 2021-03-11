@@ -10,6 +10,10 @@ const state = {
     examiners: [],
     fetchExaminersError: null,
     submitLoading: false,
+    reportComments: [],
+    createCommentError: null,
+    requestResubmissionMessage: '',
+    requestResubmissionError: null,
     displayStudentTableFeedback: false,
     assignExaminerError: null,
     studentsTableMessage: '',
@@ -98,6 +102,24 @@ const mutations = {
     setSubmitLoader(state, payload) {
         state.submitLoading = payload
     },
+    addReportComment(state, payload) {
+        if (state.reportComments[0].text === 'No comments have been made on this report') {
+            state.reportComments.pop()
+        }
+        state.reportComments.push(payload)
+    },
+    setCreateCommentError(state, payload) {
+        state.createCommentError = payload
+    },
+    setReportComments(state, payload) {
+        state.reportComments = payload
+    },
+    requestResubmissionSuccess(state, payload) {
+        state.requestResubmissionMessage = payload
+    },
+    setRequestResubmissionError(state, payload) {
+        state.requestResubmissionError = payload
+    },
     assignExaminerSuccess(state, payload) {
         let str = payload.res
         let success = `${
@@ -165,6 +187,54 @@ const actions = {
         } catch (error) {
             commit("setLoader", false)
             commit("fetchReportsError", error.response.data.message)
+        }
+    },
+    async requestResubmission({
+        commit
+    }, data) {
+        let accessToken = localStorage.getItem("jwt");
+        axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+        commit("setSubmitLoader", true)
+        try {
+            let response = await axiosInstance.patch(`/report/staff/student/resubmit/${
+                data.report
+            }`, data.reason)
+            commit("requestResubmissionSuccess", response.data.status)
+            commit("setSubmitLoader", false)
+        } catch (error) {
+            commit("setSubmitLoader", false)
+            commit("setRequestResubmissionError", error.response.data.message)
+        }
+    },
+    async createComment({
+        commit
+    }, data) {
+        let accessToken = localStorage.getItem("jwt");
+        axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+        commit("setSubmitLoader", true)
+        try {
+            let response = await axiosInstance.post(`/comment/report/${
+                data.report
+            }`, data.comment)
+            commit("addReportComment", response.data.comment)
+            commit("setSubmitLoader", false)
+        } catch (error) {
+            commit("setSubmitLoader", false)
+            commit("setCreateCommentError", error.response.data.message)
+        }
+    },
+    async fetchReportComments({
+        commit
+    }, data) {
+        let accessToken = localStorage.getItem("jwt");
+        axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+        try {
+            let response = await axiosInstance.get(`/comment/report/${data}`)
+            commit("setReportComments", response.data.comments)
+        } catch (error) {
+            commit("setReportComments", [{
+                    text: error.response.data.message
+                }])
         }
     },
     async fetchExaminers({commit}) {
@@ -286,8 +356,11 @@ const getters = {
             return staff.role === "examiner"
         })
     },
+    reportComments: (state) => state.reportComments,
     assignExaminerMessage: (state) => state.assignExaminerMessage,
+    requestResubmissionError: (state) => state.requestResubmissionError,
     assignedExaminer: (state) => state.assignedExaminer,
+    requestResubmissionMessage: (state) => state.requestResubmissionMessage,
     displayStudentTableFeedback: (state) => state.displayStudentTableFeedback,
     studentsTableMessage: (state) => state.studentsTableMessage,
     studentsTableKey: (state) => state.studentsTableKey
