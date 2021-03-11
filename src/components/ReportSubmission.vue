@@ -3,93 +3,85 @@
     <div class="display-1 text-center font-weight-medium mb-4">
       Report submission
     </div>
-    <v-tabs v-model="tab" color="purple" background-color="white" centered>
-      <v-tabs-slider></v-tabs-slider>
-
-      <v-tab>Create</v-tab>
-      <v-tab-item class="mt-3">
-        <v-card
-          :max-width="$vuetify.breakpoint.xs ? '95vw' : '70vw'"
-          class="mx-auto pa-5"
-        >
-          <h3 class="text-center">Create a report</h3>
-          <v-alert
+    <v-card
+      :max-width="$vuetify.breakpoint.xs ? '95vw' : '70vw'"
+      class="mx-auto pa-5"
+    >
+      <h2 class="text-center">Create a report</h2>
+      <v-alert
+        dark
+        dismissible
+        v-if="studentReport.title && studentReport.status !== 'notSubmitted'"
+        color="warning"
+        class="text-center"
+        >Already submitted report!</v-alert
+      >
+      <v-alert
+        dark
+        dismissible
+        v-else-if="displayReportActionMessage"
+        color="success"
+        class="text-center"
+        >{{ reportActionMessage }}</v-alert
+      >
+      <h5 class="pt-4 pb-2">
+        <span class="primary--text">Note:</span> This is not your final report
+        submission! After creating a report title, you will be able to make a
+        final submission.
+      </h5>
+      <h5 v-if="studentReport" class="pb-2">
+        <v-icon class="mr-2" color="primary">mdi-alert-circle</v-icon>You've
+        already created a report titled:
+        <i class="body-2">{{ studentReport.title }}</i>
+        <br />You'll only be editing the existing title and abstract
+      </h5>
+      <v-form ref="editReportForm">
+        <p>
+          <span class="body-1 font-weight-bold">Title:</span>
+          <v-text-field
+            outlined
+            v-model="reportTitle"
+            placeholder="Enter report title"
+            type="text"
+            :rules="required"
+          ></v-text-field>
+        </p>
+        <p>
+          <span class="body-1 font-weight-bold">Abstract:</span>
+          <br />
+          <span class="body-2">
+            <v-icon color="primary" class="mr-2">mdi-alert-circle</v-icon>This
+            is field is optional
+          </span>
+          <v-textarea
+            outlined
+            v-model="reportAbstract"
+            :rules="[abstractRules.before]"
+            label="Insert an abstract"
+            :hint="words"
+          ></v-textarea>
+        </p>
+        <v-row justify="center" class="px-3">
+          <v-btn
+            @click="editReport"
+            type="submit"
+            :loading="detailLoading"
             dark
-            dismissible
-            v-if="
-              studentReport.title && studentReport.status !== 'notSubmitted'
-            "
-            color="warning"
-            class="text-center"
-            >Already submitted report!</v-alert
+            color="teal"
           >
-          <v-alert
-            dark
-            dismissible
-            v-else-if="displayReportActionMessage"
-            color="success"
-            class="text-center"
-            >{{ reportActionMessage }}</v-alert
-          >
-          <h5 class="pt-4 pb-2">
-            <span class="primary--text">Note:</span> This is not your final
-            report submission! After creating a report title, you will be able
-            to make a final submission.
-          </h5>
-          <h5 v-if="studentReport" class="pb-2">
-            <v-icon class="mr-2" color="primary">mdi-alert-circle</v-icon>You've
-            already created a report titled:
-            <i class="body-2">{{ studentReport.title }}</i>
-            <br />You'll only be editing the existing title and abstract
-          </h5>
-          <v-form ref="editReportForm">
-            <p>
-              <span class="body-1 font-weight-bold">Title:</span>
-              <v-text-field
-                outlined
-                v-model="reportTitle"
-                placeholder="Enter report title"
-                type="text"
-                :rules="required"
-              ></v-text-field>
-            </p>
-            <p>
-              <span class="body-1 font-weight-bold">Abstract:</span>
-              <br />
-              <span class="body-2">
-                <v-icon color="primary" class="mr-2">mdi-alert-circle</v-icon
-                >This is field is optional
-              </span>
-              <v-textarea
-                outlined
-                v-model="reportAbstract"
-                :rules="[abstractRules.before]"
-                label="Insert an abstract"
-                :hint="words"
-              ></v-textarea>
-            </p>
-            <v-row justify="end" class="px-3 pt-2">
-              <v-btn
-                @click="editReport"
-                type="submit"
-                :loading="detailLoading"
-                dark
-                color="teal"
-                >submit</v-btn
-              >
-            </v-row>
-          </v-form>
-        </v-card>
-      </v-tab-item>
-
-      <v-tab>Submit</v-tab>
-      <v-tab-item class="mt-3">
-        <v-card
-          :max-width="$vuetify.breakpoint.xs ? '95vw' : '70vw'"
-          class="mx-auto pa-5"
-          v-if="studentReport.title"
-        >
-          <h3 class="text-center">Submit final report</h3>
+            <span v-if="studentReport.title">Edit</span>
+            <span v-else>Create</span>
+          </v-btn>
+        </v-row>
+      </v-form>
+      <v-row
+        v-if="studentReport.title"
+        align="center"
+        justify="center"
+        class="pt-6"
+      >
+        <v-col cols="12">
+          <h2 class="text-center">Submit final report</h2>
           <v-alert
             dark
             dismissible
@@ -106,6 +98,8 @@
             class="text-center"
             >{{ reportSubmitMessage }}</v-alert
           >
+        </v-col>
+        <v-col cols="12">
           <p class="pt-3">
             <span class="body-1 font-weight-light">Title:</span>
             <span v-if="studentReport.title"
@@ -192,7 +186,7 @@
               ></v-file-input>
             </p>
           </v-form>
-          <v-row justify="end" class="px-3 pt-2">
+          <v-row justify="center" class="px-3 pt-2">
             <v-dialog v-model="dialog" width="500">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
@@ -210,12 +204,13 @@
                   >Confirm</v-card-title
                 >
                 <v-card-text class="py-3 px-6">
-                  <p class="body-1">
+                  <p class="body-1 text-center">
                     <v-icon color="primary" class="mr-2"
                       >mdi-alert-circle</v-icon
-                    >This is your final submission. Unless a resubmssion is
-                    requested of you, you will not be able to edit your
-                    submission until after your viva examination.
+                    >This is your final submission. <br />
+                    Unless a resubmission is requested of you, you will not be
+                    able to edit your submission until after your viva
+                    examination.
                   </p>
                 </v-card-text>
                 <v-divider></v-divider>
@@ -231,9 +226,9 @@
               </v-card>
             </v-dialog>
           </v-row>
-        </v-card>
-      </v-tab-item>
-    </v-tabs>
+        </v-col>
+      </v-row>
+    </v-card>
   </div>
 </template>
 

@@ -1,7 +1,7 @@
 <template>
   <div class="py-5">
     <div class="display-1 text-center font-weight-medium mb-4">
-      Create a report
+      Create a report title
     </div>
     <v-card
       :max-width="$vuetify.breakpoint.xs ? '95vw' : '70vw'"
@@ -45,7 +45,7 @@
             :hint="words"
           ></v-textarea>
         </p>
-        <v-row justify="end" class="px-3 pt-2">
+        <v-row justify="center" class="px-3 pt-2">
           <v-btn
             @click="createReport"
             type="submit"
