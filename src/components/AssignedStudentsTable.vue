@@ -111,6 +111,18 @@
                               <strong>Abstract:</strong>
                               {{ item.report.abstract }}
                             </p>
+                            <p class="body-1">
+                              <strong>Report:</strong>
+                              <span class="subheading"
+                                >&nbsp;
+                                <a
+                                  :href="item.report.reportURL"
+                                  target="_blank"
+                                >
+                                  {{ item.report.title }}
+                                </a>
+                              </span>
+                            </p>
                             <p>
                               <v-icon color="primary"
                                 >mdi-information-outline</v-icon
@@ -124,7 +136,8 @@
                               <v-btn
                                 color="error"
                                 text
-                                @click="previewReportDialog = false"
+                                :loading="submitLoading"
+                                @click="rejectReport"
                                 >Reject</v-btn
                               >
                               <v-dialog
@@ -150,9 +163,11 @@
                                     <p class="body-1">
                                       By clicking the "Agree" button, you are
                                       acknowledging receipt of
-                                      <strong>{{
-                                        examinerStudentDetails.student.name
-                                      }}</strong
+                                      <strong
+                                        v-if="examinerStudentDetails.student"
+                                        >{{
+                                          examinerStudentDetails.student.name
+                                        }}</strong
                                       >'s report.
                                     </p>
                                   </v-card-text>
@@ -274,53 +289,6 @@ export default {
         vivaComplete: 8,
         complete: 9,
       },
-      progressEvents: {
-        notSubmitted: {
-          value: 0,
-          message: "Not submitted",
-          color: "grey",
-        },
-        submitted: {
-          value: 11,
-          message: "Submitted",
-          color: "deep-orange darken-3",
-        },
-        assignedToExaminers: {
-          value: 23,
-          message: "Assigned to examiners",
-          color: "deep-orange darken-2",
-        },
-        receivedByExaminers: {
-          value: 34,
-          message: "Received by examiners",
-          color: "deep-orange darken-1",
-        },
-        clearedByExaminers: {
-          value: 45,
-          message: "Cleared by examiners",
-          color: "orange",
-        },
-        vivaDateSet: {
-          value: 56,
-          message: "Viva date set",
-          color: "pink",
-        },
-        vivaComplete: {
-          value: 67,
-          message: "Viva complete",
-          color: "amber",
-        },
-        pendingRevision: {
-          value: 78,
-          message: "Pending revision",
-          color: "yellow darken-1",
-        },
-        complete: {
-          value: 100,
-          message: "Pending revision",
-          color: "green lighten-2",
-        },
-      },
     };
   },
   async created() {
@@ -338,6 +306,7 @@ export default {
   },
   computed: {
     ...mapGetters([
+      "progressEvents",
       "examinerStudentDetails",
       "submitLoading",
       "detailLoading",
@@ -346,6 +315,7 @@ export default {
     ]),
     assignedStudents() {
       let reports = this.$store.getters.assignedStudents;
+      // console.log(reports);
       return reports.sort(
         (a, b) =>
           this.defaultSortOrder[a.report.status] -
@@ -374,7 +344,6 @@ export default {
     },
     itemExpanded(value) {
       this.$store.dispatch("setExaminerStudentDetails", value.item.report);
-      console.log("Examiner student details", this.examinerStudentDetails);
     },
     async viewDetails(student) {
       this.$store.dispatch("setStaffStudentDetails", student.report);
@@ -397,12 +366,23 @@ export default {
         return newDate.replace(/ /g, "-");
       } else return "Not set";
     },
+    async rejectReport() {
+      await this.$store.dispatch("rejectReport", {
+        report: this.examinerStudentDetails._id,
+        studentName: this.examinerStudentDetails.student.name,
+      });
+      this.receiveReportDialog = false;
+      this.previewReportDialog = false;
+      await this.$store.dispatch("fetchAssignedStudents");
+      this.assignedStudentsTableKey++;
+    },
     async receiveReport() {
       await this.$store.dispatch("receiveReport", {
         report: this.examinerStudentDetails._id,
         studentName: this.examinerStudentDetails.student.name,
       });
-      this.dialog = false;
+      this.receiveReportDialog = false;
+      this.previewReportDialog = false;
       await this.$store.dispatch("fetchAssignedStudents");
       this.assignedStudentsTableKey++;
     },

@@ -26,6 +26,17 @@ const mutations = {
             payload.student
         }'s report`
     },
+    rejectReportSuccess(state, payload) {
+        let str = payload.res
+        let success = `${
+            str[0].toUpperCase()
+        }${
+            str.slice(1)
+        }`;
+        state.assignedStudentsTableMessage = `${success}. ${
+            payload.student
+        }'s report rejected!`
+    },
     setReceiveReportError(state, payload) {
         state.receiveReportError = payload
     },
@@ -86,6 +97,27 @@ const actions = {
             commit("setReceiveReportError", error.response.data.message)
         })
     },
+    async rejectReport({
+        commit
+    }, data) {
+        commit("setSubmitLoader", true)
+        let accessToken = localStorage.getItem("jwt");
+        axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+        await axiosInstance.patch(`/report/staff/reject/${
+            data.report
+        }`).then(response => {
+            commit("rejectReportSuccess", {
+                res: response.data.status,
+                student: data.studentName
+            })
+            commit("setDisplayStudentTableFeedback", true)
+            commit("changeExaminerStatisticsKey")
+            commit("setSubmitLoader", false)
+        }).catch(error => {
+            commit("setSubmitLoader", false)
+            commit("setReceiveReportError", error.response.data.message)
+        })
+    },
     async clearStudentReport({
         commit
     }, data) {
@@ -95,7 +127,7 @@ const actions = {
         try {
             let response = await axiosInstance.patch(`/report/staff/clear/${
                 data.report
-            }`, data.score)
+            }`, data.assessment)
             commit("clearReportSuccess", {
                 res: response.data.status,
                 student: data.studentName
@@ -105,6 +137,7 @@ const actions = {
             commit("setSubmitLoader", false)
         } catch (error) {
             commit("setSubmitLoader", false)
+            console.log(error.response)
             commit("setClearReportError", error.response.data.message)
         }
     },
