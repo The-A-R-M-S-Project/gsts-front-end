@@ -56,6 +56,8 @@
 
 <script>
 import Chart from "chart.js";
+import { mapGetters } from "vuex";
+
 export default {
   name: "report-score",
   data() {
@@ -63,17 +65,6 @@ export default {
       chartData: {
         type: "doughnut",
       },
-      statusOrder: [
-        "notSubmitted",
-        "submitted",
-        "assignedToExaminers",
-        "receivedByExaminers",
-        "clearedByExaminers",
-        "vivaDateSet",
-        "vivaComplete",
-        "pendingRevision",
-        "complete",
-      ],
     };
   },
   mounted() {
@@ -82,24 +73,19 @@ export default {
     this.createDoughnutChart("levelsChart", this.chartData);
   },
   computed: {
-    assignedStudents() {
-      let reports = this.$store.getters.assignedStudents;
-      return reports.map((assignedStudent) => {
-        return assignedStudent.report;
-      });
-    },
+    ...mapGetters(["assignedStudents"]),
     receivedReports() {
       let receivedReports = this.assignedStudents.filter((report) => {
-        return this.statusOrder.indexOf(report.status) > 1;
+        return (
+          report.status === "withExaminer" ||
+          report.status === "clearedByExaminer"
+        );
       });
       return receivedReports.length;
     },
     clearedReports() {
-      let receivedReports = this.assignedStudents.filter((report) => {
-        return this.statusOrder.indexOf(report.status) > 1;
-      });
-      let clearedReports = receivedReports.filter((report) => {
-        return this.statusOrder.indexOf(report.status) > 2;
+      let clearedReports = this.assignedStudents.filter((report) => {
+        return report.status === "clearedByExaminer";
       });
       return clearedReports.length;
     },
@@ -115,41 +101,21 @@ export default {
         return result;
       }, {});
       let statuses = {
-        notSubmitted: {
-          message: "Not submitted",
-          color: "#9E9E9E",
-        },
-        submitted: {
-          message: "Submitted",
+        assignedToExaminer: {
+          message: "Assigned to examiner",
           color: "#2196F3",
         },
-        assignedToExaminers: {
-          message: "Assigned to examiners",
-          color: "#E64A19",
+        withExaminer: {
+          message: "Received by examiner",
+          color: "teal",
         },
-        receivedByExaminers: {
-          message: "Received by examiners",
-          color: "#F4511E",
-        },
-        clearedByExaminers: {
-          message: "Cleared by examiners",
-          color: "#FF9800",
-        },
-        vivaDateSet: {
-          message: "Viva date set",
+        rejectedByExaminer: {
+          message: "Rejected by examiner",
           color: "#E91E63",
         },
-        vivaComplete: {
-          message: "Viva complete",
-          color: "#FFC107",
-        },
-        pendingRevision: {
-          message: "Pending revision",
-          color: "#FDD835",
-        },
-        complete: {
-          message: "Pending revision",
-          color: "#81C784",
+        clearedByExaminer: {
+          message: "Cleared by examiner",
+          color: "#FF9800",
         },
       };
       for (const [key, value] of Object.entries(studentsPerLevel)) {
