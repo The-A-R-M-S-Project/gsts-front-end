@@ -200,14 +200,35 @@
                       <v-card-title
                         class="text-center headline purple white--text"
                         >Previewing {{ item.student.firstName }}
-                        {{ item.student.lastName }}'s report</v-card-title
-                      >
+                        {{ item.student.lastName }}'s report
+                        <v-spacer></v-spacer>
+                        <v-btn
+                          @click="viewDetails(item)"
+                          dark
+                          large
+                          icon
+                          :loading="detailLoading"
+                        >
+                          <v-icon large dark> mdi-open-in-new </v-icon>
+                        </v-btn>
+                      </v-card-title>
                       <v-card-text class="py-3 px-6">
                         <p class="body-1">
                           <strong>Title:</strong> {{ item.title }}
                         </p>
                         <p class="body-1">
                           <strong>Abstract:</strong> {{ item.abstract }}
+                        </p>
+                        <p class="body-1">
+                          <span>
+                            <strong>Report file:</strong>
+                          </span>
+                          <span class="subheading"
+                            >&nbsp;
+                            <a :href="item.reportURL" target="_blank">
+                              {{ item.title }}
+                            </a>
+                          </span>
                         </p>
                         <p class="body-1">
                           <strong>Currently assigned examiners</strong>
