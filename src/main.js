@@ -18,7 +18,7 @@ axiosInstance.interceptors.response.use((response) => {
         return Promise.reject(response);
     }
 }, (error) => {
-    if (error.response.data.message === "Your token has expired! Please log in again.") {
+    if (error.response.data.message === "jwt expired") {
         router.push("/expired-session");
     } else {
         return Promise.reject(error);
