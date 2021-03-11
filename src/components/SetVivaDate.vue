@@ -9,11 +9,22 @@
 
       <v-card>
         <v-card-title class="text-center headline purple white--text"
-          >Set viva date</v-card-title
-        >
+          >Set viva date
+          <v-spacer></v-spacer>
+          <v-btn
+            @click="viewDetails()"
+            dark
+            large
+            icon
+            :loading="detailLoading"
+          >
+            <v-icon large dark> mdi-open-in-new </v-icon>
+          </v-btn>
+        </v-card-title>
         <v-card-text class="py-3 px-6">
           <p class="black--text body-1">
-            Set viva date for {{ selectedStudent.student.name }}
+            Set viva date for {{ selectedStudent.student.firstName }}
+            {{ selectedStudent.student.lastName }}
           </p>
           <v-alert
             v-if="displayDateTimeError"
@@ -72,9 +83,17 @@ export default {
     this.displayDateTimeError = false;
   },
   computed: {
-    ...mapGetters(["selectedStudent", "submitLoading"]),
+    ...mapGetters(["selectedStudent", "submitLoading", "detailLoading"]),
   },
   methods: {
+    async viewDetails() {
+      await this.$store.dispatch(
+        "fetchSpecificStudentReport",
+        this.selectedStudent
+      );
+      await this.$store.dispatch("setStudentDetails", this.selectedStudent);
+      this.$router.push("/student-progress");
+    },
     setVivaDate() {
       if (this.picker && this.time) {
         let date = new Date(this.picker).toISOString().substring(0, 11);
