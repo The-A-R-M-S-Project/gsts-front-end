@@ -232,69 +232,6 @@
           </v-row>
         </div>
       </v-col>
-      <!-- <v-col cols="12" class="px-sm-12 mx-sm-12">
-        <div class="text-center">
-          <h3 class="text-center text-underline">Comments</h3>
-          <hr class="mx-auto divider" />
-        </div>
-        <v-row
-          v-for="comment in reportComments"
-          :key="comment._id"
-          align="center"
-          justify="center"
-          no-gutters
-        >
-          <v-col>
-            <v-row no-gutters align="center" justify="space-between">
-              <p
-                v-if="
-                  comment.text === 'No comments have been made on this report'
-                "
-                class="grey--text"
-              >
-                {{ comment.text }}
-              </p>
-              <p v-else>
-                <span>
-                  <v-icon color="primary"> mdi-circle </v-icon>
-                </span>
-                {{ comment.text }}
-                (
-                <span class="body-2 grey--text">
-                  {{ formatDate(comment.createdAt) }}
-                </span>
-                )
-              </p>
-            </v-row>
-          </v-col>
-        </v-row>
-        <v-row align="center" justify="center" no-gutters>
-          <v-col cols="12" sm="9">
-            <div class="text-center">
-              <v-form ref="createCommentForm">
-                <v-textarea
-                  outlined
-                  v-model="comment"
-                  label="Create a comment"
-                  :rules="commentRules"
-                ></v-textarea>
-              </v-form>
-            </div>
-          </v-col>
-          <v-col cols="12" sm="3">
-            <div class="text-center">
-              <v-btn
-                color="teal"
-                dark
-                @click="createComment()"
-                :loading="detailLoading"
-              >
-                add comment
-              </v-btn>
-            </div>
-          </v-col>
-        </v-row>
-      </v-col> -->
       <v-col cols="12">
         <div class="text-center pb-12">
           <v-btn
@@ -436,8 +373,6 @@ export default {
   data() {
     return {
       submitDialog: false,
-      // comment: "",
-      // commentRules: [(comment) => !!comment || "Please write a comment!"],
       assessmentType: null,
       assessmentForm: null,
       fileSelected: false,
@@ -477,7 +412,6 @@ export default {
       "progressEvents",
       "examinerStudentDetails",
       "submitLoading",
-      // "reportComments",
       "detailLoading",
     ]),
   },
@@ -549,15 +483,6 @@ export default {
       await this.$store.dispatch("fetchAssignedStudents");
       this.$router.push("/examiner-dashboard");
     },
-    // async createComment() {
-    //   if (this.$refs.createCommentForm.validate()) {
-    //     await this.$store.dispatch("createComment", {
-    //       report: this.examinerStudentDetails._id,
-    //       comment: { text: this.comment },
-    //     });
-    //     this.$router.go();
-    //   }
-    // },
     formatDate(timestamp) {
       let monthDay = new Date(timestamp);
       return `${monthDay.toLocaleTimeString(
