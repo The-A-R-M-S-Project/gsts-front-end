@@ -19,6 +19,7 @@ const state = {
     studentsTableMessage: '',
     vivaDateError: null,
     studentsTableKey: 0,
+    examinerAssessments: [],
     vivaScoreError: null,
     progressEvents: {
         notSubmitted: {
@@ -133,6 +134,9 @@ const mutations = {
             payload.student
         }'s report`
     },
+    setExaminerAssessments(state, payload) {
+        state.examinerAssessments = payload
+    },
     setDisplayStudentTableFeedback(state, payload) {
         state.displayStudentTableFeedback = payload
     },
@@ -187,6 +191,21 @@ const actions = {
         } catch (error) {
             commit("setLoader", false)
             commit("fetchReportsError", error.response.data.message)
+        }
+    },
+    async fetchExaminerAssessment({
+        commit
+    }, reportID) {
+        let accessToken = localStorage.getItem("jwt");
+        axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+        try {
+            let response = await axiosInstance.get(`/report/staff/examiner/status/${reportID}`)
+            let clearedReportAssessments = response.data.examinerReports.filter(report => {
+                return report.status === "clearedByExaminer"
+            })
+            commit("setExaminerAssessments", clearedReportAssessments)
+        } catch (error) {
+            commit("fetchExaminerError", error.response.data.message)
         }
     },
     async requestResubmission({
@@ -359,6 +378,7 @@ const getters = {
     reportComments: (state) => state.reportComments,
     assignExaminerMessage: (state) => state.assignExaminerMessage,
     requestResubmissionError: (state) => state.requestResubmissionError,
+    examinerAssessments: (state) => state.examinerAssessments,
     assignedExaminer: (state) => state.assignedExaminer,
     requestResubmissionMessage: (state) => state.requestResubmissionMessage,
     displayStudentTableFeedback: (state) => state.displayStudentTableFeedback,

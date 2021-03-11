@@ -215,12 +215,22 @@ export default {
         "fetchSpecificStudentReport",
         this.studentReport
       );
+      await this.$store.dispatch(
+        "fetchExaminerAssessment",
+        this.studentReport._id
+      );
+      console.log(this.examinerAssessments);
       await this.$store.dispatch("setStudentDetails", this.studentReport);
       this.e6 = this.progressEvents[`${this.studentReport.status}`].step;
     }
   },
   computed: {
-    ...mapGetters(["progressEvents", "user", "studentReport"]),
+    ...mapGetters([
+      "progressEvents",
+      "user",
+      "studentReport",
+      "examinerAssessments",
+    ]),
   },
   methods: {
     submitReport() {

@@ -466,7 +466,7 @@ export default {
           literature_Citation: this.literatureCitation,
           overall_Presentation: this.overallPresentation,
           corrections: this.corrections,
-          examinerScore: totalScore,
+          examinerScore: this.totalScore,
         };
       } else if (this.assessmentType === "upload") {
         let formData = new FormData();
