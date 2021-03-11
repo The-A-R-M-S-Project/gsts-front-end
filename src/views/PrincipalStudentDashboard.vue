@@ -18,6 +18,15 @@
               <StudentProgress class="mb-6" />
             </v-col>
             <v-col
+              v-if="
+                (user.role === 'principal' || user.role === 'dean') &&
+                studentReport.status !== 'notSubmitted'
+              "
+              cols="12"
+            >
+              <ExaminerAssessment />
+            </v-col>
+            <v-col
               v-if="user.role === 'principal' || user.role === 'dean'"
               cols="12"
             >
@@ -40,6 +49,7 @@ import DeanNav from "@/components/DeanNav.vue";
 import ExaminerNav from "@/components/ExaminersNavbar.vue";
 import MobileDrawer from "@/components/MobileDrawer.vue";
 import StudentProgress from "@/components/StudentProgress.vue";
+import ExaminerAssessment from "@/components/ExaminerAssessment.vue";
 import Resubmission from "@/components/Resubmission.vue";
 import StudentsNotifications from "@/components/StudentsNotifications.vue";
 import Footer from "@/components/Footer.vue";
@@ -60,6 +70,7 @@ export default {
     DeanNav,
     ExaminerNav,
     MobileDrawer,
+    ExaminerAssessment,
     StudentProgress,
     Resubmission,
     StudentsNotifications,

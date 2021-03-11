@@ -280,7 +280,7 @@
                 </v-col>
               </v-row>
               <v-row
-                v-else-if="item.status === 'clearedByExaminer'"
+                v-else-if="item.status === 'clearedByExaminers'"
                 align="center"
                 justify="center"
                 no-gutters
@@ -391,11 +391,11 @@ export default {
       selectedDepartment: null,
     };
   },
-  created() {
+  async created() {
     if (this.user.role === "dean") {
-      this.$store.dispatch("fetchDepartments", this.user.school);
+      await this.$store.dispatch("fetchDepartments", this.user.school);
     }
-    this.$store.dispatch("fetchReports");
+    await this.$store.dispatch("fetchReports");
   },
   mounted() {
     this.$store.dispatch("setDisplayStudentTableFeedback", false);
@@ -471,7 +471,6 @@ export default {
       this.$store.dispatch("fetchDepartments", this.selectedSchool._id);
     },
     itemClicked(value) {
-      console.log("Selected student: ", value);
       const index = this.expanded.indexOf(value);
       if (index === -1) {
         this.expanded.push(value);
@@ -501,7 +500,7 @@ export default {
     callToAction(status) {
       if (
         status === "submitted" ||
-        status === "clearedByExaminer" ||
+        status === "clearedByExaminers" ||
         status === "vivaDateSet"
       )
         return true;

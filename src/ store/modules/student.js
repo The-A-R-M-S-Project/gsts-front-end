@@ -80,7 +80,6 @@ const actions = {
             commit("setDetailLoader", false)
         } catch (error) {
             commit("setDetailLoader", false);
-            console.log(error.response)
             commit("fetchStudentDetailsError", error.response.data.message)
         }
     },
