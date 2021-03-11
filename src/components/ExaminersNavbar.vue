@@ -115,7 +115,7 @@ export default {
     checkForUpdates() {
       for (let i = 0; i < this.assignedStudents.length; i++) {
         if (
-          this.assignedStudents[i].status === "submitted" ||
+          this.assignedStudents[i].status === "assignedToExaminer" ||
           this.assignedStudents[i].status === "withExaminer"
         ) {
           return true;

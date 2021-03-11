@@ -110,7 +110,7 @@ export default {
       for (let i = 0; i < this.reports.length; i++) {
         if (
           this.reports[i].status === "submitted" ||
-          this.reports[i].status === "clearedByExaminer" ||
+          this.reports[i].status === "clearedByExaminers" ||
           this.reports[i].status === "vivaDateSet"
         ) {
           return true;
