@@ -19,7 +19,13 @@
       </div>
       <div v-if="studentReport" class="pa-1">
         <span class="font-weight-bold">Report</span>
-        : {{ studentReport.title }}
+        :
+        <span class="subheading"
+          >&nbsp;
+          <a :href="studentReport.reportURL" target="_blank">
+            {{ studentReport.title }}
+          </a>
+        </span>
       </div>
       <!-- <div class="pa-1">
         <span class="font-weight-bold">School</span>
