@@ -85,15 +85,7 @@
           <v-alert
             dark
             dismissible
-            v-if="studentReport.status !== 'notSubmitted'"
-            color="warning"
-            class="text-center"
-            >Already submitted report!</v-alert
-          >
-          <v-alert
-            dark
-            dismissible
-            v-else-if="displaySubmitReportMessage"
+            v-if="displaySubmitReportMessage"
             color="success"
             class="text-center"
             >{{ reportSubmitMessage }}</v-alert
@@ -123,10 +115,6 @@
               >&nbsp; Report created</span
             >
             <span v-else>&nbsp;Report not created</span>
-          </p>
-          <p>
-            <span class="body-1 font-weight-light">Due Date:</span>
-            <span class="subheading">&nbsp;-</span>
           </p>
           <p v-if="studentReport.submittedAt">
             <span class="body-1 font-weight-light">Submitted report:</span>
