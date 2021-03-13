@@ -20,7 +20,7 @@
             <v-col
               v-if="
                 (user.role === 'principal' || user.role === 'dean') &&
-                studentReport.status !== 'notSubmitted'
+                progressEvents[`${studentReport.status}`].step > 3
               "
               cols="12"
             >
@@ -63,7 +63,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["isLoading", "user", "studentReport"]),
+    ...mapGetters(["isLoading", "user", "studentReport", "progressEvents"]),
   },
   components: {
     Navigation,

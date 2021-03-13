@@ -211,8 +211,7 @@
                       @click="viewReport(item)"
                       :loading="detailLoading"
                       color="primary"
-                      small
-                      >Assess report</v-btn
+                      >Assess</v-btn
                     >
                   </div>
                   <div

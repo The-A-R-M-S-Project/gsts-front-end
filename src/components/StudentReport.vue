@@ -5,8 +5,8 @@
     </div>
     <v-row align="center" justify="center">
       <v-col cols="12">
-        <v-row no-gutters>
-          <v-col>
+        <v-row no-gutters class="px-sm-12">
+          <v-col cols="12" sm="5">
             <div class="text-center">
               <v-progress-circular
                 :rotate="-90"
@@ -26,7 +26,7 @@
               </v-progress-circular>
             </div>
           </v-col>
-          <v-col>
+          <v-col cols="12" sm="7">
             <div class="pt-3" :class="{ 'px-6': $vuetify.breakpoint.xs }">
               <div class="text-left body-2 mx-auto">
                 <div class="pa-1">
@@ -43,7 +43,7 @@
                 </div>
                 <div class="pa-1">
                   <span class="font-weight-bold">File:</span>
-                  <span class="subheading">
+                  <span class="title">
                     <a :href="examinerStudentDetails.reportURL" target="_blank">
                       {{ examinerStudentDetails.title }}
                     </a>
