@@ -97,7 +97,7 @@
                   <v-card-text class="pa-3">
                     <v-row>
                       <v-col>
-                        <div class="px-1 py-2">
+                        <div v-if="student.program" class="px-1 py-2">
                           <span class="font-weight-bold">Programme</span> :
                           {{ student.program.name }}
                         </div>
@@ -145,7 +145,8 @@ export default {
       profilePic: null,
     };
   },
-  created() {
+  async created() {
+    await this.$store.dispatch("fetchLoggedInStudentDetails");
     this.$store.dispatch("displayProfileEditMessage", false);
   },
   updated() {

@@ -164,6 +164,16 @@ const actions = {
             commit("fetchLoggedInUserError", error.response.data.message)
         }
     },
+    async fetchLoggedInStudent({commit}) {
+        let accessToken = localStorage.getItem("jwt");
+        axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+        try {
+            let response = await axiosInstance.get("/student/me")
+            commit("SetUser", response.data);
+        } catch (error) {
+            commit("fetchLoggedInUserError", error.response.data.message)
+        }
+    },
     async logout({commit}) {
         commit("isLoading", true);
         if (localStorage.getItem("jwt") != null) {

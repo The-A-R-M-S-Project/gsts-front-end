@@ -292,6 +292,22 @@ const actions = {
             commit("setAssignExaminerError", error.response.data.message)
         }
     },
+    async addVivaCommitteeMember({
+        commit
+    }, data) {
+        commit("setSubmitLoader", true)
+        let accessToken = localStorage.getItem("jwt");
+        axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+        try {
+            await axiosInstance.patch(`/viva/staff/addVivaCommitteeMember/${
+                data.reportID
+            }`, data.member)
+            commit("setSubmitLoader", false)
+        } catch (error) {
+            commit("setSubmitLoader", false)
+            commit("setVivaDateError", error.response.data.message)
+        }
+    },
     async setVivaDate({
         commit
     }, data) {

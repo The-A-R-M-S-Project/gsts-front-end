@@ -8,7 +8,7 @@
       <v-col cols="12" md="4">
         <v-row>
           <v-col>
-            <div v-if="studentReport" class="text-center">
+            <div v-if="studentReport.status" class="text-center">
               <v-progress-circular
                 :rotate="-90"
                 size="250"
@@ -207,24 +207,22 @@ export default {
   async created() {
     if (this.user.role === "student") {
       await this.$store.dispatch("fetchLoggedInStudentDetails");
-      if (this.studentReport.title) {
-        this.e6 = this.progressEvents[`${this.studentReport.status}`].step;
-      }
-    } else {
-      await this.$store.dispatch(
-        "fetchSpecificStudentReport",
-        this.studentReport
-      );
+    }
+    if (this.studentReport.title) {
+      this.e6 = this.progressEvents[`${this.studentReport.status}`].step;
+    }
+  },
+  async mounted() {
+    if (this.user.role !== "student" && this.studentReport.status) {
       await this.$store.dispatch(
         "fetchExaminerAssessment",
         this.studentReport._id
       );
-      await this.$store.dispatch("setStudentDetails", this.studentReport);
       this.e6 = this.progressEvents[`${this.studentReport.status}`].step;
     }
   },
   computed: {
-    ...mapGetters(["progressEvents", "user", "studentReport"]),
+    ...mapGetters(["progressEvents", "user", "studentReport", "student"]),
   },
   methods: {
     submitReport() {

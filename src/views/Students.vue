@@ -25,6 +25,9 @@ import { mapGetters } from "vuex";
 import Footer from "@/components/Footer.vue";
 
 export default {
+  async created() {
+    await this.$store.dispatch("fetchLoggedInStaff");
+  },
   computed: {
     ...mapGetters(["user"]),
   },

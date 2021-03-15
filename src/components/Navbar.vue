@@ -88,6 +88,8 @@
 </template>
 <script>
 import SelectSchool from "./SelectSchool.vue";
+import { mapGetters } from "vuex";
+
 export default {
   name: "menu-bar",
   data() {
@@ -97,15 +99,7 @@ export default {
     };
   },
   computed: {
-    isLoading() {
-      return this.$store.getters.isLoading;
-    },
-    reports() {
-      return this.$store.getters.reports;
-    },
-    user() {
-      return this.$store.getters.user;
-    },
+    ...mapGetters(["isLoading", "reports", "user"]),
     checkForUpdates() {
       for (let i = 0; i < this.reports.length; i++) {
         if (

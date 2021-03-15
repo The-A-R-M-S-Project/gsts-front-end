@@ -361,9 +361,6 @@ export default {
           });
       }
     },
-    showProgram() {
-      console.log(this.program);
-    },
   },
 };
 </script>

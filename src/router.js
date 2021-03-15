@@ -96,7 +96,7 @@ let router = new Router({
                 is_principal: true
             }
         }, {
-            path: "/student-progress",
+            path: "/student-progress/:studentID",
             name: "student-progress",
             component: lazyLoad('PrincipalStudentDashboard'),
             meta: {

@@ -346,7 +346,7 @@ export default {
     },
     async viewDetails(student) {
       this.$store.dispatch("setStaffStudentDetails", student.report);
-      this.$router.push("/student-progress");
+      this.$router.push(`/student-progress/${student.report.student._id}`);
     },
     async viewReport(report) {
       await this.$store.dispatch("setExaminerStudentDetails", report.report);

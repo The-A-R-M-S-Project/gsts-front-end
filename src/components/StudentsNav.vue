@@ -5,10 +5,7 @@
         class="white--text font-weight-bold text-capitalize title"
         >GSTS</v-toolbar-title
       >
-      <template v-if="user.role === 'principal'">
-        <v-spacer></v-spacer>
-      </template>
-      <template v-if="user.role === 'student'">
+      <template>
         <v-row justify="end" align="center">
           <v-col md="auto" sm="2">
             <v-btn
@@ -62,15 +59,7 @@
           <v-list>
             <v-list-item>
               <v-list-item-title>
-                <v-btn
-                  text
-                  class="text-capitalize"
-                  :to="
-                    user.role === 'student'
-                      ? 'student-profile'
-                      : '/under-construction'
-                  "
-                >
+                <v-btn text class="text-capitalize" to="student-profile">
                   <v-icon>mdi-account</v-icon>
                   <span>&nbsp;Profile</span>
                 </v-btn>
@@ -96,21 +85,20 @@
   </nav>
 </template>
 <script>
+import { mapGetters } from "vuex";
 export default {
-  name: "dean-navbar",
+  name: "principal-navbar",
   data() {
     return {
       loading: false,
       closeOnContentClick: true,
     };
   },
+  async created() {
+    await this.$store.dispatch("fetchLoggedInStudent");
+  },
   computed: {
-    isLoading() {
-      return this.$store.getters.isLoading;
-    },
-    user() {
-      return this.$store.getters.user;
-    },
+    ...mapGetters(["isLoading"]),
   },
   methods: {
     async logOut() {

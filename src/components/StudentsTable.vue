@@ -483,10 +483,8 @@ export default {
       console.log(value.item);
       this.$store.dispatch("setSelectedStudent", value.item);
     },
-    async viewDetails(student) {
-      await this.$store.dispatch("fetchSpecificStudentReport", student);
-      await this.$store.dispatch("setStudentDetails", student);
-      this.$router.push("/student-progress");
+    async viewDetails(report) {
+      this.$router.push(`/student-progress/${report.student._id}`);
     },
     formatDate(date) {
       if (date) {

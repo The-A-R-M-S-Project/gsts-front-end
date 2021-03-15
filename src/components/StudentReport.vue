@@ -474,7 +474,6 @@ export default {
         formData.append("scannedAsssesmentform", this.assessmentForm);
         finalAssessment = formData;
       }
-      console.log(this.examinerStudentDetails);
       await this.$store.dispatch("clearStudentReport", {
         report: this.examinerStudentDetails._id,
         assessment: finalAssessment,

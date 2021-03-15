@@ -59,7 +59,7 @@ export default {
       notifications: [],
     };
   },
-  async created() {
+  async mounted() {
     await this.$store.dispatch("fetchReportComments", this.studentReport._id);
     if (this.studentReport.submittedAt) {
       this.notifications.push({
@@ -71,8 +71,6 @@ export default {
         title: "You've successfully submitted your report!",
       });
     }
-  },
-  mounted() {
     if (this.reportComments.length > 0) {
       let comments = this.reportComments;
       comments.sort((a, b) => {

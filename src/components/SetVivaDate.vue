@@ -9,7 +9,7 @@
 
       <v-card>
         <v-card-title class="text-center headline purple white--text"
-          >Set viva date
+          >Set viva date & committee
           <v-spacer></v-spacer>
           <v-btn
             @click="viewDetails()"
@@ -35,7 +35,7 @@
             >Please select a date and time</v-alert
           >
           <v-row>
-            <v-col>
+            <v-col cols="12" sm="6">
               <v-date-picker
                 v-model="picker"
                 full-width
@@ -44,13 +44,44 @@
                 type="date"
               ></v-date-picker>
             </v-col>
-            <v-col>
+            <v-col cols="12" sm="6">
               <div class="text-center">
                 <v-time-picker
                   v-model="time"
                   color="purple"
                   :width="$vuetify.breakpoint.xs ? '230' : '290'"
                 ></v-time-picker>
+              </div>
+            </v-col>
+            <v-col cols="12" class="px-sm-12">
+              <h3 class="text-center black--text">Add Viva Committee Member</h3>
+              <!-- <v-list>
+                TODO: Loop through already existing viva committee members and display them
+                <v-list-item>
+                  <v-icon color="primary">mdi-circle</v-icon>
+                  &nbsp; Mukasa Joseph (Uganda Christian University)
+                </v-list-item>
+                <v-list-item>
+                  <v-icon color="primary">mdi-circle</v-icon>
+                  &nbsp; Ibrahim Ssenganda (Uganda Parliament)
+                </v-list-item>
+              </v-list> -->
+              <v-form ref="addVivaCommitteeMemberForm" class="px-sm-12">
+                <v-text-field
+                  v-model="name"
+                  label="Name"
+                  :rules="required"
+                ></v-text-field>
+                <v-text-field
+                  v-model="affiliation"
+                  label="Affiliation"
+                  :rules="required"
+                ></v-text-field>
+              </v-form>
+              <div class="text-center">
+                <v-btn @click="addVivaCommitteeMember" color="primary">
+                  Add
+                </v-btn>
               </div>
             </v-col>
           </v-row>
@@ -74,9 +105,12 @@ export default {
   data() {
     return {
       dialog: false,
+      name: "",
+      affiliation: "",
       picker: null,
       time: null,
       displayDateTimeError: false,
+      required: [(field) => !!field || "This field is required!"],
     };
   },
   mounted() {
@@ -87,28 +121,33 @@ export default {
   },
   methods: {
     async viewDetails() {
-      await this.$store.dispatch(
-        "fetchSpecificStudentReport",
-        this.selectedStudent
+      this.$router.push(
+        `/student-progress/${this.selectedStudent.student._id}`
       );
-      await this.$store.dispatch("setStudentDetails", this.selectedStudent);
-      this.$router.push("/student-progress");
     },
-    setVivaDate() {
+    async addVivaCommitteeMember() {
+      if (this.$refs.addVivaCommitteeMemberForm.validate()) {
+        await this.$store.dispatch("addVivaCommitteeMember", {
+          reportID: this.selectedStudent._id,
+          member: {
+            //TODO: Feed in appropriate fields
+          },
+        });
+        await this.$store.dispatch("fetchReports");
+        this.$store.dispatch("changeStudentsTableKey");
+      }
+    },
+    async setVivaDate() {
       if (this.picker && this.time) {
         let date = new Date(this.picker).toISOString().substring(0, 11);
         let dateTime = `${date}${this.time}:00.000+03:00`;
-        this.$store
-          .dispatch("setVivaDate", {
-            reportID: this.selectedStudent._id,
-            studentName: this.selectedStudent.student.name,
-            vivaDate: { vivaDate: dateTime },
-          })
-          .then(() => {
-            this.$store.dispatch("fetchReports").then(() => {
-              this.$store.dispatch("changeStudentsTableKey");
-            });
-          });
+        await this.$store.dispatch("setVivaDate", {
+          reportID: this.selectedStudent._id,
+          studentName: this.selectedStudent.student.name,
+          vivaDate: { vivaDate: dateTime },
+        });
+        await this.$store.dispatch("fetchReports");
+        this.$store.dispatch("changeStudentsTableKey");
         this.dialog = false;
       } else {
         this.displayDateTimeError = true;

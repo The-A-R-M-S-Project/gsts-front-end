@@ -62,6 +62,19 @@ export default {
       loading: false,
     };
   },
+  async created() {
+    await this.$store.dispatch("fetchLoggedInStaff");
+    await this.$store.dispatch(
+      "fetchSpecificStudentReport",
+      this.$route.params.studentID
+    );
+    await this.$store.dispatch(
+      "fetchExaminerAssessment",
+      this.studentReport._id
+    );
+    await this.$store.dispatch("setStudentDetails", this.studentReport);
+    this.e6 = this.progressEvents[`${this.studentReport.status}`].step;
+  },
   computed: {
     ...mapGetters(["isLoading", "user", "studentReport", "progressEvents"]),
   },

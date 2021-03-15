@@ -17,9 +17,9 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "student-submission",
-  // mounted() {
-  //   console.log(this.studentReport.title);
-  // },
+  async created() {
+    await this.$store.dispatch("fetchLoggedInStudentDetails");
+  },
   computed: {
     ...mapGetters(["student", "reportSectionKey", "studentReport"]),
   },
