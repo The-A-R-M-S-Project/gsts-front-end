@@ -2,15 +2,44 @@
   <div class="text-center">
     <v-dialog v-model="dialog" width="500">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn v-bind="attrs" v-on="on" :loading="submitLoading" color="primary">Set viva score</v-btn>
+        <v-btn v-bind="attrs" v-on="on" :loading="submitLoading" color="primary"
+          >Set viva score</v-btn
+        >
       </template>
 
       <v-card>
-        <v-card-title class="text-center headline purple white--text">Set viva score</v-card-title>
+        <v-card-title class="text-center headline purple white--text"
+          >Set viva score
+          <v-spacer></v-spacer>
+          <v-btn
+            @click="viewDetails()"
+            dark
+            large
+            icon
+            :loading="detailLoading"
+          >
+            <v-icon large dark> mdi-open-in-new </v-icon>
+          </v-btn>
+        </v-card-title>
         <v-card-text class="py-3 px-6">
-          <p class="body-1">Set viva score for {{selectedStudent.student.name}}</p>
+          <p class="body-1">
+            Set viva score for {{ selectedStudent.student.firstName }}
+            {{ selectedStudent.student.lastName }}
+          </p>
+          <p>
+            <v-icon color="primary">mdi-information-outline</v-icon>
+            By setting a viva examination score for
+            {{ selectedStudent.student.firstName }}
+            {{ selectedStudent.student.lastName }}, you acknowledge that this
+            student has completed their viva examination.
+          </p>
           <v-form ref="vivaScore">
-            <v-text-field v-model="score" label="Set score" :rules="scoreRules" type="number"></v-text-field>
+            <v-text-field
+              v-model="score"
+              label="Set score"
+              :rules="scoreRules"
+              type="number"
+            ></v-text-field>
           </v-form>
         </v-card-text>
         <v-divider></v-divider>
@@ -25,11 +54,13 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "SetVivaDate",
   data() {
     return {
       dialog: false,
+
       score: null,
       scoreRules: [
         (score) => !!score || "A score is required",
@@ -38,27 +69,21 @@ export default {
     };
   },
   computed: {
-    selectedStudent() {
-      return this.$store.getters.selectedStudent;
-    },
-    submitLoading() {
-      return this.$store.getters.submitLoading;
-    },
+    ...mapGetters(["detailLoading", "selectedStudent", "submitLoading"]),
   },
   methods: {
-    setVivaScore() {
+    viewDetails() {
+      this.$router.push(`/student-progress/${this.selectedStudent._id}`);
+    },
+    async setVivaScore() {
       if (this.$refs.vivaScore.validate()) {
-        this.$store
-          .dispatch("setVivaScore", {
-            reportID: this.selectedStudent._id,
-            studentName: this.selectedStudent.student.name,
-            vivaScore: { vivaScore: this.score },
-          })
-          .then(() => {
-            this.$store.dispatch("fetchReports").then(() => {
-              this.$store.dispatch("changeStudentsTableKey");
-            });
-          });
+        await this.$store.dispatch("setVivaScore", {
+          reportID: this.selectedStudent._id,
+          studentName: this.selectedStudent.student.name,
+          vivaScore: { vivaScore: this.score },
+        });
+        await this.$store.dispatch("fetchReports");
+        this.$store.dispatch("changeStudentsTableKey");
         this.dialog = false;
       }
     },

@@ -55,7 +55,7 @@ const state = {
         vivaDateSet: {
             value: 56,
             message: "Viva date set",
-            color: "pink",
+            color: "orange lighten-2",
             step: 5
         },
         vivaComplete: {
@@ -305,6 +305,7 @@ const actions = {
             commit("setSubmitLoader", false)
         } catch (error) {
             commit("setSubmitLoader", false)
+            console.log(error.response.data.message)
             commit("setVivaDateError", error.response.data.message)
         }
     },

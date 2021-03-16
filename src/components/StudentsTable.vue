@@ -156,7 +156,7 @@
         progressEvents[`${item.status}`].message
       }}</template>
       <template v-slot:[getItemVivaDate]="{ item }">{{
-        formatDate(item.vivaDate)
+        formatDate(item.viva)
       }}</template>
       <template v-slot:[getItemAction]="{ item }">
         <v-icon small v-if="callToAction(item.status)" color="pink"
@@ -166,7 +166,11 @@
       <template v-slot:expanded-item="{ headers, item }">
         <td :colspan="headers.length">
           <v-row align="center" justify="center">
-            <v-col cols="12" sm="9" md="10">
+            <v-col
+              cols="12"
+              sm="9"
+              :md="item.status === 'vivaDateSet' ? '8' : '10'"
+            >
               <v-progress-linear
                 :value="progressEvents[`${item.status}`].value"
                 :color="progressEvents[`${item.status}`].color"
@@ -179,7 +183,11 @@
                 >
               </v-progress-linear>
             </v-col>
-            <v-col cols="12" sm="3" md="2">
+            <v-col
+              cols="12"
+              sm="3"
+              :md="item.status === 'vivaDateSet' ? '4' : '2'"
+            >
               <v-row
                 v-if="
                   item.status === 'submitted' ||
@@ -291,9 +299,13 @@
                 v-else-if="item.status === 'vivaDateSet'"
                 align="center"
                 justify="center"
-                no-gutters
               >
-                <SetVivaScore />
+                <v-col>
+                  <SetVivaCommittee />
+                </v-col>
+                <v-col>
+                  <SetVivaScore />
+                </v-col>
               </v-row>
               <v-row v-else align="center" justify="center" no-gutters>
                 <div class="text-center">
@@ -316,6 +328,7 @@
 <script>
 import AssignExaminer from "@/components/AssignExaminer.vue";
 import SetVivaDate from "@/components/SetVivaDate.vue";
+import SetVivaCommittee from "@/components/SetVivaCommittee.vue";
 import SetVivaScore from "@/components/SetVivaScore.vue";
 import { mapGetters } from "vuex";
 export default {
@@ -354,7 +367,7 @@ export default {
           value: "student.program.name",
         },
         { text: "STATUS", value: "status" },
-        { text: "VIVA DATE", value: "vivaDate" },
+        { text: "VIVA DATE", value: "viva.vivaEvent.eventDate" },
         { value: "data-table-expand" },
       ],
       sortOrder: [
@@ -454,7 +467,7 @@ export default {
       return `item.status`;
     },
     getItemVivaDate() {
-      return `item.vivaDate`;
+      return `item.viva.vivaEvent.eventDate`;
     },
     getItemAction() {
       return `item.action`;
@@ -471,6 +484,7 @@ export default {
       this.$store.dispatch("fetchDepartments", this.selectedSchool._id);
     },
     itemClicked(value) {
+      console.log(value);
       const index = this.expanded.indexOf(value);
       if (index === -1) {
         this.expanded.push(value);
@@ -485,9 +499,9 @@ export default {
     viewDetails(report) {
       this.$router.push(`/student-progress/${report._id}`);
     },
-    formatDate(date) {
-      if (date) {
-        let newFormat = new Date(date);
+    formatDate(viva) {
+      if (viva) {
+        let newFormat = new Date(viva.vivaEvent.eventDate);
         let newDate = `${newFormat}`.substring(4, 15);
         return newDate.replace(/ /g, " - ");
       } else {
@@ -540,6 +554,7 @@ export default {
   components: {
     AssignExaminer,
     SetVivaDate,
+    SetVivaCommittee,
     SetVivaScore,
   },
 };

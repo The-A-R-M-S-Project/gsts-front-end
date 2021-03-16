@@ -122,9 +122,6 @@
                   formatDate(studentReport.vivaDate)
                 }}</span>
               </div>
-              <div class="body-2">
-                <strong>Location:</strong> Cedat conference hall
-              </div>
               <!-- This is supposed to be the date when the viva date was set by principal/dean -->
               <div class="caption mt-3 font-weight-light">
                 {{ formatDate(studentReport.examinerScoreDate) }}

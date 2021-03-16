@@ -9,7 +9,7 @@
 
       <v-card>
         <v-card-title class="text-center headline purple white--text"
-          >Set viva date & committee
+          >Set viva date
           <v-spacer></v-spacer>
           <v-btn
             @click="viewDetails()"
@@ -53,37 +53,6 @@
                 ></v-time-picker>
               </div>
             </v-col>
-            <v-col cols="12" class="px-sm-12">
-              <h3 class="text-center black--text">Add Viva Committee Member</h3>
-              <!-- <v-list>
-                TODO: Loop through already existing viva committee members and display them
-                <v-list-item>
-                  <v-icon color="primary">mdi-circle</v-icon>
-                  &nbsp; Mukasa Joseph (Uganda Christian University)
-                </v-list-item>
-                <v-list-item>
-                  <v-icon color="primary">mdi-circle</v-icon>
-                  &nbsp; Ibrahim Ssenganda (Uganda Parliament)
-                </v-list-item>
-              </v-list> -->
-              <v-form ref="addVivaCommitteeMemberForm" class="px-sm-12">
-                <v-text-field
-                  v-model="name"
-                  label="Name"
-                  :rules="required"
-                ></v-text-field>
-                <v-text-field
-                  v-model="affiliation"
-                  label="Affiliation"
-                  :rules="required"
-                ></v-text-field>
-              </v-form>
-              <div class="text-center">
-                <v-btn @click="addVivaCommitteeMember" color="primary">
-                  Add
-                </v-btn>
-              </div>
-            </v-col>
           </v-row>
         </v-card-text>
         <v-divider></v-divider>
@@ -106,11 +75,11 @@ export default {
     return {
       dialog: false,
       name: "",
+      email: "",
       affiliation: "",
       picker: null,
       time: null,
       displayDateTimeError: false,
-      required: [(field) => !!field || "This field is required!"],
     };
   },
   mounted() {
@@ -122,18 +91,6 @@ export default {
   methods: {
     viewDetails() {
       this.$router.push(`/student-progress/${this.selectedStudent._id}`);
-    },
-    async addVivaCommitteeMember() {
-      if (this.$refs.addVivaCommitteeMemberForm.validate()) {
-        await this.$store.dispatch("addVivaCommitteeMember", {
-          reportID: this.selectedStudent._id,
-          member: {
-            //TODO: Feed in appropriate fields
-          },
-        });
-        await this.$store.dispatch("fetchReports");
-        this.$store.dispatch("changeStudentsTableKey");
-      }
     },
     async setVivaDate() {
       if (this.picker && this.time) {
