@@ -52,12 +52,12 @@ const mutations = {
     }
 };
 const actions = {
-    async setStudentDetails({
+    async fetchStudentDetails({
         commit
     }, data) {
         commit("setDetailLoader", true);
         await axiosInstance.get(`/student/${
-            data.student._id
+            data
         }`).then(response => {
             commit("studentDetails", response.data);
             commit("setDetailLoader", false)
@@ -78,6 +78,7 @@ const actions = {
             commit("setDetailLoader", false)
         } catch (error) {
             commit("setDetailLoader", false);
+            console.log(error.response.data.message)
             commit("fetchStudentDetailsError", error.response.data.message)
         }
     },

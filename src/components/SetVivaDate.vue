@@ -120,10 +120,8 @@ export default {
     ...mapGetters(["selectedStudent", "submitLoading", "detailLoading"]),
   },
   methods: {
-    async viewDetails() {
-      this.$router.push(
-        `/student-progress/${this.selectedStudent.student._id}`
-      );
+    viewDetails() {
+      this.$router.push(`/student-progress/${this.selectedStudent._id}`);
     },
     async addVivaCommitteeMember() {
       if (this.$refs.addVivaCommitteeMemberForm.validate()) {

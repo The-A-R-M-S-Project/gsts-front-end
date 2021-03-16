@@ -23,19 +23,19 @@ export default {
     this.createChart("donutChart", this.chartData);
   },
   computed: {
-    ...mapGetters(["vivaData"]),
+    ...mapGetters(["vivaStats"]),
   },
   methods: {
     createChart(chartId, chartData) {
       Chart.defaults.global.defaultFontFamily = "Comfortaa";
       const ctx = document.getElementById(chartId);
-      const myChart = new Chart(ctx, {
+      new Chart(ctx, {
         type: chartData.type,
         data: {
           datasets: [
             {
               label: "Viva Status",
-              //   data: [this.vivaData.done, this.vivaData.pending],
+              //   data: [this.vivaStats.done, this.vivaStats.pending],
               data: [10, 8],
               backgroundColor: ["#ffffff", "#263238"],
               borderWidth: [0, 0, 0, 0],

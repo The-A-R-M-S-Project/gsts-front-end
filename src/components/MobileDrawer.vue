@@ -116,6 +116,8 @@
 
 <script>
 import SelectSchool from "@/components/SelectSchool.vue";
+import { mapGetters } from "vuex";
+
 export default {
   name: "mobile-drawer",
   data() {
@@ -125,18 +127,7 @@ export default {
     };
   },
   computed: {
-    isLoading() {
-      return this.$store.getters.isLoading;
-    },
-    user() {
-      return this.$store.getters.user;
-    },
-    reports() {
-      return this.$store.getters.reports;
-    },
-    assignedStudents() {
-      return this.$store.getters.assignedStudents;
-    },
+    ...mapGetters(["isLoading", "user", "reports", "assignedStudents"]),
     checkForUpdates() {
       let reports = [];
       if (this.user.role === "examiner") {
@@ -147,7 +138,7 @@ export default {
       for (let i = 0; i < reports.length; i++) {
         if (
           reports[i].status === "submitted" ||
-          reports[i].status === "clearedByExaminer" ||
+          reports[i].status === "clearedByExaminers" ||
           reports[i].status === "vivaDateSet"
         ) {
           return true;

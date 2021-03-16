@@ -87,7 +87,7 @@
 <script>
 import { mapGetters } from "vuex";
 export default {
-  name: "principal-navbar",
+  name: "StudentsNavbar",
   data() {
     return {
       loading: false,

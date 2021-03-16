@@ -13,17 +13,43 @@
 </template>
 <script>
 import Chart from "chart.js";
+import { mapGetters } from "vuex";
+
 export default {
-  computed: {
-    performance() {
-      return this.$store.getters.performanceStats;
-    },
+  name: "PerformanceStatus",
+  data() {
+    return {
+      selectedSchool: null,
+    };
   },
-  mounted() {
-    let keys = this.performance.map((obj) => {
+  async created() {
+    await this.$store.dispatch("fetchLoggedInStaff");
+    if (this.user.role === "dean") {
+      await this.$store.dispatch("fetchDeanDashboardStats");
+    } else {
+      await this.$store.dispatch("fetchSchools");
+      if (this.$route.path === "/ECE-dashboard") {
+        this.selectedSchool = this.schools.find((school) => {
+          return school.name === "School of Engineering";
+        });
+      } else if (this.$route.path === "/BE-dashboard") {
+        this.selectedSchool = this.schools.find((school) => {
+          return school.name === "School of Built Environment";
+        });
+      } else if (this.$route.path === "/FA-dashboard") {
+        this.selectedSchool = this.schools.find((school) => {
+          return school.name === "School of Industrial and Fine Arts";
+        });
+      }
+      await this.$store.dispatch(
+        "fetchDashboardStats",
+        this.selectedSchool._id
+      );
+    }
+    let keys = this.performanceStats.map((obj) => {
       return Object.keys(obj);
     });
-    let values = this.performance.map((obj) => {
+    let values = this.performanceStats.map((obj) => {
       return Object.values(obj);
     });
     this.createChart("electricalAndComputer", {
@@ -195,11 +221,14 @@ export default {
       },
     });
   },
+  computed: {
+    ...mapGetters(["schools", "performanceStats", "user"]),
+  },
   methods: {
     createChart(chartId, chartData) {
       Chart.defaults.global.defaultFontFamily = "Comfortaa";
       const ctx = document.getElementById(chartId);
-      const myChart = new Chart(ctx, {
+      new Chart(ctx, {
         type: chartData.type,
         data: chartData.data,
         options: chartData.options,

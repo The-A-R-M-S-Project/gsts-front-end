@@ -142,7 +142,10 @@
     </div>
   </v-container>
 </template>
+
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "elevated-staff-profile-details",
   data() {
@@ -150,7 +153,8 @@ export default {
       profilePic: null,
     };
   },
-  created() {
+  async created() {
+    await this.$store.dispatch("fetchLoggedInStaff");
     this.$store.dispatch("displayProfileEditMessage", false);
   },
   updated() {
@@ -161,15 +165,7 @@ export default {
     }
   },
   computed: {
-    user() {
-      return this.$store.getters.user;
-    },
-    profileEditMessage() {
-      return this.$store.getters.profileEditMessage;
-    },
-    displayProfileEditMessage() {
-      return this.$store.getters.displayProfileEditMessage;
-    },
+    ...mapGetters(["user", "profileEditMessage", "displayProfileEditMessage"]),
   },
   methods: {
     changeProfileItem(tag) {

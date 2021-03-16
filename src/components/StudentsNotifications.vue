@@ -60,7 +60,6 @@ export default {
     };
   },
   async mounted() {
-    await this.$store.dispatch("fetchReportComments", this.studentReport._id);
     if (this.studentReport.submittedAt) {
       this.notifications.push({
         id: this.studentReport._id,

@@ -199,30 +199,20 @@ import StaffStudentProfile from "@/components/StaffStudentProfile.vue";
 import { mapGetters } from "vuex";
 
 export default {
-  data() {
-    return {
-      e6: null,
-    };
-  },
   async created() {
     if (this.user.role === "student") {
       await this.$store.dispatch("fetchLoggedInStudentDetails");
     }
-    if (this.studentReport.title) {
-      this.e6 = this.progressEvents[`${this.studentReport.status}`].step;
-    }
-  },
-  async mounted() {
-    if (this.user.role !== "student" && this.studentReport.status) {
-      await this.$store.dispatch(
-        "fetchExaminerAssessment",
-        this.studentReport._id
-      );
-      this.e6 = this.progressEvents[`${this.studentReport.status}`].step;
-    }
   },
   computed: {
     ...mapGetters(["progressEvents", "user", "studentReport", "student"]),
+    e6() {
+      if (this.studentReport.status) {
+        return this.progressEvents[`${this.studentReport.status}`].step;
+      } else {
+        return 0;
+      }
+    },
   },
   methods: {
     submitReport() {

@@ -13,7 +13,7 @@
         <span class="font-weight-bold">Contacts</span>
         : {{ student.phoneNumber }}
       </div>
-      <div class="pa-1">
+      <div v-if="student.program" class="pa-1">
         <span class="font-weight-bold">Programme</span>
         : {{ student.program.name }}
       </div>
@@ -27,14 +27,6 @@
           </a>
         </span>
       </div>
-      <!-- <div class="pa-1">
-        <span class="font-weight-bold">School</span>
-        : {{ school }}
-      </div>-->
-      <!-- <div class="pa-1">
-        <span class="font-weight-bold">Department</span>
-        : {{ department }}
-      </div>-->
     </div>
   </div>
 </template>
@@ -43,19 +35,9 @@
 import { mapGetters } from "vuex";
 
 export default {
-  name: "staff-student-profile",
+  name: "StaffStudentProfile",
   computed: {
     ...mapGetters(["studentReport", "student"]),
-    // user() {
-    //   return this.$store.getters.user;
-    // },
-    // school() {
-    //   return this.user.role !== "student" ? this.$store.getters.studentSchool
-    //     : null;
-    // },
-    // department() {
-    //   return this.$store.getters.department.name;
-    // },
   },
 };
 </script>

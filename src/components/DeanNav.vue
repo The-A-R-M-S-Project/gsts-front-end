@@ -95,7 +95,10 @@
     </v-toolbar>
   </nav>
 </template>
+
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "dean-navbar",
   data() {
@@ -104,22 +107,12 @@ export default {
       closeOnContentClick: true,
     };
   },
-  created() {
-    this.$store.dispatch("fetchSchoolDetails", this.user.school);
+  async created() {
+    await this.$store.dispatch("fetchLoggedInStaff");
+    await this.$store.dispatch("fetchSchoolDetails", this.user.school);
   },
   computed: {
-    isLoading() {
-      return this.$store.getters.isLoading;
-    },
-    user() {
-      return this.$store.getters.user;
-    },
-    reports() {
-      return this.$store.getters.reports;
-    },
-    schoolName() {
-      return this.$store.getters.schoolName;
-    },
+    ...mapGetters(["isLoading", "user", "reports", "schoolName"]),
     checkForUpdates() {
       for (let i = 0; i < this.reports.length; i++) {
         if (

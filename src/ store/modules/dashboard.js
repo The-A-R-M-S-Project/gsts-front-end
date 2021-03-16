@@ -5,14 +5,14 @@ const state = {
     departments: null,
     selectedSchoolID: "",
     schoolName: "",
-    vivaStats: null,
-    reportStats: null,
-    performanceStats: null,
+    vivaStats: [],
+    reportStats: [],
+    performanceStats: [],
     fetchSchoolsError: null,
     fetchDepartmentsError: null,
     fetchDashboardStatsError: "",
     overlayLoader: false,
-    loader: false,
+    loader: false
 };
 const mutations = {
     setSchoolsList(state, payload) {
@@ -46,99 +46,85 @@ const mutations = {
     },
     setOverlayLoader(state, payload) {
         state.overlayLoader = payload;
-    },
+    }
 };
 const actions = {
-    async fetchSchools({ commit }) {
+    async fetchSchools({commit}) {
         commit("setOverlayLoader", true);
-        await axiosInstance
-            .get("/school/")
-            .then((response) => {
-                commit("setSchoolsList", response.data);
-                commit("setOverlayLoader", false);
-            })
-            .catch((error) => {
-                commit("setFetchSchoolsError", error.response.data.message);
-                commit("setOverlayLoader", false);
-            });
+        try {
+            let response = await axiosInstance.get("/school/")
+            commit("setSchoolsList", response.data);
+            commit("setOverlayLoader", false);
+        } catch (error) {
+            commit("setFetchSchoolsError", error.response.data.message);
+            commit("setOverlayLoader", false);
+        }
     },
-    async fetchDepartments({ commit }, data) {
+    async fetchDepartments({
+        commit
+    }, data) {
         commit("setOverlayLoader", true);
-        await axiosInstance
-            .get(`/school/${data}/department`)
-            .then((response) => {
-                commit("setDepartmentsList", response.data.departments);
-                commit("setOverlayLoader", false);
-            })
-            .catch((error) => {
-                commit("setFetchDepartmentsError", error.response.data.message);
-                commit("setOverlayLoader", false);
-            });
+        try {
+            let response = await axiosInstance.get(`/school/${data}/department`)
+            commit("setDepartmentsList", response.data.departments);
+            commit("setOverlayLoader", false);
+        } catch (error) {
+            commit("setFetchDepartmentsError", error.response.data.message);
+            commit("setOverlayLoader", false);
+        }
     },
-    async fetchDashboardStats({ commit }, data) {
+    async fetchDashboardStats({
+        commit
+    }, data) {
         commit("setLoader", true);
         commit("setOverlayLoader", true);
         commit("selectedSchoolID", data);
         let accessToken = localStorage.getItem("jwt");
-        axiosInstance.defaults.headers.common[
-            "Authorization"
-        ] = `Bearer ${accessToken}`;
-        await axiosInstance
-            .get(`/staff/dashboard-stats/${data}`)
-            .then((response) => {
-                commit("setDashboardStats", response.data.data);
-                commit("setLoader", false);
-                commit("setOverlayLoader", false);
-            })
-            .catch((error) => {
-                commit(
-                    "setFetchDashboardStatsError",
-                    error.response.data.message
-                );
-                commit("setLoader", false);
-                commit("setOverlayLoader", false);
-            });
+        axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+        try {
+            let response = await axiosInstance.get(`/staff/dashboard-stats/${data}`)
+            commit("setDashboardStats", response.data.data);
+            commit("setLoader", false);
+            commit("setOverlayLoader", false);
+        } catch (error) {
+            commit("setFetchDashboardStatsError", error.response.data.message);
+            commit("setLoader", false);
+            commit("setOverlayLoader", false);
+        }
     },
-    async fetchDeanDashboardStats({ commit }) {
+    async fetchDeanDashboardStats({commit}) {
         commit("setOverlayLoader", true);
         let accessToken = localStorage.getItem("jwt");
-        axiosInstance.defaults.headers.common[
-            "Authorization"
-        ] = `Bearer ${accessToken}`;
-        await axiosInstance
-            .get("/staff/dashboard-stats/")
-            .then((response) => {
-                commit("setDashboardStats", response.data.data);
-                commit("setOverlayLoader", false);
-            })
-            .catch((error) => {
-                commit("setFetchDashboardStatsError", error.data.message);
-                commit("setOverlayLoader", false);
-            });
+        axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+        try {
+            let response = await axiosInstance.get("/staff/dashboard-stats/")
+            commit("setDashboardStats", response.data.data);
+            commit("setOverlayLoader", false);
+        } catch (error) {
+            commit("setFetchDashboardStatsError", error.data.message);
+            commit("setOverlayLoader", false);
+        }
     },
-    async fetchSchoolDetails({ commit }, data) {
+    async fetchSchoolDetails({
+        commit
+    }, data) {
         commit("setOverlayLoader", true);
         let accessToken = localStorage.getItem("jwt");
-        axiosInstance.defaults.headers.common[
-            "Authorization"
-        ] = `Bearer ${accessToken}`;
-        await axiosInstance
-            .get(`/school/${data}`)
-            .then((response) => {
-                commit("setSchoolName", response.data.name);
-                commit("setOverlayLoader", false);
-            })
-            .catch((error) => {
-                commit(
-                    "setFetchDashboardStatsError",
-                    error.response.data.message
-                );
-                commit("setOverlayLoader", false);
-            });
+        axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+        try {
+            let response = await axiosInstance.get(`/school/${data}`)
+            commit("setSchoolName", response.data.name);
+            commit("setOverlayLoader", false);
+        } catch (error) {
+            commit("setFetchDashboardStatsError", error.response.data.message);
+            commit("setOverlayLoader", false);
+        }
     },
-    toggleOverlayLoader({ commit }, data) {
+    toggleOverlayLoader({
+        commit
+    }, data) {
         commit("setOverlayLoader", data);
-    },
+    }
 };
 const getters = {
     schools: (state) => state.schools,
@@ -150,12 +136,7 @@ const getters = {
     performanceStats: (state) => state.performanceStats,
     loader: (state) => state.loader,
     overlayLoader: (state) => state.overlayLoader,
-    fetchDashboardStatsError: (state) => state.fetchDashboardStatsError,
+    fetchDashboardStatsError: (state) => state.fetchDashboardStatsError
 };
 
-export default {
-    state,
-    mutations,
-    actions,
-    getters,
-};
+export default {state, mutations, actions, getters};

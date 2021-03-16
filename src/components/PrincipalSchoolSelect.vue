@@ -11,22 +11,18 @@
             class="mx-auto"
             color="grey lighten-4"
             max-width="900"
-            @click="getSelectedSchool(
-                                        schoolDetails.engineering.name
-                                    )"
+            @click="getSelectedSchool(schoolDetails.engineering.name)"
             height="560"
           >
             <v-img
-              :src="
-                                    getImageURL(schoolDetails.engineering.image)
-                                "
+              :src="getImageURL(schoolDetails.engineering.image)"
               height="560"
             >
               <v-expand-transition>
                 <div
                   v-if="hover"
                   class="d-flex transition-fast-in-fast-out yellow darken-2 v-card--reveal display-3 black--text text-center"
-                  style="height: 100%;"
+                  style="height: 100%"
                 >
                   <div>{{ schoolDetails.engineering.name }}</div>
                   <v-btn
@@ -37,7 +33,9 @@
                     bottom
                     :loading="loader"
                   >
-                    <v-icon light large color="black">mdi-desktop-mac-dashboard</v-icon>
+                    <v-icon light large color="black"
+                      >mdi-desktop-mac-dashboard</v-icon
+                    >
                   </v-btn>
                 </div>
               </v-expand-transition>
@@ -54,33 +52,20 @@
                 color="grey lighten-4"
                 max-width="900"
                 height="230"
-                @click="
-                                            getSelectedSchool(
-                                                schoolDetails.builtEnvironment
-                                                    .name
-                                            )
-                                        "
+                @click="getSelectedSchool(schoolDetails.builtEnvironment.name)"
               >
                 <v-img
-                  :src="
-                                            getImageURL(
-                                                schoolDetails.builtEnvironment
-                                                    .image
-                                            )
-                                        "
+                  :src="getImageURL(schoolDetails.builtEnvironment.image)"
                   height="230"
                 >
                   <v-expand-transition>
                     <div
                       v-if="hover"
                       class="d-flex transition-fast-in-fast-out yellow darken-2 v-card--reveal display-3 black--text text-center"
-                      style="height: 100%;"
+                      style="height: 100%"
                     >
                       <div>
-                        {{
-                        schoolDetails
-                        .builtEnvironment.name
-                        }}
+                        {{ schoolDetails.builtEnvironment.name }}
                       </div>
                       <v-btn
                         absolute
@@ -90,7 +75,9 @@
                         bottom
                         :loading="loader"
                       >
-                        <v-icon large color="black">mdi-desktop-mac-dashboard</v-icon>
+                        <v-icon large color="black"
+                          >mdi-desktop-mac-dashboard</v-icon
+                        >
                       </v-btn>
                     </div>
                   </v-expand-transition>
@@ -105,25 +92,17 @@
                 color="grey lighten-4"
                 max-width="900"
                 height="280"
-                @click="
-                                            getSelectedSchool(
-                                                schoolDetails.fineArt.name
-                                            )
-                                        "
+                @click="getSelectedSchool(schoolDetails.fineArt.name)"
               >
                 <v-img
-                  :src="
-                                            getImageURL(
-                                                schoolDetails.fineArt.image
-                                            )
-                                        "
+                  :src="getImageURL(schoolDetails.fineArt.image)"
                   height="280"
                 >
                   <v-expand-transition>
                     <div
                       v-if="hover"
                       class="d-flex transition-fast-in-fast-out yellow darken-2 v-card--reveal display-3 black--text text-center"
-                      style="height: 100%;"
+                      style="height: 100%"
                     >
                       <div>{{ schoolDetails.fineArt.name }}</div>
                       <v-btn
@@ -134,7 +113,9 @@
                         bottom
                         :loading="loader"
                       >
-                        <v-icon large color="black">mdi-desktop-mac-dashboard</v-icon>
+                        <v-icon large color="black"
+                          >mdi-desktop-mac-dashboard</v-icon
+                        >
                       </v-btn>
                     </div>
                   </v-expand-transition>
@@ -149,6 +130,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "principal-school-select",
   data() {
@@ -172,25 +155,17 @@ export default {
       },
     };
   },
-  mounted() {
-    this.$store.dispatch("fetchSchools");
+  async created() {
+    await this.$store.dispatch("fetchSchools");
   },
   computed: {
-    schools() {
-      return this.$store.getters.schools;
-    },
-    loader() {
-      return this.$store.getters.loader;
-    },
-    fetchDashboardStatsError() {
-      return this.$store.getters.fetchDashboardStatsError;
-    },
+    ...mapGetters(["schools", "loader", "fetchDashboardStatsError"]),
   },
   methods: {
     getImageURL(imageName) {
       return require(`../assets/principal/${imageName}`);
     },
-    getSelectedSchool(schoolName) {
+    async getSelectedSchool(schoolName) {
       if (this.schools) {
         let selectedSchool = this.schools.find((school) => {
           return school.name == schoolName;
@@ -201,11 +176,8 @@ export default {
             return school.name == schoolName;
           }
         );
-        this.$store
-          .dispatch("fetchDashboardStats", selectedSchool._id)
-          .then(() => {
-            this.$router.push(selectedSchoolDetails.route);
-          });
+        await this.$store.dispatch("fetchDashboardStats", selectedSchool._id);
+        this.$router.push(selectedSchoolDetails.route);
       }
     },
   },

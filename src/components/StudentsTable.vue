@@ -480,11 +480,10 @@ export default {
       this.$store.dispatch("setSelectedStudent", value);
     },
     itemExpanded(value) {
-      console.log(value.item);
       this.$store.dispatch("setSelectedStudent", value.item);
     },
-    async viewDetails(report) {
-      this.$router.push(`/student-progress/${report.student._id}`);
+    viewDetails(report) {
+      this.$router.push(`/student-progress/${report._id}`);
     },
     formatDate(date) {
       if (date) {

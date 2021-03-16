@@ -8,20 +8,23 @@
       <v-card
         class="mx-auto school-card text-center"
         color="grey lighten-4"
-        @click="getSelectedSchool(
-                                        schoolDetails.engineering.name
-                                    )"
+        @click="getSelectedSchool(schoolDetails.engineering.name)"
       >
         <v-img
-          :src="
-                                    getImageURL(schoolDetails.engineering.image)
-                                "
+          :src="getImageURL(schoolDetails.engineering.image)"
           class="school-card"
         >
-          <p
-            class="heading font-weight-bold white--text vertical-center"
-          >{{ schoolDetails.engineering.name }}</p>
-          <v-btn absolute class="white--text floating-btn" text right bottom :loading="loader">
+          <p class="heading font-weight-bold white--text vertical-center">
+            {{ schoolDetails.engineering.name }}
+          </p>
+          <v-btn
+            absolute
+            class="white--text floating-btn"
+            text
+            right
+            bottom
+            :loading="loader"
+          >
             <v-icon light large color="white">mdi-desktop-mac-dashboard</v-icon>
           </v-btn>
         </v-img>
@@ -33,29 +36,23 @@
           <v-card
             class="mx-auto school-card text-center"
             color="grey lighten-4"
-            @click="
-                                            getSelectedSchool(
-                                                schoolDetails.builtEnvironment
-                                                    .name
-                                            )
-                                        "
+            @click="getSelectedSchool(schoolDetails.builtEnvironment.name)"
           >
             <v-img
-              :src="
-                                            getImageURL(
-                                                schoolDetails.builtEnvironment
-                                                    .image
-                                            )
-                                        "
+              :src="getImageURL(schoolDetails.builtEnvironment.image)"
               class="school-card"
             >
               <p class="heading font-weight-bold white--text vertical-center">
-                {{
-                schoolDetails
-                .builtEnvironment.name
-                }}
+                {{ schoolDetails.builtEnvironment.name }}
               </p>
-              <v-btn absolute class="white--text floating-btn" text right bottom :loading="loader">
+              <v-btn
+                absolute
+                class="white--text floating-btn"
+                text
+                right
+                bottom
+                :loading="loader"
+              >
                 <v-icon large color="white">mdi-desktop-mac-dashboard</v-icon>
               </v-btn>
             </v-img>
@@ -65,24 +62,23 @@
           <v-card
             class="mx-auto school-card text-center"
             color="grey lighten-4"
-            @click="
-                                            getSelectedSchool(
-                                                schoolDetails.fineArt.name
-                                            )
-                                        "
+            @click="getSelectedSchool(schoolDetails.fineArt.name)"
           >
             <v-img
-              :src="
-                                            getImageURL(
-                                                schoolDetails.fineArt.image
-                                            )
-                                        "
+              :src="getImageURL(schoolDetails.fineArt.image)"
               class="school-card"
             >
-              <p
-                class="heading font-weight-bold white--text vertical-center"
-              >{{ schoolDetails.fineArt.name }}</p>
-              <v-btn absolute class="white--text floating-btn" text right bottom :loading="loader">
+              <p class="heading font-weight-bold white--text vertical-center">
+                {{ schoolDetails.fineArt.name }}
+              </p>
+              <v-btn
+                absolute
+                class="white--text floating-btn"
+                text
+                right
+                bottom
+                :loading="loader"
+              >
                 <v-icon large color="white">mdi-desktop-mac-dashboard</v-icon>
               </v-btn>
             </v-img>
@@ -94,6 +90,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "principal-school-select",
   data() {
@@ -117,25 +115,17 @@ export default {
       },
     };
   },
-  mounted() {
-    this.$store.dispatch("fetchSchools");
+  async created() {
+    await this.$store.dispatch("fetchSchools");
   },
   computed: {
-    schools() {
-      return this.$store.getters.schools;
-    },
-    loader() {
-      return this.$store.getters.loader;
-    },
-    fetchDashboardStatsError() {
-      return this.$store.getters.fetchDashboardStatsError;
-    },
+    ...mapGetters(["schools", "loader"]),
   },
   methods: {
     getImageURL(imageName) {
       return require(`../assets/principal/${imageName}`);
     },
-    getSelectedSchool(schoolName) {
+    async getSelectedSchool(schoolName) {
       if (this.schools) {
         let selectedSchool = this.schools.find((school) => {
           return school.name == schoolName;
@@ -146,11 +136,8 @@ export default {
             return school.name == schoolName;
           }
         );
-        this.$store
-          .dispatch("fetchDashboardStats", selectedSchool._id)
-          .then(() => {
-            this.$router.push(selectedSchoolDetails.route);
-          });
+        await this.$store.dispatch("fetchDashboardStats", selectedSchool._id);
+        this.$router.push(selectedSchoolDetails.route);
       }
     },
   },

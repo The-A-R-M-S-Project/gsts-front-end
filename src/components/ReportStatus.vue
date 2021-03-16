@@ -12,34 +12,60 @@
     <canvas id="barChart"></canvas>
   </div>
 </template>
+
 <script>
+import { mapGetters } from "vuex";
 import Chart from "chart.js";
+
 export default {
-  name: "VivaStatus",
+  name: "ReportStatus",
   data() {
     return {
       chartData: {
         type: "bar",
         options: chartOptions,
+        selectedSchool: null,
       },
     };
   },
-  mounted() {
+  async created() {
+    await this.$store.dispatch("fetchLoggedInStaff");
+    if (this.user.role === "dean") {
+      await this.$store.dispatch("fetchDeanDashboardStats");
+    } else {
+      await this.$store.dispatch("fetchSchools");
+      if (this.$route.path === "/ECE-dashboard") {
+        this.selectedSchool = this.schools.find((school) => {
+          return school.name === "School of Engineering";
+        });
+      } else if (this.$route.path === "/BE-dashboard") {
+        this.selectedSchool = this.schools.find((school) => {
+          return school.name === "School of Built Environment";
+        });
+      } else if (this.$route.path === "/FA-dashboard") {
+        this.selectedSchool = this.schools.find((school) => {
+          return school.name === "School of Industrial and Fine Arts";
+        });
+      }
+      await this.$store.dispatch(
+        "fetchDashboardStats",
+        this.selectedSchool._id
+      );
+    }
+
     this.createChart("barChart", this.chartData);
   },
   computed: {
-    reportStatus() {
-      return this.$store.getters.reportStats;
-    },
+    ...mapGetters(["schools", "reportStats", "user"]),
   },
   methods: {
     createChart(chartId, chartData) {
-      let values = this.reportStatus.map((obj) => {
+      let values = this.reportStats.map((obj) => {
         return Object.values(obj);
       });
       Chart.defaults.global.defaultFontFamily = "Comfortaa";
       const ctx = document.getElementById(chartId);
-      const myChart = new Chart(ctx, {
+      new Chart(ctx, {
         type: chartData.type,
         data: {
           // labels: [keys[0][0], keys[1][0], keys[2][0]],
@@ -94,7 +120,7 @@ export default {
         document.documentElement.clientWidth || 0,
         window.innerWidth || 0
       );
-      let keys = this.reportStatus.map((obj) => {
+      let keys = this.reportStats.map((obj) => {
         return Object.keys(obj);
       });
       let shortNames = {

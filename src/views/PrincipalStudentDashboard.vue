@@ -20,6 +20,7 @@
             <v-col
               v-if="
                 (user.role === 'principal' || user.role === 'dean') &&
+                studentReport.status &&
                 progressEvents[`${studentReport.status}`].step > 3
               "
               cols="12"
@@ -56,6 +57,7 @@ import Footer from "@/components/Footer.vue";
 import { mapGetters } from "vuex";
 
 export default {
+  name: "StaffStudentDashboard",
   data() {
     return {
       drawer: false,
@@ -69,11 +71,16 @@ export default {
       this.$route.params.studentID
     );
     await this.$store.dispatch(
-      "fetchExaminerAssessment",
-      this.studentReport._id
+      "fetchStudentDetails",
+      this.studentReport.student._id
     );
-    await this.$store.dispatch("setStudentDetails", this.studentReport);
-    this.e6 = this.progressEvents[`${this.studentReport.status}`].step;
+    if (this.user.role !== "examiner") {
+      await this.$store.dispatch(
+        "fetchExaminerAssessment",
+        this.studentReport._id
+      );
+    }
+    await this.$store.dispatch("fetchReportComments", this.studentReport._id);
   },
   computed: {
     ...mapGetters(["isLoading", "user", "studentReport", "progressEvents"]),

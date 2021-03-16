@@ -68,7 +68,7 @@ import Footer from "@/components/Footer.vue";
 export default {
   name: "dean-dashboard",
   async created() {
-    await this.$store.dispatch("fetchDeanDashboardStats");
+    await this.$store.dispatch("fetchLoggedInStaff");
   },
   components: {
     DeanNav,

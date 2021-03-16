@@ -98,6 +98,9 @@ export default {
       closeOnContentClick: true,
     };
   },
+  async created() {
+    await this.$store.dispatch("fetchLoggedInStaff");
+  },
   computed: {
     ...mapGetters(["isLoading", "reports", "user"]),
     checkForUpdates() {
