@@ -307,6 +307,14 @@
                   <SetVivaScore />
                 </v-col>
               </v-row>
+              <v-row
+                v-else-if="item.status === 'vivaComplete'"
+                align="center"
+                justify="center"
+              >
+                <UploadVivaCommitteeReport />
+              </v-row>
+
               <v-row v-else align="center" justify="center" no-gutters>
                 <div class="text-center">
                   <v-btn
@@ -330,7 +338,9 @@ import AssignExaminer from "@/components/AssignExaminer.vue";
 import SetVivaDate from "@/components/SetVivaDate.vue";
 import SetVivaCommittee from "@/components/SetVivaCommittee.vue";
 import SetVivaScore from "@/components/SetVivaScore.vue";
+import UploadVivaCommitteeReport from "@/components/UploadVivaCommitteeReport.vue";
 import { mapGetters } from "vuex";
+
 export default {
   data() {
     return {
@@ -556,6 +566,7 @@ export default {
     SetVivaDate,
     SetVivaCommittee,
     SetVivaScore,
+    UploadVivaCommitteeReport,
   },
 };
 </script>
