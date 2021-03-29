@@ -193,6 +193,40 @@ const actions = {
             commit("fetchReportsError", error.response.data.message)
         }
     },
+    async fetchSecretaryReports({commit}) {
+        commit("setLoader", true)
+        let accessToken = localStorage.getItem("jwt");
+        axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+        try {
+            let response = await axiosInstance.get('/viva/staff/getSetVivaDateStudents')
+            commit("setReports", response.data.vivas)
+            commit("setLoader", false)
+        } catch (error) {
+            commit("setLoader", false)
+            commit("fetchReportsError", error.response.data.message)
+        }
+    },
+    async uploadVivaCommitteeReport({
+        commit
+    }, data) {
+        commit("setSubmitLoader", true)
+        let accessToken = localStorage.getItem("jwt");
+        axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+        try { // TODO Include response feedback
+            let response = await axiosInstance.post(`/report/staff/uploadVivaCommitterreport/${
+                data.studentReportID
+            }`, data.report)
+            commit("setVivaScoreSuccess", {
+                res: response.data.status,
+                name: data.studentName
+            })
+            commit("setDisplayStudentTableFeedback", true)
+            commit("setSubmitLoader", false)
+        } catch (error) {
+            commit("setSubmitLoader", false)
+            commit("setVivaScoreError", error.response.data.message)
+        }
+    },
     async fetchExaminerAssessment({
         commit
     }, reportID) {

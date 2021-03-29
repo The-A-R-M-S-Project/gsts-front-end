@@ -80,6 +80,14 @@ let router = new Router({
                 is_examiner: true
             }
         }, {
+            path: "/secretary-dashboard",
+            name: "secretary-dashboard",
+            component: lazyLoad('DeanSecretaryDashboard'),
+            meta: {
+                requiresAuth: true,
+                is_dean: true
+            }
+        }, {
             path: "/dean-dashboard",
             name: "dean-dashboard",
             component: lazyLoad('DeanDashboard'),

@@ -16,6 +16,7 @@
             dark
             large
             icon
+            :disabled="user.role === 'secretary'"
             :loading="detailLoading"
           >
             <v-icon large dark> mdi-open-in-new </v-icon>
@@ -69,7 +70,12 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["detailLoading", "selectedStudent", "submitLoading"]),
+    ...mapGetters([
+      "detailLoading",
+      "selectedStudent",
+      "submitLoading",
+      "user",
+    ]),
   },
   methods: {
     viewDetails() {
@@ -79,7 +85,7 @@ export default {
       if (this.$refs.vivaScore.validate()) {
         await this.$store.dispatch("setVivaScore", {
           reportID: this.selectedStudent._id,
-          studentName: this.selectedStudent.student.name,
+          studentName: this.selectedStudent.student.firstName,
           vivaScore: { vivaScore: this.score },
         });
         await this.$store.dispatch("fetchReports");

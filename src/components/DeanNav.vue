@@ -100,7 +100,7 @@
 import { mapGetters } from "vuex";
 
 export default {
-  name: "dean-navbar",
+  name: "DeanNavbar",
   data() {
     return {
       loading: false,

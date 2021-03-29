@@ -66,7 +66,7 @@ import OverlayLoader from "@/components/OverlayLoader.vue";
 import Calendar from "@/components/Calendar.vue";
 import Footer from "@/components/Footer.vue";
 export default {
-  name: "dean-dashboard",
+  name: "DeanDashboard",
   async created() {
     await this.$store.dispatch("fetchLoggedInStaff");
   },
