@@ -270,6 +270,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "register",
   data() {
@@ -315,21 +317,13 @@ export default {
     this.$store.dispatch("fetchPrograms");
   },
   computed: {
-    programs() {
-      return this.$store.getters.programs;
-    },
-    isLogged() {
-      return this.$store.getters.isLoggedIn;
-    },
-    user() {
-      return this.$store.getters.user;
-    },
-    isLoading() {
-      return this.$store.getters.isLoading;
-    },
-    signupError() {
-      return this.$store.getters.signupError;
-    },
+    ...mapGetters([
+      "programs",
+      "isLoggedIn",
+      "user",
+      "isLoading",
+      "signupError",
+    ]),
   },
   methods: {
     register() {
@@ -344,6 +338,7 @@ export default {
             password: this.password,
             passwordConfirm: this.passwordConfirm,
             phoneNumber: this.phoneNumber,
+            role: "student",
           })
           .then(() => {
             if (this.isLogged) {
