@@ -30,7 +30,7 @@
           <v-row>
             <v-col cols="12" class="px-sm-12">
               <h3 class="text-center black--text">Add Viva Committee Member</h3>
-              <v-list>
+              <v-list v-if="selectedStudent.viva">
                 <v-list-item
                   v-for="member in selectedStudent.viva.vivaCommittee"
                   :key="member._id"
@@ -80,7 +80,7 @@
 import { mapGetters } from "vuex";
 
 export default {
-  name: "SetVivaDate",
+  name: "SetVivaCommittee",
   data() {
     return {
       dialog: false,

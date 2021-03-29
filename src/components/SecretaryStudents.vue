@@ -92,11 +92,7 @@
       <template v-slot:expanded-item="{ headers, item }">
         <td :colspan="headers.length">
           <v-row align="center" justify="center">
-            <v-col
-              cols="12"
-              sm="9"
-              :md="item.status === 'vivaDateSet' ? '8' : '10'"
-            >
+            <v-col cols="12" sm="9" md="10">
               <v-progress-linear
                 :value="progressEvents[`${item.status}`].value"
                 :color="progressEvents[`${item.status}`].color"
@@ -109,19 +105,12 @@
                 >
               </v-progress-linear>
             </v-col>
-            <v-col
-              cols="12"
-              sm="3"
-              :md="item.status === 'vivaDateSet' ? '4' : '2'"
-            >
+            <v-col cols="12" sm="3" md="2">
               <v-row
                 v-if="item.status === 'vivaDateSet'"
                 align="center"
                 justify="center"
               >
-                <v-col>
-                  <SetVivaCommittee />
-                </v-col>
                 <v-col>
                   <SetVivaScore />
                 </v-col>
@@ -142,7 +131,6 @@
 </template>
 
 <script>
-import SetVivaCommittee from "@/components/SetVivaCommittee.vue";
 import SetVivaScore from "@/components/SetVivaScore.vue";
 import UploadVivaCommitteeReport from "@/components/UploadVivaCommitteeReport.vue";
 import { mapGetters } from "vuex";
@@ -347,7 +335,6 @@ export default {
     },
   },
   components: {
-    SetVivaCommittee,
     SetVivaScore,
     UploadVivaCommitteeReport,
   },
