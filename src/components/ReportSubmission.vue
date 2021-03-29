@@ -125,6 +125,17 @@
               </a>
             </span>
           </p>
+          <p v-if="studentReport.status === 'vivaComplete'">
+            <span class="body-1 font-weight-light"
+              >Viva assessment report:</span
+            >
+            <span class="subheading"
+              >&nbsp;
+              <a :href="studentReport.vivaCommitteeReport" target="_blank">
+                {{ studentReport.vivaCommitteeReport }}
+              </a>
+            </span>
+          </p>
           <p class="mb-10">
             <span
               v-if="studentReport.status === 'submitted'"
