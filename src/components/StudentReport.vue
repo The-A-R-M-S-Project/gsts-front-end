@@ -85,13 +85,19 @@
                       Fill assessment form
                     </v-card-title>
                     <v-card-text>
+                      <p class="text-subtitle-1">
+                        <span class="primary--text font-weight-bold"
+                          >Note:</span
+                        >
+                        The form fields below indicate (in brackets) the maximum
+                        number of points you can award to that section.
+                      </p>
                       <v-form ref="filledAssessmentForm">
                         <v-row align="center" justify="center">
                           <v-col cols="12" sm="6">
                             <v-text-field
                               v-model="background"
-                              label="Background"
-                              hint="Max (5pts)"
+                              label="Background (Max 5)"
                               type="number"
                               :rules="fieldScoreRules(5)"
                             ></v-text-field>
@@ -100,8 +106,7 @@
                             <v-text-field
                               v-model="problemStatement"
                               type="number"
-                              hint="Max (5pts)"
-                              label="Problem Statement"
+                              label="Problem Statement (Max 5)"
                               :rules="fieldScoreRules(5)"
                             ></v-text-field>
                           </v-col>
@@ -109,8 +114,7 @@
                             <v-text-field
                               v-model="researchMethods"
                               type="number"
-                              hint="Max (20pts)"
-                              label="Research Methods"
+                              label="Research Methods (Max 20)"
                               :rules="fieldScoreRules(20)"
                             ></v-text-field>
                           </v-col>
@@ -118,8 +122,7 @@
                             <v-text-field
                               v-model="results"
                               type="number"
-                              label="Results"
-                              hint="Max (15pts)"
+                              label="Results (Max 15)"
                               :rules="fieldScoreRules(15)"
                             ></v-text-field>
                           </v-col>
@@ -127,8 +130,7 @@
                             <v-text-field
                               v-model="discussions"
                               type="number"
-                              label="Discussions"
-                              hint="Max (10pts)"
+                              label="Discussions (Max 10)"
                               :rules="fieldScoreRules(10)"
                             ></v-text-field>
                           </v-col>
@@ -136,8 +138,7 @@
                             <v-text-field
                               v-model="conclusions"
                               type="number"
-                              label="Conclusions"
-                              hint="Max (5pts)"
+                              label="Conclusions (Max 5)"
                               :rules="fieldScoreRules(5)"
                             ></v-text-field>
                           </v-col>
@@ -145,8 +146,7 @@
                             <v-text-field
                               v-model="recommendations"
                               type="number"
-                              label="Recommendations"
-                              hint="Max (5pts)"
+                              label="Recommendations (Max 5)"
                               :rules="fieldScoreRules(5)"
                             ></v-text-field>
                           </v-col>
@@ -154,8 +154,7 @@
                             <v-text-field
                               v-model="originality"
                               type="number"
-                              label="Originality of Contribution"
-                              hint="Max (15pts)"
+                              label="Originality of Contribution (Max 15)"
                               :rules="fieldScoreRules(15)"
                             ></v-text-field>
                           </v-col>
@@ -163,8 +162,7 @@
                             <v-text-field
                               v-model="literatureCitation"
                               type="number"
-                              label="Literature Citation"
-                              hint="Max (10pts)"
+                              label="Literature Citation (Max 10)"
                               :rules="fieldScoreRules(10)"
                             ></v-text-field>
                           </v-col>
@@ -172,8 +170,7 @@
                             <v-text-field
                               v-model="overallPresentation"
                               type="number"
-                              label="Overall Presentation"
-                              hint="Max (10pts)"
+                              label="Overall Presentation (Max 10)"
                               :rules="fieldScoreRules(10)"
                             ></v-text-field>
                           </v-col>
