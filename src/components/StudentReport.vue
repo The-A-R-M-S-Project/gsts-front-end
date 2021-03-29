@@ -181,7 +181,7 @@
                             <div
                               class="title font-weight-regular black--text pb-2"
                             >
-                              Comments (if any)
+                              Comments
                             </div>
                             <quill-editor
                               class="quill"
