@@ -2,7 +2,7 @@
   <nav>
     <v-toolbar color="purple" class="white--text">
       <v-toolbar-title
-        class="white--text font-weight-bold text-capitalize title d-sm-none d-md-flex"
+        class="white--text font-weight-medium text-capitalize title d-sm-none d-md-flex"
         >{{ secretarySchool.name }}</v-toolbar-title
       >
       <v-spacer></v-spacer>

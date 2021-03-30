@@ -302,7 +302,9 @@
                 </v-col>
               </v-row>
               <v-row
-                v-else-if="item.status === 'vivaComplete'"
+                v-else-if="
+                  item.status === 'vivaComplete' && !item.vivaCommitteeReport
+                "
                 align="center"
                 justify="center"
               >
