@@ -17,16 +17,65 @@
             <v-col cols="12">
               <StudentProgress class="mb-6" />
             </v-col>
-            <v-col
-              v-if="
-                (user.role === 'principal' || user.role === 'dean') &&
-                studentReport.status &&
-                progressEvents[`${studentReport.status}`].step > 3
-              "
-              cols="12"
-            >
-              <ExaminerAssessment />
+            <v-col cols="12">
+              <v-row align="center" justify="center" no-gutters>
+                <v-col cols="12">
+                  <div class="text-center">
+                    <h3 class="text-center">Examiners</h3>
+                    <hr class="mx-auto divider" />
+                  </div>
+                </v-col>
+                <v-col cols="12">
+                  <p class="body-1 text-center">
+                    <strong class="text-decoration-underline"
+                      >Currently assigned examiners</strong
+                    >
+                    <span v-if="examinerReportStatuses.length === 0"
+                      >&nbsp;None
+                    </span>
+                    <span v-else>
+                      <v-row>
+                        <v-col
+                          v-for="(examiner, index) in examinerReportStatuses"
+                          :key="index"
+                        >
+                          <div>
+                            <span class="font-weight-bold">Name:</span>
+                            {{ examiner.examiner.lastName }}
+                            {{ examiner.examiner.firstName }}
+                          </div>
+                          <div class="text-capitalize">
+                            <span class="font-weight-bold text-left">
+                              Type:
+                            </span>
+                            {{ examiner.examinerType }}
+                          </div>
+                          <div>
+                            <span class="font-weight-bold"> Status: </span>
+                            {{ examinerStatus[examiner.status] }}
+                          </div>
+                        </v-col>
+                      </v-row>
+                    </span>
+                  </p>
+                </v-col>
+                <v-col
+                  v-if="
+                    (user.role === 'principal' || user.role === 'dean') &&
+                    studentReport.status &&
+                    progressEvents[`${studentReport.status}`].step > 3
+                  "
+                  cols="12"
+                >
+                  <p class="text-center text-decoration-underline">
+                    <strong>Assessments</strong>
+                  </p>
+
+                  <ExaminerAssessment />
+                </v-col>
+              </v-row>
             </v-col>
+
             <v-col
               v-if="user.role === 'principal' || user.role === 'dean'"
               cols="12"
@@ -62,6 +111,12 @@ export default {
     return {
       drawer: false,
       loading: false,
+      examinerStatus: {
+        assignedToExaminer: "Pending reply",
+        withExaminer: "Accepted",
+        rejectedByExaminer: "Rejected",
+        clearedByExaminer: "Report cleared",
+      },
     };
   },
   async created() {
@@ -83,7 +138,13 @@ export default {
     await this.$store.dispatch("fetchReportComments", this.studentReport._id);
   },
   computed: {
-    ...mapGetters(["isLoading", "user", "studentReport", "progressEvents"]),
+    ...mapGetters([
+      "isLoading",
+      "user",
+      "studentReport",
+      "examinerReportStatuses",
+      "progressEvents",
+    ]),
   },
   components: {
     Navigation,
@@ -98,3 +159,10 @@ export default {
   },
 };
 </script>
+<style>
+.divider {
+  width: 8rem;
+  border: 2px solid black;
+  margin-bottom: 1rem;
+}
+</style>

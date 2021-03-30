@@ -1,9 +1,5 @@
 <template>
   <section class="text-center pb-12">
-    <div class="text-center">
-      <h3 class="text-center text-underline">Examiner assessments</h3>
-      <hr class="mx-auto divider" />
-    </div>
     <v-dialog v-model="examinerAssessmentsDialog" width="700">
       <template v-slot:activator="{ on, attrs }">
         <v-btn v-bind="attrs" v-on="on" color="primary"
@@ -198,10 +194,3 @@ export default {
   },
 };
 </script>
-<style>
-.divider {
-  width: 8rem;
-  border: 2px solid black;
-  margin-bottom: 1rem;
-}
-</style>

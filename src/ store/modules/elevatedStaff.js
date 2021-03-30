@@ -11,6 +11,7 @@ const state = {
     fetchExaminersError: null,
     submitLoading: false,
     reportComments: [],
+    examinerReportStatuses: [],
     createCommentError: null,
     requestResubmissionMessage: '',
     requestResubmissionError: null,
@@ -114,6 +115,9 @@ const mutations = {
     },
     setReportComments(state, payload) {
         state.reportComments = payload
+    },
+    setExaminerReportStatuses(state, payload) {
+        state.examinerReportStatuses = payload
     },
     requestResubmissionSuccess(state, payload) {
         state.requestResubmissionMessage = payload
@@ -234,6 +238,7 @@ const actions = {
         axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
         try {
             let response = await axiosInstance.get(`/report/staff/examiner/status/${reportID}`)
+            commit("setExaminerReportStatuses", response.data.examinerReports)
             let clearedReportAssessments = response.data.examinerReports.filter(report => {
                 return report.status === "clearedByExaminer"
             })
@@ -426,6 +431,7 @@ const getters = {
             return staff.role === "examiner"
         })
     },
+    examinerReportStatuses: (state) => state.examinerReportStatuses,
     reportComments: (state) => state.reportComments,
     assignExaminerMessage: (state) => state.assignExaminerMessage,
     requestResubmissionError: (state) => state.requestResubmissionError,
