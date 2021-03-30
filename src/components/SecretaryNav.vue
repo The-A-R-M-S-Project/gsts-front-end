@@ -3,14 +3,14 @@
     <v-toolbar color="purple" class="white--text">
       <v-toolbar-title
         class="white--text font-weight-bold text-capitalize title d-sm-none d-md-flex"
-        >GSTS</v-toolbar-title
+        >{{ secretarySchool.name }}</v-toolbar-title
       >
       <v-spacer></v-spacer>
       <v-btn
         text
         dark
         :loading="isLoading"
-        class="text-capitalize"
+        class="text-body-1 text-capitalize"
         @click="logOut"
       >
         <v-icon>mdi-power</v-icon>
@@ -27,9 +27,10 @@ export default {
   name: "DeanSecretaryNavbar",
   async created() {
     await this.$store.dispatch("fetchLoggedInStaff");
+    await this.$store.dispatch("fetchSecretarySchool", this.user.dean);
   },
   computed: {
-    ...mapGetters(["isLoading"]),
+    ...mapGetters(["isLoading", "user", "secretarySchool"]),
   },
   methods: {
     async logOut() {

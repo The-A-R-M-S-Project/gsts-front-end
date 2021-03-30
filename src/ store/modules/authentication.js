@@ -14,6 +14,7 @@ const state = {
     resetEmail: null,
     isLoggedIn: false,
     logoutError: null,
+    secretarySchool: {},
     user: {},
     loggedInUserError: null
 };
@@ -47,6 +48,9 @@ const mutations = {
     SignupError(state, error) {
         state.signupError = error;
         state.isLoggedIn = false;
+    },
+    SetSecretarySchool(state, payload) {
+        state.secretarySchool = payload
     },
     LogoutError(state, error) {
         state.logoutError = error;
@@ -164,6 +168,18 @@ const actions = {
             commit("fetchLoggedInUserError", error.response.data.message)
         }
     },
+    async fetchSecretarySchool({
+        commit
+    }, data) {
+        let accessToken = localStorage.getItem("jwt");
+        axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+        try {
+            let response = await axiosInstance.get(`/staff/secretary/${data}`)
+            commit("SetSecretarySchool", response.data.schoolOfDean)
+        } catch (error) {
+            commit("fetchLoggedInUserError", error.response.data.message)
+        }
+    },
     async fetchLoggedInStudent({commit}) {
         let accessToken = localStorage.getItem("jwt");
         axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
@@ -204,6 +220,7 @@ const getters = {
     programs: (state) => state.programs,
     isLoggedIn: (state) => state.isLoggedIn,
     user: (state) => state.user,
+    secretarySchool: (state) => state.secretarySchool,
     isLoading: (state) => state.isLoading,
     loginError: (state) => state.loginError,
     signupError: (state) => state.signupError,
