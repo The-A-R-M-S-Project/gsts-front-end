@@ -82,7 +82,7 @@ const actions = {
         let accessToken = localStorage.getItem("jwt");
         axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
         try {
-            let response = await axiosInstance.get(`/staff/dashboard-stats/${data}`)
+            let response = await axiosInstance.get(`/school/dashboard-stats/${data}`)
             commit("setDashboardStats", response.data.data);
             commit("setLoader", false);
             commit("setOverlayLoader", false);
@@ -97,7 +97,7 @@ const actions = {
         let accessToken = localStorage.getItem("jwt");
         axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
         try {
-            let response = await axiosInstance.get("/staff/dashboard-stats/")
+            let response = await axiosInstance.get("/school/dashboard-stats/")
             commit("setDashboardStats", response.data.data);
             commit("setOverlayLoader", false);
         } catch (error) {
