@@ -183,7 +183,6 @@ export default {
         "clearedByExaminers",
         "vivaDateSet",
         "vivaComplete",
-        "pendingRevision",
         "complete",
       ],
       examinerStatus: {

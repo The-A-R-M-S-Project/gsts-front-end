@@ -199,7 +199,6 @@ export default {
   async created() {
     if (this.user.role === "student") {
       await this.$store.dispatch("fetchLoggedInStudentDetails");
-      console.log(this.studentReport);
     }
   },
   computed: {

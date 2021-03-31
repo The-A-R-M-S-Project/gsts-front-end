@@ -30,51 +30,45 @@ const state = {
             step: 1
         },
         submitted: {
-            value: 11,
+            value: 14,
             message: "Submitted",
             color: "deep-orange darken-3",
             step: 2
         },
         assignedToExaminers: {
-            value: 23,
+            value: 28,
             message: "Assigned to examiners",
-            color: "deep-orange darken-2",
+            color: "deep-orange darken-1",
             step: 2
         },
         receivedByExaminers: {
-            value: 34,
+            value: 42,
             message: "Received by examiners",
-            color: "deep-orange darken-1",
+            color: "orange",
             step: 3
         },
         clearedByExaminers: {
-            value: 45,
+            value: 56,
             message: "Cleared by examiners",
-            color: "orange",
+            color: "orange lighten-2",
             step: 4
         },
         vivaDateSet: {
-            value: 56,
+            value: 60,
             message: "Viva date set",
-            color: "orange lighten-2",
+            color: "amber",
             step: 5
         },
         vivaComplete: {
-            value: 67,
+            value: 74,
             message: "Viva complete",
-            color: "amber",
-            step: 6
-        },
-        pendingRevision: {
-            value: 78,
-            message: "Pending revision",
-            color: "yellow darken-1",
+            color: "green lighten-2",
             step: 6
         },
         complete: {
             value: 100,
             message: "Pending revision",
-            color: "green lighten-2",
+            color: "gree",
             step: 7
         }
     }
