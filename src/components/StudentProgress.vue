@@ -84,7 +84,7 @@
               <div class="body-1 mb-1">
                 Your report has been marked and graded.
               </div>
-              <div class="body-2">
+              <!-- <div class="body-2">
                 You scored
                 <span class="subtitle-1">
                   <strong>
@@ -95,7 +95,7 @@
                     >
                   </strong>
                 </span>
-              </div>
+              </div> -->
               <div class="caption mt-3 font-weight-light">
                 {{ formatDate(studentReport.examinerScoreDate) }}
               </div>
@@ -119,7 +119,7 @@
               <div class="body-1 mb-1">
                 Your viva examination date has been set to
                 <span class="headline text-color blue--text">{{
-                  formatDate(studentReport.vivaDate)
+                  formatDate(studentReport.viva.vivaEvent.eventDate)
                 }}</span>
               </div>
               <!-- This is supposed to be the date when the viva date was set by principal/dean -->
@@ -147,12 +147,12 @@
                 You scored
                 <span class="subtitle-1">
                   <strong>
-                    <u>{{ studentReport.vivaScore }}%</u>
+                    <u>{{ studentReport.viva.vivaScore }}%</u>
                   </strong>
                 </span>
               </div>
               <div class="caption mt-3 font-weight-light">
-                {{ formatDate(studentReport.vivaScoreDate) }}
+                {{ formatDate(studentReport.viva.vivaScoreDate) }}
               </div>
             </div>
           </template>
@@ -170,7 +170,7 @@
                 notifications.
               </div>
               <div class="caption mt-3 font-weight-light">
-                {{ formatDate(studentReport.vivaScoreDate) }}
+                {{ formatDate(studentReport.viva.vivaScoreDate) }}
               </div>
             </div>
           </template>
@@ -180,7 +180,7 @@
               <div v-show="user.role === 'student'" class="body-2">
                 In case you haven't made your final submission, click
                 <a @click="submitReport">here</a>.
-                <span>Do not forget to include your compliance report.</span>
+                <span>Include your compliance report in the submission.</span>
               </div>
             </template>
           </v-stepper-content>
@@ -199,6 +199,7 @@ export default {
   async created() {
     if (this.user.role === "student") {
       await this.$store.dispatch("fetchLoggedInStudentDetails");
+      console.log(this.studentReport);
     }
   },
   computed: {
@@ -224,7 +225,7 @@ export default {
           hour: "numeric",
           minute: "numeric",
         }
-      )} ${new String(monthDay).substring(4, 15).replace(/ /g, "-")}`;
+      )}, ${new String(monthDay).substring(4, 15)}`;
     },
   },
   components: {
