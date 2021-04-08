@@ -45,13 +45,14 @@ export default {
         "fetchDashboardStats",
         this.selectedSchool._id
       );
+      console.log(this.performanceStats);
     }
-    let keys = this.performanceStats.map((obj) => {
-      return Object.keys(obj);
-    });
-    let values = this.performanceStats.map((obj) => {
-      return Object.values(obj);
-    });
+    // let keys = this.performanceStats.map((obj) => {
+    //   return Object.keys(obj);
+    // });
+    // let values = this.performanceStats.map((obj) => {
+    //   return Object.values(obj);
+    // });
     this.createChart("electricalAndComputer", {
       type: "horizontalBar",
       data: {
@@ -75,7 +76,8 @@ export default {
       options: {
         title: {
           display: true,
-          text: keys[0][0],
+          // text: keys[0][0],
+          text: "Department one",
           fontSize: 12,
         },
         responsive: true,
@@ -131,7 +133,8 @@ export default {
       options: {
         title: {
           display: true,
-          text: keys[1][0],
+          // text: keys[1][0],
+          text: "Department two",
           fontSize: 12,
         },
         responsive: true,
@@ -187,7 +190,8 @@ export default {
       options: {
         title: {
           display: true,
-          text: keys[2][0],
+          // text: keys[2][0],
+          text: "Department three",
           fontSize: 12,
         },
         responsive: true,
