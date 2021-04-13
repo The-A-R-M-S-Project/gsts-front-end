@@ -8,7 +8,7 @@
         dark
         event-color="orange"
         color="purple"
-        :landscape="!$vuetify.breakpoint.xs?true:false"
+        :landscape="!$vuetify.breakpoint.xs ? true : false"
       ></v-date-picker>
       <v-list three-line>
         <v-subheader>This Month</v-subheader>
@@ -19,21 +19,28 @@
                 <v-col cols="12" md="12">
                   <div
                     class="heading font-weight-bold custom-font-family purple--text"
-                  >{{event.date}}</div>
+                  >
+                    {{ event.date }}
+                  </div>
                 </v-col>
                 <v-col cols="12" md="12">
-                  <div class="purple--text">{{event.day}}</div>
+                  <div class="purple--text">{{ event.day }}</div>
                 </v-col>
               </v-row>
             </v-list-item-avatar>
             <v-list-item-content>
               <v-list-item-title
                 class="custom-font-family font-weight-light"
-                :class="{'title': !$vuetify.breakpoint.xs, 'mobile-title': $vuetify.breakpoint.xs}"
-              >{{event.title}}</v-list-item-title>
+                :class="{
+                  title: !$vuetify.breakpoint.xs,
+                  'mobile-title': $vuetify.breakpoint.xs,
+                }"
+                >{{ event.title }}</v-list-item-title
+              >
               <v-list-item-subtitle
                 class="subheading custom-font-family font-weight-light grey--text"
-              >{{event.location}}</v-list-item-subtitle>
+                >{{ event.location }}</v-list-item-subtitle
+              >
             </v-list-item-content>
           </v-list-item>
           <v-divider v-if="index + 1 < events.length" :key="index"></v-divider>
@@ -67,18 +74,6 @@ export default {
         day: "Fri",
         date: "19",
         title: "Viva",
-        location: "Cedat conference hall",
-      },
-      {
-        day: "Tue",
-        date: "23",
-        title: "Presentation for electrical engineering students",
-        location: "Cedat conference hall",
-      },
-      {
-        day: "Mon",
-        date: "29",
-        title: "Presentation for computer engineering students",
         location: "Cedat conference hall",
       },
     ],
