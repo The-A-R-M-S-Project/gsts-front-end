@@ -67,8 +67,8 @@ const state = {
         },
         complete: {
             value: 100,
-            message: "Pending revision",
-            color: "gree",
+            message: "Completed",
+            color: "green",
             step: 7
         }
     }
