@@ -41,7 +41,7 @@ export default {
               borderWidth: [0, 0, 0, 0],
             },
           ],
-          labels: ["done (10)", "pending (8)"],
+          labels: ["Done", "Pending"],
         },
         options: chartData.options,
       });
