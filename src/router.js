@@ -141,7 +141,7 @@ let router = new Router({
         }, {
             path: "/BE-dashboard",
             name: "be-dashboard",
-            component: lazyLoad('ECEDashboard'),
+            component: lazyLoad('BEDashboard'),
             meta: {
                 requiresAuth: true,
                 is_principal: true

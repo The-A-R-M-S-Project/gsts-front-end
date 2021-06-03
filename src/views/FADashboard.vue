@@ -38,7 +38,7 @@
               <div
                 class="responsive-report"
                 :class="
-                  $vuetify.breakpoint.xs ? 'mobile-report' : 'desktop-report'
+                  $vuetify.breakpoint.xs ? 'mobile-performance' : 'desktop-performance'
                 "
               >
                 <canvas id="fineArtReports"></canvas>
@@ -53,27 +53,54 @@
             class="pb-3"
             :class="{ 'pr-2': !$vuetify.breakpoint.xs }"
           >
-            <v-card max-width="90vw" class="mx-auto">
-              <v-card-text class="pa-1">
-                <h2 class="text-center custom-font-family headline">
-                  Performance
-                </h2>
-                <v-row class="px-2">
-                  <v-col sm="12" md="12">
-                    <div
-                      class="responsive-performance"
-                      :class="
-                        $vuetify.breakpoint.xs
-                          ? 'mobile-performance'
-                          : 'desktop-performance'
-                      "
-                    >
-                      <canvas id="fineArtPerformance"></canvas>
-                    </div>
-                  </v-col>
-                </v-row>
-              </v-card-text>
-            </v-card>
+            <v-row>
+              <v-col cols="12" class="pt-0">
+                <v-card elevation="24" class="pb-4">
+                  <v-card-text class="pa-1">
+                    <h2 class="text-center custom-font-family headline">
+                      Report statistics
+                    </h2>
+                  </v-card-text>
+                  <v-row align="center" justify="center">
+                    <v-col>
+                       <h4 class="text-center grey--text text--darken-1 pt-6 pb-4">
+                        Cleared / Uncleared reports
+                      </h4>
+                      <StatCard :statOne="9" :statTwo="4" color="#9C27B0" department="Architecture and Physical planning" />
+                    </v-col>
+                    <v-col>
+                      <h4 class="text-center grey--text text--darken-1 pt-6 pb-4">
+                        Complete / Incomplete progress
+                      </h4>
+                      <StatCard :statOne="3" :statTwo="6" color="#9C27B0" department="Architecture and Physical planning" />
+                    </v-col>
+                  </v-row>
+                </v-card>
+              </v-col>
+              <v-col cols="12">
+                <v-card max-width="90vw" class="mx-auto">
+                  <v-card-text class="pa-1">
+                    <h2 class="text-center custom-font-family headline">
+                      Performance
+                    </h2>
+                    <v-row class="px-2">
+                      <v-col sm="12" md="12">
+                        <div
+                          class="responsive-performance"
+                          :class="
+                            $vuetify.breakpoint.xs
+                              ? 'mobile-performance'
+                              : 'desktop-performance'
+                          "
+                        >
+                          <canvas id="fineArtPerformance"></canvas>
+                        </div>
+                      </v-col>
+                    </v-row>
+                  </v-card-text>
+                </v-card>
+              </v-col>
+            </v-row>
           </v-col>
           <v-col
             sm="12"
@@ -81,14 +108,41 @@
             class="pb-3"
             :class="{ 'pl-2': !$vuetify.breakpoint.xs }"
           >
-            <v-card max-width="90vw" class="mx-auto">
-              <v-card-text>
-                <h2 class="text-center custom-font-family headline">
-                  Upcoming deadlines
-                </h2>
-              </v-card-text>
-              <Calendar />
-            </v-card>
+            <!-- <v-row>
+              <v-col cols="12" class="pt-0">
+                <v-card elevation="24">
+                  <v-card-text class="pa-1">
+                    <h2 class="text-center custom-font-family headline">
+                      Report statistics
+                    </h2>
+                  </v-card-text>
+                  <v-row align="center" justify="center">
+                    <v-col>
+                       <h4 class="text-center grey--text text--darken-1">
+                        Cleared / Uncleared reports
+                      </h4>
+                      <StatCard :statOne="9" :statTwo="4" color="#9C27B0" department="Architecture and Physical planning" />
+                    </v-col>
+                    <v-col>
+                      <h4 class="text-center grey--text text--darken-1">
+                        Complete / Incomplete progress
+                      </h4>
+                      <StatCard :statOne="3" :statTwo="6" color="#9C27B0" department="Architecture and Physical planning" />
+                    </v-col>
+                  </v-row>
+                </v-card>
+              </v-col>
+              <v-col cols="12"> -->
+                <v-card max-width="90vw" class="mx-auto">
+                  <v-card-text>
+                    <h2 class="text-center custom-font-family headline">
+                      Upcoming events
+                    </h2>
+                  </v-card-text>
+                  <Calendar />
+                </v-card>
+              <!-- </v-col> -->
+            <!-- </v-row> -->
           </v-col>
         </v-row>
       </v-row>
@@ -101,6 +155,7 @@
 import Navigation from "@/components/Navbar.vue";
 import VivaStatus from "@/components/VivaStatus.vue";
 import Calendar from "@/components/Calendar.vue";
+import StatCard from "@/components/StatCard.vue"
 import OverlayLoader from "@/components/OverlayLoader.vue";
 import MobileDrawer from "@/components/MobileDrawer.vue";
 import Footer from "@/components/Footer.vue";
@@ -156,34 +211,103 @@ export default {
           labels: ["Fine Art"],
           datasets: [
             {
-              label: "submitted",
-              backgroundColor: "#9C27B0",
+              label: "Not submitted",
+              backgroundColor: "#9E9E9E",
               borderWidth: 0,
               barPercentage: 0.7,
               categoryPercentage: 0.3,
-              data: [6],
-              // data: [values[0][0].submitted]
+              minBarLength: 5,
+              //   data: [
+              //     values[0][0].notSubmitted,
+              //   ]
+              data: [2, 1, 7],
             },
             {
-              label: "With examiner",
-              backgroundColor: "#2196F3",
+              label: "Submitted",
+              backgroundColor: "#D84315",
               borderWidth: 0,
               barPercentage: 0.7,
               categoryPercentage: 0.3,
-              // data: [values[0][0].withExaminer]
-              data: [4],
+              minBarLength: 5,
+              //   data: [
+              //     values[0][0].submitted,
+              //   ]
+              data: [10, 4, 3],
             },
             {
-              label: "Cleared",
-              backgroundColor: "#009688",
+              label: "Assigned to examiners",
+              backgroundColor: "#F4511E",
               borderWidth: 0,
               barPercentage: 0.7,
               categoryPercentage: 0.3,
-              data: [3],
-              // data: [values[0][0].cleared]
+              minBarLength: 5,
+              // data: [
+              //   values[0][0].assignedToExaminers,
+              // ],
+              data: [3, 2, 4],
             },
-          ],
-        },
+            {
+              label: "With examiners",
+              backgroundColor: "#FF9800",
+              borderWidth: 0,
+              barPercentage: 0.7,
+              categoryPercentage: 0.3,
+              minBarLength: 5,
+              //   data: [
+              //     values[0][0].receivedByExaminers,
+              //   ]
+              data: [2, 0, 1],
+            },
+            {
+              label: "Cleared by examiners",
+              backgroundColor: "#FFB74D",
+              borderWidth: 0,
+              barPercentage: 0.7,
+              categoryPercentage: 0.3,
+              minBarLength: 5,
+              // data: [
+              //   values[0][0].clearedByExaminers,
+              // ],
+              data: [3, 2, 1],
+            },
+            {
+              label: "Viva date set",
+              backgroundColor: "#FFC107",
+              borderWidth: 0,
+              barPercentage: 0.7,
+              categoryPercentage: 0.3,
+              minBarLength: 5,
+              // data: [
+              //   values[0][0].vivaDateSet,
+              // ],
+              data: [2, 2, 2],
+            },
+            {
+              label: "Viva complete",
+              backgroundColor: "#81C784",
+              borderWidth: 0,
+              barPercentage: 0.7,
+              categoryPercentage: 0.3,
+              minBarLength: 5,
+              // data: [
+              //   values[0][0].vivaComplete,
+              // ],
+              data: [1, 1, 0],
+            },
+            {
+              label: "Complete",
+              backgroundColor: "#4CAF50",
+              borderWidth: 0,
+              barPercentage: 0.7,
+              categoryPercentage: 0.3,
+              minBarLength: 5,
+              // data: [
+              //   values[0][0].complete,
+              // ],
+              data: [1, 0, 0],
+            },
+          ]
+      },
         options: chartData.options,
       });
     },
@@ -254,6 +378,7 @@ export default {
     Navigation,
     VivaStatus,
     Calendar,
+    StatCard,
     MobileDrawer,
     OverlayLoader,
     Footer,
@@ -315,7 +440,7 @@ let reportChartOptions = {
   position: relative;
 }
 .desktop-performance {
-  height: 50vh !important;
+  height: 56vh !important;
 }
 .mobile-performance {
   height: 25vh !important;

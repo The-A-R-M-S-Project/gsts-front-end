@@ -24,8 +24,8 @@ export default {
       chartData: {
         type: "bar",
         options: chartOptions,
-        selectedSchool: null,
       },
+      selectedSchool: null,
     };
   },
   async created() {
@@ -60,9 +60,9 @@ export default {
   },
   methods: {
     createChart(chartId, chartData) {
-      let values = this.reportStats.map((obj) => {
-        return Object.values(obj);
-      });
+      // let values = this.reportStats.map((obj) => {
+      //   return Object.values(obj);
+      // });
       Chart.defaults.global.defaultFontFamily = "Comfortaa";
       const ctx = document.getElementById(chartId);
       new Chart(ctx, {
@@ -72,11 +72,26 @@ export default {
           labels: this.determineLabel(),
           datasets: [
             {
-              label: "Submitted",
-              backgroundColor: "#9C27B0",
+              label: "Not submitted",
+              backgroundColor: "#9E9E9E",
               borderWidth: 0,
               barPercentage: 0.7,
               categoryPercentage: 0.3,
+              minBarLength: 5,
+              //   data: [
+              //     values[0][0].notSubmitted,
+              //     values[1][0].notSubmitted,
+              //     values[2][0].notSubmitted
+              //   ]
+              data: [2, 1, 7],
+            },
+            {
+              label: "Submitted",
+              backgroundColor: "#D84315",
+              borderWidth: 0,
+              barPercentage: 0.7,
+              categoryPercentage: 0.3,
+              minBarLength: 5,
               //   data: [
               //     values[0][0].submitted,
               //     values[1][0].submitted,
@@ -85,30 +100,88 @@ export default {
               data: [10, 4, 3],
             },
             {
-              label: "With examiner",
-              backgroundColor: "#2196F3",
+              label: "Assigned to examiners",
+              backgroundColor: "#F4511E",
               borderWidth: 0,
               barPercentage: 0.7,
               categoryPercentage: 0.3,
-              //   data: [
-              //     values[0][0].withExaminer,
-              //     values[1][0].withExaminer,
-              //     values[2][0].withExaminer
-              //   ]
-              data: [17, 15, 12],
+              minBarLength: 5,
+              // data: [
+              //   values[0][0].assignedToExaminers,
+              //   values[1][0].assignedToExaminers,
+              //   values[2][0].assignedToExaminers
+              // ],
+              data: [3, 2, 4],
             },
             {
-              label: "Cleared",
-              backgroundColor: "#009688",
+              label: "With examiners",
+              backgroundColor: "#FF9800",
               borderWidth: 0,
               barPercentage: 0.7,
               categoryPercentage: 0.3,
+              minBarLength: 5,
+              //   data: [
+              //     values[0][0].receivedByExaminers,
+              //     values[1][0].receivedByExaminers,
+              //     values[2][0].receivedByExaminers
+              //   ]
+              data: [2, 0, 1],
+            },
+            {
+              label: "Cleared by examiners",
+              backgroundColor: "#FFB74D",
+              borderWidth: 0,
+              barPercentage: 0.7,
+              categoryPercentage: 0.3,
+              minBarLength: 5,
               // data: [
-              //   values[0][0].cleared,
-              //   values[1][0].cleared,
-              //   values[2][0].cleared
+              //   values[0][0].clearedByExaminers,
+              //   values[1][0].clearedByExaminers,
+              //   values[2][0].clearedByExaminers
               // ],
-              data: [8, 7, 6],
+              data: [3, 2, 1],
+            },
+            {
+              label: "Viva date set",
+              backgroundColor: "#FFC107",
+              borderWidth: 0,
+              barPercentage: 0.7,
+              categoryPercentage: 0.3,
+              minBarLength: 5,
+              // data: [
+              //   values[0][0].vivaDateSet,
+              //   values[1][0].vivaDateSet,
+              //   values[2][0].vivaDateSet
+              // ],
+              data: [2, 2, 2],
+            },
+            {
+              label: "Viva complete",
+              backgroundColor: "#81C784",
+              borderWidth: 0,
+              barPercentage: 0.7,
+              categoryPercentage: 0.3,
+              minBarLength: 5,
+              // data: [
+              //   values[0][0].vivaComplete,
+              //   values[1][0].vivaComplete,
+              //   values[2][0].vivaComplete
+              // ],
+              data: [1, 1, 0],
+            },
+            {
+              label: "Complete",
+              backgroundColor: "#4CAF50",
+              borderWidth: 0,
+              barPercentage: 0.7,
+              categoryPercentage: 0.3,
+              minBarLength: 5,
+              // data: [
+              //   values[0][0].complete,
+              //   values[1][0].complete,
+              //   values[2][0].complete
+              // ],
+              data: [1, 0, 0],
             },
           ],
         },
@@ -152,7 +225,7 @@ let chartOptions = {
     align: "center",
     labels: {
       usePointStyle: true,
-      padding: 5,
+      padding: 18,
     },
   },
   layout: {

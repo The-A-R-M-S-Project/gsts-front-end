@@ -41,14 +41,28 @@
             </v-card>
           </v-col>
           <v-col sm="12" md="6" class="pb-3 pl-2" grow>
-            <v-card class="mx-auto" max-width="90vw">
-              <v-card-text class="pa-1">
-                <h2 class="text-center custom-font-family headline">
-                  Upcoming deadlines
-                </h2>
-                <Calendar />
-              </v-card-text>
-            </v-card>
+            <v-row align="center" justify="center" no-gutters>
+              <v-col cols="12" class="pb-4">
+                <v-card elevation="24">
+                  <v-card-text class="pa-1">
+                    <h2 class="text-center custom-font-family headline">
+                      Report statistics
+                    </h2>
+                  </v-card-text>
+                  <ReportStatistics />
+                </v-card>
+              </v-col>
+              <v-col cols="12">
+                <v-card elevation="24">
+                  <v-card-text class="pa-1">
+                    <h2 class="text-center custom-font-family headline">
+                      Upcoming events
+                    </h2>
+                  </v-card-text>
+                  <Calendar />
+                </v-card>
+              </v-col>
+            </v-row>
           </v-col>
         </v-row>
       </v-row>
@@ -62,6 +76,7 @@ import Navigation from "@/components/Navbar.vue";
 import MobileDrawer from "@/components/MobileDrawer.vue";
 import VivaStatus from "@/components/VivaStatus.vue";
 import ReportStatus from "@/components/ReportStatus.vue";
+import ReportStatistics from "@/components/ReportStatistics.vue";
 import PerfomanceChart from "@/components/Performance.vue";
 import Calendar from "@/components/Calendar.vue";
 import OverlayLoader from "@/components/OverlayLoader.vue";
@@ -74,6 +89,7 @@ export default {
     MobileDrawer,
     VivaStatus,
     ReportStatus,
+    ReportStatistics,
     PerfomanceChart,
     Calendar,
     OverlayLoader,
