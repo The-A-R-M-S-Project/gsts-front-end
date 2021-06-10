@@ -211,7 +211,7 @@ const actions = {
         let accessToken = localStorage.getItem("jwt");
         axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
         try { // TODO Include response feedback
-            let response = await axiosInstance.post(`/report/staff/uploadVivaCommitterreport/${
+            let response = await axiosInstance.patch(`/report/staff/uploadVivaCommitterreport/${
                 data.studentReportID
             }`, data.report)
             commit("setVivaScoreSuccess", {

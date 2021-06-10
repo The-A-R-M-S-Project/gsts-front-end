@@ -86,14 +86,17 @@ const actions = {
         axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
         commit("setOverlayLoader", true);
         try {
-            let response = await axiosInstance.get("/student/me")
+            //Fetching logged-in student profile
+            let response = await axiosInstance.get("/student/me");
             commit("setLoggedInStudentDetails", response.data);
-            response = await axiosInstance.get("/report/student")
+            //Fetching logged-in student report
+            response = await axiosInstance.get("/report/student");
             commit("setStudentReport", response.data);
             commit("setOverlayLoader", false);
         } catch (error) {
             commit("setOverlayLoader", false);
-            commit("fetchStudentDashboardError", error.response.data.message)
+            // console.log("Dashboard error: ", error.response);
+            commit("fetchStudentDashboardError", error.response.data.message);
         }
     },
     async createReport({
