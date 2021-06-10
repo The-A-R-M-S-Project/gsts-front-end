@@ -98,6 +98,7 @@
       :loading="tableLoading"
       :loader-height="tableLoaderHeight"
       :key="studentsTableKey"
+      class="fill-height-container"
     >
       <template v-slot:header="{ props: { headers } }">
         <thead>
@@ -565,9 +566,6 @@ export default {
 };
 </script>
 <style>
-.students-table {
-  width: 100%;
-}
 .select-department {
   width: 90%;
 }

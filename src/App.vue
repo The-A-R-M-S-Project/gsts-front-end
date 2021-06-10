@@ -17,6 +17,9 @@ export default {
 // .custom-font-family {
 //   font-family: "Comfortaa", "Arial" !important;
 // }
+.fill-height-container {
+  min-height: 70vh !important;
+}
 .normal-text {
   font-size: 1.3rem !important;
 }
