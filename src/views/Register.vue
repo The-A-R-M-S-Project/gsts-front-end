@@ -119,7 +119,6 @@
                     ></v-text-field>
                     <div class="mx-5">
                       <v-btn
-                        type="submit"
                         large
                         width="400"
                         rounded
@@ -326,34 +325,30 @@ export default {
     ]),
   },
   methods: {
-    register() {
-      event.preventDefault();
+    async register() {
       if (this.$refs.registerForm.validate()) {
-        this.$store
-          .dispatch("register", {
-            firstName: this.firstName,
-            lastName: this.lastName,
-            email: this.email,
-            program: this.program._id,
-            password: this.password,
-            passwordConfirm: this.passwordConfirm,
-            phoneNumber: this.phoneNumber,
-            role: "student",
-          })
-          .then(() => {
-            if (this.isLogged) {
-              if (this.$route.params.continue != null) {
-                this.$router.push(this.$route.params.continue);
-              } else {
-                const user = this.user;
-                this.$router.push({
-                  name: `${user.role}-dashboard`,
-                });
-              }
-            } else {
-              this.displaySignUpError = true;
-            }
-          });
+        await this.$store.dispatch("register", {
+          firstName: this.firstName,
+          lastName: this.lastName,
+          email: this.email,
+          program: this.program._id,
+          password: this.password,
+          passwordConfirm: this.passwordConfirm,
+          phoneNumber: this.phoneNumber,
+          role: "student",
+        });
+        if (this.isLoggedIn){
+          if (this.$route.params.continue != null) {
+            this.$router.push(this.$route.params.continue);
+          } else {
+            const user = this.user;
+            this.$router.push({
+              name: `${user.role}-dashboard`,
+            });
+          }
+        } else {
+          this.displaySignUpError = true;
+        }
       }
     },
   },
