@@ -7,9 +7,9 @@
       <DeanNav class="d-none d-sm-block" />
     </template>
     <MobileDrawer />
-    <v-container fluid class="pt-1">
+    <v-container fluid class="pt-6">
       <v-row class="mx-1">
-        <StudentsTable />
+        <StudentsTable/>
       </v-row>
     </v-container>
     <Footer />
