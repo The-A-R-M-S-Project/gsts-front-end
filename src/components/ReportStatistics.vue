@@ -5,27 +5,27 @@
         <v-row align="center" justify="center">
           <v-col cols="12">
             <h4 class="text-center grey--text text--darken-1">
-              Cleared / Uncleared reports
+              Cleared reports
             </h4>
           </v-col>
           <v-col cols="4">
             <StatCard 
-              :statOne="getDepartmentValues(getDepartments()[0]).clearedReports" 
-              :statTwo="getDepartmentValues(getDepartments()[0]).unClearedReports" 
+              :statOne="getDepartmentValues(getDepartments()[0], 'clearance').cleared"
+              :statTwo="getDepartmentValues(getDepartments()[0], 'clearance').total"
               color="#009688" 
               :department="getDepartments()[0]" />
           </v-col>
           <v-col cols="4">
             <StatCard 
-              :statOne="getDepartmentValues(getDepartments()[1]).clearedReports" 
-              :statTwo="getDepartmentValues(getDepartments()[1]).unClearedReports" 
+              :statOne="getDepartmentValues(getDepartments()[1], 'clearance').cleared"
+              :statTwo="getDepartmentValues(getDepartments()[1], 'clearance').total" 
               color="#9C27B0" 
               :department="getDepartments()[1]" />
           </v-col>
           <v-col cols="4">
             <StatCard 
-              :statOne="getDepartmentValues(getDepartments()[2]).clearedReports" 
-              :statTwo="getDepartmentValues(getDepartments()[2]).unClearedReports" 
+              :statOne="getDepartmentValues(getDepartments()[2], 'clearance').cleared"
+              :statTwo="getDepartmentValues(getDepartments()[2], 'clearance').total" 
               color="#2196F3" 
               :department="getDepartments()[2]" />
           </v-col>
@@ -35,27 +35,27 @@
         <v-row align="center" justify="center">
           <v-col cols="12">
             <h4 class="text-center grey--text text--darken-1">
-              Complete / Incomplete progress
+              Complete progress
             </h4>
           </v-col>
           <v-col cols="4">
             <StatCard 
-              :statOne="getDepartmentValues(getDepartments()[0]).complete" 
-              :statTwo="getDepartmentValues(getDepartments()[0]).uncomplete" 
+              :statOne="getDepartmentValues(getDepartments()[0], 'progress').complete"
+              :statTwo="getDepartmentValues(getDepartments()[0], 'progress').total" 
               color="#009688" 
               :department="getDepartments()[0]" />
           </v-col>
           <v-col cols="4">
             <StatCard 
-              :statOne="getDepartmentValues(getDepartments()[1]).complete" 
-              :statTwo="getDepartmentValues(getDepartments()[1]).uncomplete"
+              :statOne="getDepartmentValues(getDepartments()[1], 'progress').complete"
+              :statTwo="getDepartmentValues(getDepartments()[1], 'progress').total" 
               color="#9C27B0" 
               :department="getDepartments()[1]" />            
           </v-col>
           <v-col cols="4">
             <StatCard 
-              :statOne="getDepartmentValues(getDepartments()[2]).complete" 
-              :statTwo="getDepartmentValues(getDepartments()[2]).uncomplete"
+              :statOne="getDepartmentValues(getDepartments()[2], 'progress').complete"
+              :statTwo="getDepartmentValues(getDepartments()[2], 'progress').total" 
               color="#2196F3" 
               :department="getDepartments()[2]" />
           </v-col>
@@ -119,11 +119,24 @@ export default {
     ...mapGetters(["schools", "reportStats", "user"]),
   },
   methods: {
-    getDepartmentValues(departmentName) {
-        let departmentStats = this.reportStats.find(department => {
-          return Object.keys(department)[0] === departmentName;
-        });
-        return departmentStats ? Object.values(departmentStats)[0] : {};
+    getDepartmentValues(departmentName, stat) {
+        let departmentStats = this.reportStats.find(department => Object.keys(department)[0] === departmentName);
+        let statistics = Object.values(departmentStats)[0];
+        if(departmentStats) {
+          if(stat === "clearance"){
+            return {
+              cleared: statistics.clearedReports,
+              total: (statistics.clearedReports + statistics.unClearedReports)
+            }
+          } else {
+            return {
+              complete: statistics.complete,
+              total: (statistics.complete + statistics.uncomplete)
+            }
+          }
+        } else{
+          return {}
+        }
     },
     getDepartments() {
       return this.reportStats.map((obj) => {
