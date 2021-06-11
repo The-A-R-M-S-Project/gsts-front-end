@@ -92,7 +92,7 @@
       <template v-slot:expanded-item="{ headers, item }">
         <td :colspan="headers.length">
           <v-row align="center" justify="center">
-            <v-col cols="12" sm="9" :md="!item.vivaCommitteeReport ? 10 : 12">
+            <v-col cols="12" sm="9">
               <v-progress-linear
                 :value="progressEvents[`${item.status}`].value"
                 :color="progressEvents[`${item.status}`].color"
@@ -105,7 +105,7 @@
                 >
               </v-progress-linear>
             </v-col>
-            <v-col cols="12" sm="3" :md="!item.vivaCommitteeReport ? 2 : 0">
+            <v-col cols="12" sm="3">
               <v-row
                 v-if="item.status === 'vivaDateSet'"
                 align="center"
@@ -117,7 +117,7 @@
               </v-row>
               <v-row
                 v-else-if="
-                  item.status === 'vivaComplete' && !item.vivaCommitteeReport
+                  item.status === 'vivaComplete'
                 "
                 align="center"
                 justify="center"

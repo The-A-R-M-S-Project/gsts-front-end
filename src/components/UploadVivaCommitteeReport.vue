@@ -2,8 +2,16 @@
   <div class="text-center">
     <v-dialog v-model="dialog" width="700">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn v-bind="attrs" v-on="on" :loading="submitLoading" color="primary"
-          >Upload Report</v-btn
+        <v-btn 
+          v-bind="attrs" 
+          v-on="on" 
+          :loading="submitLoading" 
+          color="primary"
+          :disabled="!!selectedStudent.vivaCommitteeReport"
+        >
+        <span v-if="selectedStudent.vivaCommitteeReport">Report uploaded</span>
+        <span v-else>Upload report</span>
+        </v-btn
         >
       </template>
 
@@ -15,7 +23,7 @@
             @click="viewDetails()"
             dark
             large
-            :disabled="user.role === 'secretary'"
+            v-if="user.role !== 'secretary'"
             icon
             :loading="detailLoading"
           >
@@ -95,7 +103,7 @@ export default {
         await this.$store.dispatch("uploadVivaCommitteeReport", {
           studentReportID: this.selectedStudent._id,
           report: formData,
-          studentName: this.selectedStudent.student.name,
+          studentName: `${this.selectedStudent.student.firstName} ${this.selectedStudent.student.lastName}`,
         });
         this.dialog = false;
       }
