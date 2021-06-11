@@ -1,9 +1,16 @@
 <template>
-    <v-card width="150" :color="color" class="mx-auto">
-        <v-card-text class="white--text text-center heading font-weight-bold">
-            {{statOne}} <v-icon large color="white">mdi-slash-forward</v-icon> {{statTwo}}
-        </v-card-text>
-    </v-card>    
+    <v-progress-circular
+      size="130"
+      :rotate="-90"
+      :width="16"
+      :value="(statOne*100/statTwo)"
+      :color="color"
+      class="font-weight-bold headline"
+    >
+      <span class="mb-4 ml-4">{{statOne}} </span>
+      <v-icon large :color="color">mdi-slash-forward</v-icon>
+      <span class="mt-4 mr-4">{{statTwo}}</span>
+    </v-progress-circular>
 </template>
 
 <script>
