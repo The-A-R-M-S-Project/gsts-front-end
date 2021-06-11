@@ -17,7 +17,7 @@
             <v-col cols="12">
               <StudentProgress class="mb-6" />
             </v-col>
-            <v-col cols="12">
+            <v-col v-if="user.role !== 'examiner'" cols="12">
               <v-row align="center" justify="center" no-gutters>
                 <v-col cols="12">
                   <div class="text-center">
