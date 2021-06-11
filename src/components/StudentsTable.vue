@@ -241,6 +241,8 @@
                               <v-col
                                 v-for="(examiner, index) in item.examiners"
                                 :key="index"
+                                cols="12"
+                                sm="4"
                               >
                                 <div>
                                   <span class="font-weight-bold">Name:</span>
@@ -256,6 +258,10 @@
                                     Status:
                                   </span>
                                   {{ examinerStatus[examiner.status] }}
+                                  <v-icon v-if="examinerStatus[examiner.status] === 'Accepted'" color="success">mdi-check-circle</v-icon>
+                                  <v-icon v-else-if="examinerStatus[examiner.status] === 'Rejected'" color="error">mdi-close-circle</v-icon>
+                                  <v-icon v-else-if="examinerStatus[examiner.status] === 'Pending reply'" color="primary">mdi-dots-horizontal-circle-outline</v-icon>
+                                  <v-icon v-else-if="examinerStatus[examiner.status] === 'Report cleared'" color="success">mdi-file-check</v-icon>
                                 </div>
                               </v-col>
                             </v-row>
