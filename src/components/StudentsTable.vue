@@ -258,10 +258,10 @@
                                     Status:
                                   </span>
                                   {{ examinerStatus[examiner.status] }}
-                                  <v-icon v-if="examinerStatus[examiner.status] === 'Accepted'" color="success">mdi-check-circle</v-icon>
-                                  <v-icon v-else-if="examinerStatus[examiner.status] === 'Rejected'" color="error">mdi-close-circle</v-icon>
-                                  <v-icon v-else-if="examinerStatus[examiner.status] === 'Pending reply'" color="primary">mdi-dots-horizontal-circle-outline</v-icon>
-                                  <v-icon v-else-if="examinerStatus[examiner.status] === 'Report cleared'" color="success">mdi-file-check</v-icon>
+                                  <v-icon small v-if="examinerStatus[examiner.status] === 'Accepted'" color="success">mdi-check-circle</v-icon>
+                                  <v-icon small v-else-if="examinerStatus[examiner.status] === 'Rejected'" color="error">mdi-close-circle</v-icon>
+                                  <v-icon small v-else-if="examinerStatus[examiner.status] === 'Pending reply'" color="primary">mdi-dots-horizontal-circle-outline</v-icon>
+                                  <v-icon small v-else-if="examinerStatus[examiner.status] === 'Report cleared'" color="success">mdi-file-check</v-icon>
                                 </div>
                               </v-col>
                             </v-row>
@@ -505,16 +505,24 @@ export default {
       this.$store.dispatch("setSelectedStudent", value);
     },
     itemExpanded(value) {
+      console.log("Item: ", value.item);
       this.$store.dispatch("setSelectedStudent", value.item);
     },
     viewDetails(report) {
       this.$router.push(`/student-progress/${report._id}`);
     },
     formatDate(viva) {
-      if (viva) {
+      if (viva && viva.vivaEvent) {
         let newFormat = new Date(viva.vivaEvent.eventDate);
-        let newDate = `${newFormat}`.substring(4, 15);
-        return newDate.replace(/ /g, " - ");
+        let newDate = `${newFormat.toLocaleTimeString(
+        {},
+        {
+          hour12: true,
+          hour: "numeric",
+          minute: "numeric",
+        }
+      )}, ${newFormat.toString().substring(4, 15)}`;
+        return newDate;
       } else {
         return "Not set";
       }
