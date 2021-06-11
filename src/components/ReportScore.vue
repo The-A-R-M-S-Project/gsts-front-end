@@ -11,8 +11,8 @@
           <v-row align="center" justify="center" no-gutters>
             <v-col cols="5" sm="3">
               <div class="text-center">
-                <p class="display-4 blue--text font-weight-medium">
-                  {{ assignedStudents.length }}
+                <p class="display-4 blue--text pb-12 font-weight-medium">
+                  <span class="headline">Total</span> <br/> {{ assignedStudents.length }}
                 </p>
               </div>
             </v-col>
