@@ -66,8 +66,9 @@
             @click="editReport"
             type="submit"
             :loading="detailLoading"
-            dark
             color="teal"
+            class="white--text"
+            :disabled="progressEvents[studentReport.status].step !== 1 && progressEvents[studentReport.status].step !== 7"
           >
             <span v-if="studentReport.title">Edit</span>
             <span v-else>Create</span>
@@ -138,7 +139,7 @@
           </p>
           <p class="mb-10">
             <span
-              v-if="studentReport.status === 'submitted'"
+              v-if="progressEvents[studentReport.status].step > 1"
               class="body-1 font-weight-light"
               >Submitted:</span
             >
@@ -147,7 +148,7 @@
               class="body-1 font-weight-light"
               >Created:</span
             >
-            <span v-if="studentReport.status === 'submitted'"
+            <span v-if="progressEvents[studentReport.status].step > 1"
               >&nbsp;{{ formatDate(studentReport.submittedAt) }}</span
             >
             <span
@@ -191,9 +192,10 @@
                 <v-btn
                   v-bind="attrs"
                   v-on="on"
-                  dark
                   :loading="submitReportLoading"
                   color="teal"
+                  class="white--text"
+                  :disabled="progressEvents[studentReport.status].step !== 1 && progressEvents[studentReport.status].step !== 7"
                   >submit</v-btn
                 >
               </template>
@@ -262,6 +264,7 @@ export default {
     this.fileSelected = false;
     this.fileErrorMessage = [];
     await this.$store.dispatch("fetchLoggedInStudentDetails");
+    console.log("Report: ", this.studentReport);
     this.reportTitle = this.studentReport.title;
     this.reportAbstract = this.studentReport.abstract
       ? this.studentReport.abstract
@@ -275,6 +278,7 @@ export default {
       "detailLoading",
       "submitReportLoading",
       "reportSubmitMessage",
+      "progressEvents"
     ]),
     words() {
       return `Words: ${this.countWords(this.reportAbstract)}`;
@@ -290,7 +294,7 @@ export default {
           hour: "numeric",
           minute: "numeric",
         }
-      )}, ${new String(monthDay).substring(4, 15).replace(/ /g, "-")}`;
+      )}, ${new String(monthDay).substring(4, 15)}`;
     },
     async editReport() {
       event.preventDefault();
