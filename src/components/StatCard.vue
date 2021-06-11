@@ -1,6 +1,6 @@
 <template>
     <v-progress-circular
-      size="130"
+      :size="statTwo > 10? 130: 120"
       :rotate="-90"
       :width="16"
       :value="(statOne*100/statTwo)"

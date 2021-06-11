@@ -8,21 +8,21 @@
               Cleared reports
             </h4>
           </v-col>
-          <v-col cols="4">
-            <StatCard 
+          <v-col cols="4" class="text-center">
+            <StatCard
               :statOne="getDepartmentValues(getDepartments()[0], 'clearance').cleared"
               :statTwo="getDepartmentValues(getDepartments()[0], 'clearance').total"
               color="#009688" 
               :department="getDepartments()[0]" />
           </v-col>
-          <v-col cols="4">
+          <v-col cols="4" class="text-center">
             <StatCard 
               :statOne="getDepartmentValues(getDepartments()[1], 'clearance').cleared"
               :statTwo="getDepartmentValues(getDepartments()[1], 'clearance').total" 
               color="#9C27B0" 
               :department="getDepartments()[1]" />
           </v-col>
-          <v-col cols="4">
+          <v-col cols="4" class="text-center">
             <StatCard 
               :statOne="getDepartmentValues(getDepartments()[2], 'clearance').cleared"
               :statTwo="getDepartmentValues(getDepartments()[2], 'clearance').total" 
@@ -38,21 +38,21 @@
               Complete progress
             </h4>
           </v-col>
-          <v-col cols="4">
+          <v-col cols="4" class="text-center">
             <StatCard 
               :statOne="getDepartmentValues(getDepartments()[0], 'progress').complete"
               :statTwo="getDepartmentValues(getDepartments()[0], 'progress').total" 
               color="#009688" 
               :department="getDepartments()[0]" />
           </v-col>
-          <v-col cols="4">
+          <v-col cols="4" class="text-center">
             <StatCard 
               :statOne="getDepartmentValues(getDepartments()[1], 'progress').complete"
               :statTwo="getDepartmentValues(getDepartments()[1], 'progress').total" 
               color="#9C27B0" 
               :department="getDepartments()[1]" />            
           </v-col>
-          <v-col cols="4">
+          <v-col cols="4" class="text-center">
             <StatCard 
               :statOne="getDepartmentValues(getDepartments()[2], 'progress').complete"
               :statTwo="getDepartmentValues(getDepartments()[2], 'progress').total" 
@@ -121,8 +121,8 @@ export default {
   methods: {
     getDepartmentValues(departmentName, stat) {
         let departmentStats = this.reportStats.find(department => Object.keys(department)[0] === departmentName);
-        let statistics = Object.values(departmentStats)[0];
         if(departmentStats) {
+          let statistics = Object.values(departmentStats)[0];
           if(stat === "clearance"){
             return {
               cleared: statistics.clearedReports,
