@@ -117,7 +117,7 @@
             >
             <span v-else>&nbsp;Report not created</span>
           </p>
-          <p v-if="studentReport.submittedAt">
+          <p v-if="progressEvents[studentReport.status].step > 1">
             <span class="body-1 font-weight-light">Submitted report:</span>
             <span class="subheading"
               >&nbsp;
@@ -139,22 +139,23 @@
           </p>
           <p class="mb-10">
             <span
+              v-if="studentReport.createdAt"
+              class="body-1 font-weight-light"
+              >Created:</span
+            >
+            <span
+              v-if="studentReport.createdAt"
+              class="subheading"
+              >&nbsp; {{ formatDate(studentReport.createdAt) }}</span
+            >
+            <br>
+            <span
               v-if="progressEvents[studentReport.status].step > 1"
               class="body-1 font-weight-light"
               >Submitted:</span
             >
-            <span
-              v-else-if="studentReport === 'notSubmitted'"
-              class="body-1 font-weight-light"
-              >Created:</span
-            >
             <span v-if="progressEvents[studentReport.status].step > 1"
               >&nbsp;{{ formatDate(studentReport.submittedAt) }}</span
-            >
-            <span
-              v-else-if="studentReport === 'notSubmitted'"
-              class="subheading"
-              >&nbsp; {{ formatDate(studentReport.createdAt) }}</span
             >
           </p>
           <v-form ref="submitReportForm">
