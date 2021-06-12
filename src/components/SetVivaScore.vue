@@ -85,7 +85,7 @@ export default {
       if (this.$refs.vivaScore.validate()) {
         await this.$store.dispatch("setVivaScore", {
           reportID: this.selectedStudent._id,
-          studentName: this.selectedStudent.student.firstName,
+          studentName: `${this.selectedStudent.student.firstName} ${this.selectedStudent.student.lastName}`,
           vivaScore: { vivaScore: this.score },
         });
         await this.$store.dispatch("fetchReports");
