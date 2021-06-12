@@ -1,9 +1,9 @@
 <template>
-  <section class="text-center pb-12">
+  <section class="text-center">
     <v-dialog v-model="examinerAssessmentsDialog" width="700">
       <template v-slot:activator="{ on, attrs }">
         <v-btn v-bind="attrs" v-on="on" color="primary"
-          >View Examiner Assessments</v-btn
+          >Report Assessments</v-btn
         >
       </template>
 
