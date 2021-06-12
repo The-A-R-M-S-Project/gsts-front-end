@@ -93,7 +93,6 @@ export default {
     await this.$store.dispatch("fetchLoggedInStaff");
     if (this.user.role === "dean") {
       await this.$store.dispatch("fetchDeanDashboardStats");
-      console.log("Results: ", this.getDepartmentValues(this.getDepartments()[0]));
     } else {
       await this.$store.dispatch("fetchSchools");
       if (this.$route.path === "/ECE-dashboard") {

@@ -341,6 +341,7 @@ export default {
       this.$store.dispatch("setExaminerStudentDetails", value.report);
     },
     itemExpanded(value) {
+      console.log("Item: ", value.item);
       this.$store.dispatch("setExaminerStudentDetails", value.item.report);
     },
     async viewDetails(student) {

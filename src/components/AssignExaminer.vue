@@ -73,14 +73,14 @@
                   }}</v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
-              <v-list-item>
+              <!-- <v-list-item>
                 <v-list-item-content>
                   <v-list-item-title>Assigned Students</v-list-item-title>
                   <v-list-item-subtitle>{{
                     field.students.length
                   }}</v-list-item-subtitle>
                 </v-list-item-content>
-              </v-list-item>
+              </v-list-item> -->
             </v-list>
           </v-expand-transition>
         </v-card-text>
