@@ -70,12 +70,24 @@
                     progressEvents[`${studentReport.status}`].step > 3
                   "
                   cols="12"
+                  class="pb-12"
                 >
-                  <p class="text-center text-decoration-underline">
-                    <strong>Assessments</strong>
-                  </p>
-
-                  <ExaminerAssessment />
+                  <div class="text-center">
+                    <h3 class="text-center">Assessment</h3>
+                    <hr class="mx-auto divider" />
+                  </div>
+                    <v-row align="center" justify="center">
+                      <v-col :md="studentReport.vivaCommitteeReport ? '4': false">
+                        <ExaminerAssessment />
+                      </v-col>
+                      <v-col v-if="studentReport.vivaCommitteeReport" md="4">
+                        <div class="text-center">
+                          <v-btn color="primary" target="_blank" :href="studentReport.vivaCommitteeReport">
+                            Viva assessment
+                          </v-btn>
+                        </div>
+                      </v-col>
+                    </v-row>
                 </v-col>
               </v-row>
             </v-col>
