@@ -59,10 +59,10 @@
           <template v-if="e6 > 2">
             <div class="v-stepper__content">
               <div class="body-1">
-                The examiners have acknowledged receipt of your report
+                All the examiners assigned to your report have acknowledged its receipt.
               </div>
               <div class="caption mt-3 font-weight-light">
-                {{ formatDate(studentReport.receivedAt) }}
+                {{ formatDate(studentReport.assignedAt) }}
               </div>
             </div>
           </template>
@@ -97,7 +97,7 @@
                 </span>
               </div> -->
               <div class="caption mt-3 font-weight-light">
-                {{ formatDate(studentReport.examinerScoreDate) }}
+                {{ formatDate(studentReport.clearedAt) }}
               </div>
             </div>
           </template>
@@ -124,7 +124,7 @@
               </div>
               <!-- This is supposed to be the date when the viva date was set by principal/dean -->
               <div class="caption mt-3 font-weight-light">
-                {{ formatDate(studentReport.examinerScoreDate) }}
+                {{ formatDate(studentReport.vivaDateSetAt) }}
               </div>
             </div>
           </template>
@@ -145,14 +145,14 @@
               </div>
               <div class="body-2">
                 You scored
-                <span class="subtitle-1">
+                <span class="subtitle-1 blue--text">
                   <strong>
                     <u>{{ studentReport.viva.vivaScore }}%</u>
                   </strong>
                 </span>
               </div>
               <div class="caption mt-3 font-weight-light">
-                {{ formatDate(studentReport.viva.vivaScoreDate) }}
+                {{ formatDate(studentReport.vivaCompleteAt) }}
               </div>
             </div>
           </template>
@@ -176,8 +176,11 @@
           </template>
           <v-stepper-content step="6">
             <template v-if="e6 === 6">
-              <div class="body-1 mb-1">Please make your final submission</div>
-              <div v-show="user.role === 'student'" class="body-2">
+              <div v-if="studentReport.vivaCommitteeReport" class="body-1 mb-1">Please make your final submission</div>
+              <div v-else class="body-1 mb-1">
+                To make your final submission, please wait for your viva assessment report to be uploaded.
+              </div>
+              <div v-show="user.role === 'student' && studentReport.vivaCommitteeReport" class="body-2">
                 In case you haven't made your final submission, click
                 <a @click="submitReport">here</a>.
                 <span>Include your compliance report in the submission.</span>
@@ -199,6 +202,7 @@ export default {
   async created() {
     if (this.user.role === "student") {
       await this.$store.dispatch("fetchLoggedInStudentDetails");
+      console.log("Report: ", this.studentReport);
     }
   },
   computed: {
