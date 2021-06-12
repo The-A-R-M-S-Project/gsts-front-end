@@ -24,7 +24,7 @@
         class="text-center"
         >{{ reportActionMessage }}</v-alert
       >
-      <h5 class="pt-4 pb-2">
+      <h5 v-if="progressEvents[studentReport.status].step === 0" class="pt-4 pb-2">
         <span class="primary--text">Note:</span> This is not your final report
         submission! After creating a report title, you will be able to make a
         final submission.
@@ -109,7 +109,7 @@
           </p>
           <p>
             <span class="body-1 font-weight-light">Upload status:</span>
-            <span v-if="studentReport.status === 'submitted'"
+            <span v-if="progressEvents[studentReport.status].step > 1"
               >&nbsp; Reported submitted</span
             >
             <span v-else-if="studentReport.title" class="subheading"
