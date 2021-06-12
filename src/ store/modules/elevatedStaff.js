@@ -22,6 +22,7 @@ const state = {
     studentsTableKey: 0,
     examinerAssessments: [],
     vivaScoreError: null,
+    vivaReportError: null,
     progressEvents: {
         notSubmitted: {
             value: 0,
@@ -173,8 +174,24 @@ const mutations = {
             payload.name
         }`
     },
+    setVivaReportSuccess(state, payload) {
+        let str = payload.res
+        let success = `${
+            str[0].toUpperCase()
+        }${
+            str.slice(1)
+        }`;
+        state.studentsTableMessage = `${
+            success
+        }. You've uploaded a viva assessment report for ${
+            payload.name
+        }`
+    },
     setVivaScoreError(state, payload) {
-        state.vivaScoreError = payload
+        state.vivaScoreError = payload;
+    },
+    setVivaReportError(state, payload) {
+        state.vivaReportError = payload;
     }
 }
 const actions = {
@@ -207,22 +224,21 @@ const actions = {
     async uploadVivaCommitteeReport({
         commit
     }, data) {
-        commit("setSubmitLoader", true)
+        commit("setSubmitLoader", true);
         let accessToken = localStorage.getItem("jwt");
         axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-        try { // TODO Include response feedback
-            let response = await axiosInstance.patch(`/report/staff/uploadVivaCommitterreport/${
-                data.studentReportID
-            }`, data.report)
-            commit("setVivaScoreSuccess", {
+        try {
+            let response = await axiosInstance.patch(`/report/staff/uploadVivaCommitteeReport/${data.studentReportID
+                }`, data.report);
+            commit("setVivaReportSuccess", {
                 res: response.data.status,
                 name: data.studentName
-            })
-            commit("setDisplayStudentTableFeedback", true)
-            commit("setSubmitLoader", false)
+            });
+            commit("setDisplayStudentTableFeedback", true);
+            commit("setSubmitLoader", false);
         } catch (error) {
-            commit("setSubmitLoader", false)
-            commit("setVivaScoreError", error.response.data.message)
+            commit("setSubmitLoader", false);
+            commit("setVivaReportError", error.response.data.message);
         }
     },
     async fetchExaminerAssessment({
@@ -306,23 +322,21 @@ const actions = {
         let accessToken = localStorage.getItem("jwt");
         axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
         try {
-            let response = await axiosInstance.patch(`/report/staff/examiner/assign/${
-                data.studentReportID
-            }`, {
+            let response = await axiosInstance.patch(`/report/staff/examiner/assign/${data.studentReportID}`, {
                 examiner: data.examinerID,
                 examinerType: data.examinerType
-            })
+            });
             commit("assignExaminerSuccess", {
                 res: response.data.status,
                 examiner: data.examinerName,
                 student: data.studentName
-            })
-            commit("setDisplayStudentTableFeedback", true)
-            commit("setSubmitLoader", false)
+            });
+            commit("setDisplayStudentTableFeedback", true);
+            commit("setSubmitLoader", false);
         } catch (error) {
-            commit("setSubmitLoader", false)
-            console.log(error)
-            commit("setAssignExaminerError", error.response.data.message)
+            commit("setSubmitLoader", false);
+            console.log(error.response);
+            commit("setAssignExaminerError", error.response.data.message);
         }
     },
     async addVivaCommitteeMember({
@@ -420,6 +434,7 @@ const getters = {
     progressEvents: (state) => state.progressEvents,
     selectedStudent: (state) => state.selectedStudent,
     reports: (state) => state.reports,
+    vivaReportError: (state) => state.vivaReportError,
     examiners: (state) => {
         return state.examiners.filter(staff => {
             return staff.role === "examiner"
