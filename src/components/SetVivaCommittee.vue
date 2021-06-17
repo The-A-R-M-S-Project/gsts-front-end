@@ -53,6 +53,14 @@
                   :rules="emailRules"
                 ></v-text-field>
                 <v-text-field
+                  v-model="phoneNumber"
+                  label="Phone Number (07...)"
+                  hint="This field is optional"
+                  :rules="phoneNumberRules"
+                  persistent-hint
+                  color="purple"
+                ></v-text-field>
+                <v-text-field
                   v-model="affiliation"
                   label="Affiliation"
                   :rules="required"
@@ -85,6 +93,7 @@ export default {
     return {
       dialog: false,
       name: "",
+      phoneNumber: "",
       email: "",
       affiliation: "",
       required: [(field) => !!field || "This field is required!"],
@@ -96,6 +105,9 @@ export default {
   },
   computed: {
     ...mapGetters(["selectedStudent", "submitLoading", "detailLoading"]),
+    phoneNumberRules(){
+      return this.phoneNumber ? [(number) => /(?=^07)(?=\d{10})/.test(number) || "The phone number is not valid"] : []
+    }
   },
   methods: {
     viewDetails() {
@@ -104,13 +116,25 @@ export default {
     async addVivaCommitteeMember() {
       console.log(this.selectedStudent);
       if (this.$refs.addVivaCommitteeMemberForm.validate()) {
-        await this.$store.dispatch("addVivaCommitteeMember", {
-          reportID: this.selectedStudent._id,
-          member: {
+        let memberDetails;
+        if (this.phoneNumber) {
+          memberDetails = {
             name: this.name,
             email: this.email,
-            affiliation: this.affiliation,
-          },
+            //TODO: The field below should be edited when this feature is worked on
+            phone: this.phoneNumber,
+            affiliation: this.affiliation
+          };
+        } else {
+          memberDetails = {
+            name: this.name,
+            email: this.email,
+            affiliation: this.affiliation
+          };
+        }
+        await this.$store.dispatch("addVivaCommitteeMember", {
+          reportID: this.selectedStudent._id,
+          member: memberDetails
         });
         await this.$store.dispatch("fetchReports");
         this.$store.dispatch("changeStudentsTableKey");
