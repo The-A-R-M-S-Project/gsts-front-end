@@ -135,7 +135,7 @@
               </v-row>
             </th>
           </tr>
-          <tr v-show="displayStudentTableFeedback">
+          <tr v-show="displayStudentTableFeedback && displayInTable">
             <th :colspan="headers.length">
               <v-alert color="success" dark class="text-center" dismissible>{{
                 studentsTableMessage
@@ -214,6 +214,15 @@
                         </v-btn>
                       </v-card-title>
                       <v-card-text class="py-3 px-6">
+                        <v-alert 
+                          v-if="displayStudentTableFeedback && !displayInTable"
+                          class="text-center"
+                          dark
+                          dismissible
+                          :color="studentsTableMessage.includes('Error')?'error':'success'" 
+                        >
+                          {{studentsTableMessage}}
+                        </v-alert>
                         <p class="body-1">
                           <strong>Title:</strong> {{ item.title }}
                         </p>
@@ -244,26 +253,51 @@
                                 cols="12"
                                 sm="4"
                               >
-                                <div>
-                                  <span class="font-weight-bold">Name:</span>
-                                  {{ examiner.examiner.lastName }}
-                                  {{ examiner.examiner.firstName }}
-                                </div>
-                                <div class="text-capitalize">
-                                  <span class="font-weight-bold"> Type: </span>
-                                  {{ examiner.examinerType }}
-                                </div>
-                                <div>
-                                  <span class="font-weight-bold">
-                                    Status:
-                                  </span>
-                                  {{ examinerStatus[examiner.status] }}
-                                  <v-icon small v-if="examinerStatus[examiner.status] === 'Accepted'" color="success">mdi-check-circle</v-icon>
-                                  <v-icon small v-else-if="examinerStatus[examiner.status] === 'Rejected'" color="error">mdi-close-circle</v-icon>
-                                  <v-icon small v-else-if="examinerStatus[examiner.status] === 'Pending reply'" color="primary">mdi-dots-horizontal-circle-outline</v-icon>
-                                  <v-icon small v-else-if="examinerStatus[examiner.status] === 'Report cleared'" color="success">mdi-file-check</v-icon>
-                                </div>
+                                <v-hover v-slot:default="{ hover }">
+                                  <v-alert
+                                    border="left"
+                                    colored-border
+                                    :color="examinerStatus[examiner.status].color"
+                                    elevation="2"
+                                    :class="hover ? 'pb-0 mb-0':''"
+                                  >
+                                    <div class="pb-2">
+                                      <v-icon color="black">mdi-account</v-icon>
+                                      {{ examiner.examiner.lastName }}
+                                      {{ examiner.examiner.firstName }}
+                                    </div>
+                                    <div class="text-capitalize pb-2">
+                                      <v-icon color="black">mdi-account-convert</v-icon>
+                                      {{ examiner.examinerType }}
+                                    </div>
+                                    <div>
+                                      <v-icon :color="examinerStatus[examiner.status].color">mdi-progress-check</v-icon>
+                                      {{ examinerStatus[examiner.status].text }}
+                                    </div>
+                                      <div :class="hover ? 'd-block':'d-none'" class="text-center">
+                                        <v-btn @click="setExaminerToRemove(examiner)" icon color="primary">
+                                          <v-icon>mdi-account-remove</v-icon>
+                                        </v-btn>
+                                      </div>
+                                  </v-alert>
+                                </v-hover>
                               </v-col>
+                              <v-dialog v-model="confirmExaminerRemovalDialog" width="500">
+                                <v-card>
+                                  <v-card-title>
+                                    Are you sure?
+                                  </v-card-title>
+                                  <v-card-text v-if="examinerToRemove.examiner" class="body-1">
+                                    By performing this action, you will <strong>disinvite</strong> 
+                                    {{examinerToRemove.examiner.lastName}} {{ examinerToRemove.examiner.firstName }} from assessing 
+                                    {{ item.student.firstName }} {{ item.student.lastName }}'s report.
+                                    <div class="text-right pt-2">
+                                      <v-btn @click="confirmExaminerRemovalDialog = false" text color="primary"> Cancel</v-btn>
+                                      <v-btn @click="removeExaminer(item)" :loading="submitLoading" color="error">Remove</v-btn>
+                                    </div>
+                                  </v-card-text>
+                                </v-card>
+                              </v-dialog>
                             </v-row>
                           </span>
                         </p>
@@ -350,6 +384,7 @@ export default {
       search: "",
       tableLoaderHeight: 8,
       previewReportDialog: false,
+      confirmExaminerRemovalDialog: false,
       filters: {
         status: [],
       },
@@ -394,10 +429,22 @@ export default {
         "complete",
       ],
       examinerStatus: {
-        assignedToExaminer: "Pending reply",
-        withExaminer: "Accepted",
-        rejectedByExaminer: "Rejected",
-        clearedByExaminer: "Report cleared",
+        assignedToExaminer: {
+          text: "Pending reply",
+          color: "primary"
+        },
+        withExaminer: {
+          text: "Accepted",
+          color: "success"
+        },
+        rejectedByExaminer: {
+          text: "Rejected",
+          color: "error"
+        },
+        clearedByExaminer: {
+          text: "Report cleared",
+          color: "success"
+        },
       },
       defaultSortOrder: {
         submitted: 0,
@@ -413,6 +460,7 @@ export default {
       displayAssignExaminerMessage: false,
       selectedSchool: null,
       selectedDepartment: null,
+      examinerToRemove: {}
     };
   },
   async created() {
@@ -440,7 +488,9 @@ export default {
       "schools",
       "user",
       "student",
+      "submitLoading",
       "displayStudentTableFeedback",
+      "displayInTable",
       "studentsTableMessage",
       "studentsTableKey",
       "examiners",
@@ -485,14 +535,28 @@ export default {
     },
   },
   methods: {
-    fetchReports() {
-      this.$store.dispatch("fetchReports").then(() => {
-        this.selectedDepartment = null;
-        this.selectedSchool = null;
-      });
+    setExaminerToRemove(examiner){
+      this.examinerToRemove = examiner;
+      this.confirmExaminerRemovalDialog = true;
     },
-    fetchDepartments() {
-      this.$store.dispatch("fetchDepartments", this.selectedSchool._id);
+    async removeExaminer(report){
+      await this.$store.dispatch("removeExaminer", {
+        reportID: report._id,
+        //TODO: This line needs to be changed after talking Calvin makes changes
+        examinerID: this.examinerToRemove._id,
+        examinerName: `${this.examinerToRemove.examiner.lastName} ${this.examinerToRemove.examiner.firstName}`,
+        studentName: `${report.student.lastName} ${report.student.firstName}`
+      });
+      await this.fetchReports();
+      this.$store.dispatch("changeStudentsTableKey");
+    },
+    async fetchReports() {
+      await this.$store.dispatch("fetchReports");
+      this.selectedDepartment = null;
+      this.selectedSchool = null;
+    },
+    async fetchDepartments() {
+      await this.$store.dispatch("fetchDepartments", this.selectedSchool._id);
     },
     itemClicked(value) {
       console.log(value);

@@ -124,22 +124,18 @@ export default {
     },
   },
   methods: {
-    assignExaminer() {
+    async assignExaminer() {
       if (this.$refs.selectExaminerForm.validate()) {
         let assignedExaminer = `${this.examiner.firstName} ${this.examiner.lastName}`;
-        this.$store
-          .dispatch("assignExaminer", {
-            examinerID: this.examiner._id,
-            examinerType: this.examinerType,
-            studentReportID: this.selectedStudent._id,
-            examinerName: assignedExaminer,
-            studentName: this.selectedStudent.student.name,
-          })
-          .then(() => {
-            this.$store.dispatch("fetchReports").then(() => {
-              this.$store.dispatch("changeStudentsTableKey");
-            });
-          });
+        await this.$store.dispatch("assignExaminer", {
+          examinerID: this.examiner._id,
+          examinerType: this.examinerType,
+          studentReportID: this.selectedStudent._id,
+          examinerName: assignedExaminer,
+          studentName: this.selectedStudent.student.name,
+        });
+        await this.$store.dispatch("fetchReports");
+        this.$store.dispatch("changeStudentsTableKey");
         this.dialog = false;
       }
     },
