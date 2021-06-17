@@ -357,15 +357,6 @@ export default {
     countWords(s) {
       s = s.replace(/(^\s*)|(\s*$)/gi, "");
       s = s.replace(/\s\s+/g, " ");
-      s = s.replace(/,/g, " ");
-      s = s.replace(/;/g, " ");
-      s = s.replace(/\//g, " ");
-      s = s.replace(/\\/g, " ");
-      s = s.replace(/{/g, " ");
-      s = s.replace(/}/g, " ");
-      s = s.replace(/\n/g, " ");
-      s = s.replace(/\./g, " ");
-      s = s.replace(/[[\]]/g, " ");
       s = s.replace(/[ ]{2,}/gi, " ");
       var countWordsBySpaces = s.split(" ").length;
       return countWordsBySpaces;
