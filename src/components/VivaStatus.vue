@@ -37,11 +37,11 @@ export default {
               label: "Viva Status",
               //   data: [this.vivaStats.done, this.vivaStats.pending],
               data: [10, 8],
-              backgroundColor: ["#ffffff", "#263238"],
+              backgroundColor: ["#FF9800", "#4CAF50"],
               borderWidth: [0, 0, 0, 0],
             },
           ],
-          labels: ["Done", "Pending"],
+          labels: ["Pending", "Done"],
         },
         options: chartData.options,
       });
@@ -53,11 +53,14 @@ const chartOptions = {
   legend: {
     position: "bottom",
     labels: {
-      fontColor: "white",
+      usePointStyle: true,
+      fontColor: "black",
       fontSize: 15,
+      padding: 18,
     },
+
   },
-  cutoutPercentage: 90,
+  cutoutPercentage: 5,
   layout: {
     padding: {
       left: 12,
