@@ -22,6 +22,7 @@ const state = {
     studentsTableKey: 0,
     examinerAssessments: [],
     vivaScoreError: null,
+    displayInTable: true,
     vivaReportError: null,
     progressEvents: {
         notSubmitted: {
@@ -127,11 +128,8 @@ const mutations = {
         }${
             str.slice(1)
         }`;
-        state.studentsTableMessage = `${success}. You've assigned ${
-            payload.examiner
-        } to ${
-            payload.student
-        }'s report`
+        state.studentsTableMessage = `${success}. You've assigned ${payload.examiner} to ${payload.student}'s report`;
+        state.displayInTable = false;
     },
     setExaminerAssessments(state, payload) {
         state.examinerAssessments = payload
@@ -140,7 +138,8 @@ const mutations = {
         state.displayStudentTableFeedback = payload
     },
     setAssignExaminerError(state, payload) {
-        state.assignExaminerError = payload
+        state.studentsTableMessage = `Error! ${payload}`;
+        state.displayInTable = false;
     },
     setVivaDateSuccess(state, payload) {
         let str = payload.res
@@ -149,11 +148,8 @@ const mutations = {
         }${
             str.slice(1)
         }`;
-        state.studentsTableMessage = `${
-            success
-        }. You've set a viva date for ${
-            payload.name
-        }`
+        state.studentsTableMessage = `${success}. You've set a viva date for ${payload.name}`;
+        state.displayInTable = true;
     },
     setVivaDateError(state, payload) {
         state.vivaDateError = payload
@@ -168,11 +164,8 @@ const mutations = {
         }${
             str.slice(1)
         }`;
-        state.studentsTableMessage = `${
-            success
-        }. You've set a viva score for ${
-            payload.name
-        }`
+        state.studentsTableMessage = `${success}. You've set a viva score for ${payload.name}`;
+        state.displayInTable = true;
     },
     setVivaReportSuccess(state, payload) {
         let str = payload.res
@@ -181,11 +174,8 @@ const mutations = {
         }${
             str.slice(1)
         }`;
-        state.studentsTableMessage = `${
-            success
-        }. You've uploaded a viva assessment report for ${
-            payload.name
-        }`
+        state.studentsTableMessage = `${success}. You've uploaded a viva assessment report for ${payload.name}`;
+        state.displayInTable = true;
     },
     setVivaScoreError(state, payload) {
         state.vivaScoreError = payload;
@@ -335,7 +325,7 @@ const actions = {
             commit("setSubmitLoader", false);
         } catch (error) {
             commit("setSubmitLoader", false);
-            console.log(error.response);
+            commit("setDisplayStudentTableFeedback", true);
             commit("setAssignExaminerError", error.response.data.message);
         }
     },
@@ -434,6 +424,7 @@ const getters = {
     progressEvents: (state) => state.progressEvents,
     selectedStudent: (state) => state.selectedStudent,
     reports: (state) => state.reports,
+    displayInTable: (state) => state.displayInTable,
     vivaReportError: (state) => state.vivaReportError,
     examiners: (state) => {
         return state.examiners.filter(staff => {
