@@ -7,7 +7,11 @@
       :max-width="$vuetify.breakpoint.xs ? '95vw' : '70vw'"
       class="mx-auto pa-5"
     >
-      <h2 class="text-center">Create a report</h2>
+      <h2 class="text-center">
+        <span v-if="studentReport.title">Edit </span>
+        <span v-else>Create a </span>
+        report
+      </h2>
       <v-alert
         dark
         dismissible
