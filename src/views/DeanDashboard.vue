@@ -7,9 +7,9 @@
       <v-row class="px-4">
         <v-row>
           <v-col sm="12" md="4" class="pb-3">
-            <v-card class="mx-auto" flat color="teal" max-width="90vw">
-              <v-card-text elevation="24" class="pa-1">
-                <h2 class="text-center custom-font-family headline white--text">
+            <v-card class="mx-auto" flat elevation="24" max-width="90vw">
+              <v-card-text class="pa-1">
+                <h2 class="text-center custom-font-family headline">
                   Viva Status
                 </h2>
                 <div class="text-center mt-4 mb-3">

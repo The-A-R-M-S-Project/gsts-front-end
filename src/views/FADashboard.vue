@@ -12,9 +12,9 @@
             class="pb-3"
             :class="{ 'pr-2': !$vuetify.breakpoint.xs }"
           >
-            <v-card color="teal" max-width="90vw" class="mx-auto">
+            <v-card class="mx-auto" flat elevation="24" max-width="90vw">
               <v-card-text class="pa-1">
-                <h2 class="text-center custom-font-family headline white--text">
+                <h2 class="text-center custom-font-family headline">
                   Viva Status
                 </h2>
                 <div class="text-center mt-4 mb-3">
@@ -62,13 +62,13 @@
                     </h2>
                   </v-card-text>
                   <v-row align="center" justify="center">
-                    <v-col>
+                    <v-col cols="6"  class="text-center">
                        <h4 class="text-center grey--text text--darken-1 pt-6 pb-4">
                         Cleared / Uncleared reports
                       </h4>
-                      <StatCard :statOne="9" :statTwo="4" color="#9C27B0" department="Architecture and Physical planning" />
+                      <StatCard :statOne="4" :statTwo="9" color="#9C27B0" department="Architecture and Physical planning" />
                     </v-col>
-                    <v-col>
+                    <v-col cols="6"  class="text-center">
                       <h4 class="text-center grey--text text--darken-1 pt-6 pb-4">
                         Complete / Incomplete progress
                       </h4>
