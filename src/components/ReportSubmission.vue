@@ -154,6 +154,17 @@
             >
             <br>
             <span
+              v-if="studentReport.updatedAt"
+              class="body-1 font-weight-light"
+              >Last updated:</span
+            >
+            <span
+              v-if="studentReport.updatedAt"
+              class="subheading"
+              >&nbsp; {{ formatDate(studentReport.updatedAt) }}</span
+            >
+            <br>
+            <span
               v-if="progressEvents[studentReport.status].step > 1"
               class="body-1 font-weight-light"
               >Submitted:</span
