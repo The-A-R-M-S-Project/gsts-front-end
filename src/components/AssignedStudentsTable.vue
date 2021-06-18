@@ -325,32 +325,6 @@ export default {
         { text: "DEADLINE", value: "receivedAt" },
         { value: "data-table-expand" },
       ],
-      examinerStatus: {
-        assignedToExaminer: {
-          text: "Pending reply",
-          color: "primary",
-          chartColor: "#FFB74D",
-          value: 33
-        },
-        withExaminer: {
-          text: "Accepted",
-          color: "success",
-          chartColor: "#81C784",
-          value: 67
-        },
-        rejectedByExaminer: {
-          text: "Rejected",
-          color: "error",
-          chartColor: "#F4511E",
-          value: 100
-        },
-        clearedByExaminer: {
-          text: "Report cleared",
-          color: "success",
-          chartColor: "#4CAF50",
-          value: 100
-        },
-      },
       defaultSortOrder: {
         assignedToExaminer: 0,
         withExaminer: 1,
@@ -377,6 +351,7 @@ export default {
       "examinerStudentDetails",
       "submitLoading",
       "detailLoading",
+      "examinerStatus",
       "displayStudentTableFeedback",
       "assignedStudentsTableMessage",
     ]),
@@ -413,10 +388,10 @@ export default {
       console.log("Item: ", value.item);
       this.$store.dispatch("setExaminerStudentDetails", value.item);
     },
-    async viewReport(report) {
-      await this.$store.dispatch("setExaminerStudentDetails", report);
-      await this.$store.dispatch("fetchReportComments", report.report._id);
-      this.$router.push("/student-report");
+    async viewReport(assessment) {
+      this.$store.dispatch("setExaminerStudentDetails", assessment);
+      await this.$store.dispatch("fetchReportComments", assessment.report._id);
+      this.$router.push(`/student-report/${assessment._id}`);
     },
     callToAction(status) {
       return status === "assignedToExaminer";

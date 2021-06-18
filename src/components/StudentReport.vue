@@ -7,45 +7,52 @@
       <v-col cols="12">
         <v-row no-gutters class="px-sm-12">
           <v-col cols="12" sm="5">
-            <div class="text-center">
-              <v-progress-circular
-                :rotate="-90"
-                size="250"
-                width="20"
-                :value="
-                  progressEvents[`${examinerStudentDetails.status}`].value
-                "
-                :color="
-                  progressEvents[`${examinerStudentDetails.status}`].color
-                "
-                class="my-3"
-              >
-                {{ progressEvents[`${examinerStudentDetails.status}`].value }}%
-                <br />
-                {{ progressEvents[`${examinerStudentDetails.status}`].message }}
-              </v-progress-circular>
+            <div v-if="examinerStudentDetails.status" class="text-center">
+              <div>
+                <v-progress-circular
+                  :rotate="-90"
+                  size="250"
+                  width="20"
+                  :value="
+                    examinerStatus[`${examinerStudentDetails.status}`].value
+                  "
+                  :color="
+                    examinerStatus[`${examinerStudentDetails.status}`].chartColor
+                  "
+                  class="my-3"
+                >
+                <div class="black--text">
+                  {{ examinerStatus[`${examinerStudentDetails.status}`].value }}%
+                  <br />
+                  {{ examinerStatus[`${examinerStudentDetails.status}`].text }}
+                </div>
+                </v-progress-circular>
+              </div>
+              <div>
+                <span class="title font-weight-bold">Deadline: </span> {{ formatDeadline(examinerStudentDetails.receivedAt) }}
+              </div>
             </div>
           </v-col>
           <v-col cols="12" sm="7">
             <div class="pt-3" :class="{ 'px-6': $vuetify.breakpoint.xs }">
-              <div class="text-left body-2 mx-auto">
+              <div v-if="examinerStudentDetails.status" class="text-left body-2 mx-auto">
                 <div class="pa-1">
                   <span class="font-weight-bold">Name</span>
-                  : {{ examinerStudentDetails.student.name }}
+                  : {{ examinerStudentDetails.report.student.name }}
                 </div>
                 <div class="pa-1">
                   <span class="font-weight-bold">Title</span>
-                  : {{ examinerStudentDetails.title }}
+                  : {{ examinerStudentDetails.report.title }}
                 </div>
                 <div class="pa-1">
                   <span class="font-weight-bold">Abstract</span>
-                  : {{ examinerStudentDetails.abstract }}
+                  : {{ examinerStudentDetails.report.abstract }}
                 </div>
                 <div class="pa-1">
                   <span class="font-weight-bold">File:</span>
                   <span class="title">
-                    <a :href="examinerStudentDetails.reportURL" target="_blank">
-                      {{ examinerStudentDetails.title }}
+                    <a :href="examinerStudentDetails.report.reportURL" target="_blank">
+                      {{ examinerStudentDetails.report.title }}
                     </a>
                   </span>
                 </div>
@@ -397,18 +404,22 @@ export default {
       overallPresentation: null,
       corrections: null,
       assessmentFormFields: [],
+      examinerStudentDetails: {},
       totalScore: 0,
     };
   },
-  created() {
+  async created() {
+    await this.$store.dispatch("fetchAssignedStudents");
+    this.examinerStudentDetails = this.assignedStudents.filter(assessment => assessment._id === this.$route.params.examinerAssessmentID)[0];
     this.fileSelected = false;
     this.fileErrorMessage = [];
   },
   computed: {
     ...mapGetters([
       "progressEvents",
-      "examinerStudentDetails",
+      "examinerStatus",
       "submitLoading",
+      "assignedStudents",
       "detailLoading",
     ]),
   },
@@ -489,6 +500,21 @@ export default {
           minute: "numeric",
         }
       )}, ${new String(monthDay).substring(4, 15).replace(/ /g, "-")}`;
+    },
+    formatDeadline(date){
+      if(date){
+        let threeMonthsFromAcceptance = new Date(new Date(date).getTime() + 1000 /*sec*/ * 60 /*min*/ * 60 /*hour*/ * 24 /*day*/ * 90);
+        return `${threeMonthsFromAcceptance.toLocaleTimeString(
+          {},
+          {
+            hour12: true,
+            hour: "numeric",
+            minute: "numeric",
+          }
+        )}, ${new String(threeMonthsFromAcceptance).substring(4, 15)}`;
+      } else {
+        return "Not set"
+      }
     },
   },
   components: {

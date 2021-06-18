@@ -114,7 +114,7 @@ let router = new Router({
                 is_examiner: true
             }
         }, {
-            path: "/student-report",
+            path: "/student-report/:examinerAssessmentID",
             name: "student-report",
             component: lazyLoad('ExaminerStudentReport'),
             meta: {

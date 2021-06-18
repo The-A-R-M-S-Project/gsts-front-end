@@ -6,7 +6,33 @@ const state = {
     receiveReportError: null,
     clearReportError: null,
     examinerStudentDetails: {},
-    examinerStatisticsKey: 0
+    examinerStatisticsKey: 0,
+    examinerStatus: {
+        assignedToExaminer: {
+            text: "Pending reply",
+            color: "primary",
+            chartColor: "#FFB74D",
+            value: 33
+        },
+        withExaminer: {
+            text: "Accepted",
+            color: "success",
+            chartColor: "#81C784",
+            value: 67
+        },
+        rejectedByExaminer: {
+            text: "Rejected",
+            color: "error",
+            chartColor: "#F4511E",
+            value: 100
+        },
+        clearedByExaminer: {
+            text: "Report cleared",
+            color: "success",
+            chartColor: "#4CAF50",
+            value: 100
+        }
+    }
 }
 const mutations = {
     setAssignedStudents(state, payload) {
@@ -149,6 +175,7 @@ const actions = {
 }
 const getters = {
     assignedStudents: (state) => state.assignedStudents,
+    examinerStatus: (state) => state.examinerStatus,
     assignedStudentsTableMessage: (state) => state.assignedStudentsTableMessage,
     examinerStudentDetails: (state) => state.examinerStudentDetails,
     examinerStatisticsKey: (state) => state.examinerStatisticsKey
