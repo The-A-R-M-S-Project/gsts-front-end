@@ -59,9 +59,40 @@
                               <div>
                                 <v-icon :color="examinerStatus[examiner.status].color">mdi-progress-check</v-icon>
                                 {{ examinerStatus[examiner.status].text }}
+                                <v-dialog 
+                                  v-if="examiner.status === 'rejectedByExaminer'" 
+                                  v-model="rejectionReasonDialog"
+                                  width="500"
+                                >
+                                  <template v-slot:activator="{ on, attrs }">
+                                    <v-btn
+                                      v-bind="attrs"
+                                      v-on="on"
+                                      icon 
+                                      color="error"
+                                    >
+                                      <v-icon color="error">mdi-open-in-new</v-icon>
+                                    </v-btn>
+                                  </template>
+                                  <v-card>
+                                    <v-card-title class="text-center headline error white--text">Rejection reason</v-card-title>
+                                    <v-card-text class="py-3 px-6">
+                                      <p class="body-1">
+                                        {{examiner.rejectionReason}}
+                                      </p>
+                                    </v-card-text>
+                                    <v-card-actions>
+                                      <v-spacer></v-spacer>
+                                      <v-btn color="primary" @click="rejectionReasonDialog = false">
+                                        Close
+                                      </v-btn>
+                                    </v-card-actions>
+                                  </v-card>
+                                </v-dialog>
                               </div>
                             </v-alert>
                         </v-col>
+
                       </v-row>
                     </span>
                   </p>
@@ -163,6 +194,7 @@ export default {
     return {
       drawer: false,
       loading: false,
+      rejectionReasonDialog: false,
       studentReport: {}
     };
   },

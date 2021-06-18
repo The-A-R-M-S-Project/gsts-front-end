@@ -247,8 +247,8 @@ const actions = {
         let accessToken = localStorage.getItem("jwt");
         axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
         try {
-            let response = await axiosInstance.get(`/report/staff/examiner/status/${reportID}`)
-            commit("setExaminerReportStatuses", response.data.examinerReports)
+            let response = await axiosInstance.get(`/report/staff/examiner/status/${reportID}`);
+            commit("setExaminerReportStatuses", response.data.examinerReports);
             let clearedReportAssessments = response.data.examinerReports.filter(report => {
                 return report.status === "clearedByExaminer"
             })
