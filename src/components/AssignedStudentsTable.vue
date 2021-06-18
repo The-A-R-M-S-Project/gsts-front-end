@@ -126,13 +126,7 @@
                               be assigned to this report.
                             </p>
                             <div class="text-center">
-                              <v-btn
-                                color="error"
-                                text
-                                :loading="submitLoading"
-                                @click="rejectReport"
-                                >Reject</v-btn
-                              >
+                              <!-- Accepting of report dialog -->
                               <v-dialog
                                 v-model="receiveReportDialog"
                                 width="500"
@@ -179,6 +173,66 @@
                                       text
                                       @click="receiveReport"
                                       >Agree</v-btn
+                                    >
+                                  </v-card-actions>
+                                </v-card>
+                              </v-dialog>
+
+                              <!-- Rejection of report dialog -->
+                              <v-dialog
+                                v-model="rejectReportDialog"
+                                width="500"
+                              >
+                                <template v-slot:activator="{ on, attrs }">
+                                  <v-btn
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    color="error"
+                                    text
+                                    >Reject</v-btn
+                                  >                                
+                              </template>
+
+                                <v-card>
+                                  <v-card-title
+                                    class="text-center headline purple white--text"
+                                    >Reject invitation to assess</v-card-title
+                                  >
+                                  <v-card-text class="py-3 px-6">
+                                    <p class="body-1">
+                                      By clicking the "Reject" button, you are rejecting an invitation to assess                                       <strong
+                                        v-if="examinerStudentDetails.report"
+                                        >{{
+                                          examinerStudentDetails.report.student.name
+                                        }}</strong
+                                      >'s report. <br />
+                                      Please include a reason for rejecting this invitation 
+                                    </p>
+                                    <p>
+                                      <v-form ref="rejectionReasonForm">
+                                        <v-textarea
+                                          v-model="rejectionReason"
+                                          label="Rejection reason"
+                                          :rules="required"
+                                        ></v-textarea>
+                                      </v-form>
+                                    </p>
+                                  </v-card-text>
+                                  <v-divider></v-divider>
+                                  <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <v-btn
+                                      color="primary"
+                                      text
+                                      @click="rejectReportDialog = false"
+                                      >Cancel</v-btn
+                                    >
+                                    <v-btn
+                                      color="error"
+                                      text
+                                      :loading="submitLoading"
+                                      @click="rejectReport"
+                                      >Reject</v-btn
                                     >
                                   </v-card-actions>
                                 </v-card>
@@ -301,10 +355,13 @@ export default {
     return {
       search: "",
       expanded: [],
+      rejectionReason: "",
+      required: [field => !!field || "Please include a rejection reason!"],
       assignedStudentsTableKey: 0,
       receiveReportDialog: false,
       studentDetailsDialog: false,
       previewReportDialog: false,
+      rejectReportDialog: false,
       headers: [
         {
           value: "action",
@@ -425,14 +482,19 @@ export default {
       }
     },
     async rejectReport() {
-      await this.$store.dispatch("rejectReport", {
-        report: this.examinerStudentDetails.report._id,
-        studentName: this.examinerStudentDetails.report.student.name,
-      });
-      this.receiveReportDialog = false;
-      this.previewReportDialog = false;
-      await this.$store.dispatch("fetchAssignedStudents");
-      this.assignedStudentsTableKey++;
+      if(this.$refs.rejectionReasonForm.validate()){
+        await this.$store.dispatch("rejectReport", {
+          report: this.examinerStudentDetails.report._id,
+          studentName: this.examinerStudentDetails.report.student.name,
+          payload: {
+            reason: this.rejectionReason
+          }
+        });
+        this.rejectReportDialog = false;
+        this.previewReportDialog = false;
+        await this.$store.dispatch("fetchAssignedStudents");
+        this.assignedStudentsTableKey++;
+      }
     },
     async receiveReport() {
       await this.$store.dispatch("receiveReport", {

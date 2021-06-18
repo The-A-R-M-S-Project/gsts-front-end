@@ -129,20 +129,20 @@ const actions = {
         commit("setSubmitLoader", true)
         let accessToken = localStorage.getItem("jwt");
         axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-        await axiosInstance.patch(`/report/staff/reject/${
-            data.report
-        }`).then(response => {
+
+        try {
+            let response = await axiosInstance.patch(`/report/staff/reject/${data.report}`, data.payload);
             commit("rejectReportSuccess", {
                 res: response.data.status,
                 student: data.studentName
-            })
-            commit("setDisplayStudentTableFeedback", true)
-            commit("changeExaminerStatisticsKey")
-            commit("setSubmitLoader", false)
-        }).catch(error => {
-            commit("setSubmitLoader", false)
-            commit("setReceiveReportError", error.response.data.message)
-        })
+            });
+            commit("setDisplayStudentTableFeedback", true);
+            commit("changeExaminerStatisticsKey");
+            commit("setSubmitLoader", false);
+        } catch (error) {
+            commit("setSubmitLoader", false);
+            commit("setReceiveReportError", error.response.data.message);
+        }
     },
     async clearStudentReport({
         commit
