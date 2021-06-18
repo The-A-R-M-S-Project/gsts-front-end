@@ -98,7 +98,7 @@ export default {
         let dateTime = `${date}${this.time}:00.000+03:00`;
         await this.$store.dispatch("setVivaDate", {
           reportID: this.selectedStudent._id,
-          studentName: this.selectedStudent.student.name,
+          studentName: `${this.selectedStudent.student.firstName} ${this.selectedStudent.student.lastName}`,
           vivaDate: { vivaDate: dateTime },
         });
         await this.$store.dispatch("fetchReports");
