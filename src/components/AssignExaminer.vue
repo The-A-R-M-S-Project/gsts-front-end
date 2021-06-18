@@ -132,7 +132,7 @@ export default {
           examinerType: this.examinerType,
           studentReportID: this.selectedStudent._id,
           examinerName: assignedExaminer,
-          studentName: this.selectedStudent.student.name,
+          studentName: `${this.selectedStudent.student.firstName} ${this.selectedStudent.student.lastName}`,
         });
         await this.$store.dispatch("fetchReports");
         this.$store.dispatch("changeStudentsTableKey");
