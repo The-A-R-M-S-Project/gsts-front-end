@@ -52,9 +52,9 @@
       <template v-slot:[getItemStatus]="{ item }">{{
         examinerStatus[`${item.status}`].text
       }}</template>
-      <template v-slot:[getItemVivaDate]="{ item }">{{
-        formatDate(item.report.vivaDate)
-      }}</template>
+      <template v-slot:[getItemDeadline]="{ item }">
+       {{ formatDeadline(item.receivedAt) }}
+      </template>
       <template v-slot:[getItemAction]="{ item }">
         <v-icon small v-if="callToAction(item.status)" color="pink"
           >mdi-circle</v-icon
@@ -273,7 +273,7 @@ export default {
           value: "report.student.program.name",
         },
         { text: "STATUS", value: "status" },
-        { text: "DEADLINE", value: "vivaDate" },
+        { text: "DEADLINE", value: "receivedAt" },
         { value: "data-table-expand" },
       ],
       examinerStatus: {
@@ -343,8 +343,8 @@ export default {
     getItemStatus() {
       return `item.status`;
     },
-    getItemVivaDate() {
-      return `item.report.vivaDate`;
+    getItemDeadline() {
+      return `item.receivedAt`;
     },
     getItemAction() {
       return `item.action`;
@@ -382,6 +382,15 @@ export default {
         let newDate = `${newFormat}`.substring(4, 15);
         return newDate.replace(/ /g, "-");
       } else return "Not set";
+    },
+    formatDeadline(date){
+      if(date){
+        let threeMonthsFromAcceptance = new Date(new Date(date).getTime() + 1000 /*sec*/ * 60 /*min*/ * 60 /*hour*/ * 24 /*day*/ * 90);
+        let newDate = `${threeMonthsFromAcceptance}`.substring(4, 15);
+        return newDate.replace(/ /g, "-");
+      } else {
+        return "Not set"
+      }
     },
     async rejectReport() {
       await this.$store.dispatch("rejectReport", {
