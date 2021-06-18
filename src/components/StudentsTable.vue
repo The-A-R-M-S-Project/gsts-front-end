@@ -542,8 +542,7 @@ export default {
     async removeExaminer(report){
       await this.$store.dispatch("removeExaminer", {
         reportID: report._id,
-        //TODO: This line needs to be changed after talking Calvin makes changes
-        examinerID: this.examinerToRemove._id,
+        examinerID: this.examinerToRemove.examiner._id,
         examinerName: `${this.examinerToRemove.examiner.lastName} ${this.examinerToRemove.examiner.firstName}`,
         studentName: `${report.student.lastName} ${report.student.firstName}`
       });
