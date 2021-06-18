@@ -56,6 +56,14 @@
                     </a>
                   </span>
                 </div>
+                <div class="pa-1">
+                  <span class="font-weight-bold">Guide:</span>
+                  <span class="title">
+                    <a :href="examinerStudentDetails.report.reportURL" target="_blank">
+                      How to mark graduate student reports
+                    </a>
+                  </span>
+                </div>
               </div>
             </div>
           </v-col>
