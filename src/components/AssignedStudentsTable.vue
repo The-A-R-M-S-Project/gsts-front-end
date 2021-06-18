@@ -50,13 +50,13 @@
         </thead>
       </template>
       <template v-slot:[getItemStatus]="{ item }">{{
-        progressEvents[`${item.report.status}`].message
+        examinerStatus[`${item.status}`].text
       }}</template>
       <template v-slot:[getItemVivaDate]="{ item }">{{
         formatDate(item.report.vivaDate)
       }}</template>
       <template v-slot:[getItemAction]="{ item }">
-        <v-icon small v-if="callToAction(item.report.status)" color="pink"
+        <v-icon small v-if="callToAction(item.status)" color="pink"
           >mdi-circle</v-icon
         >
       </template>
@@ -65,13 +65,13 @@
           <v-row align="center" justify="center" class="px-0">
             <v-col cols="12" sm="9">
               <v-progress-linear
-                :value="progressEvents[`${item.report.status}`].value"
-                :color="progressEvents[`${item.report.status}`].color"
+                :value="examinerStatus[`${item.status}`].value"
+                :color="examinerStatus[`${item.status}`].chartColor"
                 height="25"
               >
-                <strong
-                  >{{ progressEvents[`${item.report.status}`].value }}% ({{
-                    progressEvents[`${item.report.status}`].message
+                <strong :class="examinerStatus[`${item.status}`].value > 33 ? 'white--text' : 'black--text'"
+                  >{{ examinerStatus[`${item.status}`].value }}% ({{
+                    examinerStatus[`${item.status}`].text
                   }})</strong
                 >
               </v-progress-linear>
@@ -272,20 +272,41 @@ export default {
           text: "PROGRAM",
           value: "report.student.program.name",
         },
-        { text: "STATUS", value: "report.status" },
-        { text: "VIVA DATE", value: "vivaDate" },
+        { text: "STATUS", value: "status" },
+        { text: "DEADLINE", value: "vivaDate" },
         { value: "data-table-expand" },
       ],
+      examinerStatus: {
+        assignedToExaminer: {
+          text: "Pending reply",
+          color: "primary",
+          chartColor: "#FFB74D",
+          value: 33
+        },
+        withExaminer: {
+          text: "Accepted",
+          color: "success",
+          chartColor: "#81C784",
+          value: 67
+        },
+        rejectedByExaminer: {
+          text: "Rejected",
+          color: "error",
+          chartColor: "#F4511E",
+          value: 100
+        },
+        clearedByExaminer: {
+          text: "Report cleared",
+          color: "success",
+          chartColor: "#4CAF50",
+          value: 100
+        },
+      },
       defaultSortOrder: {
-        submitted: 0,
-        clearedByExaminers: 1,
-        vivaDateSet: 2,
-        notSubmitted: 3,
-        assignedToExaminers: 4,
-        receivedByExaminers: 5,
-        withExaminer: 6,
-        vivaComplete: 7,
-        complete: 8,
+        assignedToExaminer: 0,
+        withExaminer: 1,
+        clearedByExaminer: 2,
+        rejectedByExaminer: 3,
       },
     };
   },
@@ -304,7 +325,6 @@ export default {
   },
   computed: {
     ...mapGetters([
-      "progressEvents",
       "examinerStudentDetails",
       "submitLoading",
       "detailLoading",
@@ -316,18 +336,18 @@ export default {
       // console.log(reports);
       return reports.sort(
         (a, b) =>
-          this.defaultSortOrder[a.report.status] -
-          this.defaultSortOrder[b.report.status]
+          this.defaultSortOrder[a.status] -
+          this.defaultSortOrder[b.status]
       );
     },
     getItemStatus() {
-      return `item.report.status`;
+      return `item.status`;
     },
     getItemVivaDate() {
       return `item.report.vivaDate`;
     },
     getItemAction() {
-      return `item.report.action`;
+      return `item.action`;
     },
   },
   methods: {
@@ -354,9 +374,7 @@ export default {
       this.$router.push("/student-report");
     },
     callToAction(status) {
-      if (status === "submitted" || status === "assignedToExaminers" || status)
-        return true;
-      else return false;
+      return status === "assignedToExaminer";
     },
     formatDate(date) {
       if (date) {
