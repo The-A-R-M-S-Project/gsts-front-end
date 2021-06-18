@@ -28,38 +28,74 @@
                 <v-col cols="12">
                   <p class="body-1 text-center">
                     <strong class="text-decoration-underline"
-                      >Currently assigned examiners</strong
+                      >Report examiners</strong
                     >
                     <span v-if="examinerReportStatuses.length === 0"
                       >&nbsp;None
                     </span>
-                    <span v-else>
-                      <v-row>
+                    <span v-else class="text-left">
+                      <v-row align="center" justify="center" class="px-12">
                         <v-col
                           v-for="(examiner, index) in examinerReportStatuses"
                           :key="index"
+                          cols="12"
+                          sm="4"
                         >
-                          <div>
-                            <span class="font-weight-bold">Name:</span>
-                            {{ examiner.examiner.lastName }}
-                            {{ examiner.examiner.firstName }}
-                          </div>
-                          <div class="text-capitalize">
-                            <span class="font-weight-bold text-left">
-                              Type:
-                            </span>
-                            {{ examiner.examinerType }}
-                          </div>
-                          <div>
-                            <span class="font-weight-bold"> Status: </span>
-                            {{ examinerStatus[examiner.status] }}
-                            <v-icon v-if="examinerStatus[examiner.status] === 'Accepted'" color="success">mdi-check-circle</v-icon>
-                            <v-icon v-else-if="examinerStatus[examiner.status] === 'Rejected'" color="error">mdi-close-circle</v-icon>
-                            <v-icon v-else-if="examinerStatus[examiner.status] === 'Pending reply'" color="primary">mdi-dots-horizontal-circle-outline</v-icon>
-                            <v-icon v-else-if="examinerStatus[examiner.status] === 'Report cleared'" color="success">mdi-file-check</v-icon>
-                          </div>
+                          <v-alert
+                            border="left"
+                            colored-border
+                            :color="examinerStatus[examiner.status].color"
+                            elevation="2"
+                          >
+                              <div class="pb-2">
+                                <v-icon color="black">mdi-account</v-icon>
+                                {{ examiner.examiner.lastName }}
+                                {{ examiner.examiner.firstName }}
+                              </div>
+                              <div class="text-capitalize pb-2">
+                                <v-icon color="black">mdi-account-convert</v-icon>
+                                {{ examiner.examinerType }}
+                              </div>
+                              <div>
+                                <v-icon :color="examinerStatus[examiner.status].color">mdi-progress-check</v-icon>
+                                {{ examinerStatus[examiner.status].text }}
+                              </div>
+                            </v-alert>
                         </v-col>
                       </v-row>
+                    </span>
+                  </p>
+                  <p class="body-1 text-center">
+                    <strong class="text-decoration-underline"
+                      >Viva committee</strong
+                    >
+                    <span v-if="studentReport.viva && studentReport.viva.vivaCommittee">
+                      <v-row align="center" justify="center" class="px-12">
+                        <v-col
+                          v-for="(member, index) in studentReport.viva.vivaCommittee"
+                          :key="index"
+                          cols="12"
+                          sm="4"
+                        >
+                          <v-alert elevation="2">
+                            <div class="pb-2">
+                              <v-icon color="black">mdi-account</v-icon>
+                              {{ member.name }}
+                            </div>
+                            <div class="pb-2">
+                              <v-icon color="black">mdi-email</v-icon>
+                              {{ member.email }}
+                            </div>
+                            <div class="pb-2">
+                              <v-icon color="black">mdi-home</v-icon>
+                              {{ member.affiliation }}
+                            </div>
+                          </v-alert>
+                        </v-col>
+                      </v-row>
+                    </span>
+                    <span v-else>
+                      &nbsp;No members added yet!
                     </span>
                   </p>
                 </v-col>
@@ -127,24 +163,15 @@ export default {
     return {
       drawer: false,
       loading: false,
-      examinerStatus: {
-        assignedToExaminer: "Pending reply",
-        withExaminer: "Accepted",
-        rejectedByExaminer: "Rejected",
-        clearedByExaminer: "Report cleared",
-      },
+      studentReport: {}
     };
   },
   async created() {
     await this.$store.dispatch("fetchLoggedInStaff");
-    await this.$store.dispatch(
-      "fetchSpecificStudentReport",
-      this.$route.params.studentID
-    );
-    await this.$store.dispatch(
-      "fetchStudentDetails",
-      this.studentReport.student._id
-    );
+    await this.$store.dispatch("fetchReports");
+    this.studentReport = this.reports.filter(report => report._id === this.$route.params.studentID)[0];
+    await this.$store.dispatch("fetchSpecificStudentReport",this.$route.params.studentID);
+    await this.$store.dispatch("fetchStudentDetails",this.studentReport.student._id);
     if (this.user.role !== "examiner") {
       await this.$store.dispatch(
         "fetchExaminerAssessment",
@@ -157,7 +184,8 @@ export default {
     ...mapGetters([
       "isLoading",
       "user",
-      "studentReport",
+      "examinerStatus",
+      "reports",
       "examinerReportStatuses",
       "progressEvents",
     ]),

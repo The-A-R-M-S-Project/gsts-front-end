@@ -300,16 +300,40 @@
                               </v-dialog>
                             </v-row>
                           </span>
+                          <AssignExaminer />
                         </p>
-
-                        <v-row align="center" justify="center">
-                          <v-col>
-                            <AssignExaminer />
-                          </v-col>
-                          <v-col>
-                            <SetVivaCommittee />
-                          </v-col>
-                        </v-row>
+                        <p class="body-1">
+                          <strong>Viva committee</strong>
+                          <span v-if="item.viva && item.viva.vivaCommittee">
+                            <v-row>
+                              <v-col
+                                v-for="(member, index) in item.viva.vivaCommittee"
+                                :key="index"
+                                cols="12"
+                                sm="6"
+                              >
+                                <v-alert elevation="2">
+                                  <div class="pb-2">
+                                    <v-icon color="black">mdi-account</v-icon>
+                                    {{ member.name }}
+                                  </div>
+                                  <div class="pb-2">
+                                    <v-icon color="black">mdi-email</v-icon>
+                                    {{ member.email }}
+                                  </div>
+                                  <div class="pb-2">
+                                    <v-icon color="black">mdi-home</v-icon>
+                                    {{ member.affiliation }}
+                                  </div>
+                                </v-alert>
+                              </v-col>
+                            </v-row>
+                          </span>
+                          <span v-else>
+                            &nbsp;No members added yet!
+                          </span>
+                          <SetVivaCommittee />
+                        </p>
                       </v-card-text>
                       <v-divider></v-divider>
                       <v-card-actions>
@@ -428,24 +452,6 @@ export default {
         "vivaComplete",
         "complete",
       ],
-      examinerStatus: {
-        assignedToExaminer: {
-          text: "Pending reply",
-          color: "primary"
-        },
-        withExaminer: {
-          text: "Accepted",
-          color: "success"
-        },
-        rejectedByExaminer: {
-          text: "Rejected",
-          color: "error"
-        },
-        clearedByExaminer: {
-          text: "Report cleared",
-          color: "success"
-        },
-      },
       defaultSortOrder: {
         submitted: 0,
         clearedByExaminers: 1,
@@ -486,6 +492,7 @@ export default {
       "detailLoading",
       "departments",
       "schools",
+      "examinerStatus",
       "user",
       "student",
       "submitLoading",
