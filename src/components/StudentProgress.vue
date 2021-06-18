@@ -143,7 +143,7 @@
                 Congratulations! You've successfully completed your viva
                 examination.
               </div>
-              <div class="body-2">
+              <div v-if="user.role !== 'student' || studentReport.status === 'complete'" class="body-2">
                 You scored
                 <span class="subtitle-1 blue--text">
                   <strong>
