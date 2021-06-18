@@ -31,7 +31,7 @@
                 <p>
                   <span class="body-1 font-weight-light">Final score:</span>
                   <span class="headline font-weight-bold"
-                    >&nbsp;{{ examiner.examinerScore }}</span
+                    >&nbsp;{{ examiner.examinerScore }} %</span
                   >
                 </p>
                 <p>

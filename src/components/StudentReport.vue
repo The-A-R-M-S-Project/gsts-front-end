@@ -326,7 +326,7 @@
                     >
                     <span class="headline font-weight-bold">{{
                       totalScore
-                    }}</span>
+                    }} %</span>
                   </p>
                 </div>
                 <div
@@ -344,7 +344,7 @@
                   <p>
                     <span class="body-1 font-weight-light">Final score:</span>
                     <span class="headline font-weight-bold"
-                      >&nbsp;{{ score }}</span
+                      >&nbsp;{{ score }} %</span
                     >
                   </p>
                 </div>
