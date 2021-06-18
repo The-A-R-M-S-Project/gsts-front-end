@@ -492,9 +492,9 @@ export default {
         finalAssessment = formData;
       }
       await this.$store.dispatch("clearStudentReport", {
-        report: this.examinerStudentDetails._id,
+        report: this.examinerStudentDetails.report._id,
         assessment: finalAssessment,
-        studentName: this.examinerStudentDetails.student.name,
+        studentName: this.examinerStudentDetails.report.student.name,
       });
       await this.$store.dispatch("fetchAssignedStudents");
       this.$router.push("/examiner-dashboard");
