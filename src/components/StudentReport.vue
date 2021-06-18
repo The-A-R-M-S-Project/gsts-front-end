@@ -109,7 +109,7 @@
                       </p>
                       <v-form ref="filledAssessmentForm">
                         <v-row align="center" justify="center">
-                          <v-col cols="12" sm="6">
+                          <v-col cols="12">
                             <v-text-field
                               v-model="background"
                               label="Background (Max 5)"
@@ -117,7 +117,7 @@
                               :rules="fieldScoreRules(5)"
                             ></v-text-field>
                           </v-col>
-                          <v-col cols="12" sm="6">
+                          <v-col cols="12">
                             <v-text-field
                               v-model="problemStatement"
                               type="number"
@@ -125,7 +125,7 @@
                               :rules="fieldScoreRules(5)"
                             ></v-text-field>
                           </v-col>
-                          <v-col cols="12" sm="6">
+                          <v-col cols="12">
                             <v-text-field
                               v-model="researchMethods"
                               type="number"
@@ -133,7 +133,7 @@
                               :rules="fieldScoreRules(20)"
                             ></v-text-field>
                           </v-col>
-                          <v-col cols="12" sm="6">
+                          <v-col cols="12">
                             <v-text-field
                               v-model="results"
                               type="number"
@@ -141,7 +141,7 @@
                               :rules="fieldScoreRules(15)"
                             ></v-text-field>
                           </v-col>
-                          <v-col cols="12" sm="6">
+                          <v-col cols="12">
                             <v-text-field
                               v-model="discussions"
                               type="number"
@@ -149,7 +149,7 @@
                               :rules="fieldScoreRules(10)"
                             ></v-text-field>
                           </v-col>
-                          <v-col cols="12" sm="6">
+                          <v-col cols="12">
                             <v-text-field
                               v-model="conclusions"
                               type="number"
@@ -157,7 +157,7 @@
                               :rules="fieldScoreRules(5)"
                             ></v-text-field>
                           </v-col>
-                          <v-col cols="12" sm="6">
+                          <v-col cols="12">
                             <v-text-field
                               v-model="recommendations"
                               type="number"
@@ -165,7 +165,7 @@
                               :rules="fieldScoreRules(5)"
                             ></v-text-field>
                           </v-col>
-                          <v-col cols="12" sm="6">
+                          <v-col cols="12">
                             <v-text-field
                               v-model="originality"
                               type="number"
@@ -173,7 +173,7 @@
                               :rules="fieldScoreRules(15)"
                             ></v-text-field>
                           </v-col>
-                          <v-col cols="12" sm="6">
+                          <v-col cols="12">
                             <v-text-field
                               v-model="literatureCitation"
                               type="number"
@@ -181,7 +181,7 @@
                               :rules="fieldScoreRules(10)"
                             ></v-text-field>
                           </v-col>
-                          <v-col cols="12" sm="6">
+                          <v-col cols="12">
                             <v-text-field
                               v-model="overallPresentation"
                               type="number"
@@ -193,13 +193,14 @@
                             <div
                               class="title font-weight-regular black--text pb-2"
                             >
-                              Comments
+                              Comments (This is a required field)
                             </div>
                             <quill-editor
                               class="quill"
                               v-model="corrections"
                               :content="corrections"
                               tabindex="-1"
+                              :rules="required"
                             ></quill-editor>
                           </v-col>
                         </v-row>
@@ -447,7 +448,7 @@ export default {
       if (!!this.assessmentType) {
         if (
           (this.assessmentType === "fill" &&
-            this.$refs.filledAssessmentForm.validate()) ||
+            this.$refs.filledAssessmentForm.validate() && this.corrections) ||
           (this.assessmentType === "upload" &&
             this.$refs.uploadedAssessmentForm.validate() &&
             this.checkUploadedAssessmentForm())
