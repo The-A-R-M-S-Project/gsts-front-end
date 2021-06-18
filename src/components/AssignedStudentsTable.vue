@@ -78,14 +78,7 @@
             </v-col>
             <v-col cols="12" sm="3">
               <div class="text-center">
-                <div
-                  class="text-center"
-                  v-if="
-                    item.report.status === 'submitted' ||
-                    item.report.status === 'assignedToExaminers' ||
-                    item.report.status === 'receivedByExaminers'
-                  "
-                >
+                <div class="text-center">
                   <div
                     v-if="item.status === 'assignedToExaminer'"
                     class="text-center"
@@ -164,9 +157,9 @@
                                       By clicking the "Agree" button, you are
                                       acknowledging receipt of
                                       <strong
-                                        v-if="examinerStudentDetails.student"
+                                        v-if="examinerStudentDetails.report"
                                         >{{
-                                          examinerStudentDetails.student.name
+                                          examinerStudentDetails.report.student.name
                                         }}</strong
                                       >'s report.
                                     </p>
@@ -220,22 +213,77 @@
                       item.status === 'clearedByExaminer'
                     "
                   >
-                    <v-btn
-                      @click="viewDetails(item)"
-                      :loading="detailLoading"
-                      color="primary"
-                      >View Details</v-btn
-                    >
-                  </div>
-                </div>
+                  <v-dialog v-model="studentDetailsDialog" width="600">
+                    <template v-slot:activator="{on, attrs}">
+                      <v-btn v-bind="attrs" v-on="on" color="primary"
+                        >View Details</v-btn
+                      >
+                    </template>
+                    <v-card>
+                      <v-card-title
+                          class="text-center headline purple white--text"
+                          >Student details</v-card-title
+                        >
+                        <v-card-text class="px-6 pt-6 pb-0">
+                          <!-- Student details -->
+                          <div v-if="examinerStudentDetails.report">
+                            <p class="body-1">
+                              <strong>Name:</strong> {{ examinerStudentDetails.report.student.name }}
+                            </p>
+                            <p class="body-1">
+                              <strong>Program:</strong>
+                              {{ examinerStudentDetails.report.student.program.name }}
+                            </p>
+                            
+                            <p class="body-1">
+                              <strong>Report title:</strong> {{ examinerStudentDetails.report.title }}
+                            </p>
+                            <p class="body-1">
+                              <strong>Abstract:</strong>
+                              {{ examinerStudentDetails.report.abstract }}
+                            </p>
+                            <p class="body-1">
+                              <strong>Report:</strong>
+                              <span class="subheading"
+                                >&nbsp;
+                                <a
+                                  :href="examinerStudentDetails.report.reportURL"
+                                  target="_blank"
+                                >
+                                  {{ examinerStudentDetails.report.title }}
+                                </a>
+                              </span>
+                            </p>
+                          </div>
 
-                <div v-else>
-                  <v-btn
-                    @click="viewDetails(item)"
-                    :loading="detailLoading"
-                    color="primary"
-                    >View Details</v-btn
-                  >
+                          <!-- Examiner details -->
+                          <div v-if="examinerStudentDetails.status === 'clearedByExaminer'">
+                            <p class="body-1 mb-0">
+                              <strong>Assigned:</strong> {{ formatDate(examinerStudentDetails.assignedAt) }}
+                            </p>
+                            <p class="body-1 mb-0">
+                              <strong>Received:</strong> {{ formatDate(examinerStudentDetails.receivedAt) }}
+                            </p>
+                            <p class="body-1">
+                              <strong>Cleared:</strong> {{ formatDate(examinerStudentDetails.clearedAt) }}
+                            </p>
+                            <p class="body-1">
+                              <strong>Grade assigned:</strong> &nbsp; 
+                              <span class="primary--text font-weight-bold">{{ examinerStudentDetails.examinerScore }}</span>
+                            </p>
+                          </div>
+                        </v-card-text>
+                        <v-card-actions class="pb-6 pr-6">
+                          <v-spacer></v-spacer>
+                          <v-btn color="primary" @click="studentDetailsDialog = false">Close</v-btn>
+                        </v-card-actions>
+                    </v-card>
+                  </v-dialog>
+                  <v-dialog>
+
+                  </v-dialog>
+                    
+                  </div>
                 </div>
               </div>
             </v-col>
@@ -255,6 +303,7 @@ export default {
       expanded: [],
       assignedStudentsTableKey: 0,
       receiveReportDialog: false,
+      studentDetailsDialog: false,
       previewReportDialog: false,
       headers: [
         {
@@ -358,18 +407,14 @@ export default {
       } else {
         this.expanded.splice(index, 1);
       }
-      this.$store.dispatch("setExaminerStudentDetails", value.report);
+      this.$store.dispatch("setExaminerStudentDetails", value);
     },
     itemExpanded(value) {
       console.log("Item: ", value.item);
-      this.$store.dispatch("setExaminerStudentDetails", value.item.report);
-    },
-    async viewDetails(student) {
-      this.$store.dispatch("setStaffStudentDetails", student.report);
-      this.$router.push(`/student-progress/${student.report._id}`);
+      this.$store.dispatch("setExaminerStudentDetails", value.item);
     },
     async viewReport(report) {
-      await this.$store.dispatch("setExaminerStudentDetails", report.report);
+      await this.$store.dispatch("setExaminerStudentDetails", report);
       await this.$store.dispatch("fetchReportComments", report.report._id);
       this.$router.push("/student-report");
     },
@@ -378,24 +423,36 @@ export default {
     },
     formatDate(date) {
       if (date) {
-        let newFormat = new Date(date);
-        let newDate = `${newFormat}`.substring(4, 15);
-        return newDate.replace(/ /g, "-");
+        let monthDay = new Date(date);
+        return `${monthDay.toLocaleTimeString(
+          {},
+          {
+            hour12: true,
+            hour: "numeric",
+            minute: "numeric",
+          }
+        )}, ${new String(monthDay).substring(4, 15)}`;
       } else return "Not set";
     },
     formatDeadline(date){
       if(date){
         let threeMonthsFromAcceptance = new Date(new Date(date).getTime() + 1000 /*sec*/ * 60 /*min*/ * 60 /*hour*/ * 24 /*day*/ * 90);
-        let newDate = `${threeMonthsFromAcceptance}`.substring(4, 15);
-        return newDate.replace(/ /g, "-");
+        return `${threeMonthsFromAcceptance.toLocaleTimeString(
+          {},
+          {
+            hour12: true,
+            hour: "numeric",
+            minute: "numeric",
+          }
+        )}, ${new String(threeMonthsFromAcceptance).substring(4, 15)}`;
       } else {
         return "Not set"
       }
     },
     async rejectReport() {
       await this.$store.dispatch("rejectReport", {
-        report: this.examinerStudentDetails._id,
-        studentName: this.examinerStudentDetails.student.name,
+        report: this.examinerStudentDetails.report._id,
+        studentName: this.examinerStudentDetails.report.student.name,
       });
       this.receiveReportDialog = false;
       this.previewReportDialog = false;
@@ -404,8 +461,8 @@ export default {
     },
     async receiveReport() {
       await this.$store.dispatch("receiveReport", {
-        report: this.examinerStudentDetails._id,
-        studentName: this.examinerStudentDetails.student.name,
+        report: this.examinerStudentDetails.report._id,
+        studentName: this.examinerStudentDetails.report.student.name,
       });
       this.receiveReportDialog = false;
       this.previewReportDialog = false;
