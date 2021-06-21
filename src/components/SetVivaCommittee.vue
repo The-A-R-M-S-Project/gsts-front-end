@@ -106,7 +106,10 @@ export default {
   computed: {
     ...mapGetters(["selectedStudent", "submitLoading", "detailLoading"]),
     phoneNumberRules(){
-      return this.phoneNumber ? [(number) => /(?=^07)(?=\d{10})/.test(number) || "The phone number is not valid"] : []
+      return this.phoneNumber ? [
+        (number) => /(?=^07)(?=\d{10})/.test(number) || "The phone number is not valid",
+        (number) => number.length === 10 || "The phone number should be 10 digits!"
+      ] : []
     }
   },
   methods: {
@@ -121,7 +124,6 @@ export default {
           memberDetails = {
             name: this.name,
             email: this.email,
-            //TODO: The field below should be edited when this feature is worked on
             phone: this.phoneNumber,
             affiliation: this.affiliation
           };
