@@ -192,7 +192,7 @@
                     <template v-slot:activator="{ on, attrs }">
                       <div class="text-center">
                         <v-btn v-bind="attrs" v-on="on" color="primary"
-                          >Assign examiners</v-btn
+                          >Manage examiners</v-btn
                         >
                       </div>
                     </template>
@@ -262,7 +262,13 @@
                                       <tr v-for="(examiner, index) in item.examiners" :key="index">
                                         <td class="text-center">{{ examiner.examiner.lastName }} {{ examiner.examiner.firstName }}</td>
                                         <td class="text-center text-capitalize">{{ examiner.examinerType }}</td>
-                                        <td class="text-center">{{ examinerStatus[examiner.status].text }}</td>
+                                        <td class="text-center">
+                                          {{ examinerStatus[examiner.status].text }}
+                                          <v-icon v-if="examiner.status === 'assignedToExaminer'" color="primary">mdi-dots-horizontal</v-icon>
+                                          <ExaminerRejectionReason v-if="examiner.status === 'rejectedByExaminer'" :rejectionReason="examiner.rejectionReason"/>
+                                          <v-icon v-if="examiner.status === 'withExaminer'" color="success">mdi-check-circle</v-icon>
+                                          <v-icon v-if="examiner.status === 'clearedByExaminer'" color="success">mdi-file-check</v-icon>
+                                        </td>
                                         <td v-if="examiner.status === 'assignedToExaminer' || examiner.status === 'rejectedByExaminer'">
                                           <v-btn @click="setExaminerToRemove(examiner)" icon color="primary">
                                             <v-icon>mdi-close</v-icon>
@@ -396,6 +402,7 @@ import SetVivaDate from "@/components/SetVivaDate.vue";
 import SetVivaCommittee from "@/components/SetVivaCommittee.vue";
 import SetVivaScore from "@/components/SetVivaScore.vue";
 import UploadVivaCommitteeReport from "@/components/UploadVivaCommitteeReport.vue";
+import ExaminerRejectionReason from "@/components/Action\ Dialogs/ExaminerRejectionReason.vue";
 import { mapGetters } from "vuex";
 
 export default {
@@ -640,6 +647,7 @@ export default {
     AssignExaminer,
     SetVivaDate,
     SetVivaCommittee,
+    ExaminerRejectionReason,
     SetVivaScore,
     UploadVivaCommitteeReport,
   },
