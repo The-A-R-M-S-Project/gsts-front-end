@@ -74,7 +74,7 @@
             class="white--text"
             :disabled="progressEvents[studentReport.status].step !== 1 && progressEvents[studentReport.status].step !== 7"
           >
-            <span v-if="studentReport.title">Edit</span>
+            <span v-if="studentReport.title">Save</span>
             <span v-else>Create</span>
           </v-btn>
         </v-row>
