@@ -313,13 +313,6 @@
                     <span>&nbsp;{{ overallPresentation }}</span>
                   </p>
                   <p>
-                    <span
-                      class="body-1 font-weight-light text-decoration-underline"
-                      >Corrections</span
-                    >
-                  </p>
-                  <p v-html="corrections"></p>
-                  <p>
                     <span class="body-1 font-weight-light"
                       >Total score (calculated from the total of all the above
                       fields):</span
