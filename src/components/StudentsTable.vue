@@ -167,7 +167,7 @@
       <template v-slot:expanded-item="{ headers, item }">
         <td :colspan="headers.length">
           <v-row align="center" justify="center">
-            <v-col cols="12" sm="9" md="10">
+            <v-col cols="12" sm="9">
               <v-progress-linear
                 :value="progressEvents[`${item.status}`].value"
                 :color="progressEvents[`${item.status}`].color"
@@ -180,12 +180,9 @@
                 >
               </v-progress-linear>
             </v-col>
-            <v-col cols="12" sm="3" md="2">
+            <v-col cols="12" sm="3">
               <v-row
-                v-if="
-                  item.status === 'submitted' ||
-                  item.status === 'assignedToExaminers'
-                "
+                v-if="item.status === 'submitted'"
                 align="center"
                 justify="center"
                 no-gutters
@@ -193,9 +190,11 @@
                 <v-col>
                   <v-dialog v-model="previewReportDialog" width="700">
                     <template v-slot:activator="{ on, attrs }">
-                      <v-btn v-bind="attrs" v-on="on" color="primary"
-                        >Preview report</v-btn
-                      >
+                      <div class="text-center">
+                        <v-btn v-bind="attrs" v-on="on" color="primary"
+                          >Assign examiners</v-btn
+                        >
+                      </div>
                     </template>
                     <v-card>
                       <v-card-title
@@ -242,47 +241,40 @@
                         </p>
                         <p class="body-1">
                           <strong>Currently assigned examiners</strong>
-                          <span v-if="item.examiners.length === 0"
-                            >&nbsp;None
-                          </span>
-                          <span v-else>
+                          <span>
                             <v-row>
-                              <v-col
-                                v-for="(examiner, index) in item.examiners"
-                                :key="index"
-                                cols="12"
-                                sm="4"
-                              >
-                                <v-hover v-slot:default="{ hover }">
-                                  <v-alert
-                                    border="left"
-                                    colored-border
-                                    :color="examinerStatus[examiner.status].color"
-                                    elevation="2"
-                                    :class="hover ? 'pb-0 mb-0':''"
-                                  >
-                                    <div class="pb-2">
-                                      <v-icon color="black">mdi-account</v-icon>
-                                      {{ examiner.examiner.lastName }}
-                                      {{ examiner.examiner.firstName }}
-                                    </div>
-                                    <div class="text-capitalize pb-2">
-                                      <v-icon color="black">mdi-account-convert</v-icon>
-                                      {{ examiner.examinerType }}
-                                    </div>
-                                    <div>
-                                      <v-icon :color="examinerStatus[examiner.status].color">mdi-progress-check</v-icon>
-                                      {{ examinerStatus[examiner.status].text }}
-                                    </div>
-                                      <div :class="hover ? 'd-block':'d-none'" class="text-center">
-                                        <v-btn @click="setExaminerToRemove(examiner)" icon color="primary">
-                                          <v-icon>mdi-account-remove</v-icon>
-                                        </v-btn>
-                                      </div>
-                                  </v-alert>
-                                </v-hover>
+                              <v-col cols="12">
+                                <v-simple-table>
+                                  <template v-slot:default>
+                                    <thead>
+                                      <tr>
+                                        <th class="text-center"><v-icon>mdi-account</v-icon></th>
+                                        <th class="text-center"><v-icon>mdi-account-convert</v-icon></th>
+                                        <th class="text-center"><v-icon>mdi-progress-check</v-icon></th>
+                                        <!-- Empty header for action on examiner -->
+                                        <th class="text-center"></th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr v-if="item.examiners.length === 0" class="text-center grey--text text--darken-2">
+                                        <td colspan="4">None</td>
+                                      </tr>
+                                      <tr v-for="(examiner, index) in item.examiners" :key="index">
+                                        <td class="text-center">{{ examiner.examiner.lastName }} {{ examiner.examiner.firstName }}</td>
+                                        <td class="text-center text-capitalize">{{ examiner.examinerType }}</td>
+                                        <td class="text-center">{{ examinerStatus[examiner.status].text }}</td>
+                                        <td v-if="examiner.status === 'assignedToExaminer' || examiner.status === 'rejectedByExaminer'">
+                                          <v-btn @click="setExaminerToRemove(examiner)" icon color="primary">
+                                            <v-icon>mdi-close</v-icon>
+                                          </v-btn>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </template>
+                                </v-simple-table>
                               </v-col>
-                              <v-dialog v-model="confirmExaminerRemovalDialog" width="500">
+                            </v-row>
+                            <v-dialog v-model="confirmExaminerRemovalDialog" width="500">
                                 <v-card>
                                   <v-card-title>
                                     Are you sure?
@@ -298,7 +290,6 @@
                                   </v-card-text>
                                 </v-card>
                               </v-dialog>
-                            </v-row>
                           </span>
                           <AssignExaminer />
                         </p>
@@ -306,26 +297,31 @@
                           <strong>Viva committee</strong>
                           <span v-if="item.viva && item.viva.vivaCommittee">
                             <v-row>
-                              <v-col
-                                v-for="(member, index) in item.viva.vivaCommittee"
-                                :key="index"
-                                cols="12"
-                                sm="6"
-                              >
-                                <v-alert elevation="2">
-                                  <div class="pb-2">
-                                    <v-icon color="black">mdi-account</v-icon>
-                                    {{ member.name }}
-                                  </div>
-                                  <div class="pb-2">
-                                    <v-icon color="black">mdi-email</v-icon>
-                                    {{ member.email }}
-                                  </div>
-                                  <div class="pb-2">
-                                    <v-icon color="black">mdi-home</v-icon>
-                                    {{ member.affiliation }}
-                                  </div>
-                                </v-alert>
+                              <v-col cols="12">
+                                <v-simple-table>
+                                  <template v-slot:default>
+                                    <thead>
+                                      <tr>
+                                        <th class="text-center"><v-icon>mdi-account</v-icon></th>
+                                        <th class="text-center"><v-icon>mdi-email</v-icon></th>
+                                        <th class="text-center"><v-icon>mdi-phone</v-icon></th>
+                                        <th class="text-center"><v-icon>mdi-home</v-icon></th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr v-if="item.viva.vivaCommittee.length === 0" class="text-center grey--text text--darken-2">
+                                        <td colspan="4">None</td>
+                                      </tr>
+                                      <tr v-for="(member, index) in item.viva.vivaCommittee" :key="index">
+                                        <td>{{ member.name }}</td>
+                                        <td>{{ member.email }}</td>
+                                        <td v-if="member.phone">{{ member.phone }}</td>
+                                        <td v-else class="text-center"> - </td>
+                                        <td>{{ member.affiliation }}</td>
+                                      </tr>
+                                    </tbody>
+                                  </template>
+                                </v-simple-table>
                               </v-col>
                             </v-row>
                           </span>
