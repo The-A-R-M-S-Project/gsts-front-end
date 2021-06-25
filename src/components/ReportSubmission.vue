@@ -147,6 +147,28 @@
               </a>
             </span>
           </p>
+          <p v-if="progressEvents[studentReport.status].step === 7">
+            <span class="body-1 font-weight-light"
+              >Final report:</span
+            >
+            <span class="subheading"
+              >&nbsp;
+              <a :href="studentReport.finalReportURL" target="_blank">
+                {{ studentReport.finalReportURL }}
+              </a>
+            </span>
+          </p>
+          <p v-if="progressEvents[studentReport.status].step === 7">
+            <span class="body-1 font-weight-light"
+              >Compliance report:</span
+            >
+            <span class="subheading"
+              >&nbsp;
+              <a :href="studentReport.complainceReportURL" target="_blank">
+                {{ studentReport.complainceReportURL }}
+              </a>
+            </span>
+          </p>
 
           <!-- Timestamps -->
           <p class="mb-10">
@@ -210,7 +232,7 @@
                 truncate-length="100"
                 prepend-icon="mdi-file-document"
                 accept=".doc,.docx,.pdf"
-                :disabled="progressEvents[studentReport.status].step !== 1 && !studentReport.vivaCommitteeReport"
+                :disabled="progressEvents[studentReport.status].step !== 1 || !studentReport.vivaCommitteeReport && progressEvents[studentReport.status].step === 6"
               ></v-file-input>
             </p>
 
@@ -228,6 +250,7 @@
                 truncate-length="100"
                 prepend-icon="mdi-file-document"
                 accept=".doc,.docx,.pdf"
+                :disabled="progressEvents[studentReport.status].step !== 1 || !studentReport.vivaCommitteeReport && progressEvents[studentReport.status].step === 6"
               ></v-file-input>
             </p>
           </v-form>
