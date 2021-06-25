@@ -53,7 +53,29 @@
         examinerStatus[`${item.status}`].text
       }}</template>
       <template v-slot:[getItemDeadline]="{ item }">
-       {{ formatDeadline(item.receivedAt) }}
+        <span v-if="item.clearedAt">Met</span>
+        <span v-else>
+          {{ formatDeadline(item.receivedAt).daysLeft }} 
+          <span v-if="typeof formatDeadline(item.receivedAt).daysLeft === 'number'">days left</span>
+        </span>
+        
+        <v-tooltip v-if="item.receivedAt" top>
+          <template v-slot:activator="{ on, attrs }">
+            <span v-bind="attrs" v-on="on">
+              <v-btn v-if="item.clearedAt" icon>
+                <v-icon color="success">mdi-check-circle</v-icon>
+              </v-btn>
+              <v-btn v-else icon>
+                <v-icon 
+                  :color="formatDeadline(item.receivedAt).daysLeft > 7 ? 'primary' :
+                  formatDeadline(item.receivedAt).daysLeft > 1 ? 'warning' : 'error'
+                  "
+                >mdi-information-outline</v-icon>
+              </v-btn>
+            </span>
+          </template>
+          <span>{{ formatDeadline(item.receivedAt).actualDate }}</span>
+        </v-tooltip>
       </template>
       <template v-slot:[getItemAction]="{ item }">
         <v-icon small v-if="callToAction(item.status)" color="pink"
@@ -468,17 +490,15 @@ export default {
     },
     formatDeadline(date){
       if(date){
-        let threeMonthsFromAcceptance = new Date(new Date(date).getTime() + 1000 /*sec*/ * 60 /*min*/ * 60 /*hour*/ * 24 /*day*/ * 90);
-        return `${threeMonthsFromAcceptance.toLocaleTimeString(
-          {},
-          {
-            hour12: true,
-            hour: "numeric",
-            minute: "numeric",
-          }
-        )}, ${new String(threeMonthsFromAcceptance).substring(4, 15)}`;
+        let threeMonthsFromAcceptance = new Date(date).getTime() + 1000 /*sec*/ * 60 /*min*/ * 60 /*hour*/ * 24 /*day*/ * 90;
+        let timeNow = new Date().getTime() + 1000 /*sec*/ * 60 /*min*/ * 60 /*hour*/ * 24 /*day*/;
+        let daysLeft = Math.floor((threeMonthsFromAcceptance - timeNow)/(1000 * 60 * 60 * 24));
+        return {
+          actualDate: `${new Date(threeMonthsFromAcceptance).toLocaleTimeString({}, {hour12: true, hour: "numeric", minute: "numeric"})}, ${new String(new Date(threeMonthsFromAcceptance)).substring(4, 15)}`,
+          daysLeft: daysLeft
+        };
       } else {
-        return "Not set"
+        return {daysLeft: "Not set"};
       }
     },
     async rejectReport() {
