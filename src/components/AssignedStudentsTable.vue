@@ -345,7 +345,22 @@
                             </p>
                             <p class="body-1">
                               <strong>Grade assigned:</strong> &nbsp; 
-                              <span class="primary--text font-weight-bold">{{ examinerStudentDetails.examinerScore }}</span>
+                              <span class="primary--text font-weight-bold">{{ examinerStudentDetails.examinerScore }}%</span>
+                            </p>
+                            <p class="body-1">
+                              <strong>Assessment:</strong> &nbsp; 
+                              <span class="font-weight-bold">
+                                <ExaminerAssessmentSummary :examiner="examinerStudentDetails" />
+                              </span>
+                            </p>
+                          </div>
+
+                          <div v-if="examinerStudentDetails.status === 'rejectedByExaminer'">
+                            <p class="body-1 mb-0">
+                              <strong>Rejected:</strong> {{ formatDate(examinerStudentDetails.rejectedAt) }}
+                            </p>
+                            <p class="body-1 mb-0">
+                              <strong>Rejection Reason:</strong> {{ examinerStudentDetails.rejectionReason }}
                             </p>
                           </div>
                         </v-card-text>
@@ -372,6 +387,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import ExaminerAssessmentSummary from "@/components/Action\ Dialogs/ExaminerAssessmentSummary.vue"
 export default {
   data() {
     return {
@@ -527,5 +543,8 @@ export default {
       this.assignedStudentsTableKey++;
     },
   },
+  components: {
+    ExaminerAssessmentSummary
+  }
 };
 </script>
