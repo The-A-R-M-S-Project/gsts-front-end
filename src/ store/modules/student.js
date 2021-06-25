@@ -146,6 +146,20 @@ const actions = {
             commit("setReportSubmitError", error.response.data.message)
         }
     },
+    async makeFinalSubmission({ commit }, data) {
+        commit("setReportSubmitLoader", true)
+        let accessToken = localStorage.getItem("jwt");
+        axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+        try {
+            let response = await axiosInstance.patch("/report/student/submitFinal", data)
+            commit("submitReport", response.data.message);
+            commit("setStudentReport", response.data.report);
+            commit("setReportSubmitLoader", false)
+        } catch (error) {
+            commit("setReportSubmitLoader", false);
+            commit("setReportSubmitError", error.response.data.message)
+        }
+    },
     setStaffStudentDetails({
         commit
     }, data) {
