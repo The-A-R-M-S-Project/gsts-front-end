@@ -8,7 +8,7 @@
       class="mx-auto pa-5"
     >
     <!-- Create/Edit report -->
-      <div v-if="progressEvents[studentReport.status].step < 6">
+      <div v-if="studentReport.status === 'notSubmitted'">
         <h2 class="text-center">
           <span v-if="studentReport.title">Edit </span>
           <span v-else>Create a </span>
@@ -17,7 +17,7 @@
         <v-alert
           dark
           dismissible
-          v-if="studentReport.title && studentReport.status !== 'notSubmitted'"
+          v-if="studentReport.title && progressEvents[studentReport.status].step !== 1"
           color="warning"
           class="text-center"
           >Already submitted report!</v-alert
@@ -70,7 +70,6 @@
           <v-row justify="center" class="px-3">
             <v-btn
               @click="editReport"
-              type="submit"
               :loading="detailLoading"
               color="teal"
               class="white--text"
@@ -91,7 +90,9 @@
         class="pt-6"
       >
         <v-col cols="12">
-          <h2 class="text-center">Submit final report</h2>
+          <h2 v-if="studentReport.status === 'resubmit'" class="text-center">Resubmit report</h2>
+          <h2 v-else-if="studentReport.status === 'vivaComplete'" class="text-center">Submit final report</h2>
+          <h2 v-else class="text-center">Submit report</h2>
           <v-alert
             dark
             dismissible
@@ -369,11 +370,9 @@ export default {
       )}, ${new String(monthDay).substring(4, 15)}`;
     },
     async editReport() {
-      event.preventDefault();
       if (
         this.$refs.editReportForm.validate() &&
-        (this.studentReport.status === "notSubmitted" ||
-          this.studentReport === {})
+        (this.studentReport.status === "notSubmitted" || this.studentReport === {})
       ) {
         let newReport = {};
         if (this.reportAbstract.length > 0) {
@@ -402,6 +401,11 @@ export default {
           formData.append("finalReport", this.report);
           formData.append("complainceReport", this.complianceReport);
           await this.$store.dispatch("makeFinalSubmission", formData);
+        } else if(this.studentReport.status === "resubmit") {
+          formData.append("report", this.report);
+          formData.append("title", this.studentReport.title);
+          formData.append("abstract", finalAbstract);
+          await this.$store.dispatch("resubmitReport", formData);
         } else {
           formData.append("report", this.report);
           formData.append("title", this.studentReport.title);
