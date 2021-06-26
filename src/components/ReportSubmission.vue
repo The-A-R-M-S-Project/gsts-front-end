@@ -236,7 +236,7 @@
               ></v-file-input>
             </p>
 
-            <p>
+            <p v-show="studentReport.vivaCommitteeReport && progressEvents[studentReport.status].step === 6">
               <span class="body-1 font-weight-bold">Compliance report file:</span>
               <v-file-input
                 label="File input"
@@ -250,7 +250,6 @@
                 truncate-length="100"
                 prepend-icon="mdi-file-document"
                 accept=".doc,.docx,.pdf"
-                :disabled="progressEvents[studentReport.status].step !== 1 || !studentReport.vivaCommitteeReport && progressEvents[studentReport.status].step === 6"
               ></v-file-input>
             </p>
           </v-form>
