@@ -41,6 +41,10 @@
               <div class="caption mt-3 font-weight-light">
                 {{ formatDate(studentReport.submittedAt) }}
               </div>
+              <div v-if="studentReport.resubmittedReportURL" class="body-1 mt-1">Your report has been resubmitted.</div>
+              <div v-if="studentReport.resubmittedReportURL" class="caption mt-3 font-weight-light">
+                {{ formatDate(studentReport.resubmittedAt) }}
+              </div>
             </div>
           </template>
           <v-stepper-content step="1">
