@@ -179,7 +179,7 @@ export default {
       if (this.$refs.resubmissionForm.validate()) {
         await this.$store.dispatch("requestResubmission", {
           report: this.studentReport._id,
-          reason: { text: this.resubmissionReason },
+          reason: { reason: this.resubmissionReason },
         });
         this.$router.go();
       }
