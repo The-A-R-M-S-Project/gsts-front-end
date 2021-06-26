@@ -84,15 +84,30 @@
                       return-object
                       color="purple"
                     ></v-autocomplete>
-                    <v-text-field
-                      v-model="phoneNumber"
-                      label="Phone Number (07........)"
-                      :rules="phoneNumberRules(10)"
-                      required
-                      prepend-inner-icon="mdi-phone"
-                      height="28"
-                      color="purple"
-                    ></v-text-field>
+                    <v-row>
+                      <v-col cols="12" sm="6">
+                        <v-text-field
+                          v-model="phoneNumber"
+                          label="Phone Number (07........)"
+                          :rules="phoneNumberRules(10)"
+                          required
+                          prepend-inner-icon="mdi-phone"
+                          height="28"
+                          color="purple"
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="12" sm="6">
+                        <v-text-field
+                          v-model="entryAcademicYear"
+                          :label="entryYearLabel"
+                          :rules="nameRules"
+                          required
+                          prepend-inner-icon="mdi-calendar-month"
+                          height="28"
+                          color="purple"
+                        ></v-text-field>
+                      </v-col>
+                    </v-row>
                     <v-text-field
                       v-model="password"
                       :rules="passwordRules(8)"
@@ -209,16 +224,32 @@
             return-object
             color="purple"
           ></v-autocomplete>
-          <v-text-field
-            v-model="phoneNumber"
-            label="Phone Number (07........)"
-            :rules="phoneNumberRules(10)"
-            required
-            prepend-inner-icon="mdi-phone"
-            class="mt-5 styled-input normal-text"
-            height="2rem"
-            color="purple"
-          ></v-text-field>
+          <v-row no-gutters>
+            <v-col cols="12" xs="12">
+              <v-text-field
+                v-model="phoneNumber"
+                label="Phone Number (07........)"
+                :rules="phoneNumberRules(10)"
+                required
+                prepend-inner-icon="mdi-phone"
+                class="mt-5 styled-input normal-text"
+                height="2rem"
+                color="purple"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" xs="12">
+              <v-text-field
+                v-model="entryAcademicYear"
+                :label="new Date().getFullYear() - 1 + '/' + new Date().getFullYear()"
+                :rules="nameRules"
+                required
+                prepend-inner-icon="mdi-calendar-month"
+                class="mt-5 styled-input normal-text"
+                height="2rem"
+                color="purple"
+              ></v-text-field>
+            </v-col>
+          </v-row>
           <v-text-field
             v-model="password"
             :rules="passwordRules(8)"
@@ -283,6 +314,8 @@ export default {
       displaySignUpError: false,
       lastName: "",
       email: "",
+      entryAcademicYear: "",
+      entryYearLabel: "",
       emailRules: [
         (email) => !!email || "E-mail is required",
         (email) =>
@@ -313,6 +346,8 @@ export default {
     };
   },
   created() {
+    let currentYear = new Date().getFullYear();
+    this.entryYearLabel = `Entry year (${currentYear}/${currentYear + 1})`;
     this.$store.dispatch("fetchPrograms");
   },
   computed: {
@@ -332,6 +367,7 @@ export default {
           lastName: this.lastName,
           email: this.email,
           program: this.program._id,
+          entryAcademicYear: this.entryAcademicYear,
           password: this.password,
           passwordConfirm: this.passwordConfirm,
           phoneNumber: this.phoneNumber,

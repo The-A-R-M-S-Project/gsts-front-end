@@ -155,7 +155,9 @@ const actions = {
             commit("isLoading", false);
         } catch (error) {
             commit("isLoading", false);
-            commit("SignupError", error.response.data.message);
+            let errorMessage = error.response.data.message;
+            let trueError = errorMessage.split(":");
+            commit("SignupError", trueError[trueError.length - 1]);
         }
     },
     async fetchLoggedInStaff({commit}) {
@@ -165,7 +167,7 @@ const actions = {
             let response = await axiosInstance.get("/staff/me")
             commit("SetUser", response.data);
         } catch (error) {
-            commit("fetchLoggedInUserError", error.response.data.message)
+            commit("fetchLoggedInUserError", error.response.data.message);
         }
     },
     async fetchSecretarySchool({
