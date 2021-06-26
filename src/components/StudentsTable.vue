@@ -228,7 +228,18 @@
                         <p class="body-1">
                           <strong>Abstract:</strong> {{ item.abstract }}
                         </p>
-                        <p class="body-1">
+                        <p v-if="item.resubmittedReportURL" class="body-1">
+                          <span>
+                            <strong>Resubmitted report file:</strong>
+                          </span>
+                          <span class="subheading"
+                            >&nbsp;
+                            <a :href="item.resubmittedReportURL" target="_blank">
+                              {{ item.resubmittedReportURL }}
+                            </a>
+                          </span>
+                        </p>
+                        <p v-else class="body-1">
                           <span>
                             <strong>Report file:</strong>
                           </span>

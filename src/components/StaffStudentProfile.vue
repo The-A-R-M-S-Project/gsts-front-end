@@ -17,6 +17,16 @@
         <span class="font-weight-bold">Programme</span>
         : {{ student.program.name }}
       </div>
+      <div v-if="studentReport.resubmittedReportURL" class="pa-1 wrap-text">
+        <span class="font-weight-bold">Resubmitted Report</span>
+        :
+        <span class="subheading"
+          >&nbsp;
+          <a :href="studentReport.resubmittedReportURL" target="_blank">
+            {{ studentReport.resubmittedReportURL }}
+          </a>
+        </span>
+      </div>
       <div v-if="studentReport.reportURL" class="pa-1 wrap-text">
         <span class="font-weight-bold">Submitted Report</span>
         :
@@ -24,16 +34,6 @@
           >&nbsp;
           <a :href="studentReport.reportURL" target="_blank">
             {{ studentReport.reportURL }}
-          </a>
-        </span>
-      </div>
-      <div v-if="studentReport.resubmittedReportURL" class="pa-1 wrap-text">
-        <span class="font-weight-bold">Submitted Report</span>
-        :
-        <span class="subheading"
-          >&nbsp;
-          <a :href="studentReport.resubmittedReportURL" target="_blank">
-            {{ studentReport.resubmittedReportURL }}
           </a>
         </span>
       </div>
