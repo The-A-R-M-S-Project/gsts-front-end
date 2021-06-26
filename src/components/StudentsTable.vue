@@ -235,7 +235,7 @@
                           <span class="subheading"
                             >&nbsp;
                             <a :href="item.reportURL" target="_blank">
-                              {{ item.title }}
+                              {{ item.reportURL }}
                             </a>
                           </span>
                         </p>
