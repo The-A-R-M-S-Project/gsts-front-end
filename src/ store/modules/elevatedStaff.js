@@ -31,6 +31,12 @@ const state = {
             color: "grey",
             step: 1
         },
+        resubmit: {
+            value: 0,
+            message: "Resubmit",
+            color: "grey",
+            step: 1
+        },
         submitted: {
             value: 14,
             message: "Submitted",
@@ -262,16 +268,14 @@ const actions = {
     }, data) {
         let accessToken = localStorage.getItem("jwt");
         axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-        commit("setSubmitLoader", true)
+        commit("setSubmitLoader", true);
         try {
-            let response = await axiosInstance.patch(`/report/staff/student/resubmit/${
-                data.report
-            }`, data.reason)
-            commit("requestResubmissionSuccess", response.data.status)
-            commit("setSubmitLoader", false)
+            let response = await axiosInstance.patch(`/report/staff/requestResubmit/${data.report}`, data.reason);
+            commit("requestResubmissionSuccess", response.data.status);
+            commit("setSubmitLoader", false);
         } catch (error) {
-            commit("setSubmitLoader", false)
-            commit("setRequestResubmissionError", error.response.data.message)
+            commit("setSubmitLoader", false);
+            commit("setRequestResubmissionError", error.response.data.message);
         }
     },
     async createComment({
@@ -297,12 +301,10 @@ const actions = {
         let accessToken = localStorage.getItem("jwt");
         axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
         try {
-            let response = await axiosInstance.get(`/comment/report/${data}`)
-            commit("setReportComments", response.data.comments)
+            let response = await axiosInstance.get(`/comment/report/${data}`);
+            commit("setReportComments", response.data.comments);
         } catch (error) {
-            commit("setReportComments", [{
-                    text: error.response.data.message
-                }])
+            commit("setReportComments", [{text: error.response.data.message}]);
         }
     },
     async fetchExaminers({commit}) {
