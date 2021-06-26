@@ -32,11 +32,11 @@
             </p>
             <p>
               <v-icon color="primary">mdi-information</v-icon>
-              If the student's report had been assessed by both examiners, by
+              If the student's report had been assessed by all the examiners, by
               requesting a resubmission of this report, the student's progress
               will be reverted back to
               <i>"Not submitted"</i> and after the student resubmits, examiners
-              will have to be assigned to this report. <br />
+              will have to be reassigned to this report. <br />
             </p>
           </v-col>
         </v-row>
