@@ -133,7 +133,16 @@
             <span class="subheading"
               >&nbsp;
               <a :href="studentReport.reportURL" target="_blank">
-                {{ studentReport.title }}
+                {{ studentReport.reportURL }}
+              </a>
+            </span>
+          </p>
+          <p v-if="studentReport.resubmittedReportURL">
+            <span class="body-1 font-weight-light">Resubmitted report:</span>
+            <span class="subheading"
+              >&nbsp;
+              <a :href="studentReport.resubmittedReportURL" target="_blank">
+                {{ studentReport.resubmittedReportURL }}
               </a>
             </span>
           </p>
@@ -194,14 +203,27 @@
               class="subheading"
               >&nbsp; {{ formatDate(studentReport.updatedAt) }}</span
             >
-            <br>
+            <br v-if="studentReport.updatedAt">
             <span
               v-if="progressEvents[studentReport.status].step > 1"
               class="body-1 font-weight-light"
               >Submitted:</span
             >
-            <span v-if="progressEvents[studentReport.status].step > 1"
-              >&nbsp;{{ formatDate(studentReport.submittedAt) }}</span
+            <span 
+              v-if="progressEvents[studentReport.status].step > 1"
+              class="subheading"
+            >&nbsp;{{ formatDate(studentReport.submittedAt) }}</span
+            >
+            <br>
+            <span
+              v-if="studentReport.resubmittedAt"
+              class="body-1 font-weight-light"
+              >Resubmitted:</span
+            >
+            <span 
+              v-if="studentReport.resubmittedAt"
+              class="subheading"
+            >&nbsp;{{ formatDate(studentReport.resubmittedAt) }}</span
             >
           </p>
 
