@@ -17,7 +17,7 @@
             <v-col cols="12">
               <StudentProgress class="mb-6" />
             </v-col>
-            <v-col v-if="user.role !== 'examiner'" cols="12">
+            <v-col v-if="user.role !== 'examiner' && studentReport.status && progressEvents[`${studentReport.status}`].step > 1" cols="12">
               <v-row align="center" justify="center" no-gutters>
                 <v-col cols="12">
                   <div class="text-center">
@@ -26,6 +26,8 @@
                   </div>
                 </v-col>
                 <v-col cols="12">
+
+                  <!-- List of examiners -->
                   <p class="body-1 text-center">
                     <strong class="text-decoration-underline"
                       >Report examiners</strong
@@ -70,40 +72,45 @@
                       </v-row>
                     </span>
                   </p>
-                  <p class="body-1 text-center">
-                    <strong class="text-decoration-underline"
-                      >Viva committee</strong
-                    >
-                    <span v-if="studentReport.viva && studentReport.viva.vivaCommittee">
-                      <v-row align="center" justify="center" class="px-12">
-                        <v-col
-                          v-for="(member, index) in studentReport.viva.vivaCommittee"
-                          :key="index"
-                          cols="12"
-                          sm="4"
-                        >
-                          <v-alert elevation="2">
-                            <div class="pb-2">
-                              <v-icon color="black">mdi-account</v-icon>
-                              {{ member.name }}
-                            </div>
-                            <div class="pb-2">
-                              <v-icon color="black">mdi-email</v-icon>
-                              {{ member.email }}
-                            </div>
-                            <div class="pb-2">
-                              <v-icon color="black">mdi-home</v-icon>
-                              {{ member.affiliation }}
-                            </div>
-                          </v-alert>
-                        </v-col>
-                      </v-row>
-                    </span>
-                    <span v-else>
-                      &nbsp;No members added yet!
-                    </span>
-                  </p>
+
+                  <!-- List of viva committee -->
+                  <v-row align="center" justify="center" class="mb-12">
+                    <v-col cols="12" class="pb-0">
+                      <p class="body-1 text-center">
+                        <strong class="text-decoration-underline">Viva committee</strong>
+                      </p>
+                    </v-col>
+                    <v-col cols="12" sm="8" class="pt-0">
+                      <v-simple-table>
+                        <template v-slot:default>
+                          <thead>
+                            <tr>
+                              <th class="text-center"><v-icon>mdi-account</v-icon></th>
+                              <th class="text-center"><v-icon>mdi-email</v-icon></th>
+                              <th class="text-center"><v-icon>mdi-phone</v-icon></th>
+                              <th class="text-center"><v-icon>mdi-home</v-icon></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr v-if="!studentReport.viva || studentReport.viva.vivaCommittee.length === 0" class="text-center grey--text text--darken-2">
+                              <td colspan="4" class="body-1">None</td>
+                            </tr>
+                            <tr v-else v-for="(member, index) in studentReport.viva.vivaCommittee" :key="index" class="text-center">
+                              <td>{{ member.name }}</td>
+                              <td>{{ member.email }}</td>
+                              <td v-if="member.phone">{{ member.phone }}</td>
+                              <td v-else> - </td>
+                              <td>{{ member.affiliation }}</td>
+                            </tr>
+                          </tbody>
+                        </template>
+                      </v-simple-table>
+                      <SetVivaCommittee @change="fetchStudentDetails" class="mt-4" />
+                    </v-col>
+                  </v-row>
                 </v-col>
+
+                <!-- Assessments -->
                 <v-col
                   v-if="
                     (user.role === 'principal' || user.role === 'dean') &&
@@ -156,6 +163,7 @@ import DeanNav from "@/components/DeanNav.vue";
 import ExaminerNav from "@/components/ExaminersNavbar.vue";
 import MobileDrawer from "@/components/MobileDrawer.vue";
 import StudentProgress from "@/components/StudentProgress.vue";
+import SetVivaCommittee from "@/components/SetVivaCommittee.vue";
 import ExaminerRejectionReason from "@/components/Action\ Dialogs/ExaminerRejectionReason.vue";
 import ExaminerAssessment from "@/components/ExaminerAssessment.vue";
 import Resubmission from "@/components/Resubmission.vue";
@@ -173,18 +181,7 @@ export default {
     };
   },
   async created() {
-    await this.$store.dispatch("fetchLoggedInStaff");
-    await this.$store.dispatch("fetchReports");
-    this.studentReport = this.reports.filter(report => report._id === this.$route.params.studentID)[0];
-    await this.$store.dispatch("fetchSpecificStudentReport",this.$route.params.studentID);
-    await this.$store.dispatch("fetchStudentDetails",this.studentReport.student._id);
-    if (this.user.role !== "examiner") {
-      await this.$store.dispatch(
-        "fetchExaminerAssessment",
-        this.studentReport._id
-      );
-    }
-    await this.$store.dispatch("fetchReportComments", this.studentReport._id);
+    await this.fetchStudentDetails();
   },
   computed: {
     ...mapGetters([
@@ -196,12 +193,30 @@ export default {
       "progressEvents",
     ]),
   },
+  methods: {
+    async fetchStudentDetails(){
+      await this.$store.dispatch("fetchLoggedInStaff");
+      await this.$store.dispatch("fetchReports");
+      this.studentReport = this.reports.filter(report => report._id === this.$route.params.studentID)[0];
+      this.$store.dispatch("setSelectedStudent", this.studentReport);
+      await this.$store.dispatch("fetchSpecificStudentReport",this.$route.params.studentID);
+      await this.$store.dispatch("fetchStudentDetails",this.studentReport.student._id);
+      if (this.user.role !== "examiner") {
+        await this.$store.dispatch(
+          "fetchExaminerAssessment",
+          this.studentReport._id
+        );
+      }
+      await this.$store.dispatch("fetchReportComments", this.studentReport._id);
+    }
+  },
   components: {
     Navigation,
     DeanNav,
     ExaminerRejectionReason,
     ExaminerNav,
     MobileDrawer,
+    SetVivaCommittee,
     ExaminerAssessment,
     StudentProgress,
     Resubmission,

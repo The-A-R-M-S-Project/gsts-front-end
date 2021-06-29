@@ -191,9 +191,10 @@
                   <v-dialog v-model="previewReportDialog" width="700">
                     <template v-slot:activator="{ on, attrs }">
                       <div class="text-center">
-                        <v-btn v-bind="attrs" v-on="on" color="primary"
-                          >Manage examiners</v-btn
-                        >
+                        <v-btn v-bind="attrs" v-on="on" color="primary">
+                          <span v-if="user.role === 'principal'">Manage examiners</span>
+                          <span>Preview report</span>
+                        </v-btn>
                       </div>
                     </template>
                     <v-card>
@@ -213,6 +214,7 @@
                         </v-btn>
                       </v-card-title>
                       <v-card-text class="py-3 px-6">
+                        <!-- Table message -->
                         <v-alert 
                           v-if="displayStudentTableFeedback && !displayInTable"
                           class="text-center"
@@ -222,12 +224,18 @@
                         >
                           {{studentsTableMessage}}
                         </v-alert>
+
+                        <!-- Report title -->
                         <p class="body-1">
                           <strong>Title:</strong> {{ item.title }}
                         </p>
+
+                        <!-- Report abstract -->
                         <p class="body-1">
                           <strong>Abstract:</strong> {{ item.abstract }}
                         </p>
+
+                        <!-- Report files -->
                         <p v-if="item.resubmittedReportURL" class="body-1">
                           <span>
                             <strong>Resubmitted report file:</strong>
@@ -250,7 +258,9 @@
                             </a>
                           </span>
                         </p>
-                        <p class="body-1">
+                        
+                        <!-- Examiners section -->
+                        <p v-if="user.role === 'principal'" class="body-1">
                           <strong>Currently assigned examiners</strong>
                           <span>
                             <v-row>
@@ -310,7 +320,9 @@
                           </span>
                           <AssignExaminer />
                         </p>
-                        <p class="body-1">
+
+                        <!-- Viva committee -->
+                        <!-- <p class="body-1">
                           <strong>Viva committee</strong>
                           <span>
                             <v-row>
@@ -343,7 +355,7 @@
                             </v-row>
                           </span>
                           <SetVivaCommittee />
-                        </p>
+                        </p> -->
                       </v-card-text>
                       <v-divider></v-divider>
                       <v-card-actions>

@@ -22,7 +22,7 @@
           </v-btn>
         </v-card-title>
         <v-card-text class="py-3 px-6">
-          <p class="black--text body-1">
+          <p v-if="selectedStudent.student" class="black--text body-1">
             Set committee for {{ selectedStudent.student.firstName }}
             {{ selectedStudent.student.lastName }}'s viva examination
           </p>
@@ -30,17 +30,6 @@
           <v-row>
             <v-col cols="12" class="px-sm-12">
               <h3 class="text-center black--text">Add Viva Committee Member</h3>
-              <v-list v-if="selectedStudent.viva">
-                <v-list-item
-                  v-for="member in selectedStudent.viva.vivaCommittee"
-                  :key="member._id"
-                >
-                  <v-icon color="primary">mdi-circle</v-icon>
-                  &nbsp; {{ member.name }} - {{ member.affiliation }} ({{
-                    member.email
-                  }})
-                </v-list-item>
-              </v-list>
               <v-form ref="addVivaCommitteeMemberForm" class="px-sm-12">
                 <v-text-field
                   v-model="name"
@@ -117,7 +106,6 @@ export default {
       this.$router.push(`/student-progress/${this.selectedStudent._id}`);
     },
     async addVivaCommitteeMember() {
-      console.log(this.selectedStudent);
       if (this.$refs.addVivaCommitteeMemberForm.validate()) {
         let memberDetails;
         if (this.phoneNumber) {
@@ -138,6 +126,7 @@ export default {
           reportID: this.selectedStudent._id,
           member: memberDetails
         });
+        this.dialog = false;
         await this.$store.dispatch("fetchReports");
         this.$store.dispatch("changeStudentsTableKey");
       }
