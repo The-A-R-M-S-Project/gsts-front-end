@@ -108,8 +108,8 @@
                           : 19/U/168/PS
                         </div>
                         <div class="px-1 py-2">
-                          <span class="font-weight-bold">Year of Study</span> :
-                          I
+                          <span class="font-weight-bold">Year of entry</span> :
+                          {{ student.entryAcademicYear }}
                         </div>
                         <div v-if="student.report" class="px-1 py-2">
                           <span class="font-weight-bold">Report Status</span>
