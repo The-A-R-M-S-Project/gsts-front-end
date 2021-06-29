@@ -126,16 +126,21 @@
                               <strong>Abstract:</strong>
                               {{ item.report.abstract }}
                             </p>
-                            <p class="body-1">
+                            <p v-if="item.resubmittedReportURL" class="body-1">
+                              <span>
+                                <strong>Resubmitted report file:</strong>
+                              </span>
+                              
+                            </p>
+                            <p v-else class="body-1">
                               <strong>Report:</strong>
-                              <span class="subheading"
-                                >&nbsp;
-                                <a
-                                  :href="item.report.reportURL"
-                                  target="_blank"
-                                >
-                                  {{ item.report.title }}
-                                </a>
+                              <span v-if="item.report.resubmittedReportURL" class="subheading">
+                                &nbsp;
+                                <a :href="item.report.resubmittedReportURL" target="_blank">{{ item.report.resubmittedReportURL }}</a>
+                              </span>
+                              <span v-else class="subheading">
+                                &nbsp;
+                                <a :href="item.report.reportURL" target="_blank">{{ item.report.reportURL }}</a>
                               </span>
                             </p>
                             <p>
@@ -289,6 +294,7 @@
                       item.status === 'clearedByExaminer'
                     "
                   >
+                  <!-- Table popup -->
                   <v-dialog v-model="studentDetailsDialog" width="600">
                     <template v-slot:activator="{on, attrs}">
                       <v-btn v-bind="attrs" v-on="on" color="primary"

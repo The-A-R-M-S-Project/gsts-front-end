@@ -56,18 +56,23 @@
                   : {{ examinerStudentDetails.report.student.name }}
                 </div>
                 <div class="pa-1">
-                  <span class="font-weight-bold">Title</span>
+                  <span class="font-weight-bold">Report Title</span>
                   : {{ examinerStudentDetails.report.title }}
                 </div>
                 <div class="pa-1">
-                  <span class="font-weight-bold">Abstract</span>
+                  <span class="font-weight-bold">Report Abstract</span>
                   : {{ examinerStudentDetails.report.abstract }}
                 </div>
                 <div class="pa-1">
-                  <span class="font-weight-bold">File:</span>
-                  <span class="title">
+                  <span class="font-weight-bold">Report File:</span>
+                  <span v-if="examinerStudentDetails.report.resubmittedReportURL">
+                    <a :href="examinerStudentDetails.report.resubmittedReportURL" target="_blank">
+                      {{ examinerStudentDetails.report.resubmittedReportURL }}
+                    </a>
+                  </span>
+                  <span>
                     <a :href="examinerStudentDetails.report.reportURL" target="_blank">
-                      {{ examinerStudentDetails.report.title }}
+                      {{ examinerStudentDetails.report.reportURL }}
                     </a>
                   </span>
                 </div>
