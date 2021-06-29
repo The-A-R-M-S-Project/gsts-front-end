@@ -115,7 +115,7 @@
                   </div>
                 </v-col>
                 <v-col v-if="assessmentType === 'fill'" cols="12">
-                  <v-card class="mx-auto pa-3" width="700">
+                  <v-card class="mx-auto pa-3" width="800">
                     <v-card-title class="text-center">
                       Fill assessment form
                     </v-card-title>
@@ -130,90 +130,164 @@
                       <v-form ref="filledAssessmentForm">
                         <v-row align="center" justify="center">
                           <v-col cols="12">
-                            <v-text-field
-                              v-model="background"
-                              label="Background (Max 5)"
-                              type="number"
-                              :rules="fieldScoreRules(5)"
-                            ></v-text-field>
+                            <v-row align="center" justify="center">
+                              <v-col cols="12" sm="7" order-sm="2">
+                                  <v-icon color="primary">mdi-information-outline</v-icon> {{examinerGuide.background}}
+                                </v-col>
+                              <v-col cols="12" sm="5" order-sm="1">
+                                <v-text-field
+                                  v-model="background"
+                                  label="Background (Max 5)"
+                                  type="number"
+                                  :rules="fieldScoreRules(5)"
+                                ></v-text-field>
+                              </v-col>
+                            </v-row>
                           </v-col>
                           <v-col cols="12">
-                            <v-text-field
-                              v-model="problemStatement"
-                              type="number"
-                              label="Problem Statement (Max 5)"
-                              :rules="fieldScoreRules(5)"
-                            ></v-text-field>
+                            <v-row align="center" justify="center">
+                              <v-col cols="12" sm="7" order-sm="2">
+                                  <v-icon color="primary">mdi-information-outline</v-icon> {{examinerGuide.problemStatement}}
+                                </v-col>
+                              <v-col cols="12" sm="5" order-sm="1">
+                                <v-text-field
+                                  v-model="problemStatement"
+                                  type="number"
+                                  label="Problem Statement (Max 5)"
+                                  :rules="fieldScoreRules(5)"
+                                ></v-text-field>
+                              </v-col>
+                            </v-row>
                           </v-col>
                           <v-col cols="12">
-                            <v-text-field
-                              v-model="researchMethods"
-                              type="number"
-                              label="Research Methods (Max 20)"
-                              :rules="fieldScoreRules(20)"
-                            ></v-text-field>
+                            <v-row align="center" justify="center">
+                              <v-col cols="12" sm="7" order-sm="2">
+                                  <v-icon color="primary">mdi-information-outline</v-icon> {{examinerGuide.researchMethods}}
+                                </v-col>
+                              <v-col cols="12" sm="5" order-sm="1">
+                                <v-text-field
+                                  v-model="researchMethods"
+                                  type="number"
+                                  label="Research Methods (Max 20)"
+                                  :rules="fieldScoreRules(20)"
+                                ></v-text-field>
+                              </v-col>
+                            </v-row>
                           </v-col>
                           <v-col cols="12">
-                            <v-text-field
-                              v-model="results"
-                              type="number"
-                              label="Results (Max 15)"
-                              :rules="fieldScoreRules(15)"
-                            ></v-text-field>
+                            <v-row align="center" justify="center">
+                              <v-col cols="12" sm="7" order-sm="2">
+                                  <v-icon color="primary">mdi-information-outline</v-icon> {{examinerGuide.results}}
+                                </v-col>
+                              <v-col cols="12" sm="5" order-sm="1">
+                                <v-text-field
+                                  v-model="results"
+                                  type="number"
+                                  label="Results (Max 15)"
+                                  :rules="fieldScoreRules(15)"
+                                ></v-text-field>
+                              </v-col>
+                            </v-row>
                           </v-col>
                           <v-col cols="12">
-                            <v-text-field
-                              v-model="discussions"
-                              type="number"
-                              label="Discussions (Max 10)"
-                              :rules="fieldScoreRules(10)"
-                            ></v-text-field>
+                            <v-row align="center" justify="center">
+                              <v-col cols="12" sm="7" order-sm="2">
+                                  <v-icon color="primary">mdi-information-outline</v-icon> {{examinerGuide.discussions}}
+                                </v-col>
+                              <v-col cols="12" sm="5" order-sm="1">
+                                <v-text-field
+                                  v-model="discussions"
+                                  type="number"
+                                  label="Discussions (Max 10)"
+                                  :rules="fieldScoreRules(10)"
+                                ></v-text-field>
+                              </v-col>
+                            </v-row>
                           </v-col>
                           <v-col cols="12">
-                            <v-text-field
-                              v-model="conclusions"
-                              type="number"
-                              label="Conclusions (Max 5)"
-                              :rules="fieldScoreRules(5)"
-                            ></v-text-field>
+                            <v-row align="center" justify="center">
+                              <v-col cols="12" sm="7" order-sm="2">
+                                  <v-icon color="primary">mdi-information-outline</v-icon> {{examinerGuide.conclusions}}
+                                </v-col>
+                              <v-col cols="12" sm="5" order-sm="1">
+                                <v-text-field
+                                  v-model="conclusions"
+                                  type="number"
+                                  label="Conclusions (Max 5)"
+                                  :rules="fieldScoreRules(5)"
+                                ></v-text-field>
+                              </v-col>
+                            </v-row>
                           </v-col>
                           <v-col cols="12">
-                            <v-text-field
-                              v-model="recommendations"
-                              type="number"
-                              label="Recommendations (Max 5)"
-                              :rules="fieldScoreRules(5)"
-                            ></v-text-field>
+                            <v-row align="center" justify="center">
+                              <v-col cols="12" sm="7" order-sm="2">
+                                  <v-icon color="primary">mdi-information-outline</v-icon> {{examinerGuide.recommendations}}
+                                </v-col>
+                              <v-col cols="12" sm="5" order-sm="1">
+                                <v-text-field
+                                  v-model="recommendations"
+                                  type="number"
+                                  label="Recommendations (Max 5)"
+                                  :rules="fieldScoreRules(5)"
+                                ></v-text-field>
+                              </v-col>
+                            </v-row>
                           </v-col>
                           <v-col cols="12">
-                            <v-text-field
-                              v-model="originality"
-                              type="number"
-                              label="Originality of Contribution (Max 15)"
-                              :rules="fieldScoreRules(15)"
-                            ></v-text-field>
+                            <v-row align="center" justify="center">
+                              <v-col cols="12" sm="7" order-sm="2">
+                                  <v-icon color="primary">mdi-information-outline</v-icon> {{examinerGuide.originality}}
+                                </v-col>
+                              <v-col cols="12" sm="5" order-sm="1">
+                                <v-text-field
+                                  v-model="originality"
+                                  type="number"
+                                  label="Originality of Contribution (Max 15)"
+                                  :rules="fieldScoreRules(15)"
+                                ></v-text-field>
+                              </v-col>
+                            </v-row>
                           </v-col>
                           <v-col cols="12">
-                            <v-text-field
-                              v-model="literatureCitation"
-                              type="number"
-                              label="Literature Citation (Max 10)"
-                              :rules="fieldScoreRules(10)"
-                            ></v-text-field>
+                            <v-row align="center" justify="center">
+                              <v-col cols="12" sm="7" order-sm="2">
+                                  <v-icon color="primary">mdi-information-outline</v-icon> {{examinerGuide.literatureCitation}}
+                                </v-col>
+                              <v-col cols="12" sm="5" order-sm="1">
+                                <v-text-field
+                                  v-model="literatureCitation"
+                                  type="number"
+                                  label="Literature Citation (Max 10)"
+                                  :rules="fieldScoreRules(10)"
+                                ></v-text-field>
+                              </v-col>
+                            </v-row>
                           </v-col>
                           <v-col cols="12">
-                            <v-text-field
-                              v-model="overallPresentation"
-                              type="number"
-                              label="Overall Presentation (Max 10)"
-                              :rules="fieldScoreRules(10)"
-                            ></v-text-field>
+                            <v-row align="center" justify="center">
+                              <v-col cols="12" sm="7" order-sm="2">
+                                  <v-icon color="primary">mdi-information-outline</v-icon> {{examinerGuide.overallPresentation}}
+                                </v-col>
+                              <v-col cols="12" sm="5" order-sm="1">
+                                <v-text-field
+                                  v-model="overallPresentation"
+                                  type="number"
+                                  label="Overall Presentation (Max 10)"
+                                  :rules="fieldScoreRules(10)"
+                                ></v-text-field>
+                              </v-col>
+                            </v-row>
                           </v-col>
                           <v-col cols="12">
                             <div
                               class="title font-weight-regular black--text pb-2"
                             >
                               Comments (This is a required field)
+                            </div>
+                            <div class="pb-4">
+                              <v-icon color="primary">mdi-information-outline</v-icon>
+                              {{examinerGuide.corrections}}
                             </div>
                             <quill-editor
                               class="quill"
@@ -393,6 +467,7 @@ import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import "quill/dist/quill.bubble.css";
 import { quillEditor } from "vue-quill-editor";
+import ExaminerGuide from "@/services/examiner-guide.js"
 
 export default {
   name: "examiner-student-report",
@@ -402,6 +477,7 @@ export default {
       assessmentType: null,
       assessmentForm: null,
       fileSelected: false,
+      examinerGuide: ExaminerGuide,
       fileErrorMessage: [],
       score: null,
       scoreRules: [

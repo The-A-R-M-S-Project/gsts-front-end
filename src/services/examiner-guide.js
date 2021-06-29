@@ -1,0 +1,15 @@
+let examinerGuide = {
+    background: "This section must assess the theoretical and conceptual background, objectives, rationale and clarity and precision of presentation also needs to be assessed.",
+    problemStatement: "Does the candidate clearly state the nature of the problem and its magnitude or extent?  How concise is it?  Is there reference to the issues detected in the background that either needs practical or theoretical sense?",
+    researchMethods: "Indicate whether the candidate has used an appropriate approach to investigate the subject and has not neglected other methods which could have yielded better results.  Assess for adequacy and relevance of data collected and the appropriateness of tools and instruments including data analytical procedures/techniques.  Assess the appropriateness of hypothesis, questions and relevant assumptions.",
+    results: "Evaluate for the adequacy of data analysis, effectiveness of results presentation, accuracy, transparency, contributions from the study.",
+    discussions: "Does the candidate discuss his/her own findings and relates them to other researched work?  Does the writer show honesty and transparency in discussing limitations?",
+    conclusions: "Does the conclusion emerge from candidate’s own work?  Does the study stimulate further inquiry or scholarship?",
+    recommendations: "Does the recommendation emerge from candidate’s own work?  Does the study stimulate further inquiry or scholarship?",
+    originality: "Please, state clearly whether the thesis makes an original contribution to the existing fund of knowledge.  For a PhD/doctoral degree the contribution must be significant, worthy of for example 3-5 papers if the subject is scientific.  To qualify for a doctorate, there should be strong evidence that the subject is thoroughly understood, with some original thinking.",
+    literatureCitation: "Has the candidate made use of available and relevant literature?  Does this adequately describe the background, and is she/he abreast of the current literature?  Has candidate exercised due diligence in scholarly bibliographic write-up?",
+    overallPresentation: "Indicate whether the candidate has presented the data in a logical flow and concise manner for example with cross-references to other sections, and with specific objectives following through appropriate methods leading to the results and discussion of each objective, thus ensuring that conclusions can be logically drawn from the information gathered.  Is the abstract informative or not?  Does the presentation provide the flavor of scholarly and professional output?",
+    corrections: "Indicate exactly what corrections are necessary or whether the thesis needs to be revised.  Occasionally theses require extensive corrections or revision.  If this is the case, please set out the corrections and paragraphs affected.  If minor corrections are required, please indicate them."
+};
+  export default examinerGuide;
+  
