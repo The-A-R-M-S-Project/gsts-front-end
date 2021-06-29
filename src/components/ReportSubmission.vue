@@ -128,7 +128,7 @@
             >
             <span v-else>&nbsp;Report not created</span>
           </p>
-          <p v-if="progressEvents[studentReport.status].step > 1">
+          <p v-if="progressEvents[studentReport.status].step > 1 || studentReport.status === 'resubmit'">
             <span class="body-1 font-weight-light">Submitted report:</span>
             <span class="subheading"
               >&nbsp;
