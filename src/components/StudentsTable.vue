@@ -268,7 +268,7 @@
                                     </thead>
                                     <tbody>
                                       <tr v-if="item.examiners.length === 0" class="text-center grey--text text--darken-2">
-                                        <td colspan="4">None</td>
+                                        <td colspan="4" class="body-1">None</td>
                                       </tr>
                                       <tr v-for="(examiner, index) in item.examiners" :key="index">
                                         <td class="text-center">{{ examiner.examiner.lastName }} {{ examiner.examiner.firstName }}</td>
@@ -312,7 +312,7 @@
                         </p>
                         <p class="body-1">
                           <strong>Viva committee</strong>
-                          <span v-if="item.viva && item.viva.vivaCommittee">
+                          <span>
                             <v-row>
                               <v-col cols="12">
                                 <v-simple-table>
@@ -326,10 +326,10 @@
                                       </tr>
                                     </thead>
                                     <tbody>
-                                      <tr v-if="item.viva.vivaCommittee.length === 0" class="text-center grey--text text--darken-2">
-                                        <td colspan="4">None</td>
+                                      <tr v-if="!item.viva || item.viva.vivaCommittee.length === 0" class="text-center grey--text text--darken-2">
+                                        <td colspan="4" class="body-1">None</td>
                                       </tr>
-                                      <tr v-for="(member, index) in item.viva.vivaCommittee" :key="index">
+                                      <tr v-else v-for="(member, index) in item.viva.vivaCommittee" :key="index">
                                         <td>{{ member.name }}</td>
                                         <td>{{ member.email }}</td>
                                         <td v-if="member.phone">{{ member.phone }}</td>
@@ -341,9 +341,6 @@
                                 </v-simple-table>
                               </v-col>
                             </v-row>
-                          </span>
-                          <span v-else>
-                            &nbsp;No members added yet!
                           </span>
                           <SetVivaCommittee />
                         </p>
