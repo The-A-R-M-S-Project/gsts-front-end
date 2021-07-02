@@ -20,6 +20,7 @@ const state = {
     vivaPanelMessage: null,
     vivaPanelSectionKey: 0,
     studentsTableMessage: '',
+    registerExaminerMessage: {},
     vivaDateError: null,
     studentsTableKey: 0,
     examinerAssessments: [],
@@ -158,6 +159,9 @@ const mutations = {
     setAssignExaminerError(state, payload) {
         state.studentsTableMessage = `Error! ${payload}`;
         state.displayInTable = false;
+    },
+    setRegisterExaminerMessage(state, payload) {
+        state.registerExaminerMessage = payload;
     },
     setVivaPanelMessage(state, payload) {
         state.vivaPanelMessage = payload
@@ -349,6 +353,23 @@ const actions = {
             commit("setAssignExaminerError", error.response.data.message);
         }
     },
+    async registerExaminer({ commit }, data) {
+        commit("setSubmitLoader", true)
+        try {
+            let response = await axiosInstance.post("/staff/signup", data);
+            commit("setRegisterExaminerMessage", {
+                status: response.data.status,
+                message: "Examiner successfully registered!"
+            });
+            commit("setSubmitLoader", false);
+        } catch (error) {
+            commit("setSubmitLoader", false);
+            commit("setRegisterExaminerMessage", {
+                status: "error",
+                message: error.response.data.message
+            });
+        }
+    },
     async removeExaminer({ commit }, data) {
         commit("setSubmitLoader", true)
         let accessToken = localStorage.getItem("jwt");
@@ -484,6 +505,7 @@ const getters = {
             return staff.role === "examiner"
         })
     },
+    registerExaminerMessage: (state) => state.registerExaminerMessage,
     examinerReportStatuses: (state) => state.examinerReportStatuses,
     reportComments: (state) => state.reportComments,
     assignExaminerMessage: (state) => state.assignExaminerMessage,

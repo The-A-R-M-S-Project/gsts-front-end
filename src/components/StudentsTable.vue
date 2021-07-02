@@ -263,6 +263,13 @@
                         <p v-if="user.role === 'principal'" class="body-1">
                           <strong>Currently assigned examiners</strong>
                           <span>
+                            <v-row align="center" justify="start">
+                              <v-col>
+                                <RegisterExaminer />
+                              </v-col>
+                            </v-row>
+                          </span>
+                          <span>
                             <v-row>
                               <v-col cols="12">
                                 <v-simple-table>
@@ -373,6 +380,8 @@
                   </v-dialog>
                 </v-col>
               </v-row>
+
+              <!-- Set viva date -->
               <v-row
                 v-else-if="item.status === 'clearedByExaminers'"
                 align="center"
@@ -381,6 +390,8 @@
               >
                 <SetVivaDate />
               </v-row>
+
+              <!-- Set viva score -->
               <v-row
                 v-else-if="item.status === 'vivaDateSet'"
                 align="center"
@@ -390,6 +401,8 @@
                   <SetVivaScore />
                 </v-col>
               </v-row>
+
+              <!-- Upload viva committee report -->
               <v-row
                 v-else-if="
                   item.status === 'vivaComplete' && !item.vivaCommitteeReport
@@ -399,7 +412,8 @@
               >
                 <UploadVivaCommitteeReport />
               </v-row>
-
+              
+              <!-- View student details -->
               <v-row v-else align="center" justify="center" no-gutters>
                 <div class="text-center">
                   <v-btn
@@ -420,6 +434,7 @@
 
 <script>
 import AssignExaminer from "@/components/AssignExaminer.vue";
+import RegisterExaminer from "@/components/RegisterExaminer.vue"
 import SetVivaDate from "@/components/SetVivaDate.vue";
 // import SetVivaCommittee from "@/components/SetVivaCommittee.vue";
 import SetVivaScore from "@/components/SetVivaScore.vue";
@@ -669,6 +684,7 @@ export default {
     AssignExaminer,
     SetVivaDate,
     // SetVivaCommittee,
+    RegisterExaminer,
     ExaminerRejectionReason,
     SetVivaScore,
     UploadVivaCommitteeReport,
