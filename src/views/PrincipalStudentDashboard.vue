@@ -89,7 +89,7 @@
                               <th class="text-center"><v-icon>mdi-phone</v-icon></th>
                               <th class="text-center"><v-icon>mdi-home</v-icon></th>
                               <!-- Empty header for action on viva committee member -->
-                              <th></th>
+                              <th v-if="user.role === 'dean' && progressEvents[`${studentReport.status}`].step < 5"></th>
                             </tr>
                           </thead>
                           <tbody>
@@ -102,7 +102,7 @@
                               <td v-if="member.phone">{{ member.phone }}</td>
                               <td v-else> - </td>
                               <td>{{ member.affiliation }}</td>
-                              <td>
+                              <td v-if="user.role === 'dean' && progressEvents[`${studentReport.status}`].step < 5">
                                 <v-btn @click="confirmVivaMemberRemoval = true" icon color="primary">
                                   <v-icon>mdi-close</v-icon>
                                 </v-btn>
