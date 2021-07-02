@@ -20,6 +20,12 @@ const state = {
             chartColor: "#81C784",
             value: 67
         },
+        withdrawnFromExaminer: {
+            text: "Withdrawn",
+            color: "success",
+            chartColor: "#F4511E",
+            value: 100
+        },
         rejectedByExaminer: {
             text: "Rejected",
             color: "error",

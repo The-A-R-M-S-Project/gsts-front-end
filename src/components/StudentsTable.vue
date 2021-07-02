@@ -280,7 +280,7 @@
                                         <th class="text-center"><v-icon>mdi-account-convert</v-icon></th>
                                         <th class="text-center"><v-icon>mdi-progress-check</v-icon></th>
                                         <!-- Empty header for action on examiner -->
-                                        <th class="text-center">
+                                        <th v-if="actionNeeded(item.examiners)" class="text-center">
                                           <v-icon>mdi-information-outline</v-icon>
                                         </th>
                                       </tr>
@@ -298,6 +298,7 @@
                                           <ExaminerRejectionReason v-if="examiner.status === 'rejectedByExaminer'" :rejectionReason="examiner.rejectionReason"/>
                                           <v-icon v-if="examiner.status === 'withExaminer'" color="success">mdi-check-circle</v-icon>
                                           <v-icon v-if="examiner.status === 'clearedByExaminer'" color="success">mdi-file-check</v-icon>
+                                          <v-icon v-if="examiner.status === 'withdrawnFromExaminer'" color="orange">mdi-close</v-icon>
                                         </td>
                                         <td v-if="examiner.status === 'assignedToExaminer'" class="text-center">
                                           <v-btn @click="setExaminerToRemove(examiner)" :loading="submitLoading" icon color="primary">
@@ -681,6 +682,9 @@ export default {
     columnValueList(val) {
       return this.reports.map((d) => d[val]);
     },
+    actionNeeded(examiners){
+      return examiners.some(examiner => examiner.status === "assignedToExaminer");
+    }
   },
   components: {
     AssignExaminer,

@@ -113,9 +113,13 @@ export default {
           message: "Rejected by examiner",
           color: "#E91E63",
         },
+        withdrawnFromExaminer: {
+          message: "Withdrawn from examiner",
+          color: "#FF9800"
+        },
         clearedByExaminer: {
           message: "Cleared by examiner",
-          color: "#FF9800",
+          color: "#43A047",
         },
       };
       for (const [key, value] of Object.entries(studentsPerLevel)) {
