@@ -298,7 +298,7 @@
                                           <v-icon v-if="examiner.status === 'clearedByExaminer'" color="success">mdi-file-check</v-icon>
                                         </td>
                                         <td v-if="examiner.status === 'assignedToExaminer' || examiner.status === 'rejectedByExaminer'">
-                                          <v-btn @click="setExaminerToRemove(examiner)" icon color="primary">
+                                          <v-btn @click="setExaminerToRemove(examiner)" :loading="submitLoading" icon color="primary">
                                             <v-icon>mdi-close</v-icon>
                                           </v-btn>
                                         </td>
