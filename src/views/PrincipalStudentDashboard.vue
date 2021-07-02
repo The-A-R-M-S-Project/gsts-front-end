@@ -148,7 +148,8 @@
                   v-if="
                     (user.role === 'principal' || user.role === 'dean') &&
                     studentReport.status &&
-                    progressEvents[`${studentReport.status}`].step > 3
+                    progressEvents[`${studentReport.status}`].step > 1 &&
+                    progressEvents[`${studentReport.status}`].message !== 'Submitted'
                   "
                   cols="12"
                   class="pb-12"
