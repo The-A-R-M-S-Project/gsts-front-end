@@ -193,7 +193,7 @@
                       <div class="text-center">
                         <v-btn v-bind="attrs" v-on="on" color="primary">
                           <span v-if="user.role === 'principal'">Manage examiners</span>
-                          <span>Preview report</span>
+                          <span v-else>Preview report</span>
                         </v-btn>
                       </div>
                     </template>
@@ -301,6 +301,8 @@
                                 </v-simple-table>
                               </v-col>
                             </v-row>
+
+                            <!-- Confirm examiner removal dialog -->
                             <v-dialog v-model="confirmExaminerRemovalDialog" width="500">
                                 <v-card>
                                   <v-card-title>
@@ -419,7 +421,7 @@
 <script>
 import AssignExaminer from "@/components/AssignExaminer.vue";
 import SetVivaDate from "@/components/SetVivaDate.vue";
-import SetVivaCommittee from "@/components/SetVivaCommittee.vue";
+// import SetVivaCommittee from "@/components/SetVivaCommittee.vue";
 import SetVivaScore from "@/components/SetVivaScore.vue";
 import UploadVivaCommitteeReport from "@/components/UploadVivaCommitteeReport.vue";
 import ExaminerRejectionReason from "@/components/Action\ Dialogs/ExaminerRejectionReason.vue";
@@ -666,7 +668,7 @@ export default {
   components: {
     AssignExaminer,
     SetVivaDate,
-    SetVivaCommittee,
+    // SetVivaCommittee,
     ExaminerRejectionReason,
     SetVivaScore,
     UploadVivaCommitteeReport,
