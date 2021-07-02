@@ -280,7 +280,9 @@
                                         <th class="text-center"><v-icon>mdi-account-convert</v-icon></th>
                                         <th class="text-center"><v-icon>mdi-progress-check</v-icon></th>
                                         <!-- Empty header for action on examiner -->
-                                        <th class="text-center"></th>
+                                        <th class="text-center">
+                                          <v-icon>mdi-information-outline</v-icon>
+                                        </th>
                                       </tr>
                                     </thead>
                                     <tbody>
@@ -297,7 +299,7 @@
                                           <v-icon v-if="examiner.status === 'withExaminer'" color="success">mdi-check-circle</v-icon>
                                           <v-icon v-if="examiner.status === 'clearedByExaminer'" color="success">mdi-file-check</v-icon>
                                         </td>
-                                        <td v-if="examiner.status === 'assignedToExaminer' || examiner.status === 'rejectedByExaminer'">
+                                        <td v-if="examiner.status === 'assignedToExaminer'" class="text-center">
                                           <v-btn @click="setExaminerToRemove(examiner)" :loading="submitLoading" icon color="primary">
                                             <v-icon>mdi-close</v-icon>
                                           </v-btn>
