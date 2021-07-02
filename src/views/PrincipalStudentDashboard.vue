@@ -12,10 +12,10 @@
     <MobileDrawer />
     <div>
       <v-row no-gutters>
-        <v-col cols="12" lg="9">
+        <v-col cols="12">
           <v-row align="center" justify="center" no-gutters>
             <v-col cols="12">
-              <StudentProgress class="mb-6" />
+              <StudentProgress class="mb-6 mx-md-12" />
             </v-col>
             <v-col v-if="user.role !== 'examiner' && studentReport.status && progressEvents[`${studentReport.status}`].step > 1" cols="12">
               <v-row align="center" justify="center" no-gutters>
@@ -68,7 +68,6 @@
                               </div>
                             </v-alert>
                         </v-col>
-
                       </v-row>
                     </span>
                   </p>
@@ -89,6 +88,8 @@
                               <th class="text-center"><v-icon>mdi-email</v-icon></th>
                               <th class="text-center"><v-icon>mdi-phone</v-icon></th>
                               <th class="text-center"><v-icon>mdi-home</v-icon></th>
+                              <!-- Empty header for action on viva committee member -->
+                              <th></th>
                             </tr>
                           </thead>
                           <tbody>
@@ -101,11 +102,29 @@
                               <td v-if="member.phone">{{ member.phone }}</td>
                               <td v-else> - </td>
                               <td>{{ member.affiliation }}</td>
+                              <td>
+                                <v-btn @click="confirmVivaMemberRemoval = true" icon color="primary">
+                                  <v-icon>mdi-close</v-icon>
+                                </v-btn>
+                              </td>
+                              <v-dialog v-model="confirmVivaMemberRemoval" width="500">
+                                <v-card class="py-4 pr-3">
+                                  <v-card-title>Are you sure?</v-card-title>
+                                  <v-card-text>
+                                    By clicking <i>Remove</i>, you are removing {{ member.name }} from the viva panel.
+                                  </v-card-text>
+                                  <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <v-btn color="primary" @click="confirmVivaMemberRemoval = false">Cancel</v-btn>
+                                    <v-btn color="error" @click="removeVivaMember(member)">Remove</v-btn>
+                                  </v-card-actions>
+                                </v-card>
+                              </v-dialog>
                             </tr>
                           </tbody>
                         </template>
                       </v-simple-table>
-                      <SetVivaCommittee @change="fetchStudentDetails" class="mt-4" />
+                      <SetVivaCommittee v-if="user.role === 'dean'" class="mt-4" />
                     </v-col>
                   </v-row>
                 </v-col>
@@ -148,9 +167,9 @@
             </v-col>
           </v-row>
         </v-col>
-        <v-col cols="12" lg="3">
-          <StudentsNotifications />
-        </v-col>
+        <!-- <v-col cols="12" lg="3">
+          <StudentsNotifications/>
+        </v-col> -->
       </v-row>
     </div>
     <Footer />
@@ -167,7 +186,7 @@ import SetVivaCommittee from "@/components/SetVivaCommittee.vue";
 import ExaminerRejectionReason from "@/components/Action\ Dialogs/ExaminerRejectionReason.vue";
 import ExaminerAssessment from "@/components/ExaminerAssessment.vue";
 import Resubmission from "@/components/Resubmission.vue";
-import StudentsNotifications from "@/components/StudentsNotifications.vue";
+// import StudentsNotifications from "@/components/StudentsNotifications.vue";
 import Footer from "@/components/Footer.vue";
 import { mapGetters } from "vuex";
 
@@ -177,11 +196,24 @@ export default {
     return {
       drawer: false,
       loading: false,
-      studentReport: {}
+      studentReport: {},
+      confirmVivaMemberRemoval: false
     };
   },
   async created() {
-    await this.fetchStudentDetails();
+    await this.$store.dispatch("fetchLoggedInStaff");
+    await this.$store.dispatch("fetchSpecificStudentReport",this.$route.params.studentID);
+    await this.$store.dispatch("fetchReports");
+    this.studentReport = this.reports.filter(report => report._id === this.$route.params.studentID)[0];
+    this.$store.dispatch("setSelectedStudent", this.studentReport);
+    await this.$store.dispatch("fetchStudentDetails",this.studentReport.student._id);
+    if (this.user.role !== "examiner") {
+      await this.$store.dispatch(
+        "fetchExaminerAssessment",
+        this.studentReport._id
+      );
+    }
+    await this.$store.dispatch("fetchReportComments", this.studentReport._id);
   },
   computed: {
     ...mapGetters([
@@ -193,23 +225,6 @@ export default {
       "progressEvents",
     ]),
   },
-  methods: {
-    async fetchStudentDetails(){
-      await this.$store.dispatch("fetchLoggedInStaff");
-      await this.$store.dispatch("fetchReports");
-      this.studentReport = this.reports.filter(report => report._id === this.$route.params.studentID)[0];
-      this.$store.dispatch("setSelectedStudent", this.studentReport);
-      await this.$store.dispatch("fetchSpecificStudentReport",this.$route.params.studentID);
-      await this.$store.dispatch("fetchStudentDetails",this.studentReport.student._id);
-      if (this.user.role !== "examiner") {
-        await this.$store.dispatch(
-          "fetchExaminerAssessment",
-          this.studentReport._id
-        );
-      }
-      await this.$store.dispatch("fetchReportComments", this.studentReport._id);
-    }
-  },
   components: {
     Navigation,
     DeanNav,
@@ -220,7 +235,7 @@ export default {
     ExaminerAssessment,
     StudentProgress,
     Resubmission,
-    StudentsNotifications,
+    // StudentsNotifications,
     Footer,
   },
 };

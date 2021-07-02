@@ -73,9 +73,9 @@ const actions = {
         let accessToken = localStorage.getItem("jwt");
         axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
         try {
-            let response = await axiosInstance.get(`/report/${data}`)
+            let response = await axiosInstance.get(`/report/${data}`);
             commit("setStudentReport", response.data);
-            commit("setDetailLoader", false)
+            commit("setDetailLoader", false);
         } catch (error) {
             commit("setDetailLoader", false);
             commit("fetchStudentDetailsError", error.response.data.message)
