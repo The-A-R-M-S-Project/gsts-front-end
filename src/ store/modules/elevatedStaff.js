@@ -17,6 +17,8 @@ const state = {
     requestResubmissionError: null,
     displayStudentTableFeedback: false,
     assignExaminerError: null,
+    vivaPanelMessage: null,
+    vivaPanelSectionKey: 0,
     studentsTableMessage: '',
     vivaDateError: null,
     studentsTableKey: 0,
@@ -157,6 +159,9 @@ const mutations = {
         state.studentsTableMessage = `Error! ${payload}`;
         state.displayInTable = false;
     },
+    setVivaPanelMessage(state, payload) {
+        state.vivaPanelMessage = payload
+    },
     setVivaDateSuccess(state, payload) {
         let str = payload.res
         let success = `${
@@ -166,6 +171,9 @@ const mutations = {
         }`;
         state.studentsTableMessage = `${success}. You've set a viva date for ${payload.name}`;
         state.displayInTable = true;
+    },
+    changeVivaPanelSectionKey(state) {
+        state.vivaPanelSectionKey++;
     },
     setVivaDateError(state, payload) {
         state.vivaDateError = payload
@@ -367,14 +375,26 @@ const actions = {
         let accessToken = localStorage.getItem("jwt");
         axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
         try {
-            await axiosInstance.patch(`/viva/staff/addVivaCommitteeMember/${
-                data.reportID
-            }`, data.member)
-            commit("setSubmitLoader", false)
+            await axiosInstance.patch(`/viva/staff/addVivaCommitteeMember/${data.reportID}`, data.member);
+            commit("setVivaPanelMessage", { status: "success", message: "Viva panel member successfully added!" });
+            commit("setSubmitLoader", false);
         } catch (error) {
-            commit("setSubmitLoader", false)
-            console.log(error.response.data.message)
-            commit("setVivaDateError", error.response.data.message)
+            commit("setSubmitLoader", false);
+            commit("setVivaPanelMessage", { status: "error", message: error.response.data.message });
+        }
+    },
+    async removeVivaCommitteeMember({ commit }, data) {
+        commit("setSubmitLoader", true);
+        let accessToken = localStorage.getItem("jwt");
+        axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+        try {
+            await axiosInstance.patch(`/viva/staff/removeVivaCommitteeMember/${data.reportID}`, data.payload);
+            commit("setVivaPanelMessage", { status: "success", message: "Viva panel member successfully removed!" });
+            commit("setSubmitLoader", false);
+        } catch (error) {
+            commit("setSubmitLoader", false);
+            console.log(error.response.data.message);
+            commit("setVivaPanelMessage", { status: "error", message: error.response.data.message });
         }
     },
     async setVivaDate({
@@ -457,6 +477,8 @@ const getters = {
     reports: (state) => state.reports,
     displayInTable: (state) => state.displayInTable,
     vivaReportError: (state) => state.vivaReportError,
+    vivaPanelMessage: (state) => state.vivaPanelMessage,
+    vivaPanelSectionKey: (state) => state.vivaPanelSectionKey,
     examiners: (state) => {
         return state.examiners.filter(staff => {
             return staff.role === "examiner"

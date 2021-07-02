@@ -73,10 +73,18 @@
                   </p>
 
                   <!-- List of viva committee -->
-                  <v-row align="center" justify="center" class="mb-12">
+                  <v-row align="center" justify="center" class="mb-12" :key="vivaPanelSectionKey">
                     <v-col cols="12" class="pb-0">
                       <p class="body-1 text-center">
-                        <strong class="text-decoration-underline">Viva committee</strong>
+                        <strong class="text-decoration-underline">Viva Panel</strong>
+                        <v-alert
+                          v-if="displayMessage" 
+                          :type="vivaPanelMessage.status" 
+                          width="500" 
+                          class="mx-auto"
+                        >
+                          {{ vivaPanelMessage.message }}
+                        </v-alert>
                       </p>
                     </v-col>
                     <v-col cols="12" sm="8" class="pt-0">
@@ -103,27 +111,31 @@
                               <td v-else> - </td>
                               <td>{{ member.affiliation }}</td>
                               <td v-if="user.role === 'dean' && progressEvents[`${studentReport.status}`].step < 5">
-                                <v-btn @click="confirmVivaMemberRemoval = true" icon color="primary">
+                                <v-btn @click="selectVivaMember(member)" :loading="submitLoading" icon color="primary">
                                   <v-icon>mdi-close</v-icon>
                                 </v-btn>
                               </td>
-                              <v-dialog v-model="confirmVivaMemberRemoval" width="500">
-                                <v-card class="py-4 pr-3">
-                                  <v-card-title>Are you sure?</v-card-title>
-                                  <v-card-text>
-                                    By clicking <i>Remove</i>, you are removing {{ member.name }} from the viva panel.
-                                  </v-card-text>
-                                  <v-card-actions>
-                                    <v-spacer></v-spacer>
-                                    <v-btn color="primary" @click="confirmVivaMemberRemoval = false">Cancel</v-btn>
-                                    <v-btn color="error" @click="removeVivaMember(member)">Remove</v-btn>
-                                  </v-card-actions>
-                                </v-card>
-                              </v-dialog>
                             </tr>
                           </tbody>
                         </template>
                       </v-simple-table>
+
+                      <!-- Confirm viva panel member removal -->
+                      <v-dialog v-model="confirmVivaMemberRemoval" width="500">
+                        <v-card class="py-4 pr-3">
+                          <v-card-title>Are you sure?</v-card-title>
+                          <v-card-text>
+                            By clicking <i>Remove</i>, you are removing <strong>{{ selectedVivaMember.name }}</strong> from 
+                            <strong>{{studentReport.student.lastName}} {{studentReport.student.firstName}}</strong>'s 
+                            viva panel.
+                          </v-card-text>
+                          <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn color="primary" @click="confirmVivaMemberRemoval = false">Cancel</v-btn>
+                            <v-btn color="error" @click="removeVivaMember()">Remove</v-btn>
+                          </v-card-actions>
+                        </v-card>
+                      </v-dialog>
                       <SetVivaCommittee v-if="user.role === 'dean'" class="mt-4" />
                     </v-col>
                   </v-row>
@@ -197,7 +209,9 @@ export default {
       drawer: false,
       loading: false,
       studentReport: {},
-      confirmVivaMemberRemoval: false
+      confirmVivaMemberRemoval: false,
+      selectedVivaMember: {},
+      displayMessage: false
     };
   },
   async created() {
@@ -219,11 +233,35 @@ export default {
     ...mapGetters([
       "isLoading",
       "user",
+      "submitLoading",
       "examinerStatus",
       "reports",
+      "vivaPanelSectionKey",
+      "vivaPanelMessage",
       "examinerReportStatuses",
       "progressEvents",
     ]),
+  },
+  methods: {
+    selectVivaMember(member){
+      this.selectedVivaMember = member;
+      this.confirmVivaMemberRemoval = true;
+    },
+    async removeVivaMember(){
+      await this.$store.dispatch("removeVivaCommitteeMember", {
+        reportID: this.studentReport._id,
+        payload: {
+          email: this.selectedVivaMember.email
+        }
+      });
+      this.confirmVivaMemberRemoval = false;
+      this.displayMessage = true;
+      setTimeout(() => {
+        this.displayMessage = false;
+      }, 5000);
+      await this.$store.dispatch("fetchReports");
+      this.studentReport = this.reports.filter(report => report._id === this.$route.params.studentID)[0];
+    }
   },
   components: {
     Navigation,

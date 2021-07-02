@@ -25,6 +25,14 @@
           <p v-if="selectedStudent.student" class="black--text body-1">
             Set committee for {{ selectedStudent.student.firstName }}
             {{ selectedStudent.student.lastName }}'s viva examination
+            <v-alert
+            v-if="displayFeedback"
+            :type="vivaPanelMessage.status"
+            class="text-center mx-auto"
+            width="500"
+            >
+            {{ vivaPanelMessage.message }}
+            </v-alert>
           </p>
 
           <v-row>
@@ -81,6 +89,7 @@ export default {
   data() {
     return {
       dialog: false,
+      displayFeedback: false,
       name: "",
       phoneNumber: "",
       email: "",
@@ -93,7 +102,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["selectedStudent", "submitLoading", "detailLoading"]),
+    ...mapGetters(["selectedStudent", "submitLoading", "detailLoading", "vivaPanelMessage"]),
     phoneNumberRules(){
       return this.phoneNumber ? [
         (number) => /(?=^07)(?=\d{10})/.test(number) || "The phone number is not valid",
@@ -126,9 +135,20 @@ export default {
           reportID: this.selectedStudent._id,
           member: memberDetails
         });
-        this.dialog = false;
-        await this.$store.dispatch("fetchReports");
-        this.$store.dispatch("changeStudentsTableKey");
+
+        console.log("viva: ", this.vivaPanelMessage);
+
+        if(this.vivaPanelMessage === "success") {
+          this.dialog = false;
+          await this.$store.dispatch("fetchReports");
+          this.$store.commit("changeVivaPanelSectionKey");
+          // this.$store.dispatch("changeStudentsTableKey");
+        } else {
+          this.displayFeedback = true;
+          setTimeout(() => {
+            this.displayFeedback = false;
+          }, 5000);
+        }
       }
     },
   },
