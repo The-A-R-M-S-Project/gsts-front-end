@@ -24,6 +24,8 @@
               v-for="examiner in examinerAssessments"
               :key="examiner._id"
             >
+              <p class="text-center mb-0 mt-6 body-1 font-weight-light">Examiner: <strong>{{ examiner.examiner.name }}</strong></p>
+              
              <ExaminerAssessmentSummary :examiner="examiner" />
             </v-tab-item>
           </v-tabs-items>
