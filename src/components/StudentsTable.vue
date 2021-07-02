@@ -386,7 +386,7 @@
 
               <!-- Set viva date -->
               <v-row
-                v-else-if="item.status === 'clearedByExaminers'"
+                v-else-if="item.status === 'clearedByExaminers' && user.role === 'dean'"
                 align="center"
                 justify="center"
                 no-gutters
@@ -396,7 +396,7 @@
 
               <!-- Set viva score -->
               <v-row
-                v-else-if="item.status === 'vivaDateSet'"
+                v-else-if="item.status === 'vivaDateSet' && user.role === 'dean'"
                 align="center"
                 justify="center"
               >
@@ -408,7 +408,7 @@
               <!-- Upload viva committee report -->
               <v-row
                 v-else-if="
-                  item.status === 'vivaComplete' && !item.vivaCommitteeReport
+                  item.status === 'vivaComplete' && !item.vivaCommitteeReport && user.role === 'dean'
                 "
                 align="center"
                 justify="center"
