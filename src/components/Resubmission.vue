@@ -75,7 +75,7 @@
         <v-row no-gutters align="center" justify="center">
           <v-col>
             <p>
-              <v-icon color="primary">mdi-information</v-icon>
+              <v-icon color="primary">mdi-information-outline</v-icon>
               These comments will be seen by the student.
             </p>
           </v-col>
@@ -93,7 +93,7 @@
                 v-if="
                   comment.text === 'No comments have been made on this report'
                 "
-                class="grey--text"
+                class="grey--text mx-2"
               >
                 {{ comment.text }}
               </p>
@@ -113,7 +113,7 @@
         </v-row>
         <v-row align="center" justify="center" no-gutters class="pb-6">
           <v-col cols="12" sm="9">
-            <div class="text-center">
+            <div class="text-center mx-2">
               <v-form ref="createCommentForm">
                 <v-textarea
                   outlined
