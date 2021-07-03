@@ -175,13 +175,20 @@
             </v-col>
 
             <!-- Retake details -->
-            <v-col v-if="studentReport.retake === 'yes'" cols="12">
+            <v-col 
+              v-if="studentReport.retake === 'yes' && studentReport.status === 'notSubmitted'" 
+              cols="12"
+            >
               <div class="text-center">
                 <h3 class="text-center">Retake details</h3>
                 <hr class="mx-auto divider" />
               </div>
             </v-col>
-            <v-col v-if="studentReport.retake === 'yes'" cols="12" class="mb-6">
+            <v-col 
+              v-if="studentReport.retake === 'yes' && studentReport.status === 'notSubmitted'"
+              cols="12" 
+              class="mb-6"
+            >
               <RetakeDetails :report="studentReport"/>
             </v-col>
 
