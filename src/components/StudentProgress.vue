@@ -24,7 +24,7 @@
                   <br />
                   <span v-if="studentReport.retake === 'yes'" class="font-weight-bold grey--text">
                     <v-icon color="grey">mdi-information-outline</v-icon>
-                    Retake
+                    Retake ({{studentReport.finalScore}}% {{studentReport.grade}})
                   </span>
                 </span>
               </v-progress-circular>
