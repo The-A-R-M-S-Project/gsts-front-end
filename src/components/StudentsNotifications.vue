@@ -63,6 +63,7 @@ export default {
     if (this.studentReport.submittedAt) {
       this.notifications.push({
         id: this.studentReport._id,
+        timestamp: this.studentReport.submittedAt,
         action: this.formatDate(this.studentReport.submittedAt).date,
         time: this.formatDate(this.studentReport.submittedAt).time,
         tag: "green",
@@ -70,6 +71,18 @@ export default {
         title: "You've successfully submitted your report!",
       });
     }
+    if(this.studentReport.retake === "yes"){
+      this.notifications.push({
+        id: this.studentReport.student._id,
+        timestamp: this.studentReport.clearedAt,
+        action: this.formatDate(this.studentReport.clearedAt).date,
+        time: this.formatDate(this.studentReport.clearedAt).time,
+        tag: "red",
+        headline: "Assessment",
+        title: `Retake! You scored ${this.studentReport.finalScore}% (${this.studentReport.grade})`,
+      });
+    }
+
     await this.$store.dispatch("fetchReportComments", this.studentReport._id);
     if (this.reportComments.length > 0) {
       let comments = this.reportComments;
@@ -79,6 +92,7 @@ export default {
       comments = this.reportComments.map((comment) => {
         return {
           id: comment._id,
+          timestamp: comment.createdAt,
           action: this.formatDate(comment.createdAt).date,
           time: this.formatDate(comment.createdAt).time,
           tag: "red",
@@ -88,6 +102,10 @@ export default {
       });
       this.notifications.push(...comments);
     }
+
+    this.notifications.sort((a, b) => {
+      return new Date(b.timestamp) - new Date(a.timestamp);
+    });
   },
   computed: {
     ...mapGetters(["studentReport", "reportComments"]),
