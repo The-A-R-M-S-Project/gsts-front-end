@@ -174,8 +174,19 @@
               </v-row>
             </v-col>
 
+            <!-- Retake details -->
+            <v-col v-if="studentReport.retake === 'yes'" cols="12">
+              <div class="text-center">
+                <h3 class="text-center">Retake details</h3>
+                <hr class="mx-auto divider" />
+              </div>
+            </v-col>
+            <v-col v-if="studentReport.retake === 'yes'" cols="12" class="mb-6">
+              <RetakeDetails :report="studentReport"/>
+            </v-col>
+
             <v-col
-              v-if="user.role === 'principal' || user.role === 'dean'"
+              v-if="(user.role === 'principal' || user.role === 'dean') && studentReport.status !== 'complete'"
               cols="12"
             >
               <Resubmission />
@@ -201,6 +212,7 @@ import SetVivaCommittee from "@/components/SetVivaCommittee.vue";
 import ExaminerRejectionReason from "@/components/Action\ Dialogs/ExaminerRejectionReason.vue";
 import ExaminerAssessment from "@/components/ExaminerAssessment.vue";
 import Resubmission from "@/components/Resubmission.vue";
+import RetakeDetails from "@/components/RetakeDetails.vue"
 // import StudentsNotifications from "@/components/StudentsNotifications.vue";
 import Footer from "@/components/Footer.vue";
 import { mapGetters } from "vuex";
@@ -222,6 +234,7 @@ export default {
     await this.$store.dispatch("fetchSpecificStudentReport",this.$route.params.studentID);
     await this.$store.dispatch("fetchReports");
     this.studentReport = this.reports.filter(report => report._id === this.$route.params.studentID)[0];
+    console.log("Student report: ", this.studentReport);
     this.$store.dispatch("setSelectedStudent", this.studentReport);
     await this.$store.dispatch("fetchStudentDetails",this.studentReport.student._id);
     if (this.user.role !== "examiner") {
@@ -276,6 +289,7 @@ export default {
     ExaminerAssessment,
     StudentProgress,
     Resubmission,
+    RetakeDetails,
     // StudentsNotifications,
     Footer,
   },

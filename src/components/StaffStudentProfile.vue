@@ -69,9 +69,6 @@ export default {
   computed: {
     ...mapGetters(["studentReport", "student"]),
   },
-  created(){
-    console.log("Student report: ", this.studentReport);
-  }
 };
 </script>
 

@@ -22,7 +22,10 @@
                   <br />
                   {{ progressEvents[`${studentReport.status}`].message }}
                   <br />
-                  <span v-if="studentReport.retake === 'yes'" class="font-weight-bold grey--text">Retake</span>
+                  <span v-if="studentReport.retake === 'yes'" class="font-weight-bold grey--text">
+                    <v-icon color="grey">mdi-information-outline</v-icon>
+                    Retake
+                  </span>
                 </span>
               </v-progress-circular>
             </div>

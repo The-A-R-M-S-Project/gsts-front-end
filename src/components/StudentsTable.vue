@@ -153,9 +153,15 @@
       <template v-slot:[getItemName]="{ item }"
         >{{ item.student.firstName }} {{ item.student.lastName }}
       </template>
-      <template v-slot:[getItemStatus]="{ item }">{{
-        progressEvents[`${item.status}`].message
-      }}</template>
+      <template v-slot:[getItemStatus]="{ item }">
+        {{progressEvents[`${item.status}`].message}} 
+        <v-tooltip v-if="item.retake === 'yes'" top>
+          <template v-slot:activator="{ on, attrs }">
+            <v-icon color="warning" v-bind="attrs" v-on="on">mdi-information-outline</v-icon>
+          </template>
+          <span>Retake</span>
+        </v-tooltip>
+      </template>
       <template v-slot:[getItemVivaDate]="{ item }">{{
         formatDate(item.viva)
       }}</template>
