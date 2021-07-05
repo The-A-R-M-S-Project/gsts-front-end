@@ -153,58 +153,6 @@
                               be assigned to this report.
                             </p>
                             <div class="text-center">
-                              <!-- Accepting of report dialog -->
-                              <v-dialog
-                                v-model="receiveReportDialog"
-                                width="500"
-                              >
-                                <template v-slot:activator="{ on, attrs }">
-                                  <v-btn
-                                    color="success"
-                                    text
-                                    v-bind="attrs"
-                                    v-on="on"
-                                    >Agree</v-btn
-                                  >
-                                </template>
-
-                                <v-card>
-                                  <v-card-title
-                                    class="text-center headline purple white--text"
-                                    >Acknowledge Receipt</v-card-title
-                                  >
-                                  <v-card-text class="py-3 px-6">
-                                    <p class="body-1">
-                                      By clicking the "Agree" button, you are
-                                      acknowledging receipt of
-                                      <strong
-                                        v-if="examinerStudentDetails.report"
-                                        >{{
-                                          examinerStudentDetails.report.student.name
-                                        }}</strong
-                                      >'s report.
-                                    </p>
-                                  </v-card-text>
-                                  <v-divider></v-divider>
-                                  <v-card-actions>
-                                    <v-spacer></v-spacer>
-                                    <v-btn
-                                      color="error"
-                                      text
-                                      @click="receiveReportDialog = false"
-                                      >Cancel</v-btn
-                                    >
-                                    <v-btn
-                                      :loading="submitLoading"
-                                      color="success"
-                                      text
-                                      @click="receiveReport"
-                                      >Agree</v-btn
-                                    >
-                                  </v-card-actions>
-                                </v-card>
-                              </v-dialog>
-
                               <!-- Rejection of report dialog -->
                               <v-dialog
                                 v-model="rejectReportDialog"
@@ -260,6 +208,58 @@
                                       :loading="submitLoading"
                                       @click="rejectReport"
                                       >Reject</v-btn
+                                    >
+                                  </v-card-actions>
+                                </v-card>
+                              </v-dialog>
+
+                              <!-- Accepting of report dialog -->
+                              <v-dialog
+                                v-model="receiveReportDialog"
+                                width="500"
+                              >
+                                <template v-slot:activator="{ on, attrs }">
+                                  <v-btn
+                                    color="success"
+                                    text
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    >Agree</v-btn
+                                  >
+                                </template>
+
+                                <v-card>
+                                  <v-card-title
+                                    class="text-center headline purple white--text"
+                                    >Acknowledge Receipt</v-card-title
+                                  >
+                                  <v-card-text class="py-3 px-6">
+                                    <p class="body-1">
+                                      By clicking the "Agree" button, you are
+                                      acknowledging receipt of
+                                      <strong
+                                        v-if="examinerStudentDetails.report"
+                                        >{{
+                                          examinerStudentDetails.report.student.name
+                                        }}</strong
+                                      >'s report.
+                                    </p>
+                                  </v-card-text>
+                                  <v-divider></v-divider>
+                                  <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <v-btn
+                                      color="error"
+                                      text
+                                      @click="receiveReportDialog = false"
+                                      >Cancel</v-btn
+                                    >
+                                    <v-btn
+                                      :loading="submitLoading"
+                                      color="success"
+                                      text
+                                      @click="receiveReport"
+                                      >Agree</v-btn
                                     >
                                   </v-card-actions>
                                 </v-card>
