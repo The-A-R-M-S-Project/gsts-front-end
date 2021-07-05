@@ -86,8 +86,7 @@ export default {
       nameRules: [field => !!field || "This field is required"],
       emailRules: [
         (email) => !!email || "E-mail is required",
-        (email) =>
-          /.+@cedat\.mak\.ac\.ug/.test(email) || "Please enter a valid email",
+        email => /.+@.+\..+/.test(email) || 'Please enter a valid email'
       ],
       phoneNumberRules: (len) => [
         (phoneNumberField) =>
