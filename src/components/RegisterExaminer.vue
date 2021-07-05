@@ -40,6 +40,14 @@
               </v-col>
               <v-col cols="12">
                 <v-text-field
+                  prepend-icon="mdi-home"
+                  v-model="affiliation"
+                  label="Affiliation"
+                  :rules="nameRules"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-text-field
                   prepend-icon="mdi-email"
                   v-model="email"
                   label="Email"
@@ -82,6 +90,7 @@ export default {
       lastName: "",
       email: "",
       phoneNumber: "",
+      affiliation: "",
       displayMessage: false,
       nameRules: [field => !!field || "This field is required"],
       emailRules: [
@@ -110,6 +119,7 @@ export default {
           firstName: this.firstName,
           lastName: this.lastName,
           email: this.email,
+          affiliation: this.affiliation,
           password: randomPassword,
           passwordConfirm: randomPassword,
           phoneNumber: this.phoneNumber
