@@ -130,6 +130,16 @@ const mutations = {
     setRequestResubmissionError(state, payload) {
         state.requestResubmissionError = payload
     },
+    setRequestExaminersMessage(state, payload) {
+        let str = payload.status
+        let success = `${
+            str[0].toUpperCase()
+        }${
+            str.slice(1)
+        }`;
+        state.studentsTableMessage = `${success}. ${payload.message}`;
+        state.displayInTable = false;
+    },
     assignExaminerSuccess(state, payload) {
         let str = payload.res
         let success = `${
@@ -351,6 +361,27 @@ const actions = {
             commit("setSubmitLoader", false);
             commit("setDisplayStudentTableFeedback", true);
             commit("setAssignExaminerError", error.response.data.message);
+        }
+    },
+    async requestForExaminers({ commit }, data) {
+        commit("setSubmitLoader", true)
+        let accessToken = localStorage.getItem("jwt");
+        axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+        try {
+            let response = await axiosInstance.patch("/staff/principal/requestReportExaminers", data);
+            commit("setRequestExaminersMessage", {
+                status: "success",
+                message: response.data.message
+            });
+            commit("setDisplayStudentTableFeedback", true);
+            commit("setSubmitLoader", false);
+        } catch (error) {
+            commit("setSubmitLoader", false);
+            commit("setDisplayStudentTableFeedback", true);
+            commit("setRequestExaminersMessage", {
+                status: "error",
+                message: error.response.data.message
+            });
         }
     },
     async registerExaminer({ commit }, data) {

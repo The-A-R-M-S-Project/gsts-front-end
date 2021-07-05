@@ -18,6 +18,17 @@
           </p>
           <p>
             <v-icon color="primary">mdi-information-outline</v-icon>
+            If an examiner to be assigned 
+            <span class="text-decoration-underline">is not registered</span>
+            in the system, you can register them using the button below.
+          </p>
+
+          <div class="text-center my-4">
+            <RegisterExaminer />
+          </div>
+
+          <p>
+            <v-icon color="primary">mdi-information-outline</v-icon>
             If an examiner who has
             <span class="text-decoration-underline">already been assigned</span>
             to this report has
@@ -25,6 +36,7 @@
             assess it, you may reassign them to this report under a different
             <i>examiner type.</i>
           </p>
+
           <v-form ref="selectExaminerForm">
             <v-autocomplete
               v-model="examiner"
@@ -97,6 +109,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import RegisterExaminer from "@/components/RegisterExaminer.vue"
 
 export default {
   name: "AssignExaminer",
@@ -140,5 +153,8 @@ export default {
       }
     },
   },
+  components: {
+    RegisterExaminer
+  }
 };
 </script>
