@@ -34,7 +34,7 @@
       </v-row>
 
       <v-btn
-        v-show="$route.path.includes('report-status')"
+        v-show="$route.path.includes('report-status') && progressEvents[studentReport.status].step === 1 && progressEvents[studentReport.status].step === 6"
         color="teal"
         fab
         dark
@@ -65,7 +65,7 @@ export default {
     await this.$store.dispatch("fetchLoggedInStudentDetails");
   },
   computed: {
-    ...mapGetters(["student", "studentReport"]),
+    ...mapGetters(["student", "studentReport", "progressEvents"]),
   },
   methods: {
     submitReport() {
