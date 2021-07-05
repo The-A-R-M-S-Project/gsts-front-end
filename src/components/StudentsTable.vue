@@ -207,12 +207,13 @@
             <v-col cols="12" sm="3">
               <!-- Submitted -->
               <v-row
-                v-if="item.status === 'submitted'"
+                v-if="item.status === 'submitted' || manageExaminers(item.examiners)"
                 align="center"
                 justify="center"
                 no-gutters
               >
                 <v-col>
+                  <!-- Preview dialog -->
                   <v-dialog v-model="previewReportDialog" width="700">
                     <template v-slot:activator="{ on, attrs }">
                       <div class="text-center">
@@ -287,6 +288,7 @@
                         <!-- Examiners section -->
                         <section v-if="user.role === 'principal'" class="body-1">
                           <p class="mb-0"><strong>Currently assigned examiners</strong></p>
+                          <!-- Request dean to nominate examiners -->
                           <div v-if="!item.principalRequestedExaminer" class="py-2">
                             <v-icon color="primary">mdi-information-outline</v-icon>
                             Currently, there are no examiners assigned to this student's report. You can request the dean of 
@@ -296,70 +298,70 @@
                               <v-btn @click="requestForExaminers(item)" :loading="submitLoading" color="primary" class="mx-auto">Request examiners</v-btn>
                             </div>
                           </div>
-                          <span>
-                            <span>
-                              <v-row>
-                                <v-col cols="12">
-                                  <v-simple-table>
-                                    <template v-slot:default>
-                                      <thead>
-                                        <tr>
-                                          <th class="text-center"><v-icon>mdi-account</v-icon></th>
-                                          <th class="text-center"><v-icon>mdi-account-convert</v-icon></th>
-                                          <th class="text-center"><v-icon>mdi-progress-check</v-icon></th>
-                                          <!-- Empty header for action on examiner -->
-                                          <th v-if="actionNeeded(item.examiners)" class="text-center">
-                                            <v-icon>mdi-information-outline</v-icon>
-                                          </th>
-                                        </tr>
-                                      </thead>
-                                      <tbody>
-                                        <tr v-if="item.examiners.length === 0" class="text-center grey--text text--darken-2">
-                                          <td colspan="4" class="body-1">None</td>
-                                        </tr>
-                                        <tr v-for="(examiner, index) in item.examiners" :key="index">
-                                          <td class="text-center">{{ examiner.examiner.lastName }} {{ examiner.examiner.firstName }}</td>
-                                          <td class="text-center text-capitalize">{{ examiner.examinerType }}</td>
-                                          <td class="text-center">
-                                            {{ examinerStatus[examiner.status].text }}
-                                            <v-icon v-if="examiner.status === 'assignedToExaminer'" color="primary">mdi-dots-horizontal</v-icon>
-                                            <ExaminerRejectionReason v-if="examiner.status === 'rejectedByExaminer'" :rejectionReason="examiner.rejectionReason"/>
-                                            <v-icon v-if="examiner.status === 'withExaminer'" color="success">mdi-check-circle</v-icon>
-                                            <v-icon v-if="examiner.status === 'clearedByExaminer'" color="success">mdi-file-check</v-icon>
-                                            <v-icon v-if="examiner.status === 'withdrawnFromExaminer'" color="orange">mdi-close</v-icon>
-                                          </td>
-                                          <td v-if="examiner.status === 'assignedToExaminer'" class="text-center">
-                                            <v-btn @click="setExaminerToRemove(examiner)" :loading="submitLoading" icon color="primary">
-                                              <v-icon>mdi-close</v-icon>
-                                            </v-btn>
-                                          </td>
-                                        </tr>
-                                      </tbody>
-                                    </template>
-                                  </v-simple-table>
-                                </v-col>
-                              </v-row>
 
-                              <!-- Confirm examiner removal dialog -->
-                              <v-dialog v-model="confirmExaminerRemovalDialog" width="500">
-                                  <v-card>
-                                    <v-card-title>
-                                      Are you sure?
-                                    </v-card-title>
-                                    <v-card-text v-if="examinerToRemove.examiner" class="body-1">
-                                      By performing this action, you will <strong>disinvite</strong> 
-                                      {{examinerToRemove.examiner.lastName}} {{ examinerToRemove.examiner.firstName }} from assessing 
-                                      {{ item.student.firstName }} {{ item.student.lastName }}'s report.
-                                      <div class="text-right pt-2">
-                                        <v-btn @click="confirmExaminerRemovalDialog = false" text color="primary"> Cancel</v-btn>
-                                        <v-btn @click="removeExaminer(item)" :loading="submitLoading" color="error">Remove</v-btn>
-                                      </div>
-                                    </v-card-text>
-                                  </v-card>
-                                </v-dialog>
-                            </span>
-                            <AssignExaminer />
+                          <!-- Examiners table -->
+                          <span>
+                            <v-row>
+                              <v-col cols="12">
+                                <v-simple-table>
+                                  <template v-slot:default>
+                                    <thead>
+                                      <tr>
+                                        <th class="text-center"><v-icon>mdi-account</v-icon></th>
+                                        <th class="text-center"><v-icon>mdi-account-convert</v-icon></th>
+                                        <th class="text-center"><v-icon>mdi-progress-check</v-icon></th>
+                                        <!-- Empty header for action on examiner -->
+                                        <th v-if="actionNeeded(item.examiners)" class="text-center">
+                                          <v-icon>mdi-information-outline</v-icon>
+                                        </th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr v-if="item.examiners.length === 0" class="text-center grey--text text--darken-2">
+                                        <td colspan="4" class="body-1">None</td>
+                                      </tr>
+                                      <tr v-for="(examiner, index) in item.examiners" :key="index">
+                                        <td class="text-center">{{ examiner.examiner.lastName }} {{ examiner.examiner.firstName }}</td>
+                                        <td class="text-center text-capitalize">{{ examiner.examinerType }}</td>
+                                        <td class="text-center">
+                                          {{ examinerStatus[examiner.status].text }}
+                                          <v-icon v-if="examiner.status === 'assignedToExaminer'" color="primary">mdi-dots-horizontal</v-icon>
+                                          <ExaminerRejectionReason v-if="examiner.status === 'rejectedByExaminer'" :rejectionReason="examiner.rejectionReason"/>
+                                          <v-icon v-if="examiner.status === 'withExaminer'" color="success">mdi-check-circle</v-icon>
+                                          <v-icon v-if="examiner.status === 'clearedByExaminer'" color="success">mdi-file-check</v-icon>
+                                          <v-icon v-if="examiner.status === 'withdrawnFromExaminer'" color="orange">mdi-close</v-icon>
+                                        </td>
+                                        <td v-if="examiner.status === 'assignedToExaminer'" class="text-center">
+                                          <v-btn @click="setExaminerToRemove(examiner)" :loading="submitLoading" icon color="primary">
+                                            <v-icon>mdi-close</v-icon>
+                                          </v-btn>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </template>
+                                </v-simple-table>
+                              </v-col>
+                            </v-row>
+
+                            <!-- Confirm examiner removal dialog -->
+                            <v-dialog v-model="confirmExaminerRemovalDialog" width="500">
+                                <v-card>
+                                  <v-card-title>
+                                    Are you sure?
+                                  </v-card-title>
+                                  <v-card-text v-if="examinerToRemove.examiner" class="body-1">
+                                    By performing this action, you will <strong>disinvite</strong> 
+                                    {{examinerToRemove.examiner.lastName}} {{ examinerToRemove.examiner.firstName }} from assessing 
+                                    {{ item.student.firstName }} {{ item.student.lastName }}'s report.
+                                    <div class="text-right pt-2">
+                                      <v-btn @click="confirmExaminerRemovalDialog = false" text color="primary"> Cancel</v-btn>
+                                      <v-btn @click="removeExaminer(item)" :loading="submitLoading" color="error">Remove</v-btn>
+                                    </div>
+                                  </v-card-text>
+                                </v-card>
+                              </v-dialog>
                           </span>
+                          <AssignExaminer />
                         </section>
 
                         <!-- Viva committee -->
@@ -677,6 +679,12 @@ export default {
       } else {
         return "Not set";
       }
+    },
+    manageExaminers(examiners){
+      let filteredExaminers = examiners.filter(examiner => {
+        return examiner.status === "withExaminer" || examiner.status === "clearedByExaminer"
+      });
+      return !(filteredExaminers.length === 3)
     },
     callToAction(status) {
       if (
