@@ -22,7 +22,7 @@ const state = {
         },
         withdrawnFromExaminer: {
             text: "Withdrawn",
-            color: "success",
+            color: "warning",
             chartColor: "#F4511E",
             value: 100
         },
