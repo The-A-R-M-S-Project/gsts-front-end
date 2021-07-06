@@ -97,7 +97,7 @@
                               <th class="text-center"><v-icon>mdi-phone</v-icon></th>
                               <th class="text-center"><v-icon>mdi-home</v-icon></th>
                               <!-- Empty header for action on viva committee member -->
-                              <th v-if="user.role === 'dean' && progressEvents[`${studentReport.status}`].step < 5">
+                              <th v-if="user.role === 'dean' && progressEvents[`${studentReport.status}`].step < 5" class="text-center">
                                 <v-icon>mdi-information-outline</v-icon>
                               </th>
                             </tr>

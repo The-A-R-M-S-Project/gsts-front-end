@@ -363,42 +363,6 @@
                           </span>
                           <AssignExaminer />
                         </section>
-
-                        <!-- Viva committee -->
-                        <!-- <p class="body-1">
-                          <strong>Viva committee</strong>
-                          <span>
-                            <v-row>
-                              <v-col cols="12">
-                                <v-simple-table>
-                                  <template v-slot:default>
-                                    <thead>
-                                      <tr>
-                                        <th class="text-center"><v-icon>mdi-account</v-icon></th>
-                                        <th class="text-center"><v-icon>mdi-email</v-icon></th>
-                                        <th class="text-center"><v-icon>mdi-phone</v-icon></th>
-                                        <th class="text-center"><v-icon>mdi-home</v-icon></th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                      <tr v-if="!item.viva || item.viva.vivaCommittee.length === 0" class="text-center grey--text text--darken-2">
-                                        <td colspan="4" class="body-1">None</td>
-                                      </tr>
-                                      <tr v-else v-for="(member, index) in item.viva.vivaCommittee" :key="index">
-                                        <td>{{ member.name }}</td>
-                                        <td>{{ member.email }}</td>
-                                        <td v-if="member.phone">{{ member.phone }}</td>
-                                        <td v-else class="text-center"> - </td>
-                                        <td>{{ member.affiliation }}</td>
-                                      </tr>
-                                    </tbody>
-                                  </template>
-                                </v-simple-table>
-                              </v-col>
-                            </v-row>
-                          </span>
-                          <SetVivaCommittee />
-                        </p> -->
                       </v-card-text>
                       <v-divider></v-divider>
                       <v-card-actions>
@@ -469,7 +433,6 @@
 <script>
 import AssignExaminer from "@/components/AssignExaminer.vue";
 import SetVivaDate from "@/components/SetVivaDate.vue";
-// import SetVivaCommittee from "@/components/SetVivaCommittee.vue";
 import SetVivaScore from "@/components/SetVivaScore.vue";
 import UploadVivaCommitteeReport from "@/components/UploadVivaCommitteeReport.vue";
 import ExaminerRejectionReason from "@/components/Action\ Dialogs/ExaminerRejectionReason.vue";
@@ -735,7 +698,6 @@ export default {
   components: {
     AssignExaminer,
     SetVivaDate,
-    // SetVivaCommittee,
     ExaminerRejectionReason,
     SetVivaScore,
     UploadVivaCommitteeReport,

@@ -3,13 +3,13 @@
     <v-dialog v-model="dialog" width="700">
       <template v-slot:activator="{ on, attrs }">
         <v-btn v-bind="attrs" v-on="on" :loading="submitLoading" color="primary"
-          >Set viva committee</v-btn
+          >Add member</v-btn
         >
       </template>
 
       <v-card>
         <v-card-title class="text-center headline purple white--text"
-          >Set viva committee
+          >Set viva panel
           <v-spacer></v-spacer>
           <v-btn
             @click="viewDetails()"
@@ -23,8 +23,8 @@
         </v-card-title>
         <v-card-text class="py-3 px-6">
           <p v-if="selectedStudent.student" class="black--text body-1">
-            Set committee for {{ selectedStudent.student.firstName }}
-            {{ selectedStudent.student.lastName }}'s viva examination
+            Add a member to {{ selectedStudent.student.firstName }}
+            {{ selectedStudent.student.lastName }}'s viva examination panel
             <v-alert
             v-if="displayFeedback"
             :type="vivaPanelMessage.status"
@@ -135,14 +135,10 @@ export default {
           reportID: this.selectedStudent._id,
           member: memberDetails
         });
-
-        console.log("viva: ", this.vivaPanelMessage);
-
         if(this.vivaPanelMessage === "success") {
           this.dialog = false;
           await this.$store.dispatch("fetchReports");
           this.$store.commit("changeVivaPanelSectionKey");
-          // this.$store.dispatch("changeStudentsTableKey");
         } else {
           this.displayFeedback = true;
           setTimeout(() => {

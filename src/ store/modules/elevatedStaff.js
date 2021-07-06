@@ -163,6 +163,10 @@ const mutations = {
     setExaminerAssessments(state, payload) {
         state.examinerAssessments = payload
     },
+    changeVivaPanel(state, payload) {
+        delete state.selectedStudent.viva;
+        state.selectedStudent = Object.assign(state.selectedStudent, { viva: payload });
+    },
     setDisplayStudentTableFeedback(state, payload) {
         state.displayStudentTableFeedback = payload
     },
@@ -427,7 +431,8 @@ const actions = {
         let accessToken = localStorage.getItem("jwt");
         axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
         try {
-            await axiosInstance.patch(`/viva/staff/addVivaCommitteeMember/${data.reportID}`, data.member);
+            let response = await axiosInstance.patch(`/viva/staff/addVivaCommitteeMember/${data.reportID}`, data.member);
+            commit("changeVivaPanel", response.data.viva);
             commit("setVivaPanelMessage", { status: "success", message: "Viva panel member successfully added!" });
             commit("setSubmitLoader", false);
         } catch (error) {
@@ -440,7 +445,8 @@ const actions = {
         let accessToken = localStorage.getItem("jwt");
         axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
         try {
-            await axiosInstance.patch(`/viva/staff/removeVivaCommitteeMember/${data.reportID}`, data.payload);
+            let response = await axiosInstance.patch(`/viva/staff/removeVivaCommitteeMember/${data.reportID}`, data.payload);
+            commit("changeVivaPanel", response.data.viva);
             commit("setVivaPanelMessage", { status: "success", message: "Viva panel member successfully removed!" });
             commit("setSubmitLoader", false);
         } catch (error) {
