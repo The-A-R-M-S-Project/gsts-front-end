@@ -49,7 +49,9 @@ const mutations = {
     }
 };
 const actions = {
-    async fetchSchools({commit}) {
+    async fetchSchools({ commit }) {
+        let accessToken = localStorage.getItem("jwt");
+        axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
         commit("setOverlayLoader", true);
         try {
             let response = await axiosInstance.get("/school/")

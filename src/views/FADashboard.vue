@@ -64,15 +64,25 @@
                   <v-row align="center" justify="center">
                     <v-col cols="6"  class="text-center">
                        <h4 class="text-center grey--text text--darken-1 pt-6 pb-4">
-                        Cleared / Uncleared reports
+                        Cleared reports
                       </h4>
-                      <StatCard :statOne="4" :statTwo="9" color="#9C27B0" department="Architecture and Physical planning" />
+                      <StatCard
+                        :statOne="getDepartmentValues(getDepartments()[0], 'clearance').cleared"
+                        :statTwo="getDepartmentValues(getDepartments()[0], 'clearance').total"
+                        color="#009688" 
+                        :department="getDepartments()[0]" 
+                      />
                     </v-col>
                     <v-col cols="6"  class="text-center">
                       <h4 class="text-center grey--text text--darken-1 pt-6 pb-4">
-                        Complete / Incomplete progress
+                        Complete progress
                       </h4>
-                      <StatCard :statOne="3" :statTwo="6" color="#9C27B0" department="Architecture and Physical planning" />
+                      <StatCard 
+                        :statOne="getDepartmentValues(getDepartments()[0], 'progress').complete"
+                        :statTwo="getDepartmentValues(getDepartments()[0], 'progress').total" 
+                        color="#009688" 
+                        :department="getDepartments()[0]" 
+                      />
                     </v-col>
                   </v-row>
                 </v-card>
@@ -108,41 +118,14 @@
             class="pb-3"
             :class="{ 'pl-2': !$vuetify.breakpoint.xs }"
           >
-            <!-- <v-row>
-              <v-col cols="12" class="pt-0">
-                <v-card elevation="24">
-                  <v-card-text class="pa-1">
-                    <h2 class="text-center custom-font-family headline">
-                      Report statistics
-                    </h2>
-                  </v-card-text>
-                  <v-row align="center" justify="center">
-                    <v-col>
-                       <h4 class="text-center grey--text text--darken-1">
-                        Cleared / Uncleared reports
-                      </h4>
-                      <StatCard :statOne="9" :statTwo="4" color="#9C27B0" department="Architecture and Physical planning" />
-                    </v-col>
-                    <v-col>
-                      <h4 class="text-center grey--text text--darken-1">
-                        Complete / Incomplete progress
-                      </h4>
-                      <StatCard :statOne="3" :statTwo="6" color="#9C27B0" department="Architecture and Physical planning" />
-                    </v-col>
-                  </v-row>
-                </v-card>
-              </v-col>
-              <v-col cols="12"> -->
-                <v-card max-width="90vw" class="mx-auto">
-                  <v-card-text>
-                    <h2 class="text-center custom-font-family headline">
-                      Upcoming events
-                    </h2>
-                  </v-card-text>
-                  <Calendar />
-                </v-card>
-              <!-- </v-col> -->
-            <!-- </v-row> -->
+            <v-card max-width="90vw" class="mx-auto">
+              <v-card-text>
+                <h2 class="text-center custom-font-family headline">
+                  Upcoming events
+                </h2>
+              </v-card-text>
+              <Calendar />
+            </v-card>
           </v-col>
         </v-row>
       </v-row>
@@ -160,6 +143,7 @@ import OverlayLoader from "@/components/OverlayLoader.vue";
 import MobileDrawer from "@/components/MobileDrawer.vue";
 import Footer from "@/components/Footer.vue";
 import Chart from "chart.js";
+import {mapGetters} from "vuex";
 
 export default {
   name: "FA-dashboard",
@@ -176,6 +160,30 @@ export default {
       },
     };
   },
+  async created(){
+    if (this.user.role === "dean") {
+      await this.$store.dispatch("fetchDeanDashboardStats");
+    } else {
+      await this.$store.dispatch("fetchSchools");
+      if (this.$route.path === "/ECE-dashboard") {
+        this.selectedSchool = this.schools.find((school) => {
+          return school.name === "School of Engineering";
+        });
+      } else if (this.$route.path === "/BE-dashboard") {
+        this.selectedSchool = this.schools.find((school) => {
+          return school.name === "School of Built Environment";
+        });
+      } else if (this.$route.path === "/FA-dashboard") {
+        this.selectedSchool = this.schools.find((school) => {
+          return school.name === "School of Industrial and Fine Arts";
+        });
+      }
+      await this.$store.dispatch(
+        "fetchDashboardStats",
+        this.selectedSchool._id
+      );
+    }
+  },
   mounted() {
     this.createReportChart("fineArtReports", this.reportChartData);
     this.createPerformanceChart(
@@ -184,22 +192,14 @@ export default {
     );
   },
   computed: {
-    reportStatus() {
-      return this.$store.getters.reportStats;
-    },
-    performance() {
-      return this.$store.getters.performanceStats;
-    },
-    isLoading() {
-      return this.$store.getters.isLoading;
-    },
+    ...mapGetters(["reportStats", "performanceStats", "isLoading", "user", "schools"])
   },
   methods: {
     createReportChart(chartID, chartData) {
-      let keys = this.reportStatus.map((obj) => {
+      let keys = this.reportStats.map((obj) => {
         return Object.keys(obj);
       });
-      let values = this.reportStatus.map((obj) => {
+      let values = this.reportStats.map((obj) => {
         return Object.values(obj);
       });
       Chart.defaults.global.defaultFontFamily = "Comfortaa";
@@ -312,10 +312,10 @@ export default {
       });
     },
     createPerformanceChart(chartID, chartData) {
-      let keys = this.performance.map((obj) => {
+      let keys = this.performanceStats.map((obj) => {
         return Object.keys(obj);
       });
-      let values = this.performance.map((obj) => {
+      let values = this.performanceStats.map((obj) => {
         return Object.values(obj);
       });
       Chart.defaults.global.defaultFontFamily = "Comfortaa";
@@ -373,6 +373,30 @@ export default {
         },
       });
     },
+    getDepartmentValues(departmentName, stat) {
+        let departmentStats = this.reportStats.find(department => Object.keys(department)[0] === departmentName);
+        if(departmentStats) {
+          let statistics = Object.values(departmentStats)[0];
+          if(stat === "clearance"){
+            return {
+              cleared: statistics.clearedReports,
+              total: (statistics.clearedReports + statistics.unClearedReports)
+            }
+          } else {
+            return {
+              complete: statistics.complete,
+              total: (statistics.complete + statistics.uncomplete)
+            }
+          }
+        } else{
+          return {}
+        }
+    },
+    getDepartments() {
+      return this.reportStats.map((obj) => {
+        return Object.keys(obj)[0];
+      });
+    }
   },
   components: {
     Navigation,
