@@ -30,7 +30,7 @@
             v-if="displayDateTimeError"
             dark
             class="text-center"
-            color="error"
+            type="error"
           >
             {{ errorMessage }}
           </v-alert>
@@ -57,6 +57,30 @@
                   color="purple"
                   :width="$vuetify.breakpoint.xs ? '230' : '290'"
                 ></v-time-picker>
+              </div>
+            </v-col>
+            <v-col cols="12">
+              <div class="text-center">
+                <v-dialog v-model="confirmVivaDetailsDialog" width="500">
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn v-bind="attrs" v-on="on" color="primary">
+                        Save
+                    </v-btn>
+                  </template>
+                  <v-card>
+                    <v-card-title class="text-center headline purple white--text">Are you sure?</v-card-title>
+                    <v-card-text class="py-3 px-6 body-1">
+                      <v-icon color="primary">mdi-information-outline</v-icon>
+                      Before setting these viva details, ensure that you have added all the viva panel members.
+                      The viva panel cannot be changed after this step.
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn color="primary" text @click="confirmVivaDetailsDialog = false"> Cancel </v-btn>
+                        <v-btn color="success" text @click="setVivaDate" :loading="submitLoading"> Save </v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
               </div>
             </v-col>
 
@@ -127,8 +151,7 @@
         <v-divider></v-divider>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="error" text @click="dialog = false">Cancel</v-btn>
-          <v-btn color="success" text @click="setVivaDate">Save</v-btn>
+          <v-btn color="primary" text @click="dialog = false">Done</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -150,9 +173,10 @@ export default {
       picker: null,
       time: null,
       displayDateTimeError: false,
-      errorMessage: "Please select a date and time",
+      errorMessage: "",
       confirmVivaMemberRemoval: false,
       selectedVivaMember: {},
+      confirmVivaDetailsDialog: false,
       displayMessage: false
     };
   },
@@ -193,7 +217,8 @@ export default {
       this.$store.commit("changeVivaPanelSectionKey");
     },
     async setVivaDate() {
-      if (this.picker && this.time && this.selectedStudent.viva) {
+      let dateNotPast = new Date(this.picker) >= new Date();
+      if (this.picker && this.time && this.selectedStudent.viva && dateNotPast) {
         let date = new Date(this.picker).toISOString().substring(0, 11);
         let dateTime = `${date}${this.time}:00.000+03:00`;
         await this.$store.dispatch("setVivaDate", {
@@ -203,11 +228,18 @@ export default {
         });
         await this.$store.dispatch("fetchReports");
         this.$store.dispatch("changeStudentsTableKey");
+        this.confirmVivaDetailsDialog = false;
         this.dialog = false;
       } else {
-        if(!this.selectedStudent.viva){
+        this.confirmVivaDetailsDialog = false;
+        if(!this.picker || !this.time) {
+          this.errorMessage = "Please select a date and time";
+        } else if(!this.selectedStudent.viva){
           this.errorMessage = "Please add members to this student's viva panel"
+        } else if(!dateNotPast){
+          this.errorMessage = "Viva date cannot be in the past!"
         }
+
         this.displayDateTimeError = true;
         setTimeout(() => {
           this.displayDateTimeError = false;
