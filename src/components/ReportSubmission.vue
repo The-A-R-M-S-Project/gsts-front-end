@@ -255,7 +255,7 @@
                 truncate-length="100"
                 prepend-icon="mdi-file-document"
                 accept=".doc,.docx,.pdf"
-                :disabled="progressEvents[studentReport.status].step !== 1 || !studentReport.vivaCommitteeReport && progressEvents[studentReport.status].step === 6"
+                :disabled="progressEvents[studentReport.status].step !== 1 && progressEvents[studentReport.status].step !== 6"
               ></v-file-input>
             </p>
 
