@@ -138,7 +138,7 @@
                           </v-card-actions>
                         </v-card>
                       </v-dialog>
-                      <SetVivaCommittee v-if="user.role === 'dean'" class="mt-4" />
+                      <SetVivaCommittee v-if="user.role === 'dean' && progressEvents[`${studentReport.status}`].step < 5" class="mt-4" />
                     </v-col>
                   </v-row>
                 </v-col>
