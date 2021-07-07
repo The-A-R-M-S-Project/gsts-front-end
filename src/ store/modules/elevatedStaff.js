@@ -65,13 +65,13 @@ const state = {
             step: 4
         },
         vivaDateSet: {
-            value: 60,
+            value: 70,
             message: "Viva date set",
             color: "amber",
             step: 5
         },
         vivaComplete: {
-            value: 74,
+            value: 84,
             message: "Viva complete",
             color: "green lighten-2",
             step: 6
