@@ -45,6 +45,7 @@
       </v-col>
       <v-col cols="12" md="8" class="px-10">
         <v-stepper v-model="e6" vertical>
+          <!-- Submitted -->
           <v-stepper-step color="teal" :complete="e6 > 1" step="1"
             >Report sent</v-stepper-step
           >
@@ -70,6 +71,7 @@
             </template>
           </v-stepper-content>
 
+          <!-- Assigned to examiners -->
           <v-stepper-step color="teal" :complete="e6 > 2" step="2"
             >Report received by examiners</v-stepper-step
           >
@@ -93,6 +95,7 @@
             </template>
           </v-stepper-content>
 
+          <!-- Cleared by examiners -->
           <v-stepper-step color="teal" :complete="e6 > 3" step="3"
             >Report returned by examiner</v-stepper-step
           >
@@ -101,18 +104,18 @@
               <div class="body-1 mb-1">
                 Your report has been marked and graded.
               </div>
-              <!-- <div class="body-2">
+              <div v-if="studentReport.status === 'complete'" class="body-2">
                 You scored
-                <span class="subtitle-1">
+                <span class="title blue--text">
                   <strong>
                     <u
-                      >{{ studentReport.examinerScore }}% ({{
-                        studentReport.examinerGrade
+                      >{{ studentReport.finalScore }}% ({{
+                        studentReport.grade
                       }})</u
                     >
                   </strong>
                 </span>
-              </div> -->
+              </div>
               <div class="caption mt-3 font-weight-light">
                 {{ formatDate(studentReport.clearedAt) }}
               </div>
@@ -128,6 +131,7 @@
             </div>
           </v-stepper-content>
 
+          <!-- Viva date set -->
           <v-stepper-step color="teal" :complete="e6 > 4" step="4"
             >Viva date set</v-stepper-step
           >
@@ -151,6 +155,7 @@
             </div>
           </v-stepper-content>
 
+          <!-- Viva score set -->
           <v-stepper-step color="teal" :complete="e6 > 5" step="5"
             >Viva examination</v-stepper-step
           >
@@ -162,9 +167,9 @@
               </div>
               <div v-if="user.role !== 'student' || studentReport.status === 'complete'" class="body-2">
                 You scored
-                <span class="subtitle-1 blue--text">
+                <span class="title blue--text">
                   <strong>
-                    <u>{{ studentReport.viva.vivaScore }}%</u>
+                    <u>{{ studentReport.viva.vivaScore }}% ({{ studentReport.viva.vivaGrade }})</u>
                   </strong>
                 </span>
               </div>
@@ -176,6 +181,8 @@
           <v-stepper-step color="teal" :complete="e6 > 6" step="6"
             >Final submission</v-stepper-step
           >
+
+          <!-- Complete -->
           <template v-if="e6 > 6">
             <div class="v-stepper__content">
               <div class="body-1 mb-1">
