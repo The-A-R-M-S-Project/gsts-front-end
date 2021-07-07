@@ -249,7 +249,7 @@
                                   <v-card-actions>
                                     <v-spacer></v-spacer>
                                     <v-btn
-                                      color="error"
+                                      color="primary"
                                       text
                                       @click="receiveReportDialog = false"
                                       >Cancel</v-btn

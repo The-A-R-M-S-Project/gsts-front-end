@@ -46,7 +46,7 @@
         <v-divider></v-divider>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="error" text @click="dialog = false">Cancel</v-btn>
+          <v-btn color="primary" text @click="dialog = false">Cancel</v-btn>
           <v-btn color="success" text @click="setVivaScore">Save</v-btn>
         </v-card-actions>
       </v-card>

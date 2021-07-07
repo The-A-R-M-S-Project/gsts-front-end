@@ -99,7 +99,7 @@
         <v-divider></v-divider>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="error" text @click="dialog = false">Cancel</v-btn>
+          <v-btn color="primary" text @click="dialog = false">Cancel</v-btn>
           <v-btn color="success" text :loading="submitLoading" @click="assignExaminer">Save</v-btn>
         </v-card-actions>
       </v-card>

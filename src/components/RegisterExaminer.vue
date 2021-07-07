@@ -38,14 +38,14 @@
                   :rules="nameRules"
                 ></v-text-field>
               </v-col>
-              <v-col cols="12">
+              <!-- <v-col cols="12">
                 <v-text-field
                   prepend-icon="mdi-home"
                   v-model="affiliation"
                   label="Affiliation"
                   :rules="nameRules"
                 ></v-text-field>
-              </v-col>
+              </v-col> -->
               <v-col cols="12">
                 <v-text-field
                   prepend-icon="mdi-email"
@@ -119,7 +119,7 @@ export default {
           firstName: this.firstName,
           lastName: this.lastName,
           email: this.email,
-          affiliation: this.affiliation,
+          // affiliation: this.affiliation,
           password: randomPassword,
           passwordConfirm: randomPassword,
           phoneNumber: this.phoneNumber

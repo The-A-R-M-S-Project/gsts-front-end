@@ -312,9 +312,8 @@
                 >
                 <v-card-text class="py-3 px-6">
                   <p class="body-1 text-center">
-                    <v-icon color="primary" class="mr-2"
-                      >mdi-alert-circle</v-icon
-                    >This is your final submission. <br />
+                    <v-icon color="primary" class="mr-2">mdi-information-outline</v-icon>
+                    This is your final submission. <br />
                     <span v-if="!studentReport.vivaCommitteeReport">
                       Unless a resubmission is requested of you, you will not be
                       able to edit your submission until after your viva
