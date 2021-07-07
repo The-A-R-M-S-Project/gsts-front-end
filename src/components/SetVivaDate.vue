@@ -3,13 +3,13 @@
     <v-dialog v-model="dialog" width="700">
       <template v-slot:activator="{ on, attrs }">
         <v-btn v-bind="attrs" v-on="on" :loading="submitLoading" color="primary"
-          >Set viva date</v-btn
+          >Set viva details</v-btn
         >
       </template>
 
       <v-card>
         <v-card-title class="text-center headline purple white--text"
-          >Set viva date
+          >Set viva details
           <v-spacer></v-spacer>
           <v-btn
             @click="viewDetails()"
@@ -23,8 +23,8 @@
         </v-card-title>
         <v-card-text class="py-3 px-6">
           <p class="black--text body-1">
-            Set viva date for {{ selectedStudent.student.firstName }}
-            {{ selectedStudent.student.lastName }}
+            Set viva details for {{ selectedStudent.student.firstName }}
+            {{ selectedStudent.student.lastName }}'s viva examination
           </p>
           <v-alert
             v-if="displayDateTimeError"
@@ -38,52 +38,6 @@
             {{ vivaPanelMessage.message }}
           </v-alert>
           <v-row>
-            <!-- Date picker -->
-            <v-col cols="12" sm="6">
-              <v-date-picker
-                v-model="picker"
-                full-width
-                color="purple"
-                show-current
-                type="date"
-              ></v-date-picker>
-            </v-col>
-
-            <!-- Time picker -->
-            <v-col cols="12" sm="6">
-              <div class="text-center">
-                <v-time-picker
-                  v-model="time"
-                  color="purple"
-                  :width="$vuetify.breakpoint.xs ? '230' : '290'"
-                ></v-time-picker>
-              </div>
-            </v-col>
-            <v-col cols="12">
-              <div class="text-center">
-                <v-dialog v-model="confirmVivaDetailsDialog" width="500">
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn v-bind="attrs" v-on="on" color="primary">
-                        Save
-                    </v-btn>
-                  </template>
-                  <v-card>
-                    <v-card-title class="text-center headline purple white--text">Are you sure?</v-card-title>
-                    <v-card-text class="py-3 px-6 body-1">
-                      <v-icon color="primary">mdi-information-outline</v-icon>
-                      Before setting these viva details, <strong>ensure that you have added all the viva panel members</strong>.
-                      The viva panel cannot be changed after this step.
-                    </v-card-text>
-                    <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn color="primary" text @click="confirmVivaDetailsDialog = false"> Cancel </v-btn>
-                        <v-btn color="success" text @click="setVivaDate" :loading="submitLoading"> Save </v-btn>
-                    </v-card-actions>
-                  </v-card>
-                </v-dialog>
-              </div>
-            </v-col>
-
             <!-- Viva committee -->
             <v-col cols="12">
               <p class="body-1 text-center">
@@ -145,6 +99,51 @@
                 </span>
                 <SetVivaCommittee />
               </p>
+            </v-col>
+            <!-- Date picker -->
+            <v-col cols="12" sm="6">
+              <v-date-picker
+                v-model="picker"
+                full-width
+                color="purple"
+                show-current
+                type="date"
+              ></v-date-picker>
+            </v-col>
+
+            <!-- Time picker -->
+            <v-col cols="12" sm="6">
+              <div class="text-center">
+                <v-time-picker
+                  v-model="time"
+                  color="purple"
+                  :width="$vuetify.breakpoint.xs ? '230' : '290'"
+                ></v-time-picker>
+              </div>
+            </v-col>
+            <v-col cols="12">
+              <div class="text-center">
+                <v-dialog v-model="confirmVivaDetailsDialog" width="500">
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn v-bind="attrs" v-on="on" color="primary">
+                        Save
+                    </v-btn>
+                  </template>
+                  <v-card>
+                    <v-card-title class="text-center headline purple white--text">Are you sure?</v-card-title>
+                    <v-card-text class="py-3 px-6 body-1">
+                      <v-icon color="primary">mdi-information-outline</v-icon>
+                      Before setting these viva details, <strong>ensure that you have added all the viva panel members</strong>.
+                      The viva panel cannot be changed after this step.
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn color="primary" text @click="confirmVivaDetailsDialog = false"> Cancel </v-btn>
+                        <v-btn color="success" text @click="setVivaDate" :loading="submitLoading"> Save </v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+              </div>
             </v-col>
           </v-row>
         </v-card-text>
