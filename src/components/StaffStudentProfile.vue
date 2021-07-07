@@ -13,6 +13,14 @@
         <span class="font-weight-bold">Contacts</span>
         : {{ student.phoneNumber }}
       </div>
+      <div class="pa-1">
+        <span class="font-weight-bold">Entry year</span>
+        : {{ student.entryAcademicYear }}
+      </div>
+      <div v-if="student.exitAcademicYear" class="pa-1">
+        <span class="font-weight-bold">Exit year</span>
+        : {{ student.exitAcademicYear }}
+      </div>
       <div v-if="student.program" class="pa-1">
         <span class="font-weight-bold">Programme</span>
         : {{ student.program.name }}
