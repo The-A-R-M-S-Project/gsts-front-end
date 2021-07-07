@@ -106,7 +106,7 @@
                           </thead>
                           <tbody>
                             <tr v-if="!selectedStudent.viva || selectedStudent.viva.vivaCommittee.length === 0" class="text-center grey--text text--darken-2">
-                              <td colspan="4" class="body-1">None</td>
+                              <td colspan="5" class="body-1">None</td>
                             </tr>
                             <tr v-else v-for="(member, index) in selectedStudent.viva.vivaCommittee" :key="index">
                               <td>{{ member.name }}</td>
