@@ -104,7 +104,7 @@
               <div class="body-1 mb-1">
                 Your report has been marked and graded.
               </div>
-              <div v-if="studentReport.status === 'complete'" class="body-2">
+              <div v-if="user.role !== 'student' || studentReport.status === 'complete'" class="body-2">
                 You scored
                 <span class="title blue--text">
                   <strong>
