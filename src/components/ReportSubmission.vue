@@ -146,10 +146,8 @@
               </a>
             </span>
           </p>
-          <p v-if="studentReport.vivaCommitteeReport">
-            <span class="body-1 font-weight-light"
-              >Viva assessment report:</span
-            >
+          <p v-if="studentReport.status === 'complete'">
+            <span class="body-1 font-weight-light">Viva assessment report:</span>
             <span class="subheading"
               >&nbsp;
               <a :href="studentReport.vivaCommitteeReport" target="_blank">
@@ -225,6 +223,22 @@
               class="subheading"
             >&nbsp;{{ formatDate(studentReport.resubmittedAt) }}</span
             >
+          </p>
+
+          <p v-if="studentReport.status === 'vivaComplete' && studentReport.vivaCommitteeReport" class="text-center">
+            <v-icon color="primary">mdi-information-outline</v-icon> &nbsp;
+            Download an assessment of your viva examination to make corrections before you submit
+          </p>
+
+          <p v-if="studentReport.status === 'vivaComplete' && studentReport.vivaCommitteeReport" class="text-center">
+            <v-btn 
+              color="primary" 
+              dark
+              :href="studentReport.vivaCommitteeReport"
+              target="_blank"
+            >
+              <v-icon>mdi-download</v-icon>&nbsp; viva assessment
+            </v-btn>
           </p>
 
           <!-- Form -->
@@ -311,7 +325,7 @@
                 <v-divider></v-divider>
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn color="error" text @click="dialog = false"
+                  <v-btn color="primary" text @click="dialog = false"
                     >Cancel</v-btn
                   >
                   <v-btn color="success" text @click="submitReport"
