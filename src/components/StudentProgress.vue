@@ -24,7 +24,15 @@
                   <br />
                   <span v-if="studentReport.retake === 'yes'" class="font-weight-bold grey--text">
                     <v-icon color="grey">mdi-information-outline</v-icon>
-                    Retake ({{studentReport.finalScore}}% {{studentReport.grade}})
+                    Retake 
+                    <span
+                      v-if="user.role === 'principal' || user.role === 'dean' || 
+                        (user.role === 'student' && (progressEvents[`${studentReport.status}`].step < 4 || 
+                        progressEvents[`${studentReport.status}`].step === 7))
+                      "
+                    >
+                      ({{studentReport.finalScore}}% {{studentReport.grade}})
+                    </span>
                   </span>
                 </span>
               </v-progress-circular>
