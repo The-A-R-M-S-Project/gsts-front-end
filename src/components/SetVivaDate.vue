@@ -71,7 +71,7 @@
                     <v-card-title class="text-center headline purple white--text">Are you sure?</v-card-title>
                     <v-card-text class="py-3 px-6 body-1">
                       <v-icon color="primary">mdi-information-outline</v-icon>
-                      Before setting these viva details, ensure that you have added all the viva panel members.
+                      Before setting these viva details, <strong>ensure that you have added all the viva panel members</strong>.
                       The viva panel cannot be changed after this step.
                     </v-card-text>
                     <v-card-actions>
