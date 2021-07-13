@@ -289,7 +289,7 @@
                         <section v-if="user.role === 'principal'" class="body-1">
                           <p class="mb-0"><strong>Currently assigned examiners</strong></p>
                           <!-- Request dean to nominate examiners -->
-                          <div v-if="!item.principalRequestedExaminer" class="py-2">
+                          <div v-if="!item.principalRequestedExaminer && progressEvents[`${item.status}`].value < 15" class="py-2">
                             <v-icon color="primary">mdi-information-outline</v-icon>
                             Currently, there are no examiners assigned to this student's report. You can request the dean of 
                             of this student's school to nominate examiners for their assessment by clicking the button below.
