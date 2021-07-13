@@ -332,9 +332,37 @@
                                           <v-icon v-if="examiner.status === 'withdrawnFromExaminer'" color="orange">mdi-close</v-icon>
                                         </td>
                                         <td v-if="examiner.status === 'assignedToExaminer'" class="text-center">
-                                          <v-btn @click="setExaminerToRemove(examiner)" :loading="submitLoading" icon color="primary">
-                                            <v-icon>mdi-close</v-icon>
-                                          </v-btn>
+                                          <v-tooltip top>
+                                            <template v-slot:activator="{ on, attrs }">
+                                              <v-btn 
+                                                @click="setExaminerToNotify(examiner, 'reinvite')" 
+                                                :loading="submitLoading" 
+                                                icon 
+                                                color="primary"
+                                                v-bind="attrs"
+                                                v-on="on"
+                                              >
+                                                <v-icon>mdi-replay</v-icon>
+                                              </v-btn>
+                                            </template>
+                                            <span>Resend invitation to assess</span>
+                                          </v-tooltip>
+
+                                          <v-tooltip top>
+                                            <template v-slot:activator="{ on, attrs }">
+                                              <v-btn 
+                                                @click="setExaminerToNotify(examiner, 'withdraw')" 
+                                                :loading="submitLoading" 
+                                                icon 
+                                                color="primary"
+                                                v-bind="attrs"
+                                                v-on="on"
+                                              >
+                                                <v-icon>mdi-close</v-icon>
+                                              </v-btn>
+                                            </template>
+                                            <span>Withdraw invitation to assess</span>
+                                          </v-tooltip>                                          
                                         </td>
                                       </tr>
                                     </tbody>
@@ -359,7 +387,24 @@
                                     </div>
                                   </v-card-text>
                                 </v-card>
-                              </v-dialog>
+                            </v-dialog>
+                              
+                            <v-dialog v-model="confirmExaminerInvitationDialog" width="500">
+                              <v-card>
+                                <v-card-title>
+                                  Are you sure?
+                                </v-card-title>
+                                <v-card-text v-if="examinerToRemove.examiner" class="body-1">
+                                  By performing this action, you will <strong>send</strong> an invitation to
+                                  {{examinerToRemove.examiner.lastName}} {{ examinerToRemove.examiner.firstName }} to assess
+                                  {{ item.student.firstName }} {{ item.student.lastName }}'s report.
+                                  <div class="text-right pt-2">
+                                    <v-btn @click="confirmExaminerRemovalDialog = false" text color="primary"> Cancel</v-btn>
+                                    <v-btn @click="sendExaminerInvitation(item)" :loading="submitLoading" color="success">Send</v-btn>
+                                  </div>
+                                </v-card-text>
+                              </v-card>
+                            </v-dialog>
                           </span>
                           <AssignExaminer />
                         </section>
@@ -445,6 +490,7 @@ export default {
       tableLoaderHeight: 8,
       previewReportDialog: false,
       confirmExaminerRemovalDialog: false,
+      confirmExaminerInvitationDialog: false,
       filters: {
         status: [],
       },
@@ -579,9 +625,13 @@ export default {
     },
   },
   methods: {
-    setExaminerToRemove(examiner){
+    setExaminerToNotify(examiner, action){
       this.examinerToRemove = examiner;
-      this.confirmExaminerRemovalDialog = true;
+      if(action === "withdraw"){
+        this.confirmExaminerRemovalDialog = true;
+      } else {
+        this.confirmExaminerInvitationDialog = true;
+      }
     },
     async removeExaminer(report){
       await this.$store.dispatch("removeExaminer", {
@@ -593,6 +643,17 @@ export default {
       await this.fetchReports();
       this.$store.dispatch("changeStudentsTableKey");
       this.confirmExaminerRemovalDialog = false;
+    },
+    async sendExaminerInvitation(report){
+      await this.$store.dispatch("reinviteExaminer", {
+        reportID: report._id,
+        examinerID: this.examinerToRemove.examiner._id,
+        examinerName: `${this.examinerToRemove.examiner.lastName} ${this.examinerToRemove.examiner.firstName}`,
+        studentName: `${report.student.lastName} ${report.student.firstName}`
+      });
+      await this.fetchReports();
+      this.$store.dispatch("changeStudentsTableKey");
+      this.confirmExaminerInvitationDialog = false;
     },
     async fetchReports() {
       await this.$store.dispatch("fetchReports");

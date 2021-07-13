@@ -160,6 +160,16 @@ const mutations = {
         state.studentsTableMessage = `${success}. You've disinvited ${payload.examiner} from assessing ${payload.student}'s report`;
         state.displayInTable = false;
     },
+    reinviteExaminerSuccess(state, payload) {
+        let str = payload.res
+        let success = `${
+            str[0].toUpperCase()
+        }${
+            str.slice(1)
+        }`;
+        state.studentsTableMessage = `${success}. You've reinvited ${payload.examiner} to assess ${payload.student}'s report`;
+        state.displayInTable = false;
+    },
     setExaminerAssessments(state, payload) {
         state.examinerAssessments = payload
     },
@@ -412,6 +422,25 @@ const actions = {
         try {
             let response = await axiosInstance.delete(`/report/staff/examiner/remove/${data.reportID}/${data.examinerID}`);
             commit("removeExaminerSuccess", {
+                res: response.data.status,
+                examiner: data.examinerName,
+                student: data.studentName
+            });
+            commit("setDisplayStudentTableFeedback", true);
+            commit("setSubmitLoader", false);
+        } catch (error) {
+            commit("setSubmitLoader", false);
+            commit("setDisplayStudentTableFeedback", true);
+            commit("setAssignExaminerError", error.response.data.message);
+        }
+    },
+    async reinviteExaminer({ commit }, data) {
+        commit("setSubmitLoader", true)
+        let accessToken = localStorage.getItem("jwt");
+        axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+        try {
+            let response = await axiosInstance.post(`/report/staff/examiner/invite/${data.reportID}`, {examiner: data.examinerID});
+            commit("reinviteExaminerSuccess", {
                 res: response.data.status,
                 examiner: data.examinerName,
                 student: data.studentName
